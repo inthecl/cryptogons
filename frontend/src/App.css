@@ -32,3 +32,27 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.Login-container {
+  margin: 50px;
+  text-align: center;
+  display: inline-block;
+}
+
+.logo {
+  text-align: center;
+  font-weight: 100;
+  font-size: 80px;
+  -webkit-user-select: none;
+  /* Chrome all / Safari all */
+  -moz-user-select: none;
+  /* Firefox all */
+  -ms-user-select: none;
+  /* IE 10+ */
+  user-select: none;
+  /* Likely future */
+}
+
+body {
+  background-color: #ECEFF1;
+}

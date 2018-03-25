@@ -17,6 +17,7 @@ const typeDefs = `
   type Mutation{
     addBook(title:String,author:String): Book
     registerUser(email:String!,username:String!,password:String!): User
+    login(email:String!,password:String!): String!
   }
 `
 export default typeDefs
