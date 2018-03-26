@@ -8,7 +8,9 @@ const propTypes = {
 }
 
 const defaultProps = {
-    initialPage: 1
+    
+    initialPage: window.location.href.substring(29, 31)
+    /*window.location.href.substring(29, 31)*/
 }
 
 class Pagination extends React.Component {
@@ -57,7 +59,7 @@ class Pagination extends React.Component {
         currentPage = currentPage || 1;
 
         // default page size is 10
-        pageSize = pageSize || 10;
+        pageSize = pageSize || 12;
 
         // calculate total pages
         var totalPages = Math.ceil(totalItems / pageSize);
@@ -81,11 +83,11 @@ class Pagination extends React.Component {
             }
         }
 
+        var _ = require('underscore');
+
         // calculate start and end item indexes
         var startIndex = (currentPage - 1) * pageSize;
         var endIndex = Math.min(startIndex + pageSize - 1, totalItems - 1);
-
-        var _ = require('underscore');
 
         // create an array of pages to ng-repeat in the pager control
         var pages = _.range(startPage, endPage + 1);
@@ -106,23 +108,21 @@ class Pagination extends React.Component {
 
     render() {
         var pager = this.state.pager;
-
         if (!pager.pages || pager.pages.length <= 1) {
             // don't display pager if there is only 1 page
             return null;
         }
-
         return (
             <ul className="pagination">
                 <li className={pager.currentPage === 1 ? 'disabled' : ''}>
-                    <a onClick={() => this.setPage(1)}>First</a>
+                    <a onClick={() => this.setPage(1)} href={"/Market/" + pager.currentPage}>First</a>
                 </li>
                 <li className={pager.currentPage === 1 ? 'disabled' : ''}>
                     <a onClick={() => this.setPage(pager.currentPage - 1)}>Previous</a>
                 </li>
                 {pager.pages.map((page, index) =>
                     <li key={index} className={pager.currentPage === page ? 'active' : ''}>
-                        <a onClick={() => this.setPage(page)}>{page}</a>
+                        <a onClick={() => this.setPage(page)} href={"/Market/" + pager.currentPage}>{page}</a>
                     </li>
                 )}
                 <li className={pager.currentPage === pager.totalPages ? 'disabled' : ''}>

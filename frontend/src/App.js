@@ -6,6 +6,7 @@ import Login from './Login';
 import Register from './Register';
 import Market from './Market';
 import FAQs from './FAQs';
+import Detail from './Detail';
 
 class App extends Component {
   render() {
@@ -18,6 +19,7 @@ class App extends Component {
             <Route path="/Register" component={Register}/>
             <Route path="/Market/:pagenum" component={Market}/>
             <Route path="/FAQs" component={FAQs}/>
+            <Route path="/Detail/:username" component={Detail}/>
           </Switch>
         </BrowserRouter>
       </div>
