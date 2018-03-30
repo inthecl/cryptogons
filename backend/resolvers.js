@@ -32,9 +32,11 @@ const resolvers = {
         throw new Error('암호틀림')
       }
 
-      const token = jwt.sign({ user: user.email }, 'TESTSECRET', { expiresIn: '1y' })
+      const token = jwt.sign({ user: user.email }, '!@TESTSECRET!@', { expiresIn: '120m' })
+      const refreshToken = jwt.sign({ user: user.email }, '!@TESTSECRET!@', { expiresIn: '7d' })
       console.log(token)
-      return token
+      console.log(refreshToken)
+      return { token, refreshToken }
     }
   }
 }

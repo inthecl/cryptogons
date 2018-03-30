@@ -9,6 +9,10 @@ const typeDefs = `
     username: String
     name: String
   }
+  type AuthPayload {
+    token: String!
+    refreshToken: String!
+  }
   type Query{
     books: [Book]
     findbook(id:String!): Book
@@ -17,7 +21,7 @@ const typeDefs = `
   type Mutation{
     addBook(title:String,author:String): Book
     registerUser(email:String!,username:String!,password:String!): User
-    login(email:String!,password:String!): String!
+    login(email:String!,password:String!): AuthPayload!
   }
 `
 export default typeDefs
