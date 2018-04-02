@@ -10,7 +10,12 @@ import context from './models'
 const port = 5000
 const app = express()
 
-app.use('/graphql', cors(), bodyParser.json(), graphqlExpress({ schema, context }))
+const CheckAuth = async (req, res, next) => {
+  console.log(req.headers)
+  next()
+}
+
+app.use('/graphql', cors(), CheckAuth, bodyParser.json(), graphqlExpress({ schema, context }))
 
 app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }))
 
