@@ -7,7 +7,10 @@ import './App.css'
 
 const query = gql`
 mutation login($email: String!, $password: String!) {
-  login(email:$email,  password:$password)  
+  login(email:$email,  password:$password) {
+    token
+    refreshToken
+  }
 }
 `
 
@@ -37,8 +40,11 @@ class Login extends Component {
   handleSubmit(event) {
     event.preventDefault()
     this.props.mutate({ variables: { email: this.state.email, password: this.state.password } })
-      .then((data) => {
-        console.log(`data: ${data}`)
+      .then((res) => {
+        console.log(res)
+        const { token, refreshToken } = res.data.login
+        localStorage.setItem('token', token)
+        localStorage.setItem('refreshToken', refreshToken)
         this.setState({ redirect: true })
       })
       .catch((errors) => {
