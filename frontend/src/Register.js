@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Row, Input, Col, Card } from 'react-materialize'
 import { Redirect } from 'react-router-dom'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -66,25 +65,50 @@ class Register extends Component {
       return <Redirect to='/'/>
     }
     return (
-      <div align="center">
-        <div className="Login-div">
-          Register
-          <Col m={6} s={12}>
-            <Card>
+      <div class="container" id="login-page">
+        <div class="s12 m4 l8">
+          <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+              <span class="card-title">Card Title</span>
+              <p>I am a very simple card.</p>
               <br/>
-              <Row>
-                <Input type="text" label="Username" s={12} label="Username" onChange={this.handleUsername}/>
-                <Input type="email" label="Email" s={12} label="Email address" onChange={this.handleEmail}/>
-                <Input type="password" label="password" s={12} label="Password" onChange={this.handlePassword}/>
-                <Input type="password" label="password" s={12} label="Confirm Password" onChange={this.handlePasswordConfirm}/>
-              </Row>
-              <Row>
-                <div class="input-field col s12">
-                  <a class="btn waves-effect waves-light col s12" onClick={this.handleSubmit}>Register </a>
-                </div>
-              </Row>
-            </Card>
-          </Col>
+              <div class="row">
+                <form class="col s12">
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input id="Username" type="email" class="validate" onChange={this.handleUsername}/>
+                      <label for="Username">Username</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input id="Email" type="email" class="validate" onChange={this.handleEmail}/>
+                      <label for="Email">Email</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input id="Password" type="password" class="validate" onChange={this.handlePassword}/>
+                      <label for="Password">Password</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input id="Password" type="password" class="validate" onChange={this.handlePasswordConfirm}/>
+                      <label for="Password">Confirm Password</label>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="row">
+                <a class="col s12 waves-effect waves-light btn-large" onClick={this.handleSubmit}>REGISTER</a>
+              </div>
+            </div>
+            <div class="card-action" align="center">
+            Already have an account?
+              <a href="/LOGIN">&nbsp;&nbsp;LOGIN</a>
+            </div>
+          </div>
         </div>
       </div>
     )

@@ -1,5 +1,4 @@
 import React from 'react'
-import { Col, Card, CardTitle, image } from 'react-materialize'
 import _ from 'underscore'
 import Pagination from './Pagination'
 import imgTestPet from './image/img_test_pet.png'
@@ -36,13 +35,19 @@ class PaginationView extends React.Component {
                 {this.state.pageOfItems.map(item =>
                   <div key={item.id}>
                     <div class="col s12 m6 l3">
-                      <Card className='small'
-                        header={<CardTitle image={imgTestPet}>Card Title</CardTitle>}
-                        actions={[<a href={`/Detail/${item.name}`}>{item.name}</a>]}>
-                                            I am a very simple card.
-                                            I am good at containing small bits of information.
-                                            I am convenient because I require little markup to use effectively.
-                      </Card>
+                      <div class="card">
+                        <div class="card-image">
+                          <img src={imgTestPet}/>
+                          <span class="card-title">Card Title</span>
+                        </div>
+                        <div class="card-content">
+                          <p>I am a very simple card. I am good at containing small bits of information.
+                        I am convenient because I require little markup to use effectively.</p>
+                        </div>
+                        <div class="card-action">
+                          <a href={`/Detail/' ${item.name}`}>{item.name}</a>
+                        </div>
+                      </div>
                     </div>
                   </div>)}
               </div>

@@ -22,37 +22,44 @@
   font-size: large;
 }
 
-.Login-div {
-	margin-top: 80px;
-	width: 400px;
-	height: 700px;
-}
-
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
-.Login-container {
-  margin: 50px;
-  text-align: center;
-  display: inline-block;
+nav ul a,
+nav .brand-logo {
+  color: rgba(255,255,255,.9);
 }
 
-.logo {
-  text-align: center;
-  font-weight: 100;
-  font-size: 80px;
-  -webkit-user-select: none;
-  /* Chrome all / Safari all */
-  -moz-user-select: none;
-  /* Firefox all */
-  -ms-user-select: none;
-  /* IE 10+ */
-  user-select: none;
-  /* Likely future */
+nav .brand-logo img {
+  height: 53px;
 }
 
-body {
-  background-color: #ECEFF1;
+p {
+  line-height: 2rem;
+}
+
+.sidenav-trigger {
+  color: rgba(255,255,255,.9);
+}
+
+.parallax-container {
+  min-height: 380px;
+  line-height: 0;
+  height: auto;
+  color: rgba(255,255,255,.9);
+}
+
+.icon-block {
+  padding: 0 15px;
+}
+.icon-block .material-icons {
+  font-size: inherit;
+}
+
+#login-page {
+  margin-top: 100px;
+	width: 400px;
+	height: 700px;
 }

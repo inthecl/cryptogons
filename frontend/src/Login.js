@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { Row, Input, Col, Card } from 'react-materialize'
 import { Redirect } from 'react-router-dom'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import './App.css'
+import imgTestLogo from './image/img_test_logo.png'
 
 const query = gql`
 mutation login($email: String!, $password: String!) {
@@ -58,31 +58,48 @@ class Login extends Component {
       return <Redirect to='/'/>
     }
     return (
-      <div align="center">
-        <div className="Login-div">
-          Login
-          <Col m={6} s={12}>
-            <Card>
+      <div class="container" id="login-page">
+        <img src={imgTestLogo} width="390px"/>
+        <br/><br/>
+        <div class="s12 m4 l8">
+          <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+              <span class="card-title">Card Title</span>
+              <p>I am a very simple card.</p>
               <br/>
-              <Row>
-                <Input type="email" label="Email" s={12} label="Email" onChange={this.handleEmail}/>
-                <Input type="password" label="password" s={12} label="Password" onChange={this.handlePassword}/>
-              </Row>
-              <Row>
-                <div class="input-field col s12">
-                  <a class="btn waves-effect waves-light col s12" onClick={this.handleSubmit}>Login</a>
-                </div>
-              </Row>
-              <Row>
-                <div class="input-field col s6 m6 l6">
-                  <p class="margin medium-small"><a href="/Register">Register Now!</a></p>
-                </div>
-                <div class="input-field col s6 m6 l6">
-                  <p class="margin right-align medium-small"><a href="#">Forgot password?</a></p>
-                </div>
-              </Row>
-            </Card>
-          </Col>
+              <div class="row">
+                <form class="col s12">
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input id="Email" type="email" class="validate" onChange={this.handleEmail}/>
+                      <label for="Email">Email</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input id="Password" type="password" class="validate" onChange={this.handlePassword}/>
+                      <label for="Password">Password</label>
+                    </div>
+                  </div>
+                  <form action="#">
+                    <p>
+                      <label>
+                        <input type="checkbox" class="filled-in"/>
+                        <span>Filled in</span>
+                      </label>
+                    </p>
+                  </form>
+                </form>
+              </div>
+              <div class="row">
+                <a class="col s12 waves-effect waves-light btn-large" onClick={this.handleSubmit}>LOGIN</a>
+              </div>
+            </div>
+            <div class="card-action">
+              <a href="/Register">Register Now!</a>
+              <a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Forgot password?</a>
+            </div>
+          </div>
         </div>
       </div>
     )
