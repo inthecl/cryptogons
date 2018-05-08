@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import './App.css'
 import Layout from './Layout'
 
-export default class Item extends Component {
+export default class Activity extends Component {
   render() {
     return (
       <Layout>
-        <h1>Item</h1>
+        <h1>Activity</h1>
       </Layout>
     )
   }

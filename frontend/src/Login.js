@@ -59,7 +59,7 @@ class Login extends Component {
     }
     return (
       <div class="container" id="login-page">
-        <img src={imgTestLogo} width="390px"/>
+        <a href="/"><img src={imgTestLogo} width="390px"/></a>
         <br/><br/>
         <div class="s12 m4 l8">
           <div class="card blue-grey darken-1">
@@ -97,7 +97,7 @@ class Login extends Component {
             </div>
             <div class="card-action">
               <a href="/Register">Register Now!</a>
-              <a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Forgot password?</a>
+              <a href="/Forget">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Forgot password?</a>
             </div>
           </div>
         </div>

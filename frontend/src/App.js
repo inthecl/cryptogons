@@ -4,9 +4,12 @@ import './App.css'
 import Body from './Body'
 import Login from './Login'
 import Register from './Register'
+import Forget from './Forget'
+import MyGons from './MyGons'
 import Market from './Market'
-import Item from './Item'
-import FAQs from './FAQs'
+import Items from './Items'
+import Battles from './Battles'
+import Activity from './Activity'
 import Detail from './Detail'
 
 class App extends Component {
@@ -18,9 +21,12 @@ class App extends Component {
             <Route exact path="/" component={Body}/>
             <Route path="/Login" component={Login}/>
             <Route path="/Register" component={Register}/>
+            <Route path="/Forget" component={Forget}/>
+            <Route path="/MyGons" component={MyGons}/>
             <Route path="/Market/:pagenum" component={Market}/>
-            <Route path="/Item" component={Item}/>
-            <Route path="/FAQs" component={FAQs}/>
+            <Route path="/Items" component={Items}/>
+            <Route path="/Battles" component={Battles}/>
+            <Route path="/Activity" component={Activity}/>
             <Route path="/Detail/:username" component={Detail}/>
           </Switch>
         </BrowserRouter>
