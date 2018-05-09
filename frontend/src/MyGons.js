@@ -31,9 +31,9 @@ export default class MyGons extends Component {
           <div class="col s12">
             <br/>
             <ul class="tabs">
-              <li class="tab col s3"><a class="active" href="#test1">Gons</a></li>
-              <li class="tab col s3"><a href="#test2">장신구</a></li>
-              <li class="tab col s3"><a href="#test3">Test 3</a></li>
+              <li class="tab col s4"><a class="active" href="#test1">Gons</a></li>
+              <li class="tab col s4"><a href="#test2">장신구</a></li>
+              <li class="tab col s4"><a href="#test3">배경</a></li>
             </ul>
           </div>
           <div class="col s6">
@@ -68,9 +68,9 @@ export default class MyGons extends Component {
               <br/>
             </div>
           </div>
-          <div id="test1" class="col s12">Test 11</div>
-          <div id="test2" class="col s12">Test 22</div>
-          <div id="test3" class="col s12">Test 33</div>
+          <div id="test1" class="col s12">Gons</div>
+          <div id="test2" class="col s12">장신구</div>
+          <div id="test3" class="col s12">배경</div>
         </div>
       </Layout>
     )
