@@ -19,7 +19,7 @@ module.exports = {
         // disable rules from base configurations
         "no-console": "off",
         "new-cap": 0,
-        "max-len": ["error", { "code": 150 }],
+        "max-len": ["error", { "code": 200 }],
         "no-unused-vars": 0,
         "class-methods-use-this": 0,
         "no-underscore-dangle": 0
