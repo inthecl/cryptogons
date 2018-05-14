@@ -5,7 +5,8 @@ const resolvers = {
   Query: {
     books: async (obj, args, ctx) => ctx.Book.find(),
     findbook: async (obj, args, ctx) => ctx.Book.findOne({ id: args.id }),
-    users: async (obj, args, ctx) => ctx.User.find()
+    users: async (obj, args, ctx) => ctx.User.find(),
+    checkemail: async (obj, args, ctx) => ctx.User.findOne({ email: args.email })
   },
   Mutation: {
     addBook: async (obj, args, ctx) => {

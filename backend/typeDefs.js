@@ -17,6 +17,7 @@ const typeDefs = `
     books: [Book]
     findbook(id:String!): Book
     users: [User]
+    checkemail(email:String!): User
   }
   type Mutation{
     addBook(title:String,author:String): Book
