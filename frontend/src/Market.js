@@ -120,7 +120,7 @@ export default class Market extends Component {
                       I am convenient because I require little markup to use effectively.</p>
                     </div>
                     <div className="card-action">
-                      <Link to="/Market/2">{item.name}</Link>
+                      <Link to={`/Detail/' ${item.name}`}>{item.name}</Link>
                     </div>
                   </div>
                 </div>

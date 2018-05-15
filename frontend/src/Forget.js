@@ -1,28 +1,15 @@
 import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom'
-import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
-import swal from 'sweetalert2'
+import { Link, Redirect } from 'react-router-dom'
 import './App.css'
 import imgTestLogo from './image/img_test_logo.png'
 
-const query = gql`
-mutation registerUser($email: String!, $username: String!, $password: String!) {
-  registerUser(email:$email, username: $username, password: $password) {
-    email
-    username
-  }
-}
-`
-class Forget extends Component {
+export default class Forget extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      redirect: false,
       email: 'state_email'
     }
     this.handleEmail = this.handleEmail.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   handleEmail(event) {
@@ -30,36 +17,7 @@ class Forget extends Component {
     this.setState({ email: event.target.value })
   }
 
-  handleSubmit(event) {
-    /*
-    if (this.state.password === this.state.passwordConfirm) {
-      event.preventDefault()
-      this.props.mutate({ variables: { email: this.state.email, username: this.state.username, password: this.state.password } })
-        .then(() => this.setState({ redirect: true }))
-    } else {
-      console.log('Password Confirm fail')
-    }
-    */
-    if (this.state.email === 'test') {
-      swal({
-        type: 'success',
-        title: 'success',
-        text: 'Please check your email.'
-      })
-      this.setState({ redirect: true })
-    } else {
-      swal({
-        type: 'error',
-        title: 'error',
-        text: 'Cant find that email, sorry.'
-      })
-    }
-  }
   render() {
-    const { redirect } = this.state
-    if (redirect) {
-      return <Redirect to='/Login'/>
-    }
     return (
       <div class="container" id="login-page">
         <a href="/"><img src={imgTestLogo} width="390px"/></a>
@@ -81,7 +39,7 @@ class Forget extends Component {
                 </form>
               </div>
               <div class="row">
-                <a class="col s12 waves-effect waves-light btn-large" onClick={this.handleSubmit}>SUBMIT</a>
+                <a class="col s12 waves-effect waves-light btn-large"><Link to={`/CheckForget/${this.state.email}`}>SUBMIT</Link></a>
               </div>
             </div>
             <div class="card-action" align="center">
@@ -93,5 +51,3 @@ class Forget extends Component {
     )
   }
 }
-
-export default graphql(query)(Forget)

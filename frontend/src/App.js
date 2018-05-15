@@ -11,6 +11,7 @@ import Items from './Items'
 import Battles from './Battles'
 import Activity from './Activity'
 import Detail from './Detail'
+import CheckForget from './CheckForget'
 
 class App extends Component {
   render() {
@@ -28,6 +29,7 @@ class App extends Component {
             <Route path="/Battles" component={Battles}/>
             <Route path="/Activity" component={Activity}/>
             <Route path="/Detail/:username" component={Detail}/>
+            <Route path="/CheckForget/:checkForget" component={CheckForget}/>
           </Switch>
         </BrowserRouter>
       </div>
