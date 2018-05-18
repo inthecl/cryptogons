@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import _ from 'underscore'
 import Layout from './Layout'
+import MaterialPagination from './MaterialPagination'
 
 export default class Market extends Component {
   constructor(props) {
@@ -38,46 +39,6 @@ export default class Market extends Component {
       comb1: combArr[randomArr[i % 26]][1],
       comb2: combArr[randomArr[i % 26]][2]
     }))
-  }
-
-  drawPagenation(pagenum, lastPage) {
-    let targetPages = []
-    for (let i = -1; i < 6; i += 1) {
-      targetPages.push(parseInt(pagenum, 10) + i)
-    }
-    targetPages = targetPages.filter(num => num < lastPage + 2)
-    console.log(targetPages)
-    const first = targetPages[0]
-    const len = 7 - targetPages.length
-    for (let i = 0; i < len; i += 1) {
-      targetPages.unshift(first - (i + 1))
-    }
-    console.log(targetPages)
-    let idx = 0
-    let activePage = 0
-    const listItems = targetPages.map((num) => {
-      idx += 1
-      if (num === 0) {
-        return <li className="disabled"><Link to={`/Market/${String(num)}`}><i className="material-icons">chevron_left</i></Link></li>
-      }
-      if (idx === 1) {
-        return <li><Link to={`/Market/${String(parseInt(pagenum, 10) - 1)}`}><i className="material-icons">chevron_left</i></Link></li>
-      }
-      if (parseInt(pagenum, 10) === num) {
-        activePage = num
-        return <li className="active"><Link to={`/Market/${String(num)}`}>{num}</Link></li>
-      }
-      if (activePage + 1 > lastPage + 1 && idx === targetPages.length) {
-        return <li className="disabled"><Link to={`/Market/${String(activePage)}`}><i className="material-icons">chevron_right</i></Link></li>
-      }
-      if (idx === targetPages.length) {
-        return <li><Link to={`/Market/${String(parseInt(activePage, 10) + 1)}`}><i className="material-icons">chevron_right</i></Link></li>
-      }
-      return <li><Link to={`/Market/${String(num)}`}>{num}</Link></li>
-    })
-    return (
-      <ul class="pagination">{listItems}</ul>
-    )
   }
 
   render() {
@@ -126,7 +87,7 @@ export default class Market extends Component {
                 </div>
               </div>)}
           </div>
-          {this.drawPagenation(pagenum, lastPage)}
+          <MaterialPagination linkPath="Market" pageNum={pagenum} lastPage={lastPage} />
         </div>
       </Layout>
     )
