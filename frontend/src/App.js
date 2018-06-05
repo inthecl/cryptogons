@@ -23,7 +23,7 @@ class App extends Component {
             <Route path="/Login" component={Login}/>
             <Route path="/Register" component={Register}/>
             <Route path="/Forget" component={Forget}/>
-            <Route path="/MyGons" component={MyGons}/>
+            <Route exacy path="/MyGons/:pagenum" component={MyGons}/>
             <Route exacy path="/Market/:pagenum" component={Market}/>
             <Route path="/Items" component={Items}/>
             <Route path="/Battles" component={Battles}/>

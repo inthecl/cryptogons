@@ -14,7 +14,7 @@ export default class Header extends Component {
           <div class="nav-wrapper container">
             <a id="logo-container" href="/" class="brand-logo"><img src={imgTestLogo}/></a>
             <ul class="right hide-on-med-and-down">
-              <li><a href='/MyGons'>MyGons</a></li>
+              <li><a href='/MyGons/1'>MyGons</a></li>
               <li><a href='/Login'>Login</a></li>
               <li><a href='/Market/1'>Market</a></li>
               <li><a href='/Items'>Items</a></li>
@@ -22,7 +22,7 @@ export default class Header extends Component {
               <li><a href='/Activity'>Activity</a></li>
             </ul>
             <ul id="nav-mobile" class="sidenav">
-              <li><a href='/MyGons'>MyGons</a></li>
+              <li><a href='/MyGons/1'>MyGons</a></li>
               <li><a href='/Login'>Login</a></li>
               <li><a href='/Market/1'>Market</a></li>
               <li><a href='/Items'>Items</a></li>
