@@ -3,7 +3,6 @@ import _ from 'underscore'
 import { Link, Redirect } from 'react-router-dom'
 import './App.css'
 import Layout from './Layout'
-import imgRectangle from './image/img_Rectangle.png'
 import imgDia from './image/icon_dia.png'
 import imgPoint from './image/icon_point.png'
 import MaterialPagination from './MaterialPagination'
@@ -67,21 +66,21 @@ export default class MyGons extends Component {
       <Layout>
         <div class="row container">
           <br/>
-          <div class="col s6">
+          <div class="left">
             <div class="valign-wrapper">
-              <div class="col l2 s6">
-                <img src={imgRectangle} alt="" class="circle responsive-img"/>
+              <div class="col s6 m6 l12">
+                <img src={`${process.env.PUBLIC_URL}/images/img_Rectangle.png`} alt="" class="circle responsive-img"/>
               </div>
-              <div class="col l10 s6">
+              <div class="col">
                 <span class="black-text">
                   ZANGON
                 </span>
               </div>
             </div>
           </div>
-          <div class="col s6">
+          <div class="right">
             <div>
-              <div class="right"><img src={imgDia}/>&nbsp;1200&nbsp;&nbsp;<img src={imgPoint}/>&nbsp;200</div>
+              <img src={imgDia}/>&nbsp;1200&nbsp;&nbsp;<img src={imgPoint}/>&nbsp;200
             </div>
           </div>
           <div class="col s12">

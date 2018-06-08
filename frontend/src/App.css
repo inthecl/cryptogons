@@ -63,3 +63,33 @@ p {
 	width: 400px;
 	height: 700px;
 }
+
+.detail-img{ 
+  width : 85% ; 
+  margin : 0 auto ; 
+}
+@media only screen and (min-width: 601px) {
+  .detail-img {
+    width: 55%;
+  }
+}
+@media only screen and (min-width: 993px) {
+  .detail-img {
+    width: 30%;
+  }
+}
+
+.detail-Explanation{ 
+  width : 85% ; 
+  margin : 0 auto ;
+}
+@media only screen and (min-width: 601px) {
+  .detail-Explanation {
+    width: 75%;
+  }
+}
+@media only screen and (min-width: 993px) {
+  .detail-Explanation {
+    width: 45%;
+  }
+}
