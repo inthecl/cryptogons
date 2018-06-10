@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './App.css'
 import Layout from './Layout'
+import Popup from './Popup'
 
 export default class Detail extends Component {
   constructor(props) {
@@ -13,8 +14,14 @@ export default class Detail extends Component {
       generation: '3',
       cooldown: '60',
       parents: '111,222',
-      children: '333,444'
+      children: '333,444',
+      showPopup: false
     }
+  }
+  togglePopup() {
+    this.setState({
+      showPopup: !this.state.showPopup
+    })
   }
   render() {
     const color = this.state.combination.charAt(0)
@@ -70,8 +77,8 @@ export default class Detail extends Component {
             </div>
             <div class="s12 right">
               <br/>
-              <a class="waves-effect waves-light btn-large">무기</a>&nbsp;&nbsp;
-              <a class="waves-effect waves-light btn-large">방패</a>
+              <a class="waves-effect waves-light btn-large" onClick={this.togglePopup.bind(this)}>무기</a>&nbsp;&nbsp;
+              <a class="waves-effect waves-light btn-large" >방패</a>
             </div>
           </div>
           - win 70%&nbsp;&nbsp;&nbsp;- gen {this.state.generation}&nbsp;&nbsp;&nbsp;- cooldown {this.state.cooldown}
@@ -89,6 +96,13 @@ export default class Detail extends Component {
           <h5>children</h5>
           {this.state.children}
           <br/><br/><br/>
+          {this.state.showPopup ?
+            <Popup
+              text='Select a shields ….'
+              closePopup={this.togglePopup.bind(this)}
+            />
+            : null
+          }
         </div>
       </Layout>
     )
