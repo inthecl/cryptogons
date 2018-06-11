@@ -7,7 +7,8 @@ const User = mongoose.model('user', {
   },
   username: String,
   password: String,
-  name: String
+  name: String,
+  confirmed: Boolean
 })
 
 export default { Book, User }
