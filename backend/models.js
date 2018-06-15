@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose'
+import mongoose from 'mongoose'
 
 const Book = mongoose.model('book', { id: String, title: String, author: String })
 const User = mongoose.model('user', {

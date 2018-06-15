@@ -22,6 +22,7 @@ module.exports = {
       "max-len": ["error", { "code": 150 }],
       "no-unused-vars": 0,
       "class-methods-use-this": 0,
-      "no-underscore-dangle": 0
+      "no-underscore-dangle": 0,
+      "import/no-extraneous-dependencies": ["error", {"devDependencies": true, "optionalDependencies": false, "peerDependencies": false}]
   }
 }

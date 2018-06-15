@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { createConfirmEmailLink } from './utils/createConfirmEmailLink'
+import { sendEmail } from './utils/sparkPost'
 
 const resolvers = {
   Query: {
@@ -24,6 +25,7 @@ const resolvers = {
       console.log(newone)
       const link = createConfirmEmailLink(user.username)
       console.log(link)
+      sendEmail(user.email, link)
       return newone.save()
     },
     login: async (obj, args, ctx) => {
