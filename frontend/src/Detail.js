@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import './App.css'
 import Layout from './Layout'
 import Popup from './Popup'
@@ -14,14 +15,8 @@ export default class Detail extends Component {
       generation: '3',
       cooldown: '60',
       parents: '111,222',
-      children: '333,444',
-      showPopup: false
+      children: '333,444'
     }
-  }
-  togglePopup() {
-    this.setState({
-      showPopup: !this.state.showPopup
-    })
   }
   render() {
     const color = this.state.combination.charAt(0)
@@ -39,7 +34,8 @@ export default class Detail extends Component {
                 </div>
                 <div class="col">
                   <span class="black-text">
-                    ZANGON
+                    <h5>IntheCL</h5>
+                    <p>zangon88@gmail.com</p>
                   </span>
                 </div>
               </div>
@@ -50,10 +46,10 @@ export default class Detail extends Component {
             </div>
           </div>
         </div>
-        <div class="detail-img" >
+        <div class="detail-img">
           <div className="row">
             <div class="s12 m4 l8">
-              <div className="card">
+              <div className="card z-depth-0">
                 <div className="card-image">
                   <img src={`${process.env.PUBLIC_URL}/images/Transparency.png`}/>
                   <div class="absolute">
@@ -76,16 +72,35 @@ export default class Detail extends Component {
               <font size="7">{this.state.nickname}</font>&nbsp;&nbsp;&nbsp;&nbsp;<font size="6">{this.state.serialnumber}</font>
             </div>
             <div class="s12 right">
-              <br/>
-              <a class="waves-effect waves-light btn-large" onClick={this.togglePopup.bind(this)}>무기</a>&nbsp;&nbsp;
-              <a class="waves-effect waves-light btn-large" >방패</a>
+              <a class="waves-effect waves-light btn-large modal-trigger" href="#modal1">무기</a>&nbsp;&nbsp;
+              <div id="modal1" class="modal">
+                <div class="modal-content">
+                  <h4>Modal Header</h4>
+                  <p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p>
+                  <p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p>
+                </div>
+                <div class="modal-footer">
+                  <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+                </div>
+              </div>
+              <a class="waves-effect waves-light btn-large modal-trigger" href="#modal1">방패</a>&nbsp;&nbsp;
+              <div id="modal1" class="modal">
+                <div class="modal-content">
+                  <h4>Modal Header</h4>
+                  <p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p>
+                  <p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p>
+                </div>
+                <div class="modal-footer">
+                  <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+                </div>
+              </div>
             </div>
           </div>
           - win 70%&nbsp;&nbsp;&nbsp;- gen {this.state.generation}&nbsp;&nbsp;&nbsp;- cooldown {this.state.cooldown}
           <br/><br/><br/>
-          <a class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>button</a>&nbsp;&nbsp;
-          <a class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>button</a>&nbsp;&nbsp;
-          <a class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>button</a>
+          <Link to={'/Breed'}><a class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>Breed</a>&nbsp;&nbsp;</Link>
+          <Link to={'/Sell'}><a class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>Sell</a>&nbsp;&nbsp;</Link>
+          <Link to={'/Gift'}><a class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>Gift</a>&nbsp;&nbsp;</Link>
           <br/><br/><br/>
           <h5>lineament</h5>
           {this.state.combination}
@@ -95,14 +110,6 @@ export default class Detail extends Component {
           <br/><br/><br/>
           <h5>children</h5>
           {this.state.children}
-          <br/><br/><br/>
-          {this.state.showPopup ?
-            <Popup
-              text='Select a shields ….'
-              closePopup={this.togglePopup.bind(this)}
-            />
-            : null
-          }
         </div>
       </Layout>
     )

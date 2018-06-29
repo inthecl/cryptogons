@@ -11,6 +11,10 @@ import Items from './Items'
 import Battles from './Battles'
 import Activity from './Activity'
 import Detail from './Detail'
+import Breed from './Breed'
+import Sell from './Sell'
+import Gift from './Gift'
+import Myinfo from './Myinfo'
 import CheckForget from './CheckForget'
 
 class App extends Component {
@@ -29,6 +33,10 @@ class App extends Component {
             <Route path="/Battles" component={Battles}/>
             <Route path="/Activity" component={Activity}/>
             <Route path="/Detail/:username" component={Detail}/>
+            <Route path="/Breed" component={Breed}/>
+            <Route path="/Sell" component={Sell}/>
+            <Route path="/Gift" component={Gift}/>
+            <Route path="/Myinfo" component={Myinfo}/>
             <Route path="/CheckForget/:checkForget" component={CheckForget}/>
           </Switch>
         </BrowserRouter>

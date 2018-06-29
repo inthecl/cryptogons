@@ -1,0 +1,144 @@
+import React, { Component } from 'react'
+import './App.css'
+import Layout from './Layout'
+import btnPlus from './image/plus.png'
+import btnMinus from './image/minus.png'
+
+export default class Gift extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      combination: '123',
+      username: 'JaeDragon',
+      nickname: 'Dooly',
+      serialnumber: '#159456',
+      generation: '3',
+      cooldown: '60',
+      parents: '111,222',
+      children: '333,444',
+      showPopup: false,
+      price: 1
+    }
+    this.btnPlus = this.btnPlus.bind(this)
+    this.btnMinus = this.btnMinus.bind(this)
+    this.onlyNumber = this.onlyNumber.bind(this)
+    this.btnSelectGon = this.btnSelectGon.bind(this)
+  }
+  togglePopup() {
+    this.setState({
+      showPopup: !this.state.showPopup
+    })
+  }
+  btnPlus() {
+    if (this.state.price < 9999) {
+      this.setState({
+        price: parseInt(this.state.price) + 1
+      })
+    }
+  }
+  btnMinus() {
+    if (this.state.price > 0) {
+      this.setState({
+        price: this.state.price - 1
+      })
+    }
+  }
+  onlyNumber(event) {
+    if (isNaN(Number(event.target.value))) {
+      return;
+    } else {
+      this.setState({ price: event.target.value })
+    }
+  }
+  btnSelectGon() {
+    console.log('btnSelectGon')
+  }
+  btnSelectGon
+  render() {
+    const color = this.state.combination.charAt(0)
+    const line = this.state.combination.charAt(1)
+    const eye = this.state.combination.charAt(2)
+    return (
+      <Layout>
+        <br/>
+        <div class="container" >
+          <div className="row">
+            <div class="left">
+              <div class="valign-wrapper">
+                <div class="col s6 m6 l12">
+                  <img src={`${process.env.PUBLIC_URL}/images/img_Rectangle.png`} alt="" class="circle responsive-img"/>
+                </div>
+                <div class="col">
+                  <span class="black-text">
+                    <h5>IntheCL</h5>
+                    <p>zangon88@gmail.com</p>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="right">
+              <br/>
+              <a class="waves-effect waves-light btn-small">공유</a>
+            </div>
+          </div>
+        </div>
+        <div class="detail-img" >
+          <div className="row">
+            <div class="s12 m4 l8">
+              <div className="card z-depth-0">
+                <div className="card-image">
+                  <img src={`${process.env.PUBLIC_URL}/images/Transparency.png`}/>
+                  <div class="absolute">
+                    <img src={`${process.env.PUBLIC_URL}/images/color_${color}.png`}/>
+                  </div>
+                  <div class="absolute">
+                    <img src={`${process.env.PUBLIC_URL}/images/dragon_line${line}.png`}/>
+                  </div>
+                  <div class="absolute">
+                    <img src={`${process.env.PUBLIC_URL}/images/eye_${eye}.png`}/>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="detail-Explanation" >
+          <div className="row">
+            <h4 align='center'><p>Gift Gon</p></h4>
+            <div class="col s12">
+              <h6> - I present my dragon to a friend.</h6>
+              <h6> - The minimum price starts at 10dia.</h6>
+              <h6> - Please enter your friend's email to receive my dragon.</h6>
+              <br/><br/>
+
+              <div class="row">
+                <form class="col s12">
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input id="email" type="email" class="validate"/>
+                      <label for="email">Email</label>
+                      <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
+                    </div>
+                    <div class="input-field col s12">
+                      <input id="email" type="email" class="validate"/>
+                      <label for="email">Confirm Email</label>
+                      <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+              <div class="center-align">
+                <a class="waves-effect waves-light btn-large col s12">Done</a>
+              </div>
+              <br/><br/><br/><br/>
+              <div class="card-panel">
+                <span class="red-text text-lighten-1">This is a card panel with dark blue text</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Layout>
+    )
+  }
+}

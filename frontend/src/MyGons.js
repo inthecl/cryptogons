@@ -73,14 +73,16 @@ export default class MyGons extends Component {
               </div>
               <div class="col">
                 <span class="black-text">
-                  ZANGON
+                  <h5>IntheCL</h5>
+                  <p>zangon88@gmail.com</p>
                 </span>
               </div>
             </div>
           </div>
           <div class="right">
             <div>
-              <img src={imgDia}/>&nbsp;1200&nbsp;&nbsp;<img src={imgPoint}/>&nbsp;200
+              <p><img src={imgDia}/>&nbsp;1200&nbsp;&nbsp;<img src={imgPoint}/>&nbsp;200</p>
+              <p align="right"><Link to={'/Myinfo'}>내 정보 관리</Link></p>
             </div>
           </div>
           <div class="col s12">
