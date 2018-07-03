@@ -43,20 +43,25 @@ export default class MarketSiringDetail extends Component {
           </div>
         </div>
 
-        <div class="detail-img">
-          <div className="row">
-            <div class="s12 m4 l8">
-              <div className="card z-depth-1">
-                <div className="card-image">
-                  <img src={`${process.env.PUBLIC_URL}/images/Transparency.png`}/>
-                  <div class="absolute">
-                    <img src={`${process.env.PUBLIC_URL}/images/color_${color}.png`}/>
-                  </div>
-                  <div class="absolute">
-                    <img src={`${process.env.PUBLIC_URL}/images/dragon_line${line}.png`}/>
-                  </div>
-                  <div class="absolute">
-                    <img src={`${process.env.PUBLIC_URL}/images/eye_${eye}.png`}/>
+        <div className="container">
+          <div className="col s12 right">
+            <i class="Small material-icons">share</i>
+          </div>
+          <div class="detail-img">
+            <div className="row">
+              <div class="s12 m4 l8">
+                <div className="card z-depth-1">
+                  <div className="card-image">
+                    <img src={`${process.env.PUBLIC_URL}/images/Transparency.png`}/>
+                    <div class="absolute">
+                      <img src={`${process.env.PUBLIC_URL}/images/color_${color}.png`}/>
+                    </div>
+                    <div class="absolute">
+                      <img src={`${process.env.PUBLIC_URL}/images/dragon_line${line}.png`}/>
+                    </div>
+                    <div class="absolute">
+                      <img src={`${process.env.PUBLIC_URL}/images/eye_${eye}.png`}/>
+                    </div>
                   </div>
                 </div>
               </div>

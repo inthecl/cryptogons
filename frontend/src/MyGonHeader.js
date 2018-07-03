@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
-import _ from 'underscore'
 import { Link, Redirect } from 'react-router-dom'
 import './App.css'
-import Layout from './Layout'
 import imgDia from './image/icon_dia.png'
 import imgPoint from './image/icon_point.png'
 
