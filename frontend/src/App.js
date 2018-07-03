@@ -7,6 +7,10 @@ import Register from './Register'
 import Forget from './Forget'
 import MyGons from './MyGons'
 import Market from './Market'
+import MarketSale from './MarketSale'
+import MarketSiring from './MarketSiring'
+import MarketSiringDetail from './MarketSiringDetail'
+import MarketNew from './MarketNew'
 import Items from './Items'
 import Battles from './Battles'
 import Activity from './Activity'
@@ -29,6 +33,10 @@ class App extends Component {
             <Route path="/Forget" component={Forget}/>
             <Route exacy path="/MyGons/:pagenum" component={MyGons}/>
             <Route exacy path="/Market/:pagenum" component={Market}/>
+            <Route path="/MarketSale/:number" component={MarketSale}/>
+            <Route path="/MarketSiring/:number" component={MarketSiring}/>
+            <Route path="/MarketSiringDetail/:number" component={MarketSiringDetail}/>
+            <Route path="/MarketNew/:number" component={MarketNew}/>
             <Route path="/Items" component={Items}/>
             <Route path="/Battles" component={Battles}/>
             <Route path="/Activity" component={Activity}/>

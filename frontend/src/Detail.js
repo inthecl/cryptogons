@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import './App.css'
 import Layout from './Layout'
-import Popup from './Popup'
+import MyGonHeader from './MyGonHeader'
 
 export default class Detail extends Component {
   constructor(props) {
@@ -24,42 +24,21 @@ export default class Detail extends Component {
     const eye = this.state.combination.charAt(2)
     return (
       <Layout>
-        <br/>
-        <div class="container" >
+        <MyGonHeader/>
+        <div class="detail-img">
           <div className="row">
-            <div class="left">
-              <div class="valign-wrapper">
-                <div class="col s6 m6 l12">
-                  <img src={`${process.env.PUBLIC_URL}/images/img_Rectangle.png`} alt="" class="circle responsive-img"/>
-                </div>
-                <div class="col">
-                  <span class="black-text">
-                    <h5>IntheCL</h5>
-                    <p>zangon88@gmail.com</p>
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div class="right">
-              <br/>
-              <a class="waves-effect waves-light btn-small">공유</a>
-            </div>
-          </div>
-          <div class="detail-img">
-            <div className="row">
-              <div class="s12 m4 l8">
-                <div className="card z-depth-1">
-                  <div className="card-image">
-                    <img src={`${process.env.PUBLIC_URL}/images/Transparency.png`}/>
-                    <div class="absolute">
-                      <img src={`${process.env.PUBLIC_URL}/images/color_${color}.png`}/>
-                    </div>
-                    <div class="absolute">
-                      <img src={`${process.env.PUBLIC_URL}/images/dragon_line${line}.png`}/>
-                    </div>
-                    <div class="absolute">
-                      <img src={`${process.env.PUBLIC_URL}/images/eye_${eye}.png`}/>
-                    </div>
+            <div class="s12 m4 l8">
+              <div className="card z-depth-1">
+                <div className="card-image">
+                  <img src={`${process.env.PUBLIC_URL}/images/Transparency.png`}/>
+                  <div class="absolute">
+                    <img src={`${process.env.PUBLIC_URL}/images/color_${color}.png`}/>
+                  </div>
+                  <div class="absolute">
+                    <img src={`${process.env.PUBLIC_URL}/images/dragon_line${line}.png`}/>
+                  </div>
+                  <div class="absolute">
+                    <img src={`${process.env.PUBLIC_URL}/images/eye_${eye}.png`}/>
                   </div>
                 </div>
               </div>
@@ -73,7 +52,7 @@ export default class Detail extends Component {
               <font size="7">{this.state.nickname}</font>&nbsp;&nbsp;&nbsp;&nbsp;<font size="6">{this.state.serialnumber}</font>
             </div>
             <div class="s12 right">
-              <a class="waves-effect waves-light btn-large modal-trigger" href="#modal1">무기</a>&nbsp;&nbsp;
+              <span><a class="waves-effect waves-light btn-large modal-trigger" href="#modal1">무기</a></span>
               <div id="modal1" class="modal">
                 <div class="modal-content">
                   <h4>Modal Header</h4>
@@ -84,7 +63,7 @@ export default class Detail extends Component {
                   <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
                 </div>
               </div>
-              <a class="waves-effect waves-light btn-large modal-trigger" href="#modal1">방패</a>&nbsp;&nbsp;
+              <span><a class="waves-effect waves-light btn-large modal-trigger" href="#modal1">방패</a></span>
               <div id="modal1" class="modal">
                 <div class="modal-content">
                   <h4>Modal Header</h4>
@@ -99,9 +78,9 @@ export default class Detail extends Component {
           </div>
           - win 70%&nbsp;&nbsp;&nbsp;- gen {this.state.generation}&nbsp;&nbsp;&nbsp;- cooldown {this.state.cooldown}
           <br/><br/><br/>
-          <Link to={'/Breed'}><a class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>Breed</a>&nbsp;&nbsp;</Link>
-          <Link to={'/Sell'}><a class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>Sell</a>&nbsp;&nbsp;</Link>
-          <Link to={'/Gift'}><a class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>Gift</a>&nbsp;&nbsp;</Link>
+          <span><Link to={'/Breed'}><a class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>Breed</a></Link></span>
+          <span><Link to={'/Sell'}><a class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>Sell</a></Link></span>
+          <span><Link to={'/Gift'}><a class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>Gift</a></Link></span>
           <br/><br/><br/>
           <h5>lineament</h5>
           {this.state.combination}

@@ -7,6 +7,10 @@ import MaterialPagination from './MaterialPagination'
 export default class Market extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      dia: '300',
+      point: '45'
+    }
     // 조합배열 생성
     let a
     let b
@@ -59,6 +63,77 @@ export default class Market extends Component {
       <Layout>
         <div className='container center'>
           <div className="row">
+
+            <div className="col l12 m12 space-out-top-50 space-out-bottom-15">
+              <div className="col s12 m6 l6 left left-align">
+                <nav>
+                  <div class="nav-wrapper ">
+                    <form>
+                      <div class="input-field">
+                        <input id="search" type="search" required/>
+                        <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                        <i class="material-icons">close</i>
+                      </div>
+                    </form>
+                  </div>
+                </nav>
+              </div>
+              <div className="col s12 m6 l6 right right-align">
+                <h5>다이아 {this.state.dia} 포인트 {this.state.point}</h5>
+              </div>
+            </div>
+
+            &nbsp;
+            <div class="divider"></div>
+
+            <div className="col l12 m12 space-out-top-15 space-out-bottom-15">
+              <div className="col s12 m6 l6 left left-align">
+                <form action="#">
+                  <p>
+                    <label>
+                      <input name="group1" type="radio" checked />
+                      <span>New</span>
+                    </label>
+                    <label>
+                      <input name="group1" type="radio" />
+                      <span>for sale</span>
+                    </label>
+                    <label>
+                      <input class="with-gap" name="group1" type="radio"/>
+                      <span>siring</span>
+                    </label>
+                    <label>
+                      <input name="group1" type="radio" disabled="disabled" />
+                      <span>all</span>
+                    </label>
+                  </p>
+                </form>
+              </div>
+              <div className="col s12 m6 l6 right right-align space-out-top-15">
+                <div className="col right">
+                  <div class="switch">
+                    <label>
+                      Off
+                      <input type="checkbox"/>
+                      <span class="lever"></span>
+                      On
+                    </label>
+                  </div>
+                </div>
+                <div className="col right">
+                  <div class="input-field col s12">
+                    <select>
+                      <option value="" disabled selected>Choose your option</option>
+                      <option value="1">Option 1</option>
+                      <option value="2">Option 2</option>
+                      <option value="3">Option 3</option>
+                    </select>
+                    <label>Materialize Select</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {pages.map(item =>
               <div key={item.id}>
                 <div className="col s12 m6 l3">
@@ -81,7 +156,7 @@ export default class Market extends Component {
                       I am convenient because I require little markup to use effectively.</p>
                     </div>
                     <div className="card-action">
-                      <Link to={`/Detail/' ${item.name}`}>{item.name}</Link>
+                      <Link to={`/MarketSale/' ${item.name}`}>{item.name}</Link>
                     </div>
                   </div>
                 </div>

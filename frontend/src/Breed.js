@@ -3,6 +3,7 @@ import './App.css'
 import Layout from './Layout'
 import btnPlus from './image/plus.png'
 import btnMinus from './image/minus.png'
+import MyGonHeader from './MyGonHeader'
 
 export default class Breed extends Component {
   constructor(props) {
@@ -60,48 +61,28 @@ export default class Breed extends Component {
     const eye = this.state.combination.charAt(2)
     return (
       <Layout>
-        <br/>
-        <div class="container" >
+        <MyGonHeader/>
+        <div class="detail-img">
           <div className="row">
-            <div class="left">
-              <div class="valign-wrapper">
-                <div class="col s6 m6 l12">
-                  <img src={`${process.env.PUBLIC_URL}/images/img_Rectangle.png`} alt="" class="circle responsive-img"/>
-                </div>
-                <div class="col">
-                  <span class="black-text">
-                    <h5>IntheCL</h5>
-                    <p>zangon88@gmail.com</p>
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div class="right">
-              <br/>
-              <a class="waves-effect waves-light btn-small">공유</a>
-            </div>
-          </div>
-          <div class="detail-img">
-            <div className="row">
-              <div class="s12 m4 l8">
-                <div className="card z-depth-1">
-                  <div className="card-image">
-                    <img src={`${process.env.PUBLIC_URL}/images/Transparency.png`}/>
-                    <div class="absolute">
-                      <img src={`${process.env.PUBLIC_URL}/images/color_${color}.png`}/>
-                    </div>
-                    <div class="absolute">
-                      <img src={`${process.env.PUBLIC_URL}/images/dragon_line${line}.png`}/>
-                    </div>
-                    <div class="absolute">
-                      <img src={`${process.env.PUBLIC_URL}/images/eye_${eye}.png`}/>
-                    </div>
+            <div class="s12 m4 l8">
+              <div className="card z-depth-1">
+                <div className="card-image">
+                  <img src={`${process.env.PUBLIC_URL}/images/Transparency.png`}/>
+                  <div class="absolute">
+                    <img src={`${process.env.PUBLIC_URL}/images/color_${color}.png`}/>
+                  </div>
+                  <div class="absolute">
+                    <img src={`${process.env.PUBLIC_URL}/images/dragon_line${line}.png`}/>
+                  </div>
+                  <div class="absolute">
+                    <img src={`${process.env.PUBLIC_URL}/images/eye_${eye}.png`}/>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
         <div class="detail-Explanation" >
           <div className="row">
             <h4 align='center'><p>Breed Gon</p></h4>
