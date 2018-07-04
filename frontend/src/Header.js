@@ -17,7 +17,7 @@ export default class Header extends Component {
               <li><a href='/MyGons/1'>MyGons</a></li>
               <li><a href='/Login'>Login</a></li>
               <li><a href='/Market/1'>Market</a></li>
-              <li><a href='/Items'>Items</a></li>
+              <li><a href='/Items/1'>Items</a></li>
               <li><a href='/Battles'>Battles</a></li>
               <li><a href='/Activity'>Activity</a></li>
             </ul>
@@ -25,7 +25,7 @@ export default class Header extends Component {
               <li><a href='/MyGons/1'>MyGons</a></li>
               <li><a href='/Login'>Login</a></li>
               <li><a href='/Market/1'>Market</a></li>
-              <li><a href='/Items'>Items</a></li>
+              <li><a href='/Items/1'>Items</a></li>
               <li><a href='/Battles'>Battles</a></li>
               <li><a href='/Activity'>Activity</a></li>
             </ul>

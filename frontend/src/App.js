@@ -37,7 +37,7 @@ class App extends Component {
             <Route path="/MarketSiring/:number" component={MarketSiring}/>
             <Route path="/MarketSiringDetail/:number" component={MarketSiringDetail}/>
             <Route path="/MarketNew/:number" component={MarketNew}/>
-            <Route path="/Items" component={Items}/>
+            <Route exacy path="/Items/:pagenum" component={Items}/>
             <Route path="/Battles" component={Battles}/>
             <Route path="/Activity" component={Activity}/>
             <Route path="/Detail/:username" component={Detail}/>
