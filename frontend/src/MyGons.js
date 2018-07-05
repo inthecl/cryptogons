@@ -76,16 +76,14 @@ export default class MyGons extends Component {
           <div class="col s6">
             <br/>
             <p>
-              <label>
+              <label class="margin-right-10">
                 <input class="with-gap" name="group1" type="radio" value="all" checked />
                 <span>all</span>
               </label>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <label>
+              <label class="margin-right-10">
                 <input class="with-gap" name="group1" type="radio" value="sale" />
                 <span>for sale</span>
               </label>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <label>
                 <input class="with-gap" name="group1" type="radio" value="siring" />
                 <span>siring</span>

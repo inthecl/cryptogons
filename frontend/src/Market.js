@@ -64,79 +64,73 @@ export default class Market extends Component {
         <div className='container center'>
           <div className="row">
 
-            <div className="col l12 m12 margin-top-50 margin-bottom-15">
+            <div className="col l12 m12 s12">
               <div className="col s12 m6 l6 left left-align">
-                <nav>
-                  <div class="nav-wrapper ">
-                    <form>
-                      <div class="input-field">
-                        <input id="search" type="search" required/>
-                        <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-                        <i class="material-icons">close</i>
-                      </div>
-                    </form>
-                  </div>
-                </nav>
+                <h2>Market</h2>
               </div>
               <div className="col s12 m6 l6 right right-align">
                 <h5>다이아 {this.state.dia} 포인트 {this.state.point}</h5>
               </div>
             </div>
 
-            &nbsp;
-            <div class="divider"></div>
+            <div className="col s12 m12 l12 margin-top-15">
+              <nav>
+                <div class="nav-wrapper teal">
+                  <form>
+                    <div class="input-field">
+                      <input id="search" type="search" required/>
+                      <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                      <i class="material-icons">close</i>
+                    </div>
+                  </form>
+                </div>
+              </nav>
+            </div>
 
             <div className="col l12 m12 margin-top-15 margin-bottom-15">
               <div className="col s12 m6 l6 left left-align">
                 <form action="#">
                   <p>
-                    <label>
-                      <input name="group1" type="radio" checked />
+                    <label class="margin-right-10">
+                      <input class="with-gap" name="group1" type="radio" checked />
                       <span>New</span>
                     </label>
-                    <label>
-                      <input name="group1" type="radio" />
+                    <label class="margin-right-10">
+                      <input class="with-gap" name="group1" type="radio" />
                       <span>for sale</span>
                     </label>
-                    <label>
+                    <label class="margin-right-10">
                       <input class="with-gap" name="group1" type="radio"/>
                       <span>siring</span>
                     </label>
                     <label>
-                      <input name="group1" type="radio" disabled="disabled" />
+                      <input class="with-gap" name="group1" type="radio" />
                       <span>all</span>
                     </label>
                   </p>
                 </form>
               </div>
               <div className="col s12 m6 l6 right right-align margin-top-15">
-                <div className="col right">
-                  <div class="switch">
-                    <label>
-                      Off
-                      <input type="checkbox"/>
-                      <span class="lever"></span>
-                      On
-                    </label>
-                  </div>
-                </div>
-                <div className="col right">
-                  <div class="input-field col s12">
-                    <select>
-                      <option value="" disabled selected>Choose your option</option>
-                      <option value="1">Option 1</option>
-                      <option value="2">Option 2</option>
-                      <option value="3">Option 3</option>
-                    </select>
-                    <label>Materialize Select</label>
-                  </div>
+                <ul id="dropdown2" class="dropdown-content">
+                  <li><a href="#!">one<span class="badge">1</span></a></li>
+                  <li><a href="#!">two<span class="new badge">1</span></a></li>
+                  <li><a href="#!">three</a></li>
+                </ul>
+                <a class="btn dropdown-trigger" href="#!" data-target="dropdown2">Dropdown<i class="material-icons right">arrow_drop_down</i></a>
+                <div class="switch margin-top-15">
+                  <label>
+                    Off
+                    <input type="checkbox"/>
+                    <span class="lever"></span>
+                    On
+                  </label>
                 </div>
               </div>
             </div>
 
             {pages.map(item =>
               <div key={item.id}>
-                <div className="col s12 m6 l3">
+                <div className="col s12 m6 l3 margin-top-15">
                   <div className="card">
                     <div className="card-image">
                       <img src={`${process.env.PUBLIC_URL}/images/${names[item.id % 3]}`}/>

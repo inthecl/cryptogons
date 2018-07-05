@@ -64,46 +64,82 @@ export default class Item extends Component {
         <div className='container center'>
           <div className="row">
 
-            <div className="col l12 m12 margin-top-50 margin-bottom-15">
+            <div className="col l12 m12 s12">
               <div className="col s12 m6 l6 left left-align">
-                <a class="waves-effect waves-light btn-large"><i class="material-icons left">flash_on</i>Weapon</a>
-                <a class="waves-effect waves-light btn-large"><i class="material-icons left">flash_on</i>Shield</a>
+                <h2>Item</h2>
               </div>
               <div className="col s12 m6 l6 right right-align">
                 <h5>다이아 {this.state.dia} 포인트 {this.state.point}</h5>
               </div>
             </div>
 
-            &nbsp;
-            <div class="divider margin-bottom-30"></div>
-
-            {pages.map(item =>
-              <div key={item.id}>
-                <div className="col s12 m6 l3">
-                  <div className="card">
-                    <div className="card-image">
-                      <img src={`${process.env.PUBLIC_URL}/images/${names[item.id % 3]}`}/>
-                      <div class="absolute">
-                        <img src={`${process.env.PUBLIC_URL}/images/color_${item.comb0}.png`}/>
+            <div class="row">
+              <div class="col s12">
+                <ul class="tabs margin-bottom-30">
+                  <li class="tab col s3"><a href="#test1">Weapon</a></li>
+                  <li class="tab col s3"><a class="active" href="#test2">Shield</a></li>
+                </ul>
+              </div>
+              <div id="test1" class="col s12">
+                {pages.map(item =>
+                <div key={item.id}>
+                  <div className="col s12 m6 l3">
+                    <div className="card">
+                      <div className="card-image">
+                        <img src={`${process.env.PUBLIC_URL}/images/${names[item.id % 3]}`}/>
+                        <div class="absolute">
+                          <img src={`${process.env.PUBLIC_URL}/images/color_${item.comb0}.png`}/>
+                        </div>
+                        <div class="absolute">
+                          <img src={`${process.env.PUBLIC_URL}/images/dragon_line${item.comb1}.png`}/>
+                        </div>
+                        <div class="absolute">
+                          <img src={`${process.env.PUBLIC_URL}/images/eye_${item.comb2}.png`}/>
+                        </div>
+                        <span className="card-title">Card Title</span>
                       </div>
-                      <div class="absolute">
-                        <img src={`${process.env.PUBLIC_URL}/images/dragon_line${item.comb1}.png`}/>
+                      <div className="card-content">
+                        <p>I am a very simple card. I am good at containing small bits of information.
+                        I am convenient because I require little markup to use effectively.</p>
                       </div>
-                      <div class="absolute">
-                        <img src={`${process.env.PUBLIC_URL}/images/eye_${item.comb2}.png`}/>
+                      <div className="card-action">
+                        <Link to={`/MarketSale/' ${item.name}`}>{item.name}</Link>
                       </div>
-                      <span className="card-title">Card Title</span>
-                    </div>
-                    <div className="card-content">
-                      <p>I am a very simple card. I am good at containing small bits of information.
-                      I am convenient because I require little markup to use effectively.</p>
-                    </div>
-                    <div className="card-action">
-                      <Link to={`/MarketSale/' ${item.name}`}>{item.name}</Link>
                     </div>
                   </div>
-                </div>
-              </div>)}
+                </div>)}
+              </div>
+              <div id="test2" class="col s12">
+                {pages.map(item =>
+                <div key={item.id}>
+                  <div className="col s12 m6 l3">
+                    <div className="card">
+                      <div className="card-image">
+                        <img src={`${process.env.PUBLIC_URL}/images/${names[item.id % 3]}`}/>
+                        <div class="absolute">
+                          <img src={`${process.env.PUBLIC_URL}/images/color_${item.comb0}.png`}/>
+                        </div>
+                        <div class="absolute">
+                          <img src={`${process.env.PUBLIC_URL}/images/dragon_line${item.comb1}.png`}/>
+                        </div>
+                        <div class="absolute">
+                          <img src={`${process.env.PUBLIC_URL}/images/eye_${item.comb2}.png`}/>
+                        </div>
+                        <span className="card-title">Card Title</span>
+                      </div>
+                      <div className="card-content">
+                        <p>I am a very simple card. I am good at containing small bits of information.
+                        I am convenient because I require little markup to use effectively.</p>
+                      </div>
+                      <div className="card-action">
+                        <Link to={`/MarketSale/' ${item.name}`}>{item.name}</Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>)}
+              </div>
+            </div>
+
           </div>
           <MaterialPagination linkPath="Market" pageNum={pagenum} lastPage={lastPage} />
         </div>

@@ -57,7 +57,7 @@ export default class Detail extends Component {
               <font size="7">{this.state.nickname}</font>&nbsp;&nbsp;&nbsp;&nbsp;<font size="6">{this.state.serialnumber}</font>
             </div>
             <div class="s12 right">
-              <span><a class="waves-effect waves-light btn-large modal-trigger" href="#modal1">무기</a></span>
+              <span><a class="waves-effect waves-light btn-large modal-trigger margin-right-10" href="#modal1">무기</a></span>
               <div id="modal1" class="modal">
                 <div class="modal-content">
                   <h4>Modal Header</h4>
@@ -83,8 +83,8 @@ export default class Detail extends Component {
           </div>
           - win 70%&nbsp;&nbsp;&nbsp;- gen {this.state.generation}&nbsp;&nbsp;&nbsp;- cooldown {this.state.cooldown}
           <br/><br/><br/>
-          <span><Link to={'/Breed'}><a class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>Breed</a></Link></span>
-          <span><Link to={'/Sell'}><a class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>Sell</a></Link></span>
+          <span><Link to={'/Breed'}><a class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Breed</a></Link></span>
+          <span><Link to={'/Sell'}><a class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Sell</a></Link></span>
           <span><Link to={'/Gift'}><a class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>Gift</a></Link></span>
           <br/><br/><br/>
           <h5>lineament</h5>

@@ -106,6 +106,9 @@ p {
 .margin-top-15 { 
   margin-top: 15px;
 }
+.margin-top-5 { 
+  margin-top: 5px;
+}
 
 .margin-bottom-50 { 
   margin-bottom: 50px;
@@ -122,6 +125,9 @@ p {
 
 .margin-right-5 { 
   margin-right: 5px;
+}
+.margin-right-10 { 
+  margin-right: 10px;
 }
 
 .activity-div-scroll {

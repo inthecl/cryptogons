@@ -6,17 +6,17 @@ export default class Activity extends Component {
   render() {
     return (
       <Layout>
-        <div className="detail-Explanation">
-          <h1>Activity</h1>
+        <div className="container">
+          <h2>Activity</h2>
           <p>Here’s a list of your requested transactions.
             it may take a couple of minutes for the app to receive the updates, so keep checking!</p>
 
           <div class="row">
             <div class="col s12 m6 l6 left">
-              <a class="waves-effect waves-light btn margin-right-5 margin-bottom-5">오늘</a>
-              <a class="waves-effect waves-light btn margin-right-5 margin-bottom-5">1주일</a>
-              <a class="waves-effect waves-light btn margin-right-5 margin-bottom-5">1개월</a>
-              <a class="waves-effect waves-light btn margin-right-5 margin-bottom-5">6개월</a>
+              <a class="waves-effect waves-light btn margin-right-5 margin-top-5">오늘</a>
+              <a class="waves-effect waves-light btn margin-right-5 margin-top-5">1주일</a>
+              <a class="waves-effect waves-light btn margin-right-5 margin-top-5">1개월</a>
+              <a class="waves-effect waves-light btn margin-right-5 margin-top-5">6개월</a>
             </div>
             <div class="col s12 m12 l6">
               <div class="col s12 m5 l5">
