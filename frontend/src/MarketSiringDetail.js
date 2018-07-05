@@ -22,7 +22,7 @@ export default class MarketSiringDetail extends Component {
     const eye = this.state.combination.charAt(2)
     return (
       <Layout>
-        <div class="container space-out-top-15">
+        <div class="container margin-top-15">
           <div className="row">
             <div class="left">
               <div class="valign-wrapper">
@@ -37,7 +37,7 @@ export default class MarketSiringDetail extends Component {
                 </div>
               </div>
             </div>
-            <div class="right space-out-top-15">
+            <div class="right margin-top-15">
               <a class="waves-effect waves-light btn-small">See more gons</a>
             </div>
           </div>
@@ -72,11 +72,11 @@ export default class MarketSiringDetail extends Component {
         <div className="detail-Explanation">
           <div className="row">
 
-            <h3 className="space-out-bottom-50" align="center">Breed now </h3>
+            <h3 className="margin-bottom-50" align="center">Breed now </h3>
             <h6> - Register my gon in the market. Another user can cross with my gon.</h6>
             <h6> - The minimum price starts at 10dia.</h6>
 
-            <div class="col s12 m6 l6 left space-out-top-30">
+            <div class="col s12 m6 l6 left margin-top-30">
               <div className="card z-depth-0">
                 <div className="card-image">
                   <img src={`${process.env.PUBLIC_URL}/images/Transparency.png`}/>
@@ -99,7 +99,7 @@ export default class MarketSiringDetail extends Component {
               </div>
             </div>
 
-            <div class="col s12 m6 l6 right space-out-top-30">
+            <div class="col s12 m6 l6 right margin-top-30">
               <div className="card z-depth-0">
                 <div className="card-image">
                   <img src={`${process.env.PUBLIC_URL}/images/Transparency.png`}/>
@@ -122,7 +122,7 @@ export default class MarketSiringDetail extends Component {
 
           <h6 align="center"> Click the button below to create a new dragon. </h6>
 
-          <div class="center-align space-out-top-30 space-out-bottom-30">
+          <div class="center-align margin-top-30 margin-bottom-30">
             <a class="waves-effect waves-light btn-large col s12">OK, give them some privacy</a>
           </div>
 

@@ -64,7 +64,7 @@ export default class Item extends Component {
         <div className='container center'>
           <div className="row">
 
-            <div className="col l12 m12 space-out-top-50 space-out-bottom-15">
+            <div className="col l12 m12 margin-top-50 margin-bottom-15">
               <div className="col s12 m6 l6 left left-align">
                 <a class="waves-effect waves-light btn-large"><i class="material-icons left">flash_on</i>Weapon</a>
                 <a class="waves-effect waves-light btn-large"><i class="material-icons left">flash_on</i>Shield</a>
@@ -75,7 +75,7 @@ export default class Item extends Component {
             </div>
 
             &nbsp;
-            <div class="divider space-out-bottom-30"></div>
+            <div class="divider margin-bottom-30"></div>
 
             {pages.map(item =>
               <div key={item.id}>

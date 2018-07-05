@@ -64,7 +64,7 @@ export default class Market extends Component {
         <div className='container center'>
           <div className="row">
 
-            <div className="col l12 m12 space-out-top-50 space-out-bottom-15">
+            <div className="col l12 m12 margin-top-50 margin-bottom-15">
               <div className="col s12 m6 l6 left left-align">
                 <nav>
                   <div class="nav-wrapper ">
@@ -86,7 +86,7 @@ export default class Market extends Component {
             &nbsp;
             <div class="divider"></div>
 
-            <div className="col l12 m12 space-out-top-15 space-out-bottom-15">
+            <div className="col l12 m12 margin-top-15 margin-bottom-15">
               <div className="col s12 m6 l6 left left-align">
                 <form action="#">
                   <p>
@@ -109,7 +109,7 @@ export default class Market extends Component {
                   </p>
                 </form>
               </div>
-              <div className="col s12 m6 l6 right right-align space-out-top-15">
+              <div className="col s12 m6 l6 right right-align margin-top-15">
                 <div className="col right">
                   <div class="switch">
                     <label>

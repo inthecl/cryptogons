@@ -97,22 +97,35 @@ p {
   }
 }
 
-.space-out-top-50 { 
+.margin-top-50 { 
   margin-top: 50px;
 }
-.space-out-top-30 { 
+.margin-top-30 { 
   margin-top: 30px;
 }
-.space-out-top-15 { 
+.margin-top-15 { 
   margin-top: 15px;
 }
 
-.space-out-bottom-50 { 
+.margin-bottom-50 { 
   margin-bottom: 50px;
 }
-.space-out-bottom-30 { 
+.margin-bottom-30 { 
   margin-bottom: 30px;
 }
-.space-out-bottom-15 { 
+.margin-bottom-15 { 
   margin-bottom: 15px;
+}
+.margin-bottom-5 { 
+  margin-bottom: 5px;
+}
+
+.margin-right-5 { 
+  margin-right: 5px;
+}
+
+.activity-div-scroll {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 525px;
 }

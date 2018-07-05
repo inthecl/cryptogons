@@ -23,7 +23,7 @@ export default class MarketSale extends Component {
     console.log(this.props.match.params.number)
     return (
       <Layout>
-        <div class="container space-out-top-15">
+        <div class="container margin-top-15">
           <div className="row">
             <div class="left">
               <div class="valign-wrapper">
@@ -38,7 +38,7 @@ export default class MarketSale extends Component {
                 </div>
               </div>
             </div>
-            <div class="right space-out-top-15">
+            <div class="right margin-top-15">
               <a class="waves-effect waves-light btn-small">See more gons</a>
             </div>
           </div>
@@ -72,15 +72,15 @@ export default class MarketSale extends Component {
 
         <div className="detail-Explanation">
           <div className="row">
-            <div className="col l12 space-out-bottom-15">
+            <div className="col l12 margin-bottom-15">
               <div class="s12 left">
                 <font size="7">{this.state.nickname}</font>&nbsp;&nbsp;&nbsp;&nbsp;<font size="6">{this.state.serialnumber}</font>
               </div>
-              <div class="s12 right space-out-top-15">
+              <div class="s12 right margin-top-15">
                 <span><a class="waves-effect waves-light btn-large modal-trigger" href="#modal1">Buy</a></span>
               </div>
             </div>
-            <div className="space-out-bottom-15">
+            <div className="margin-bottom-15">
               - win 70%&nbsp;&nbsp;&nbsp;- gen {this.state.generation}&nbsp;&nbsp;&nbsp;- cooldown {this.state.cooldown}
             </div>
             <div class="divider"></div>

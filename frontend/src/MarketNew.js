@@ -22,7 +22,7 @@ export default class MarketNew extends Component {
     const eye = this.state.combination.charAt(2)
     return (
       <Layout>
-        <div className="container space-out-top-30">
+        <div className="container margin-top-30">
           <div className="col s12 right">
             <i class="Small material-icons">share</i>
           </div>
@@ -50,15 +50,15 @@ export default class MarketNew extends Component {
 
         <div className="detail-Explanation">
           <div className="row">
-            <div className="col l12 space-out-bottom-15">
+            <div className="col l12 margin-bottom-15">
               <div class="s12 left">
                 <font size="7">Gon 9546</font>
               </div>
-              <div class="s12 right space-out-top-15">
+              <div class="s12 right margin-top-15">
                 <span><a class="waves-effect waves-light btn-large modal-trigger" href="#modal1">Buy</a></span>
               </div>
             </div>
-            <div className="space-out-bottom-15">
+            <div className="margin-bottom-15">
               - win 0%&nbsp;&nbsp;&nbsp;- gen 0&nbsp;&nbsp;&nbsp;- cooldown 0
             </div>
             <div class="divider"></div>
