@@ -31,7 +31,7 @@ export default class Activity extends Component {
             </div>
           </div>
 
-          <div className="activity-div-scroll margin-top-15">
+          <div className="activity-div-scroll margin-top-15 margin-bottom-50">
             <ul class="collection">
               <li class="collection-item avatar">
                 <i class="material-icons circle">folder</i>
