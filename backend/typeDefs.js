@@ -8,6 +8,9 @@ const typeDefs = `
     email: String
     username: String
     name: String
+    diamond: Int
+    gold: Int
+    iconNum: Int
   }
   type AuthPayload {
     token: String!

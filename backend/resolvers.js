@@ -21,6 +21,9 @@ const resolvers = {
       const user = args
       user.password = await bcrypt.hash(user.password, 12)
       user.confirmed = false
+      user.diamond = 300
+      user.gold = 1000
+      user.iconNum = 1
       const newone = await new ctx.models.User(user)
       console.log(newone)
       const link = createConfirmEmailLink(user.username)
