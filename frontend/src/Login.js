@@ -45,6 +45,7 @@ class Login extends Component {
         const { token, refreshToken } = res.data.login
         localStorage.setItem('token', token)
         localStorage.setItem('refreshToken', refreshToken)
+        localStorage.setItem('email', this.state.email)
         this.setState({ redirect: true })
       })
       .catch((errors) => {

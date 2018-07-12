@@ -12,7 +12,7 @@ export default class MyGonHeader extends Component {
         <div class="left">
           <div class="valign-wrapper">
             <div class="col s6 m6 l12">
-              <img src={`${process.env.PUBLIC_URL}/images/img_Rectangle.png`} alt="" class="circle responsive-img"/>
+              <img src={`${process.env.PUBLIC_URL}/images/usericon_1.png`} alt="" class="circle responsive-img"/>
             </div>
             <div class="col">
               <span class="black-text">

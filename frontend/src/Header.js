@@ -16,6 +16,7 @@ export default class Header extends Component {
   }
   onClickLogout(e) {
     localStorage.removeItem('token')
+    localStorage.removeItem('email')
   }
   render() {
     if (localStorage.getItem('token') == null) {
