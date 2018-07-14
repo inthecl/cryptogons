@@ -79,6 +79,21 @@ p {
   }
 }
 
+.small-132-img{ 
+  width : 85%; 
+  margin : 0 auto ; 
+}
+@media only screen and (min-width: 601px) {
+  .small-132-img {
+    width: 65%;
+  }
+}
+@media only screen and (min-width: 993px) {
+  .small-132-img {
+    width: 132px;
+  }
+}
+
 .detail-Explanation{ 
   width : 85% ; 
   margin-top: 3%;
@@ -131,6 +146,13 @@ p {
 }
 .margin-right-10 { 
   margin-right: 10px;
+}
+
+.margin-left-5 { 
+  margin-left: 5px;
+}
+.margin-left-10 { 
+  margin-left: 10px;
 }
 
 .activity-div-scroll {

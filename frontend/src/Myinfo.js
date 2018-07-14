@@ -23,6 +23,7 @@ class Myinfo extends Component {
   }
 
   handleChangePassword(event) {
+    console.log(this.props.data)
   }
 
   render() {
@@ -49,7 +50,7 @@ class Myinfo extends Component {
                     <td><i class="Medium material-icons right margin-right-10">edit</i></td>
                   </tr>
                   <tr>
-                    <td height="80px" >NickName</td>
+                    <td height="80px" >User name</td>
                     <td>{this.props.data.checkemail.username}</td>
                     <td></td>
                   </tr>
@@ -64,7 +65,7 @@ class Myinfo extends Component {
                     <td></td>
                   </tr>
                   <tr>
-                    <td height="80px">Point</td>
+                    <td height="80px">Gold</td>
                     <td>{this.props.data.checkemail.gold}</td>
                     <td></td>
                   </tr>

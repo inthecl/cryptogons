@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import { Progress } from 'react-sweet-progress'
+import 'react-sweet-progress/lib/style.css'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import './App.css'
@@ -16,7 +18,7 @@ query CheckEmail($email: String!){
 }
 `
 
-class MyGonHeader extends Component {
+class BattleHeader extends Component {
   render() {
     return (
       <div class="row container">
@@ -24,7 +26,6 @@ class MyGonHeader extends Component {
           <h1>loading</h1>
         ) : (
           <div className="margin-top-20">
-
             <div class="left valign-wrapper">
               <div class="col s6 m6 l12">
                 <img src={`${process.env.PUBLIC_URL}/images/usericon_1.png`} alt="" class="circle responsive-img"/>
@@ -36,23 +37,26 @@ class MyGonHeader extends Component {
                 </span>
               </div>
             </div>
-
-            <div class="right valign-wrapper margin-top-15">
-              <div class="col">
-                <div class="valign-wrapper">
-                  <i class="material-icons margin-right-5">details</i><span class="blue-text text-darken-2">{this.props.data.checkemail.diamond}</span>
-                </div>
+            <div class="right margin-top-15">
+              <div className="col">
+                <Progress
+                  type="circle"
+                  width={70}
+                  percent={70}
+                />
               </div>
               <div class="col">
-                <div class="valign-wrapper">
-                  <i class="material-icons margin-right-5">attach_money</i><span class="blue-text text-darken-2">{this.props.data.checkemail.gold}</span>
-                </div>
+                <span class="black-text">
+                  <ul margin-top>
+                    <li>total 10</li>
+                    <li>wins 7 losees 3</li>
+                  </ul>
+                </span>
               </div>
-              <div class="col">
-                <Link to={'/Myinfo'}><a class="waves-effect waves-light btn-small"><i class="material-icons left">account_circle</i>내정보관리</a></Link>
+              <div class="col margin-top-15">
+                <Link to={'/'}><a class="waves-effect waves-light btn-small"><i class="material-icons left">account_circle</i>내유닛관리</a></Link>
               </div>
             </div>
-
           </div>
         )}
       </div>
@@ -68,4 +72,4 @@ const queryOptions = {
   })
 }
 
-export default graphql(CheckEmailquery, queryOptions)(MyGonHeader)
+export default graphql(CheckEmailquery, queryOptions)(BattleHeader)
