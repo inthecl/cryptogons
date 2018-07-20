@@ -4,8 +4,6 @@ import { Link, Redirect } from 'react-router-dom'
 import './App.css'
 import Layout from './Layout'
 import MyGonHeader from './MyGonHeader'
-import imgDia from './image/icon_dia.png'
-import imgPoint from './image/icon_point.png'
 import MaterialPagination from './MaterialPagination'
 
 export default class MyGons extends Component {
@@ -75,20 +73,28 @@ export default class MyGons extends Component {
           </div>
           <div class="col s6">
             <br/>
-            <p>
-              <label class="margin-right-10">
-                <input class="with-gap" name="group1" type="radio" value="all" checked />
-                <span>all</span>
-              </label>
-              <label class="margin-right-10">
-                <input class="with-gap" name="group1" type="radio" value="sale" />
-                <span>for sale</span>
-              </label>
-              <label>
-                <input class="with-gap" name="group1" type="radio" value="siring" />
-                <span>siring</span>
-              </label>
-            </p>
+
+            <form action="#">
+              <span className="margin-right-10">
+                <label>
+                  <input name="group1" type="radio" checked/>
+                  <span>all</span>
+                </label>
+              </span>
+              <span className="margin-right-10">
+                <label>
+                  <input name="group1" type="radio"/>
+                  <span>for sale</span>
+                </label>
+              </span>
+              <span>
+                <label>
+                  <input name="group1" type="radio"/>
+                  <span>siring</span>
+                </label>
+              </span>
+            </form>
+
           </div>
           <div class="col s6">
             <br/>

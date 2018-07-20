@@ -8,7 +8,7 @@ export default class Detail extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      combination: '123',
+      combination: [1, 5, '01', '01', '01', '02', '03', '01', '03', '01', '01', '03', '02'],
       username: 'JaeDragon',
       nickname: 'Dooly',
       serialnumber: '#159456',
@@ -19,9 +19,19 @@ export default class Detail extends Component {
     }
   }
   render() {
-    const color = this.state.combination.charAt(0)
-    const line = this.state.combination.charAt(1)
-    const eye = this.state.combination.charAt(2)
+    const evolution = this.state.combination[0]
+    const property = this.state.combination[1]
+    const wing = this.state.combination[2]
+    const wingColor = this.state.combination[3]
+    const horn = this.state.combination[4]
+    const hornColor = this.state.combination[5]
+    const tail = this.state.combination[6]
+    const body = this.state.combination[7]
+    const bodyColor = this.state.combination[8]
+    const eye = this.state.combination[9]
+    const eyeColor = this.state.combination[10]
+    const mouth = this.state.combination[11]
+    const nose = this.state.combination[12]
     return (
       <Layout>
         <MyGonHeader/>
@@ -35,15 +45,32 @@ export default class Detail extends Component {
                 <div className="card z-depth-1">
                   <div className="card-image">
                     <img src={`${process.env.PUBLIC_URL}/images/Transparency.png`}/>
+
                     <div class="absolute">
-                      <img src={`${process.env.PUBLIC_URL}/images/color_${color}.png`}/>
+                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${property}.png`}/>
                     </div>
                     <div class="absolute">
-                      <img src={`${process.env.PUBLIC_URL}/images/dragon_line${line}.png`}/>
+                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${evolution}${wing}${wingColor}.png`}/>
                     </div>
                     <div class="absolute">
-                      <img src={`${process.env.PUBLIC_URL}/images/eye_${eye}.png`}/>
+                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/3_horn/horn_${evolution}${horn}${hornColor}.png`}/>
                     </div>
+                    <div class="absolute">
+                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/4_tail/tail_${evolution}${tail}${bodyColor}.png`}/>
+                    </div>
+                    <div class="absolute">
+                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/5_body/body_${evolution}${body}${bodyColor}.png`}/>
+                    </div>
+                    <div class="absolute">
+                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/6_eye/eye_${evolution}${eye}${eyeColor}.png`}/>
+                    </div>
+                    <div class="absolute">
+                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/7_mouth/mouth_${evolution}${mouth}.png`}/>
+                    </div>
+                    <div class="absolute">
+                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${evolution}${nose}.png`}/>
+                    </div>
+
                   </div>
                 </div>
               </div>
