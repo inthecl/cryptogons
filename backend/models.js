@@ -13,5 +13,11 @@ const User = mongoose.model('user', {
   gold: Number,
   iconNum: Number
 })
+const Dragon = mongoose.model('dragon', {
+  name: String, combination: String, birthday: Number, price: Number, serial: String
+})
+const Statistic = mongoose.model('statistic', { usercount: Number, dragoncount: Number })
 
-export default { Book, User }
+export default {
+  Book, User, Dragon, Statistic
+}

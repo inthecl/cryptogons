@@ -8,9 +8,48 @@ const resolvers = {
     books: async (obj, args, ctx) => ctx.models.Book.find(),
     findbook: async (obj, args, ctx) => ctx.models.Book.findOne({ id: args.id }),
     users: async (obj, args, ctx) => ctx.models.User.find(),
-    checkemail: async (obj, args, ctx) => ctx.models.User.findOne({ email: args.email })
+    checkemail: async (obj, args, ctx) => ctx.models.User.findOne({ email: args.email }),
+    dragons: async (obj, args, ctx) => ctx.models.Dragon.find(),
+    statistic: async (obj, args, ctx) => ctx.models.Statistic.findOne()
   },
   Mutation: {
+    resetCount: async (obj, args, ctx) => {
+      const one = await new ctx.models.Statistic(args)
+      return one.save()
+    },
+    addDragon: async (obj, args, ctx) => {
+      console.log(args)
+      const dragon = Object.assign(args)
+      const statistic = await ctx.models.Statistic.findOne()
+      dragon.name = `dragon${statistic.dragoncount}`
+      let tmp = '01'
+      const dragons = await ctx.models.Dragon.find()
+      console.log(dragons)
+      while (dragons.length !== 0) {
+        tmp += `0${String(Math.floor(Math.random() * 5) + 1)}`
+        for (let i = 0; i < 11; i += 1) {
+          tmp += `0${String(Math.floor(Math.random() * 5) + 1)}`
+        }
+        let i = 0
+        for (i = 0; i < dragons.length; i += 1) {
+          if (dragons[i].combination === tmp) {
+            break
+          }
+        }
+        if (i === dragons.length) {
+          break
+        }
+      }
+      dragon.combination = tmp
+      dragon.birthday = String(Date.now())
+      dragon.price = 1000
+      const one = await new ctx.models.Dragon(dragon)
+      one.serial = one._id
+      console.log(one)
+      statistic.dragoncount += 1
+      statistic.save()
+      return one.save()
+    },
     addBook: async (obj, args, ctx) => {
       const one = await new ctx.models.Book(args)
       one.id = one._id
