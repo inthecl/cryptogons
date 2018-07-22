@@ -44,11 +44,7 @@ export default class Detail extends Component {
               <div class="s12 m4 l8">
                 <div className="card z-depth-1">
                   <div className="card-image">
-                    <img src={`${process.env.PUBLIC_URL}/images/Transparency.png`}/>
-
-                    <div class="absolute">
-                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${property}.png`}/>
-                    </div>
+                    <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${property}.png`}/>
                     <div class="absolute">
                       <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${evolution}${wing}${wingColor}.png`}/>
                     </div>
@@ -70,7 +66,6 @@ export default class Detail extends Component {
                     <div class="absolute">
                       <img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${evolution}${nose}.png`}/>
                     </div>
-
                   </div>
                 </div>
               </div>

@@ -10,8 +10,50 @@ export default class MyGons extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      radio: 'state_radio'
+      radio: 'state_radio',
+      TestList: []
     }
+
+    const pad = (n, width) => {
+      n = n + ''
+      return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n
+    }
+    for (let n = 1; n <= 10; n += 1) {
+      const property = Math.floor(Math.random() * 5) + 1
+      const wing = pad(Math.floor(Math.random() * 3) + 1, 2)
+      const wingColor = pad(Math.floor(Math.random() * 3) + 1, 2)
+      const horn = pad(Math.floor(Math.random() * 3) + 1, 2)
+      const hornColor = pad(Math.floor(Math.random() * 3) + 1, 2)
+      const tail = pad(Math.floor(Math.random() * 3) + 1, 2)
+      const body = pad(Math.floor(Math.random() * 3) + 1, 2)
+      const bodyColor = pad(Math.floor(Math.random() * 3) + 1, 2)
+      const eye = pad(Math.floor(Math.random() * 3) + 1, 2)
+      const eyeColor = pad(Math.floor(Math.random() * 3) + 1, 2)
+      const mouth = pad(Math.floor(Math.random() * 3) + 1, 2)
+      const nose = pad(Math.floor(Math.random() * 3) + 1, 2)
+
+      this.state.TestList[n] = [1, property, wing, wingColor, horn, hornColor, tail, body, bodyColor, eye, eyeColor, mouth, nose]
+
+      if (n !== 1) {
+        for (let o = 1; o < n; o += 1) {
+          const oldComb = String(this.state.TestList[o][0]) + String(this.state.TestList[o][1]) + String(this.state.TestList[o][2]) + String(this.state.TestList[o][3]) +
+          String(this.state.TestList[o][4]) + String(this.state.TestList[o][5]) + String(this.state.TestList[o][6]) + String(this.state.TestList[o][7]) +
+          String(this.state.TestList[o][8]) + String(this.state.TestList[o][9]) + String(this.state.TestList[o][10]) + String(this.state.TestList[o][11]) +
+          String(this.state.TestList[o][12])
+          const newComb = String(this.state.TestList[n][0]) + String(this.state.TestList[n][1]) + String(this.state.TestList[n][2]) + String(this.state.TestList[n][3]) +
+          String(this.state.TestList[n][4]) + String(this.state.TestList[n][5]) + String(this.state.TestList[n][6]) + String(this.state.TestList[n][7]) +
+          String(this.state.TestList[n][8]) + String(this.state.TestList[n][9]) + String(this.state.TestList[n][10]) + String(this.state.TestList[n][11]) +
+          String(this.state.TestList[n][12])
+          if (oldComb === newComb) {
+            n -= 1
+            console.log('restart')
+            break
+          }
+        }
+      }
+      console.log('TestList : ', this.state.TestList[n])
+    }
+
     // 조합배열 생성
     let a
     let b
@@ -45,7 +87,6 @@ export default class MyGons extends Component {
       comb2: combArr[randomArr[i % 26]][2]
     }))
   }
-
   render() {
     console.log(this.state.radio)
     const { pagenum } = this.props.match.params
@@ -127,7 +168,6 @@ export default class MyGons extends Component {
                           <div class="absolute">
                             <img src={`${process.env.PUBLIC_URL}/images/eye_${item.comb2}.png`}/>
                           </div>
-                          <span className="card-title">Card Title</span>
                         </div>
                         <div className="card-content">
                           <p>I am a very simple card. I am good at containing small bits of information.
