@@ -13,7 +13,8 @@ export default class MaterialPagination extends Component {
     for (let i = 0; i < len; i += 1) {
       targetPages.unshift(first - (i + 1))
     }
-    console.log(targetPages)
+    console.log(targetPages.filter(target => parseInt(target, 10) > -1))
+    targetPages = targetPages.filter(target => parseInt(target, 10) > -1)
     let idx = 0
     let activePage = 0
     const listItems = targetPages.map((num) => {
