@@ -8,7 +8,7 @@ export default class Detail extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      combination: [1, 5, '01', '01', '01', '02', '03', '01', '03', '01', '01', '03', '02'],
+      combination: ['01', '01', '01', '01', '01', '02', '03', '01', '03', '01', '01', '03', '02'],
       username: 'JaeDragon',
       nickname: 'Dooly',
       serialnumber: '#159456',
