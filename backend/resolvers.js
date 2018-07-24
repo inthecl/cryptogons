@@ -28,7 +28,7 @@ const resolvers = {
       while (dragons.length !== 0) {
         tmp += `0${String(Math.floor(Math.random() * 5) + 1)}`
         for (let i = 0; i < 11; i += 1) {
-          tmp += `0${String(Math.floor(Math.random() * 5) + 1)}`
+          tmp += `0${String(Math.floor(Math.random() * 3) + 1)}`
         }
         let i = 0
         for (i = 0; i < dragons.length; i += 1) {
