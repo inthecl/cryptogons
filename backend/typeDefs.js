@@ -33,6 +33,7 @@ const typeDefs = `
     users: [User]
     checkemail(email:String!): User
     dragons: [Dragon]
+    finddragon(serial:String!): Dragon
     statistic: Statistic
   }
   type Mutation{

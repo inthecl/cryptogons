@@ -10,6 +10,7 @@ const resolvers = {
     users: async (obj, args, ctx) => ctx.models.User.find(),
     checkemail: async (obj, args, ctx) => ctx.models.User.findOne({ email: args.email }),
     dragons: async (obj, args, ctx) => ctx.models.Dragon.find(),
+    finddragon: async (obj, args, ctx) => ctx.models.Dragon.findOne({serial: args.serial}),
     statistic: async (obj, args, ctx) => ctx.models.Statistic.findOne()
   },
   Mutation: {
