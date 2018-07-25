@@ -33,7 +33,7 @@ class App extends Component {
             <Route path="/Forget" component={Forget}/>
             <Route exacy path="/MyGons/:pagenum" component={MyGons}/>
             <Route exacy path="/Market/:pagenum" component={Market}/>
-            <Route path="/MarketSale/:number" component={MarketSale}/>
+            <Route path="/MarketSale/:serialnumber" component={MarketSale}/>
             <Route path="/MarketSiring/:number" component={MarketSiring}/>
             <Route path="/MarketSiringDetail/:number" component={MarketSiringDetail}/>
             <Route path="/MarketNew/:number" component={MarketNew}/>

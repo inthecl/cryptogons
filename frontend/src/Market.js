@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import _ from 'underscore'
 import Layout from './Layout'
 import MaterialPagination from './MaterialPagination'
 
@@ -21,7 +20,6 @@ class Market extends Component {
     super(props)
     this.state = {
       dragonsComb: [],
-      pages: null,
       dia: '300',
       point: '45'
     }
@@ -31,6 +29,7 @@ class Market extends Component {
       for (let dl = 0; dl < this.props.data.dragons.length; dl += 1) {
         this.state.dragonsComb[dl] = {
           name: this.props.data.dragons[dl].name,
+          serial: this.props.data.dragons[dl].serial,
           evolution: this.props.data.dragons[dl].combination.substring(0, 2),
           property: this.props.data.dragons[dl].combination.substring(2, 4),
           wing: this.props.data.dragons[dl].combination.substring(4, 6),
@@ -60,7 +59,7 @@ class Market extends Component {
     if (pagenum < 1) return <Redirect to="/Market/1"/>
     if (pagenum > lastPage + 1) return <Redirect to="/Market/1"/>
     if (endItem > lastItem) endItem = lastItem
-    this.state.pages = this.state.dragonsComb.slice(startItem, endItem)
+    const pages = this.state.dragonsComb.slice(startItem, endItem)
     console.log('lastPage:', this.state.pages)
 
     return (
@@ -135,7 +134,7 @@ class Market extends Component {
                 </div>
               </div>
 
-              {this.state.pages.map(item =>
+              {pages.map(item =>
                 <div key={item.id}>
                   <div className="col s12 m6 l3 margin-top-15">
                     <div className="card">
@@ -168,7 +167,7 @@ class Market extends Component {
                         <p>I am a very simple card.</p>
                       </div>
                       <div className="card-action">
-                        <Link to={`/MarketSale/' ${item.name}`}>{item.name}</Link>
+                        <Link to={`/MarketSale/' ${item.serial}`}>{item.serial}</Link>
                       </div>
                     </div>
                   </div>
