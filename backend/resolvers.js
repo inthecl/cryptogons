@@ -11,7 +11,15 @@ const resolvers = {
     checkemail: async (obj, args, ctx) => ctx.models.User.findOne({ email: args.email }),
     dragons: async (obj, args, ctx) => ctx.models.Dragon.find(),
     finddragon: async (obj, args, ctx) => ctx.models.Dragon.findOne({serial: args.serial}),
-    statistic: async (obj, args, ctx) => ctx.models.Statistic.findOne()
+    statistic: async (obj, args, ctx) => ctx.models.Statistic.findOne(),
+    finduser: async (obj, args, ctx) => {
+      const user = await ctx.models.User.findOne({ email: args.email })
+      const Alldragons = await ctx.models.Dragon.find()
+      let dragons = [ Alldragons[0], Alldragons[1], Alldragons[2] ]
+      let one = Object.assign({}, user._doc)
+      one.dragons = dragons
+      return one
+    }
   },
   Mutation: {
     resetCount: async (obj, args, ctx) => {

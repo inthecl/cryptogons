@@ -11,7 +11,8 @@ const User = mongoose.model('user', {
   confirmed: Boolean,
   diamond: Number,
   gold: Number,
-  iconNum: Number
+  iconNum: Number,
+  dragons: [mongoose.Schema.Types.ObjectId]
 })
 const Dragon = mongoose.model('dragon', {
   name: String, combination: String, birthday: Number, price: Number, serial: String

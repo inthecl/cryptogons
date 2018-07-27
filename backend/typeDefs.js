@@ -4,6 +4,13 @@ const typeDefs = `
     title: String
     author: String
   }
+  type Dragon {
+    name: String
+    combination: String
+    birthday: String
+    price: Int
+    serial: String
+  }
   type User {
     email: String
     username: String
@@ -11,13 +18,7 @@ const typeDefs = `
     diamond: Int
     gold: Int
     iconNum: Int
-  }
-  type Dragon {
-    name: String
-    combination: String
-    birthday: String
-    price: Int
-    serial: String
+    dragons: [Dragon]
   }
   type Statistic {
     usercount: Int
@@ -35,6 +36,7 @@ const typeDefs = `
     dragons: [Dragon]
     finddragon(serial:String!): Dragon
     statistic: Statistic
+    finduser(email:String!): User
   }
   type Mutation{
     resetCount(usercount: Int, dragoncount: Int): Statistic
