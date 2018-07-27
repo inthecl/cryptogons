@@ -1,17 +1,42 @@
 import React, { Component } from 'react'
 import _ from 'underscore'
+import { graphql } from 'react-apollo'
+import gql from 'graphql-tag'
 import { Link, Redirect } from 'react-router-dom'
 import './App.css'
 import Layout from './Layout'
 import MyGonHeader from './MyGonHeader'
 import MaterialPagination from './MaterialPagination'
 
-export default class MyGons extends Component {
+const finduser = gql`
+query finduser($email: String!){
+  finduser(email:$email) {
+  email
+  username
+  name
+  diamond
+  gold
+  iconNum
+  dragons {
+    name
+    combination
+    birthday
+    price
+    serial
+  }
+ }
+}
+`
+
+class MyGons extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      dragonsComb: [],
+      email: 'state_email',
       radio: 'state_radio',
       TestList: []
+
     }
 
     // 조합배열 생성
@@ -48,19 +73,43 @@ export default class MyGons extends Component {
     }))
   }
   render() {
-    console.log(this.state.radio)
+    if (!this.props.data.loading) {
+      console.log('this.props', this.props.data.finduser.dragons)
+      for (let dl = 0; dl < this.props.data.finduser.dragons.length; dl += 1) {
+        this.state.dragonsComb[dl] = {
+          name: this.props.data.finduser.dragons[dl].name,
+          serial: this.props.data.finduser.dragons[dl].serial,
+          evolution: this.props.data.finduser.dragons[dl].combination.substring(0, 2),
+          property: this.props.data.finduser.dragons[dl].combination.substring(2, 4),
+          wing: this.props.data.finduser.dragons[dl].combination.substring(4, 6),
+          wingColor: this.props.data.finduser.dragons[dl].combination.substring(6, 8),
+          horn: this.props.data.finduser.dragons[dl].combination.substring(8, 10),
+          hornColor: this.props.data.finduser.dragons[dl].combination.substring(10, 12),
+          tail: this.props.data.finduser.dragons[dl].combination.substring(12, 14),
+          body: this.props.data.finduser.dragons[dl].combination.substring(14, 16),
+          bodyColor: this.props.data.finduser.dragons[dl].combination.substring(16, 18),
+          eye: this.props.data.finduser.dragons[dl].combination.substring(18, 20),
+          eyeColor: this.props.data.finduser.dragons[dl].combination.substring(20, 22),
+          mouth: this.props.data.finduser.dragons[dl].combination.substring(22, 24),
+          nose: this.props.data.finduser.dragons[dl].combination.substring(24, 26)
+        }
+      }
+      console.log('1 : ', this.state.dragonsComb[0])
+      console.log('2 : ', this.state.dragonsComb[1])
+      console.log('3 : ', this.state.dragonsComb[2])
+      console.log('4 : ', this.state.dragonsComb[3])
+      console.log('5 : ', this.state.dragonsComb[4])
+    }
     const { pagenum } = this.props.match.params
-    const lastItem = this.exampleItems.length
+    const lastItem = this.state.dragonsComb.length
     const lastPage = lastItem / 12
-    console.log(lastPage)
     const startItem = (pagenum - 1) * 12
     let endItem = pagenum * 12
-    if (pagenum < 1) return <Redirect to="/MyGons/1"/>
-    if (pagenum > lastPage + 1) return <Redirect to="/MyGons/1"/>
-
+    if (pagenum < 1) return <Redirect to="/Market/1"/>
+    if (pagenum > lastPage + 1) return <Redirect to="/Market/1"/>
     if (endItem > lastItem) endItem = lastItem
-    const pages = this.exampleItems.slice(startItem, endItem)
-    const names = ['111.png', '112.png', '113.png']
+    const pages = this.state.dragonsComb.slice(startItem, endItem)
+    console.log('lastPage:', this.state.pages)
     return (
       <Layout>
         <MyGonHeader/>
@@ -118,15 +167,27 @@ export default class MyGons extends Component {
                     <div className="col s12 m6 l3">
                       <div className="card">
                         <div className="card-image">
-                          <img src={`${process.env.PUBLIC_URL}/images/${names[item.id % 3]}`}/>
+                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${item.property}.png`}/>
                           <div class="absolute">
-                            <img src={`${process.env.PUBLIC_URL}/images/color_${item.comb0}.png`}/>
+                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${item.evolution}${item.wing}${item.wingColor}.png`}/>
                           </div>
                           <div class="absolute">
-                            <img src={`${process.env.PUBLIC_URL}/images/dragon_line${item.comb1}.png`}/>
+                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/3_horn/horn_${item.evolution}${item.horn}${item.hornColor}.png`}/>
                           </div>
                           <div class="absolute">
-                            <img src={`${process.env.PUBLIC_URL}/images/eye_${item.comb2}.png`}/>
+                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/4_tail/tail_${item.evolution}${item.tail}${item.bodyColor}.png`}/>
+                          </div>
+                          <div class="absolute">
+                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/5_body/body_${item.evolution}${item.body}${item.bodyColor}.png`}/>
+                          </div>
+                          <div class="absolute">
+                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/6_eye/eye_${item.evolution}${item.eye}${item.eyeColor}.png`}/>
+                          </div>
+                          <div class="absolute">
+                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/7_mouth/mouth_${item.evolution}${item.mouth}.png`}/>
+                          </div>
+                          <div class="absolute">
+                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${item.evolution}${item.nose}.png`}/>
                           </div>
                         </div>
                         <div className="card-content">
@@ -134,7 +195,7 @@ export default class MyGons extends Component {
                           I am convenient because I require little markup to use effectively.</p>
                         </div>
                         <div className="card-action">
-                          <Link to={`/Detail/' ${item.name}`}>{item.name}</Link>
+                          <Link to={`/Detail/' ${item.serial}`}>{item.serial}</Link>
                         </div>
                       </div>
                     </div>
@@ -150,3 +211,13 @@ export default class MyGons extends Component {
     )
   }
 }
+
+const queryOptions = {
+  options: props => ({
+    variables: {
+      email: localStorage.getItem('email')
+    }
+  })
+}
+
+export default graphql(finduser, queryOptions)(MyGons)

@@ -40,7 +40,7 @@ class App extends Component {
             <Route exacy path="/Items/:pagenum" component={Items}/>
             <Route path="/Battles" component={Battles}/>
             <Route path="/Activity" component={Activity}/>
-            <Route path="/Detail/:username" component={Detail}/>
+            <Route path="/Detail/:serialnumber" component={Detail}/>
             <Route path="/Breed" component={Breed}/>
             <Route path="/Sell" component={Sell}/>
             <Route path="/Gift" component={Gift}/>
