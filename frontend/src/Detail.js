@@ -143,9 +143,9 @@ class Detail extends Component {
           - win 70%&nbsp;&nbsp;&nbsp;- gen {this.state.generation}&nbsp;&nbsp;&nbsp;- cooldown {this.state.cooldown}
               &nbsp;&nbsp;&nbsp;- price {this.state.price}&nbsp;&nbsp;&nbsp;- birthday {this.state.birthday}
           <br/><br/><br/>
-          <span><Link to={'/Breed'}><a class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Breed</a></Link></span>
-          <span><Link to={'/Sell'}><a class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Sell</a></Link></span>
-          <span><Link to={'/Gift'}><a class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>Gift</a></Link></span>
+          <span><Link to={`/Breed/${this.state.serial}`}><a class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Breed</a></Link></span>
+          <span><Link to={`/Sell/${this.state.serial}`}><a class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Sell</a></Link></span>
+          <span><Link to={`/Gift/${this.state.serial}`}><a class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>Gift</a></Link></span>
           <br/><br/><br/>
           <h5>lineament</h5>
           {this.state.combination}
@@ -164,7 +164,7 @@ class Detail extends Component {
 const queryOptions = {
   options: props => ({
     variables: {
-      serial: props.match.params.serialnumber.substring(2, 26)
+      serial: props.match.params.serialnumber
     }
   })
 }

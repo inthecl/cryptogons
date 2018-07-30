@@ -41,9 +41,9 @@ class App extends Component {
             <Route path="/Battles" component={Battles}/>
             <Route path="/Activity" component={Activity}/>
             <Route path="/Detail/:serialnumber" component={Detail}/>
-            <Route path="/Breed" component={Breed}/>
-            <Route path="/Sell" component={Sell}/>
-            <Route path="/Gift" component={Gift}/>
+            <Route path="/Breed/:serialnumber" component={Breed}/>
+            <Route path="/Sell/:serialnumber" component={Sell}/>
+            <Route path="/Gift/:serialnumber" component={Gift}/>
             <Route path="/Myinfo" component={Myinfo}/>
             <Route path="/CheckForget/:checkForget" component={CheckForget}/>
           </Switch>

@@ -226,7 +226,7 @@ export default class Battles extends Component {
                   </div>
                 </div>
 
-                                <div class="card-panel row">
+                <div class="card-panel row">
                   <div className="left">
                     <div className="left">
                       <h1>win</h1>

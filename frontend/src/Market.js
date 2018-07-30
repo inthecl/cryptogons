@@ -167,7 +167,7 @@ class Market extends Component {
                         <p>I am a very simple card.</p>
                       </div>
                       <div className="card-action">
-                        <Link to={`/MarketSale/' ${item.serial}`}>{item.serial}</Link>
+                        <Link to={`/MarketSale/${item.serial}`}>{item.serial}</Link>
                       </div>
                     </div>
                   </div>

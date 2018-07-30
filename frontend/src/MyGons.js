@@ -195,7 +195,7 @@ class MyGons extends Component {
                           I am convenient because I require little markup to use effectively.</p>
                         </div>
                         <div className="card-action">
-                          <Link to={`/Detail/' ${item.serial}`}>{item.serial}</Link>
+                          <Link to={`/Detail/${item.serial}`}>{item.serial}</Link>
                         </div>
                       </div>
                     </div>

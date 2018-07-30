@@ -166,7 +166,7 @@ class MarketSale extends Component {
 const queryOptions = {
   options: props => ({
     variables: {
-      serial: props.match.params.serialnumber.substring(2, 26)
+      serial: props.match.params.serialnumber
     }
   })
 }
