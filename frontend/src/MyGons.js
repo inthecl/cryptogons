@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import _ from 'underscore'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import { Link, Redirect } from 'react-router-dom'
@@ -38,39 +37,6 @@ class MyGons extends Component {
       TestList: []
 
     }
-
-    // 조합배열 생성
-    let a
-    let b
-    let c
-    let count = 0
-    const combArr = []
-    for (a = 1; a <= 3; a += 1) {
-      for (b = 1; b <= 3; b += 1) {
-        for (c = 1; c <= 3; c += 1) {
-          combArr[count] = [a, b, c]
-          count += 1
-        }
-      }
-    }
-    // 중복없는 난수배열 생성
-    let x
-    let y
-    const randomArr = []
-    for (x = 0; x <= 26; x += 1) {
-      randomArr[x] = Math.floor(Math.random() * 27)
-      for (y = 0; y < x; y += 1) {
-        if (randomArr[x] === randomArr[y]) x -= 1
-      }
-    }
-
-    this.exampleItems = _.range(1, 151).map(i => ({
-      id: i,
-      name: `Item ${i}`,
-      comb0: combArr[randomArr[i % 26]][0],
-      comb1: combArr[randomArr[i % 26]][1],
-      comb2: combArr[randomArr[i % 26]][2]
-    }))
   }
   render() {
     if (!this.props.data.loading) {
@@ -109,7 +75,7 @@ class MyGons extends Component {
     if (pagenum > lastPage + 1) return <Redirect to="/Market/1"/>
     if (endItem > lastItem) endItem = lastItem
     const pages = this.state.dragonsComb.slice(startItem, endItem)
-    console.log('lastPage:', this.state.pages)
+    console.log('lastPage:', pages)
     return (
       <Layout>
         <MyGonHeader/>
@@ -191,8 +157,7 @@ class MyGons extends Component {
                           </div>
                         </div>
                         <div className="card-content">
-                          <p>I am a very simple card. I am good at containing small bits of information.
-                          I am convenient because I require little markup to use effectively.</p>
+                          <p>I am a very simple card.</p>
                         </div>
                         <div className="card-action">
                           <Link to={`/Detail/${item.serial}`}>{item.serial}</Link>

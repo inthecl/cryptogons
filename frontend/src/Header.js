@@ -26,16 +26,20 @@ export default class Header extends Component {
     }
     return (
       <div>
+        <div className="container">
+          <div className="right-align">
+            {this.state.login === true &&
+            <a href='/' onClick={this.onClickLogout}>Logout</a>
+            }
+          </div>
+        </div>
         <nav class="teal lighten-1" role="navigation">
           <div class="nav-wrapper container">
             <a id="logo-container" href="/" class="brand-logo"><img src={imgTestLogo}/></a>
             <ul class="right hide-on-med-and-down">
-              {this.state.login === true &&
-                <li><a href='/MyGons/1'>MyGons</a></li>
-              }
 
               {this.state.login ? (
-                <li><a href='/' onClick={this.onClickLogout}>Logout</a></li>
+                <li><a href='/MyGons/1'>MyGons</a></li>
               ) : (
                 <li><a href='/Login'>Login</a></li>
               )}
@@ -46,12 +50,9 @@ export default class Header extends Component {
               <li><a href='/Activity'>Activity</a></li>
             </ul>
             <ul id="nav-mobile" class="sidenav">
-              {this.state.login === true &&
-                <li><a href='/MyGons/1'>MyGons</a></li>
-              }
 
               {this.state.login ? (
-                <li><a href='/' onClick={this.onClickLogout}>Logout</a></li>
+                <li><a href='/MyGons/1'>MyGons</a></li>
               ) : (
                 <li><a href='/Login'>Login</a></li>
               )}

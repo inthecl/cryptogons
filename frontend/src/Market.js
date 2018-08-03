@@ -60,7 +60,7 @@ class Market extends Component {
     if (pagenum > lastPage + 1) return <Redirect to="/Market/1"/>
     if (endItem > lastItem) endItem = lastItem
     const pages = this.state.dragonsComb.slice(startItem, endItem)
-    console.log('lastPage:', this.state.pages)
+    console.log('lastPage:', pages)
 
     return (
       <Layout>

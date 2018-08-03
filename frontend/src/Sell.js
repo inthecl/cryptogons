@@ -40,6 +40,9 @@ class Sell extends Component {
       name: null,
       birthday: null,
       price: null,
+      average_sell_price: 100,
+      sell_price: 10,
+      sell_period: 1,
       serial: null,
       username: 'JaeDragon',
       generation: 'generation',
@@ -47,9 +50,12 @@ class Sell extends Component {
       parents: 'parents,parents',
       children: 'children,children'
     }
-    this.btnPlus = this.btnPlus.bind(this)
-    this.btnMinus = this.btnMinus.bind(this)
-    this.onlyNumber = this.onlyNumber.bind(this)
+    this.btnPricePlus = this.btnPricePlus.bind(this)
+    this.btnPriceMinus = this.btnPriceMinus.bind(this)
+    this.btnPeriodPlus = this.btnPeriodPlus.bind(this)
+    this.btnPeriodMinus = this.btnPeriodMinus.bind(this)
+    this.onlyPriceNumber = this.onlyPriceNumber.bind(this)
+    this.onlyPeriodNumber = this.onlyPeriodNumber.bind(this)
     this.btnSelectGon = this.btnSelectGon.bind(this)
   }
   togglePopup() {
@@ -57,25 +63,48 @@ class Sell extends Component {
       showPopup: !this.state.showPopup
     })
   }
-  btnPlus() {
-    if (this.state.price < 9999) {
+  btnPricePlus() {
+    if (this.state.sell_price < 1000000) {
       this.setState({
-        price: parseInt(this.state.price) + 1
+        sell_price: this.state.sell_price + 1
       })
     }
   }
-  btnMinus() {
-    if (this.state.price > 0) {
+  btnPriceMinus() {
+    if (this.state.sell_price > 10) {
       this.setState({
-        price: this.state.price - 1
+        sell_price: this.state.sell_price - 1
+      })
+      console.log('minus')
+    }
+  }
+  btnPeriodPlus() {
+    if (this.state.sell_period < 3) {
+      this.setState({
+        sell_period: this.state.sell_period + 1
       })
     }
   }
-  onlyNumber(event) {
+  btnPeriodMinus() {
+    if (this.state.sell_period > 1) {
+      this.setState({
+        sell_period: this.state.sell_period - 1
+      })
+      console.log('minus')
+    }
+  }
+  onlyPriceNumber(event) {
     if (isNaN(Number(event.target.value))) {
       return;
     } else {
-      this.setState({ price: event.target.value })
+      this.setState({ sell_price: Number(event.target.value) })
+    }
+  }
+  onlyPeriodNumber(event) {
+    if (isNaN(Number(event.target.value))) {
+      return;
+    } else {
+      this.setState({ sell_period: Number(event.target.value) })
     }
   }
   btnSelectGon() {
@@ -158,9 +187,7 @@ class Sell extends Component {
                   <p>Average price for the same gen</p>
                 </div>
                 <div class="col s12 m6 l6 right right-align">
-                  <img src={btnMinus} onClick={this.btnMinus} align="center" hspace="10"/>
-                  <span class="textbox"><input type="text" class="browser-default" id="ex_input" value={this.state.price} onChange={this.onlyNumber}maxlength="4"/></span>
-                  <img src={btnPlus} onClick={this.btnPlus} align="center" hspace="10"/>
+                  <span class="textbox"><input type="text" class="browser-default" id="ex_input" value={this.state.average_sell_price}/></span>
                 </div>
               </div>
 
@@ -169,9 +196,9 @@ class Sell extends Component {
                   <p>Enter selling price</p>
                 </div>
                 <div class="col s12 m6 l6 right right-align">
-                  <img src={btnMinus} onClick={this.btnMinus} align="center" hspace="10"/>
-                  <span class="textbox"><input type="text" class="browser-default" id="ex_input" value={this.state.price} onChange={this.onlyNumber}maxlength="4"/></span>
-                  <img src={btnPlus} onClick={this.btnPlus} align="center" hspace="10"/>
+                  <img src={btnMinus} onClick={this.btnPriceMinus} align="center" hspace="10"/>
+                  <span class="textbox"><input type="text" class="browser-default" id="ex_input" value={this.state.sell_price} onChange={this.onlyPriceNumber} maxlength="7"/></span>
+                  <img src={btnPlus} onClick={this.btnPricePlus} align="center" hspace="10"/>
                 </div>
               </div>
 
@@ -180,9 +207,9 @@ class Sell extends Component {
                   <p>Enter sales period</p>
                 </div>
                 <div class="col s12 m6 l6 right right-align">
-                  <img src={btnMinus} onClick={this.btnMinus} align="center" hspace="10"/>
-                  <span class="textbox"><input type="text" class="browser-default" id="ex_input" value={this.state.price} onChange={this.onlyNumber}maxlength="4"/></span>
-                  <img src={btnPlus} onClick={this.btnPlus} align="center" hspace="10"/>
+                  <img src={btnMinus} onClick={this.btnPeriodMinus} align="center" hspace="10"/>
+                  <span class="textbox"><input type="text" class="browser-default" id="ex_input" value={this.state.sell_period} onChange={this.onlyPeriodNumber} maxlength="1"/></span>
+                  <img src={btnPlus} onClick={this.btnPeriodPlus} align="center" hspace="10"/>
                 </div>
               </div>
 
