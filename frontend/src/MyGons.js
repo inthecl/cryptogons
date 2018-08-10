@@ -31,11 +31,7 @@ class MyGons extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      dragonsComb: [],
-      email: 'state_email',
-      radio: 'state_radio',
-      TestList: []
-
+      dragonsComb: []
     }
   }
   render() {
@@ -75,21 +71,14 @@ class MyGons extends Component {
     if (pagenum > lastPage + 1) return <Redirect to="/Market/1"/>
     if (endItem > lastItem) endItem = lastItem
     const pages = this.state.dragonsComb.slice(startItem, endItem)
-    console.log('lastPage:', pages)
+    console.log('this.props.match.params:', this.props.match.params)
     return (
       <Layout>
         <MyGonHeader/>
         <div class="row container">
-          <div class="col s12">
-            <ul class="tabs">
-              <li class="tab col s4"><a class="active" href="#test1">Gons</a></li>
-              <li class="tab col s4"><a href="#test2">장신구</a></li>
-              <li class="tab col s4"><a href="#test3">배경</a></li>
-            </ul>
-          </div>
+
           <div class="col s6">
             <br/>
-
             <form action="#">
               <span className="margin-right-10">
                 <label>
@@ -110,7 +99,6 @@ class MyGons extends Component {
                 </label>
               </span>
             </form>
-
           </div>
           <div class="col s6">
             <br/>
@@ -125,7 +113,8 @@ class MyGons extends Component {
               <br/>
             </div>
           </div>
-          <div id="test1" class="col s12">
+
+          <div class="col s12">
             <div className='center'>
               <div className="row">
                 {pages.map(item =>
@@ -169,8 +158,7 @@ class MyGons extends Component {
               <MaterialPagination linkPath="MyGons" pageNum={pagenum} lastPage={lastPage} />
             </div>
           </div>
-          <div id="test2" class="col s12">장신구</div>
-          <div id="test3" class="col s12">배경</div>
+
         </div>
       </Layout>
     )

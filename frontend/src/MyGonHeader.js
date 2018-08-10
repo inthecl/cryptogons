@@ -23,34 +23,41 @@ class MyGonHeader extends Component {
         {this.props.data.loading ? (
           <h1>loading</h1>
         ) : (
-          <div className="margin-top-20">
+          <div>
 
-            <div class="left valign-wrapper">
-              <div class="col s6 m6 l12">
-                <img src={`${process.env.PUBLIC_URL}/images/usericon_1.png`} alt="" class="circle responsive-img"/>
+            <div className="margin-top-20">
+              <div class="left valign-wrapper">
+                <div class="col s6 m6 l12">
+                  <img src={`${process.env.PUBLIC_URL}/images/usericon_1.png`} alt="" class="circle responsive-img"/>
+                </div>
+                <div class="col">
+                  <span class="black-text">
+                    <h5>{this.props.data.checkemail.username}</h5>
+                    <p>{this.props.data.checkemail.email}</p>
+                  </span>
+                </div>
               </div>
-              <div class="col">
-                <span class="black-text">
-                  <h5>{this.props.data.checkemail.username}</h5>
-                  <p>{this.props.data.checkemail.email}</p>
-                </span>
+              <div class="right valign-wrapper margin-top-15">
+                <div class="col">
+                  <div class="valign-wrapper">
+                    <i class="material-icons margin-right-5">details</i><span class="blue-text text-darken-2">{this.props.data.checkemail.diamond}</span>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="valign-wrapper">
+                    <i class="material-icons margin-right-5">attach_money</i><span class="blue-text text-darken-2">{this.props.data.checkemail.gold}</span>
+                  </div>
+                </div>
+                <div class="col">
+                  <Link to={'/Myinfo'}><a class="waves-effect waves-light btn-small"><i class="material-icons left">account_circle</i>내정보관리</a></Link>
+                </div>
               </div>
             </div>
 
-            <div class="right valign-wrapper margin-top-15">
-              <div class="col">
-                <div class="valign-wrapper">
-                  <i class="material-icons margin-right-5">details</i><span class="blue-text text-darken-2">{this.props.data.checkemail.diamond}</span>
-                </div>
-              </div>
-              <div class="col">
-                <div class="valign-wrapper">
-                  <i class="material-icons margin-right-5">attach_money</i><span class="blue-text text-darken-2">{this.props.data.checkemail.gold}</span>
-                </div>
-              </div>
-              <div class="col">
-                <Link to={'/Myinfo'}><a class="waves-effect waves-light btn-small"><i class="material-icons left">account_circle</i>내정보관리</a></Link>
-              </div>
+            <div className='col l12 m12 s12'>
+              <Link to={'/Mygons/1'}><a class="waves-effect waves-light btn-large margin-top-15 margin-right-10"><i class="material-icons left">cloud</i>GONS</a></Link>
+              <Link to={'/MyAcce/1'}><a class="waves-effect waves-light btn-large margin-top-15 margin-right-10"><i class="material-icons left">cloud</i>장신구</a></Link>
+              <Link to={'/MyCbg/1'}><a class="waves-effect waves-light btn-large margin-top-15"><i class="material-icons left">cloud</i>배경</a></Link>
             </div>
 
           </div>

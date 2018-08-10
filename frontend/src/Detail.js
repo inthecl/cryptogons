@@ -72,7 +72,7 @@ class Detail extends Component {
     return (
       <Layout>
         <MyGonHeader/>
-        <div className="container">
+        <div className="container margin-top-50">
           <div className="col s12 right">
             <i class="Small material-icons">share</i>
           </div>
@@ -116,7 +116,7 @@ class Detail extends Component {
               <font size="7">{this.state.name}</font>&nbsp;&nbsp;&nbsp;&nbsp;<font size="6">{this.state.serial}</font>
             </div>
             <div class="s12 right">
-              <span><a class="waves-effect waves-light btn-large modal-trigger margin-right-10" href="#modal1">무기</a></span>
+              <span><a class="waves-effect waves-light btn-large modal-trigger margin-right-10" href="#modal1">장신구</a></span>
               <div id="modal1" class="modal">
                 <div class="modal-content">
                   <h4>Modal Header</h4>
@@ -127,7 +127,7 @@ class Detail extends Component {
                   <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
                 </div>
               </div>
-              <span><a class="waves-effect waves-light btn-large modal-trigger" href="#modal1">방패</a></span>
+              <span><a class="waves-effect waves-light btn-large modal-trigger" href="#modal1">배경</a></span>
               <div id="modal1" class="modal">
                 <div class="modal-content">
                   <h4>Modal Header</h4>
