@@ -31,7 +31,7 @@ class MyAcce extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      custom_bg: ['01', '02', '03', '04', '01', '02', '03', '04', '01', '02', '03', '04', '01', '02', '03', '04', '01', '02', '03', '04', '01', '02', '03', '04', '01', '02', '03', '04']
+      custom_bg: ['01', '02', '03', '04', '01', '02', '01', '03', '02', '02', '03', '04', '03', '02', '03', '04', '04', '02', '03', '04', '01', '02', '03', '04', '01', '02', '03', '04']
     }
   }
   render() {
@@ -40,8 +40,8 @@ class MyAcce extends Component {
     const lastPage = lastItem / 12
     const startItem = (pagenum - 1) * 12
     let endItem = pagenum * 12
-    if (pagenum < 1) return <Redirect to="/Market/1"/>
-    if (pagenum > lastPage + 1) return <Redirect to="/Market/1"/>
+    if (pagenum < 1) return <Redirect to="/MyCbg/1"/>
+    if (pagenum > lastPage + 1) return <Redirect to="/MyCbg/1"/>
     if (endItem > lastItem) endItem = lastItem
     const pages = this.state.custom_bg.slice(startItem, endItem)
     return (
@@ -103,7 +103,7 @@ class MyAcce extends Component {
                     </div>
                   </div>)}
               </div>
-              <MaterialPagination linkPath="MyGons" pageNum={pagenum} lastPage={lastPage} />
+              <MaterialPagination linkPath="MyCbg" pageNum={pagenum} lastPage={lastPage} />
             </div>
           </div>
 
