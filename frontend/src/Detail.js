@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import './App.css'
 import Layout from './Layout'
 import MyGonHeader from './MyGonHeader'
+import MaterialPagination from './MaterialPagination'
 
 const finddragon = gql`
 query finddragon($serial: String!){
@@ -44,8 +45,21 @@ class Detail extends Component {
       generation: 'generation',
       cooldown: 'cooldown',
       parents: 'parents,parents',
-      children: 'children,children'
+      children: 'children,children',
+      // custom_bg를 서버에서 받고 다른용이 사용중인 custom_bg는 제외해야함( ex)04는 사용중 )
+      custom_bg: ['01', '02', '03'],
+      choice_cbg: null
     }
+    this.handleChoiceCbg = this.handleChoiceCbg.bind(this)
+    this.handleReleaseCbg = this.handleReleaseCbg.bind(this)
+  }
+  handleChoiceCbg(event) {
+    this.setState({ choice_cbg: event })
+    // 서버에 현재용의 serial, choice_cbg(event) 보내야함
+  }
+  handleReleaseCbg() {
+    this.setState({ choice_cbg: null })
+    // 서버에 현재용의 serial, choice_cbg(null) 보내야함
   }
   render() {
     if (!this.props.data.loading) {
@@ -69,6 +83,18 @@ class Detail extends Component {
       this.state.nose = this.state.comb.substring(24, 26)
       console.log(this.state.name)
     }
+    // cbg pagination
+    const { pagenum } = {pagenum: '1'} 
+    console.log('test', pages)
+    const lastItem = this.state.custom_bg.length
+    const lastPage = lastItem / 12
+    const startItem = (pagenum - 1) * 12
+    let endItem = pagenum * 12
+    if (pagenum < 1) return <Redirect to="/MyCbg/1"/>
+    if (pagenum > lastPage + 1) return <Redirect to="/MyCbg/1"/>
+    if (endItem > lastItem) endItem = lastItem
+    const pages = this.state.custom_bg.slice(startItem, endItem)
+    console.log('choice_cbg: ', this.state.choice_cbg)
     return (
       <Layout>
         <MyGonHeader/>
@@ -81,7 +107,12 @@ class Detail extends Component {
               <div class="s12 m4 l8">
                 <div className="card z-depth-1">
                   <div className="card-image">
-                    <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${this.state.property}.png`}/>
+                    {this.state.choice_cbg === null &&
+                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${this.state.property}.png`}/>
+                    }
+                    {this.state.choice_cbg !== null &&
+                      <img src={`${process.env.PUBLIC_URL}/images/custom_bg/cbg_${this.state.choice_cbg}.png`}/>
+                    }
                     <div class="absolute">
                       <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${this.state.evolution}${this.state.wing}${this.state.wingColor}.png`}/>
                     </div>
@@ -116,12 +147,11 @@ class Detail extends Component {
               <font size="7">{this.state.name}</font>&nbsp;&nbsp;&nbsp;&nbsp;<font size="6">{this.state.serial}</font>
             </div>
             <div class="s12 right">
-              <span><a class="waves-effect waves-light btn-large modal-trigger margin-right-10" href="#modal1">장신구</a></span>
-              <div id="modal1" class="modal">
+              <span><a class="waves-effect waves-light btn-large modal-trigger margin-right-10" href="#modal2">장신구</a></span>
+              <div id="modal2" class="modal">
                 <div class="modal-content">
                   <h4>Modal Header</h4>
-                  <p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p>
-                  <p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p>
+                  장신구
                 </div>
                 <div class="modal-footer">
                   <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
@@ -131,8 +161,27 @@ class Detail extends Component {
               <div id="modal1" class="modal">
                 <div class="modal-content">
                   <h4>Modal Header</h4>
-                  <p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p>
-                  <p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p><p>List</p>
+                  배경
+                  <div className='center'>
+                    <div className="row">
+                      {pages.map(item =>
+                        <div key={item.id}>
+                          <div className="col s12 m6 l3">
+                            <div className="card">
+                              <div className="card-image">
+                                <img src={`${process.env.PUBLIC_URL}/images/custom_bg/cbg_${item}.png`} onClick={ () => this.handleChoiceCbg(item)}/>
+                                {this.state.choice_cbg === item &&
+                                  <div class="absolute">
+                                    <img src={`${process.env.PUBLIC_URL}/images/custom_bg/cbg_choice.png`} onClick={this.handleReleaseCbg}/>
+                                  </div>
+                                }
+                              </div>
+                            </div>
+                          </div>
+                        </div>)}
+                    </div>
+                    <MaterialPagination linkPath="Detail" pageNum={pagenum} lastPage={lastPage} />
+                  </div>
                 </div>
                 <div class="modal-footer">
                   <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>

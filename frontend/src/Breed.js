@@ -360,7 +360,7 @@ class Breed extends Component {
     if (pagenum > lastPage + 1) return <Redirect to="/Market/1"/>
     if (endItem > lastItem) endItem = lastItem
     const pages = this.state.dragonsComb.slice(startItem, endItem)
-    console.log('lastPage:', pages)
+    console.log('pages:', pages)
     return (
       <Layout>
         <MyGonHeader/>
