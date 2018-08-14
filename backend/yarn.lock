@@ -1840,6 +1840,10 @@ gauge@~2.7.3:
     strip-ansi "^3.0.1"
     wide-align "^1.1.0"
 
+generate-serial-number@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/generate-serial-number/-/generate-serial-number-0.0.3.tgz#15857d9f86b37a4051a71cd5ab97d6e58a712be5"
+
 get-stream@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/get-stream/-/get-stream-3.0.0.tgz#8e943d1358dc37555054ecbe2edb05aa174ede14"

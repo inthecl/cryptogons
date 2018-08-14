@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import generator from 'generate-serial-number'
 import { createConfirmEmailLink } from './utils/createConfirmEmailLink'
 import { sendEmail } from './utils/sparkPost'
 
@@ -12,19 +13,41 @@ const resolvers = {
     dragons: async (obj, args, ctx) => ctx.models.Dragon.find(),
     finddragon: async (obj, args, ctx) => ctx.models.Dragon.findOne({serial: args.serial}),
     statistic: async (obj, args, ctx) => ctx.models.Statistic.findOne(),
-    finduser: async (obj, args, ctx) => {
-      const user = await ctx.models.User.findOne({ email: args.email })
-      const Alldragons = await ctx.models.Dragon.find()
-      let dragons = [ Alldragons[0], Alldragons[1], Alldragons[2] ]
-      let one = Object.assign({}, user._doc)
-      one.dragons = dragons
-      return one
-    }
+    finduser: async (obj, args, ctx) => ctx.models.User.findOne({ email: args.email })
   },
   Mutation: {
     resetCount: async (obj, args, ctx) => {
       const one = await new ctx.models.Statistic(args)
       return one.save()
+    },
+    addUserDragon: async (obj, args, ctx) => {
+      let serial = String(generator.generate(20))
+      console.log(serial)
+      let test = Object.assign({
+        name: args.name,
+        combination: args.new_comb,
+        birthday: String(Date.now()),
+        price: 1000,
+        serial:serial
+      })
+      console.log(test)
+      const user = await ctx.models.User.findOne({email:args.email})
+      user.dragons.push(test)
+      console.log(user)
+      return user.save()
+    },
+    removeUserDragon: async (obj, args, ctx) => {
+      const user = await ctx.models.User.findOne({email:args.email})
+      if(args.comb === '0') {
+        user.dragons = []
+      } else {
+        let idx = user.dragons.findIndex((elem) => {
+          return elem.combination == args.comb
+        })
+        delete user.dragons[idx]
+      }
+      console.log(user)
+      return user.save()
     },
     addDragon: async (obj, args, ctx) => {
       console.log(args)
@@ -59,6 +82,16 @@ const resolvers = {
       statistic.save()
       return one.save()
     },
+    editChoicecbg: async (obj, args, ctx) => {
+      const user = await ctx.models.User.findOne({email:args.email})
+      let idx = user.dragons.findIndex((elem) => {
+        return elem.serial == args.serial
+      })
+      if (idx != null) {
+        user.dragons[idx].choice_cbg = args.choice_cbg
+      }
+      return user.save()
+    },
     addBook: async (obj, args, ctx) => {
       const one = await new ctx.models.Book(args)
       one.id = one._id
@@ -74,9 +107,9 @@ const resolvers = {
       user.iconNum = 1
       const newone = await new ctx.models.User(user)
       console.log(newone)
-      const link = createConfirmEmailLink(user.username)
-      console.log(link)
-      sendEmail(user.email, link)
+      //const link = createConfirmEmailLink(user.username)
+      //console.log(link)
+      //sendEmail(user.email, link)
       return newone.save()
     },
     login: async (obj, args, ctx) => {
