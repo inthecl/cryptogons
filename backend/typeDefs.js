@@ -46,9 +46,9 @@ const typeDefs = `
     addBook(title:String,author:String): Book
     registerUser(email:String!,username:String!,password:String!): User
     login(email:String!,password:String!): AuthPayload!
-    addUserDragon(email: String!, comb: String!, choice_comb: String!, new_comb: String!, name: String!): User
+    addUserDragon(email: String!, comb: String, choice_comb: String, new_comb: String!, name: String): User
     removeUserDragon(email: String!, comb: String!): User
-    editChoicecbg(email: String!, serial: String!, choice_cbg: String): User
+    editChoicecbg(email: String!, serial: String!, choice_cbg: String!): User
   }
 `
 export default typeDefs
