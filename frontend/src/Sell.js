@@ -7,15 +7,25 @@ import btnPlus from './image/plus.png'
 import btnMinus from './image/minus.png'
 import MyGonHeader from './MyGonHeader'
 
-const finddragon = gql`
-query finddragon($serial: String!){
-  finddragon(serial:$serial) {
+const finduser = gql`
+query finduser($email: String!){
+  finduser(email:$email) {
+  email
+  username
   name
-  combination
-  birthday
-  price
-  serial
-  } 
+  diamond
+  gold
+  iconNum
+  cbg
+  dragons {
+    name
+    combination
+    birthday
+    price
+    serial
+    choice_cbg
+  }
+ }
 }
 `
 
@@ -44,6 +54,7 @@ class Sell extends Component {
       sell_price: 10,
       sell_period: 1,
       serial: null,
+      choice_cbg: 'null',
       username: 'JaeDragon',
       generation: 'generation',
       cooldown: 'cooldown',
@@ -113,30 +124,35 @@ class Sell extends Component {
   btnSelectGon
   render() {
     if (!this.props.data.loading) {
-      this.state.name = this.props.data.finddragon.name
-      this.state.birthday = this.props.data.finddragon.birthday
-      this.state.price = this.props.data.finddragon.price
-      this.state.serial = this.props.data.finddragon.serial
-      this.state.comb = this.props.data.finddragon.combination
-      this.state.evolution = this.state.comb.substring(0, 2)
-      this.state.property = this.state.comb.substring(2, 4)
-      this.state.wing = this.state.comb.substring(4, 6)
-      this.state.wingColor = this.state.comb.substring(6, 8)
-      this.state.horn = this.state.comb.substring(8, 10)
-      this.state.hornColor = this.state.comb.substring(10, 12)
-      this.state.tail = this.state.comb.substring(12, 14)
-      this.state.body = this.state.comb.substring(14, 16)
-      this.state.bodyColor = this.state.comb.substring(16, 18)
-      this.state.eye = this.state.comb.substring(18, 20)
-      this.state.eyeColor = this.state.comb.substring(20, 22)
-      this.state.mouth = this.state.comb.substring(22, 24)
-      this.state.nose = this.state.comb.substring(24, 26)
-      console.log(this.state.name)
+      console.log('this.props', this.props.data.finduser.dragons)
+      for (let dl = 0; dl < this.props.data.finduser.dragons.length; dl += 1) {
+        if (this.props.data.finduser.dragons[dl].serial === this.props.match.params.serialnumber) {
+          this.state.name = this.props.data.finduser.dragons[dl].name
+          this.state.birthday = this.props.data.finduser.dragons[dl].birthday
+          this.state.price = this.props.data.finduser.dragons[dl].price
+          this.state.serial = this.props.data.finduser.dragons[dl].serial
+          this.state.choice_cbg = this.props.data.finduser.dragons[dl].choice_cbg
+          this.state.comb = this.props.data.finduser.dragons[dl].combination
+          this.state.evolution = this.state.comb.substring(0, 2)
+          this.state.property = this.state.comb.substring(2, 4)
+          this.state.wing = this.state.comb.substring(4, 6)
+          this.state.wingColor = this.state.comb.substring(6, 8)
+          this.state.horn = this.state.comb.substring(8, 10)
+          this.state.hornColor = this.state.comb.substring(10, 12)
+          this.state.tail = this.state.comb.substring(12, 14)
+          this.state.body = this.state.comb.substring(14, 16)
+          this.state.bodyColor = this.state.comb.substring(16, 18)
+          this.state.eye = this.state.comb.substring(18, 20)
+          this.state.eyeColor = this.state.comb.substring(20, 22)
+          this.state.mouth = this.state.comb.substring(22, 24)
+          this.state.nose = this.state.comb.substring(24, 26)
+        }
+      }
     }
     return (
       <Layout>
         <MyGonHeader/>
-        <div className="container">
+        <div className="container margin-top-50">
           <div className="col s12 right">
             <i class="Small material-icons">share</i>
           </div>
@@ -145,7 +161,12 @@ class Sell extends Component {
               <div class="s12 m4 l8">
                 <div className="card z-depth-1">
                   <div className="card-image">
-                    <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${this.state.property}.png`}/>
+                    {this.state.choice_cbg === 'null' &&
+                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${this.state.property}.png`}/>
+                    }
+                    {this.state.choice_cbg !== 'null' &&
+                      <img src={`${process.env.PUBLIC_URL}/images/custom_bg/cbg_${this.state.choice_cbg}.png`}/>
+                    }
                     <div class="absolute">
                       <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${this.state.evolution}${this.state.wing}${this.state.wingColor}.png`}/>
                     </div>
@@ -232,10 +253,10 @@ class Sell extends Component {
 const queryOptions = {
   options: props => ({
     variables: {
-      serial: props.match.params.serialnumber
+      email: localStorage.getItem('email')
     }
   })
 }
 
-export default graphql(finddragon, queryOptions)(Sell)
+export default graphql(finduser, queryOptions)(Sell)
 

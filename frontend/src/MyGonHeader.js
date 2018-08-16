@@ -55,9 +55,9 @@ class MyGonHeader extends Component {
             </div>
 
             <div className='col l12 m12 s12'>
-              <Link to={'/Mygons/1'}><a class="waves-effect waves-light btn-large margin-top-15 margin-right-10"><i class="material-icons left">cloud</i>GONS</a></Link>
-              <Link to={'/MyAcce/1'}><a class="waves-effect waves-light btn-large margin-top-15 margin-right-10"><i class="material-icons left">cloud</i>장신구</a></Link>
-              <Link to={'/MyCbg/1'}><a class="waves-effect waves-light btn-large margin-top-15"><i class="material-icons left">cloud</i>배경</a></Link>
+              <a href={'/Mygons/1'} class="waves-effect waves-light btn-large margin-top-15 margin-right-10"><i class="material-icons left">cloud</i>GONS</a>
+              <a href={'/MyAcce/1'} class="waves-effect waves-light btn-large margin-top-15 margin-right-10"><i class="material-icons left">cloud</i>장신구</a>
+              <a href={'/MyCbg/1'} class="waves-effect waves-light btn-large margin-top-15"><i class="material-icons left">cloud</i>배경</a>
             </div>
 
           </div>

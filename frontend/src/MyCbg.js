@@ -16,12 +16,14 @@ query finduser($email: String!){
   diamond
   gold
   iconNum
+  cbg
   dragons {
     name
     combination
     birthday
     price
     serial
+    choice_cbg
   }
  }
 }
@@ -31,10 +33,14 @@ class MyAcce extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      custom_bg: ['01', '02', '03', '04', '01', '02', '01', '03', '02', '02', '03', '04', '03', '02', '03', '04', '04', '02', '03', '04', '01', '02', '03', '04', '01', '02', '03', '04']
+      custom_bg: []
     }
   }
   render() {
+    if (!this.props.data.loading) {
+      this.state.custom_bg = this.props.data.finduser.cbg
+      console.log('this.state.custom_bg', this.state.custom_bg)
+    }
     const { pagenum } = this.props.match.params
     const lastItem = this.state.custom_bg.length
     const lastPage = lastItem / 12

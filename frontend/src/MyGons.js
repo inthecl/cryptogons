@@ -16,12 +16,14 @@ query finduser($email: String!){
   diamond
   gold
   iconNum
+  cbg
   dragons {
     name
     combination
     birthday
     price
     serial
+    choice_cbg
   }
  }
 }
@@ -41,6 +43,7 @@ class MyGons extends Component {
         this.state.dragonsComb[dl] = {
           name: this.props.data.finduser.dragons[dl].name,
           serial: this.props.data.finduser.dragons[dl].serial,
+          choice_cbg: this.props.data.finduser.dragons[dl].choice_cbg,
           evolution: this.props.data.finduser.dragons[dl].combination.substring(0, 2),
           property: this.props.data.finduser.dragons[dl].combination.substring(2, 4),
           wing: this.props.data.finduser.dragons[dl].combination.substring(4, 6),
@@ -122,7 +125,12 @@ class MyGons extends Component {
                     <div className="col s12 m6 l3">
                       <div className="card">
                         <div className="card-image">
-                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${item.property}.png`}/>
+                          {item.choice_cbg === 'null' &&
+                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${item.property}.png`}/>
+                          }
+                          {item.choice_cbg !== 'null' &&
+                            <img src={`${process.env.PUBLIC_URL}/images/custom_bg/cbg_${item.choice_cbg}.png`}/>
+                          }
                           <div class="absolute">
                             <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${item.evolution}${item.wing}${item.wingColor}.png`}/>
                           </div>
@@ -145,8 +153,15 @@ class MyGons extends Component {
                             <img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${item.evolution}${item.nose}.png`}/>
                           </div>
                         </div>
-                        <div className="card-content">
-                          <p>I am a very simple card.</p>
+                        <div className='itemz'>
+                          <div className='l12'>
+                            <img src={`${process.env.PUBLIC_URL}/images/brief_Info/level_1.png`}/>
+                            <img src={`${process.env.PUBLIC_URL}/images/brief_Info/level_2.png`}/>
+                            <img src={`${process.env.PUBLIC_URL}/images/brief_Info/level_3.png`}/>
+                            <img src={`${process.env.PUBLIC_URL}/images/brief_Info/mutation.png`}/>
+                            <img src={`${process.env.PUBLIC_URL}/images/brief_Info/new_icon.png`}/>
+                            <img src={`${process.env.PUBLIC_URL}/images/brief_Info/trophy.png`}/>
+                          </div>
                         </div>
                         <div className="card-action">
                           <Link to={`/Detail/${item.serial}`}>{item.serial}</Link>

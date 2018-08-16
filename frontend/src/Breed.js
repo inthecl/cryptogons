@@ -18,12 +18,14 @@ query finduser($email: String!){
   diamond
   gold
   iconNum
+  cbg
   dragons {
     name
     combination
     birthday
     price
     serial
+    choice_cbg
   }
  }
 }
@@ -168,7 +170,7 @@ class Breed extends Component {
       }
     }
   }
-  btnBreed() {
+  btnBreed(event) {
     // randomBreedArr 0~2 father, 3~5 mather
     let x
     let y
@@ -294,10 +296,10 @@ class Breed extends Component {
     this.state.new_comb = this.state.new_evolution + this.state.new_property + this.state.new_wing + this.state.new_wingColor + this.state.new_horn + this.state.new_hornColor +
     this.state.new_tail + this.state.new_body + this.state.new_bodyColor + this.state.new_eye + this.state.new_eyeColor + this.state.new_mouth + this.state.new_nose
 
-    console.log('comb', this.state.comb)
-    console.log('choice_comb', this.state.choice_comb)
+    console.log('email', localStorage.getItem('email'))
     console.log('new_comb', this.state.new_comb)
-    this.setState({ redirect: true })
+
+    // 새로운 용 서버로 보내기
   }
   render() {
     if (this.state.redirect) {
@@ -364,7 +366,7 @@ class Breed extends Component {
     return (
       <Layout>
         <MyGonHeader/>
-        <div className="container">
+        <div className="container margin-top-50">
           <div className="col s12 right">
             <i class="Small material-icons">share</i>
           </div>
