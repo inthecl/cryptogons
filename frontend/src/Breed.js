@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom'
-import { graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import './App.css'
 import Layout from './Layout'
@@ -30,11 +30,33 @@ query finduser($email: String!){
  }
 }
 `
+const addUserDragon = gql`
+mutation addUserDragon($email: String!, $new_comb: String!) {
+  addUserDragon(email:$email, new_comb:$new_comb) {
+    email
+    username
+    name
+    diamond
+    gold
+    iconNum
+    cbg
+    dragons {
+      name
+      combination
+      birthday
+      price
+      serial
+      choice_cbg
+    }
+  }
+}
+`
 
 class Breed extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      redirect: false,
       dragonsComb: [],
       comb: null,
       evolution: null,
@@ -57,6 +79,7 @@ class Breed extends Component {
       siring_price: 10,
       siring_period: 1,
       serial: null,
+      choice_cbg: 'null',
       username: 'JaeDragon',
       generation: 'generation',
       cooldown: 'cooldown',
@@ -300,6 +323,14 @@ class Breed extends Component {
     console.log('new_comb', this.state.new_comb)
 
     // 새로운 용 서버로 보내기
+    this.props.mutate({ variables: { email: localStorage.getItem('email'), new_comb: this.state.new_comb } })
+      .then((res) => {
+        console.log(res)
+        this.setState({ redirect: true })
+      })
+      .catch((errors) => {
+        console.log('errors: ', errors)
+      })
   }
   render() {
     if (this.state.redirect) {
@@ -313,6 +344,7 @@ class Breed extends Component {
           this.state.birthday = this.props.data.finduser.dragons[dl].birthday
           this.state.price = this.props.data.finduser.dragons[dl].price
           this.state.serial = this.props.data.finduser.dragons[dl].serial
+          this.state.choice_cbg = this.props.data.finduser.dragons[dl].choice_cbg
           this.state.comb = this.props.data.finduser.dragons[dl].combination
           this.state.evolution = this.state.comb.substring(0, 2)
           this.state.property = this.state.comb.substring(2, 4)
@@ -375,7 +407,12 @@ class Breed extends Component {
               <div class="s12 m4 l8">
                 <div className="card z-depth-1">
                   <div className="card-image">
-                    <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${this.state.property}.png`}/>
+                    {this.state.choice_cbg === 'null' &&
+                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${this.state.property}.png`}/>
+                    }
+                    {this.state.choice_cbg !== 'null' &&
+                      <img src={`${process.env.PUBLIC_URL}/images/custom_bg/cbg_${this.state.choice_cbg}.png`}/>
+                    }
                     <div class="absolute">
                       <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${this.state.evolution}${this.state.wing}${this.state.wingColor}.png`}/>
                     </div>
@@ -590,7 +627,7 @@ class Breed extends Component {
               <br/>
 
               <div class="center-align">
-                <a class="waves-effect waves-light btn-large col s12" onClick={this.btnBreed}>OK, give them some privacy</a>
+                <a class="waves-effect waves-light btn-large col s12" onClick={this.btnBreed}>OK, Breed!</a>
               </div>
               <br/><br/><br/><br/>
               <div class="card-panel">
@@ -613,4 +650,8 @@ const queryOptions = {
   })
 }
 
-export default graphql(finduser, queryOptions)(Breed)
+export default compose(
+  graphql(finduser, queryOptions),
+  graphql(addUserDragon),
+)(Breed)
+
