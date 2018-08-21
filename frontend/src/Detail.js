@@ -81,12 +81,16 @@ class Detail extends Component {
       except_cbg: [], // 제외할 cbg
       choice_cbg: 'null', // 선택한 cbg
       change_cbg: 'doNotClick',
+      sword: ['01', '02', '03'],
+      shield: ['01', '02', '03'],
+      choice_sword: 'null',
       pagenum: null,
       lastPage: null,
       pages: []
     }
     this.handleChoiceCbg = this.handleChoiceCbg.bind(this)
     this.handleReleaseCbg = this.handleReleaseCbg.bind(this)
+    this.handleChoiceSword = this.handleChoiceSword.bind(this)
   }
   handleChoiceCbg(event) {
     this.setState({ change_cbg: event })
@@ -109,6 +113,10 @@ class Detail extends Component {
       .catch((errors) => {
         console.log('errors: ', errors)
       })
+  }
+  handleChoiceSword(event) {
+    this.setState({ change_sword: event })
+    console.log('handleChoiceSword: ', this.state.choice_sword)
   }
   render() {
     let x = 0
@@ -163,6 +171,101 @@ class Detail extends Component {
     return (
       <Layout>
         <MyGonHeader/>
+        <div id="modal_sword" class="modal">
+          <div class="modal-content">
+            <h4>Modal Header</h4>
+            <div class="col s12">
+              <div className='center'>
+                <div className="row">
+                  {this.state.sword.map(item =>
+                    <div key={item.id}>
+                      <div className="col s12 m6 l3">
+                        <div className="card">
+                          <div className="card-image">
+                            <img src={`${process.env.PUBLIC_URL}/images/item/sword/sword_${item}.png`} onClick={ () => this.handleChoiceSword(item)}/>
+                          </div>
+                          <div className="card-content">
+                            <p>I am a very simple card.</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>)}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+          </div>
+        </div>
+        <div id="modal_shield" class="modal">
+          <div class="modal-content">
+            <h4>Modal Header</h4>
+            <div class="col s12">
+              <div className='center'>
+                <div className="row">
+                  {this.state.shield.map(item =>
+                    <div key={item.id}>
+                      <div className="col s12 m6 l3">
+                        <div className="card">
+                          <div className="card-image">
+                            <img src={`${process.env.PUBLIC_URL}/images/item/shield/shield_${item}.png`}/>
+                          </div>
+                          <div className="card-content">
+                            <p>I am a very simple card.</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>)}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+          </div>
+        </div>
+        <div id="modal_cbg" class="modal">
+          <div class="modal-content">
+            <h4>Modal Header</h4>
+            <div className='center'>
+              <div className="row">
+                {this.state.pages.map(item =>
+                  <div key={item.id}>
+                    <div className="col s12 m6 l3">
+                      <div className="card">
+                        <div className="card-image">
+                          <img src={`${process.env.PUBLIC_URL}/images/custom_bg/cbg_${item}.png`} onClick={ () => this.handleChoiceCbg(item)}/>
+                          {this.state.choice_cbg === item && this.state.change_cbg === 'doNotClick' &&
+                            <div class="absolute">
+                              <img src={`${process.env.PUBLIC_URL}/images/custom_bg/cbg_choice.png`} onClick={this.handleReleaseCbg}/>
+                            </div>
+                          }
+                          {this.state.change_cbg === item &&
+                            <div class="absolute">
+                              <img src={`${process.env.PUBLIC_URL}/images/custom_bg/cbg_choice.png`} onClick={this.handleReleaseCbg}/>
+                            </div>
+                          }
+                          {this.state.change_cbg === 'null' &&
+                            <div class="absolute">
+                              <img src={`${process.env.PUBLIC_URL}/images/custom_bg/cbg_${item}.png`} onClick={ () => this.handleChoiceCbg(item)}/>
+                            </div>
+                          }
+                        </div>
+                        <div className="card-content">
+                          <p>I am a very simple card.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>)}
+              </div>
+              <MaterialPagination linkPath="Detail" pageNum={this.state.pagenum} lastPage={this.state.lastPage} />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+          </div>
+        </div>
         {this.props.data.loading ? (
           <p>Loding...</p>
         ) : (
@@ -217,72 +320,59 @@ class Detail extends Component {
             </div>
 
             <div class="detail-Explanation" >
-              <div className="row">
-                <div class="s12 left">
+              <div class="row">
+                <div className="left">
                   <font size="7">{this.state.name}</font>&nbsp;&nbsp;&nbsp;&nbsp;<font size="6">{this.state.serial}</font>
                 </div>
-                <div class="s12 right">
-                  <span><a class="waves-effect waves-light btn-large modal-trigger margin-right-10" href="#modal2">장신구</a></span>
-                  <div id="modal2" class="modal">
-                    <div class="modal-content">
-                      <h4>Modal Header</h4>
-                      장신구
-                    </div>
-                    <div class="modal-footer">
-                      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+                <div className="right margin-top-15">
+                  <span><a href={`/Breed/${this.state.serial}`} class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Breed</a></span>
+                  <span><a href={`/Sell/${this.state.serial}`} class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Sell</a></span>
+                  <span><a href={`/Gift/${this.state.serial}`} class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>Gift</a></span>
+                </div>
+              </div>
+
+              - win 70%&nbsp;&nbsp;&nbsp;- gen {this.state.generation}&nbsp;&nbsp;&nbsp;- cooldown {this.state.cooldown}
+                  &nbsp;&nbsp;&nbsp;- price {this.state.price}&nbsp;&nbsp;&nbsp;- birthday {this.state.birthday}
+              <br/><br/><br/>
+
+              <div class="section">
+                <div class="row">
+                  <div class="col s12 m4">
+                    <div class="icon-block center">
+                      <h5 class="center margin-bottom-20">Sword</h5>
+                      <a class="modal-trigger" href="#modal_sword"><img src={`${process.env.PUBLIC_URL}/images/btn_select_gon.png`} width="80%" height="80%"/></a>
                     </div>
                   </div>
-                  <span><a class="waves-effect waves-light btn-large modal-trigger" href="#modal1">배경</a></span>
-                  <div id="modal1" class="modal">
-                    <div class="modal-content">
-                      <h4>Modal Header</h4>
-                      배경
-                      <div className='center'>
-                        <div className="row">
-                          {this.state.pages.map(item =>
-                            <div key={item.id}>
-                              <div className="col s12 m6 l3">
-                                <div className="card">
-                                  <div className="card-image">
-                                    <img src={`${process.env.PUBLIC_URL}/images/custom_bg/cbg_${item}.png`} onClick={ () => this.handleChoiceCbg(item)}/>
-                                    {this.state.choice_cbg === item && this.state.change_cbg === 'doNotClick' &&
-                                      <div class="absolute">
-                                        <img src={`${process.env.PUBLIC_URL}/images/custom_bg/cbg_choice.png`} onClick={this.handleReleaseCbg}/>
-                                      </div>
-                                    }
-                                    {this.state.change_cbg === item &&
-                                      <div class="absolute">
-                                        <img src={`${process.env.PUBLIC_URL}/images/custom_bg/cbg_choice.png`} onClick={this.handleReleaseCbg}/>
-                                      </div>
-                                    }
-                                    {this.state.change_cbg === 'null' &&
-                                      <div class="absolute">
-                                        <img src={`${process.env.PUBLIC_URL}/images/custom_bg/cbg_${item}.png`} onClick={ () => this.handleChoiceCbg(item)}/>
-                                      </div>
-                                    }
-                                  </div>
-                                </div>
-                              </div>
-                            </div>)}
-                        </div>
-                        <MaterialPagination linkPath="Detail" pageNum={this.state.pagenum} lastPage={this.state.lastPage} />
-                      </div>
+
+                  <div class="col s12 m4">
+                    <div class="icon-block center">
+                      <h5 class="center margin-bottom-20">Shield</h5>
+                      <a class="modal-trigger" href="#modal_shield"><img src={`${process.env.PUBLIC_URL}/images/btn_select_gon.png`} width="80%" height="80%"/></a>
                     </div>
-                    <div class="modal-footer">
-                      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+                  </div>
+
+                  <div class="col s12 m4">
+                    <div class="icon-block center">
+                      <h5 class="center margin-bottom-20">배경</h5>
+                      {this.state.choice_cbg === 'null' && this.state.change_cbg === 'doNotClick' &&
+                        <a class="modal-trigger" href="#modal_cbg"><img src={`${process.env.PUBLIC_URL}/images/btn_select_gon.png`} width="80%" height="80%"/></a>
+                      }
+                      {this.state.choice_cbg !== 'null' && this.state.change_cbg === 'doNotClick' &&
+                        <a class="modal-trigger" href="#modal_cbg"><img src={`${process.env.PUBLIC_URL}/images/custom_bg/cbg_${this.state.choice_cbg}.png`} width="80%" height="80%"/></a>
+                      }
+                      {this.state.change_cbg !== 'doNotClick' && this.state.change_cbg !== 'null' &&
+                        <a class="modal-trigger" href="#modal_cbg"><img src={`${process.env.PUBLIC_URL}/images/custom_bg/cbg_${this.state.change_cbg}.png`} width="80%" height="80%"/></a>
+                      }
+                      {this.state.change_cbg === 'null' &&
+                        <a class="modal-trigger" href="#modal_cbg"><img src={`${process.env.PUBLIC_URL}/images/btn_select_gon.png`} width="80%" height="80%"/></a>
+                      }
                     </div>
                   </div>
                 </div>
               </div>
-              - win 70%&nbsp;&nbsp;&nbsp;- gen {this.state.generation}&nbsp;&nbsp;&nbsp;- cooldown {this.state.cooldown}
-                  &nbsp;&nbsp;&nbsp;- price {this.state.price}&nbsp;&nbsp;&nbsp;- birthday {this.state.birthday}
-              <br/><br/><br/>
-              <span><a href={`/Breed/${this.state.serial}`} class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Breed</a></span>
-              <span><a href={`/Sell/${this.state.serial}`} class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Sell</a></span>
-              <span><a href={`/Gift/${this.state.serial}`} class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>Gift</a></span>
-              <br/><br/><br/>
+
               <h5>lineament</h5>
-              {this.state.combination}
+              {this.state.comb}
               <br/><br/><br/>
               <h5>parents</h5>
               {this.state.parents}

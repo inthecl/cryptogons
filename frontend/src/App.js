@@ -6,7 +6,7 @@ import Login from './Login'
 import Register from './Register'
 import Forget from './Forget'
 import MyGons from './MyGons'
-import MyAcce from './MyAcce'
+import MyItem from './MyItem'
 import MyCbg from './MyCbg'
 import Market from './Market'
 import MarketSale from './MarketSale'
@@ -34,7 +34,7 @@ class App extends Component {
             <Route path="/Register" component={Register}/>
             <Route path="/Forget" component={Forget}/>
             <Route exacy path="/MyGons/:pagenum" component={MyGons}/>
-            <Route exacy path="/MyAcce/:pagenum" component={MyAcce}/>
+            <Route exacy path="/MyItem/:pagenum" component={MyItem}/>
             <Route exacy path="/MyCbg/:pagenum" component={MyCbg}/>
             <Route exacy path="/Market/:pagenum" component={Market}/>
             <Route path="/MarketSale/:serialnumber" component={MarketSale}/>

@@ -113,8 +113,7 @@ class Breed extends Component {
       new_eye: null,
       new_eyeColor: null,
       new_mouth: null,
-      new_nose: null,
-      redirect: false
+      new_nose: null
     }
     this.btnPricePlus = this.btnPricePlus.bind(this)
     this.btnPriceMinus = this.btnPriceMinus.bind(this)
@@ -194,143 +193,145 @@ class Breed extends Component {
     }
   }
   btnBreed(event) {
-    // randomBreedArr 0~2 father, 3~5 mather
-    let x
-    let y
-    const randomBreedArr = []
-    for (x = 0; x <= 5; x += 1) {
-      randomBreedArr[x] = Math.floor(Math.random() * 11)
-      for (y = 0; y < x; y += 1) {
-        if (randomBreedArr[x] === randomBreedArr[y]) x -= 1
+    if (this.state.choiceGon) {
+      // randomBreedArr 0~2 father, 3~5 mather
+      let x
+      let y
+      const randomBreedArr = []
+      for (x = 0; x <= 5; x += 1) {
+        randomBreedArr[x] = Math.floor(Math.random() * 11)
+        for (y = 0; y < x; y += 1) {
+          if (randomBreedArr[x] === randomBreedArr[y]) x -= 1
+        }
       }
-    }
-    console.log('randomBreedArr: ', randomBreedArr)
-    const pad = (n, width) => {
-      n = n + ''
-      return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n
-    }
-    console.log('randomBreedArr[0]: ', randomBreedArr[0])
-    console.log('randomBreedArr[1]: ', randomBreedArr[1])
-    console.log('randomBreedArr[2]: ', randomBreedArr[2])
-    console.log('randomBreedArr[3]: ', randomBreedArr[3])
-    console.log('randomBreedArr[4]: ', randomBreedArr[4])
-    console.log('randomBreedArr[5]: ', randomBreedArr[5])
-    // wing
-    if (randomBreedArr[0] === 0 || randomBreedArr[1] === 0 || randomBreedArr[2] === 0) {
-      this.state.new_wing = this.state.wing
-    } else if (randomBreedArr[3] === 0 || randomBreedArr[4] === 0 || randomBreedArr[5] === 0) {
-      this.state.new_wing = this.state.choice_wing
-    } else {
-      this.state.new_wing = pad(Math.floor(Math.random() * 3) + 1, 2)
-    }
-    console.log('this.state.new_wing:', this.state.new_wing)
-    // wingColor
-    if (randomBreedArr[0] === 1 || randomBreedArr[1] === 1 || randomBreedArr[2] === 1) {
-      this.state.new_wingColor = this.state.wingColor
-    } else if (randomBreedArr[3] === 1 || randomBreedArr[4] === 1 || randomBreedArr[5] === 1) {
-      this.state.new_wingColor = this.state.choice_wingColor
-    } else {
-      this.state.new_wingColor = pad(Math.floor(Math.random() * 3) + 1, 2)
-    }
-    console.log('this.state.new_wingColor:', this.state.new_wingColor)
-    // horn
-    if (randomBreedArr[0] === 2 || randomBreedArr[1] === 2 || randomBreedArr[2] === 2) {
-      this.state.new_horn = this.state.horn
-    } else if (randomBreedArr[3] === 2 || randomBreedArr[4] === 2 || randomBreedArr[5] === 2) {
-      this.state.new_horn = this.state.choice_horn
-    } else {
-      this.state.new_horn = pad(Math.floor(Math.random() * 3) + 1, 2)
-    }
-    console.log('this.state.new_horn:', this.state.new_horn)
-    // hornColor
-    if (randomBreedArr[0] === 3 || randomBreedArr[1] === 3 || randomBreedArr[2] === 3) {
-      this.state.new_hornColor = this.state.hornColor
-    } else if (randomBreedArr[3] === 3 || randomBreedArr[4] === 3 || randomBreedArr[5] === 3) {
-      this.state.new_hornColor = this.state.choice_hornColor
-    } else {
-      this.state.new_hornColor = pad(Math.floor(Math.random() * 3) + 1, 2)
-    }
-    console.log('this.state.new_hornColor:', this.state.new_hornColor)
-    // tail
-    if (randomBreedArr[0] === 4 || randomBreedArr[1] === 4 || randomBreedArr[2] === 4) {
-      this.state.new_tail = this.state.tail
-    } else if (randomBreedArr[3] === 4 || randomBreedArr[4] === 4 || randomBreedArr[5] === 4) {
-      this.state.new_tail = this.state.choice_tail
-    } else {
-      this.state.new_tail = pad(Math.floor(Math.random() * 3) + 1, 2)
-    }
-    console.log('this.state.new_tail:', this.state.new_tail)
-    // body
-    if (randomBreedArr[0] === 5 || randomBreedArr[1] === 5 || randomBreedArr[2] === 5) {
-      this.state.new_body = this.state.body
-    } else if (randomBreedArr[3] === 5 || randomBreedArr[4] === 5 || randomBreedArr[5] === 5) {
-      this.state.new_body = this.state.choice_body
-    } else {
-      this.state.new_body = pad(Math.floor(Math.random() * 3) + 1, 2)
-    }
-    console.log('this.state.new_body:', this.state.new_body)
-    // bodyColor
-    if (randomBreedArr[0] === 6 || randomBreedArr[1] === 6 || randomBreedArr[2] === 6) {
-      this.state.new_bodyColor = this.state.bodyColor
-    } else if (randomBreedArr[3] === 6 || randomBreedArr[4] === 6 || randomBreedArr[5] === 6) {
-      this.state.new_bodyColor = this.state.choice_bodyColor
-    } else {
-      this.state.new_bodyColor = pad(Math.floor(Math.random() * 3) + 1, 2)
-    }
-    console.log('this.state.new_bodyColor:', this.state.new_bodyColor)
-    // eye
-    if (randomBreedArr[0] === 7 || randomBreedArr[1] === 7 || randomBreedArr[2] === 7) {
-      this.state.new_eye = this.state.eye
-    } else if (randomBreedArr[3] === 7 || randomBreedArr[4] === 7 || randomBreedArr[5] === 7) {
-      this.state.new_eye = this.state.choice_eye
-    } else {
-      this.state.new_eye = pad(Math.floor(Math.random() * 3) + 1, 2)
-    }
-    console.log('this.state.new_eye:', this.state.new_eye)
-    // eyeColor
-    if (randomBreedArr[0] === 8 || randomBreedArr[1] === 8 || randomBreedArr[2] === 8) {
-      this.state.new_eyeColor = this.state.eyeColor
-    } else if (randomBreedArr[3] === 8 || randomBreedArr[4] === 8 || randomBreedArr[5] === 8) {
-      this.state.new_eyeColor = this.state.choice_eyeColor
-    } else {
-      this.state.new_eyeColor = pad(Math.floor(Math.random() * 3) + 1, 2)
-    }
-    console.log('this.state.new_eyeColor:', this.state.new_eyeColor)
-    // mouth
-    if (randomBreedArr[0] === 9 || randomBreedArr[1] === 9 || randomBreedArr[2] === 9) {
-      this.state.new_mouth = this.state.mouth
-    } else if (randomBreedArr[3] === 9 || randomBreedArr[4] === 9 || randomBreedArr[5] === 9) {
-      this.state.new_mouth = this.state.choice_mouth
-    } else {
-      this.state.new_mouth = pad(Math.floor(Math.random() * 3) + 1, 2)
-    }
-    console.log('this.state.new_mouth:', this.state.new_mouth)
-    // nose
-    if (randomBreedArr[0] === 10 || randomBreedArr[1] === 10 || randomBreedArr[2] === 10) {
-      this.state.new_nose = this.state.nose
-    } else if (randomBreedArr[3] === 10 || randomBreedArr[4] === 10 || randomBreedArr[5] === 10) {
-      this.state.new_nose = this.state.choice_nose
-    } else {
-      this.state.new_nose = pad(Math.floor(Math.random() * 3) + 1, 2)
-    }
-    console.log('this.state.new_nose:', this.state.new_nose)
+      console.log('randomBreedArr: ', randomBreedArr)
+      const pad = (n, width) => {
+        n = n + ''
+        return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n
+      }
+      console.log('randomBreedArr[0]: ', randomBreedArr[0])
+      console.log('randomBreedArr[1]: ', randomBreedArr[1])
+      console.log('randomBreedArr[2]: ', randomBreedArr[2])
+      console.log('randomBreedArr[3]: ', randomBreedArr[3])
+      console.log('randomBreedArr[4]: ', randomBreedArr[4])
+      console.log('randomBreedArr[5]: ', randomBreedArr[5])
+      // wing
+      if (randomBreedArr[0] === 0 || randomBreedArr[1] === 0 || randomBreedArr[2] === 0) {
+        this.state.new_wing = this.state.wing
+      } else if (randomBreedArr[3] === 0 || randomBreedArr[4] === 0 || randomBreedArr[5] === 0) {
+        this.state.new_wing = this.state.choice_wing
+      } else {
+        this.state.new_wing = pad(Math.floor(Math.random() * 3) + 1, 2)
+      }
+      console.log('this.state.new_wing:', this.state.new_wing)
+      // wingColor
+      if (randomBreedArr[0] === 1 || randomBreedArr[1] === 1 || randomBreedArr[2] === 1) {
+        this.state.new_wingColor = this.state.wingColor
+      } else if (randomBreedArr[3] === 1 || randomBreedArr[4] === 1 || randomBreedArr[5] === 1) {
+        this.state.new_wingColor = this.state.choice_wingColor
+      } else {
+        this.state.new_wingColor = pad(Math.floor(Math.random() * 3) + 1, 2)
+      }
+      console.log('this.state.new_wingColor:', this.state.new_wingColor)
+      // horn
+      if (randomBreedArr[0] === 2 || randomBreedArr[1] === 2 || randomBreedArr[2] === 2) {
+        this.state.new_horn = this.state.horn
+      } else if (randomBreedArr[3] === 2 || randomBreedArr[4] === 2 || randomBreedArr[5] === 2) {
+        this.state.new_horn = this.state.choice_horn
+      } else {
+        this.state.new_horn = pad(Math.floor(Math.random() * 3) + 1, 2)
+      }
+      console.log('this.state.new_horn:', this.state.new_horn)
+      // hornColor
+      if (randomBreedArr[0] === 3 || randomBreedArr[1] === 3 || randomBreedArr[2] === 3) {
+        this.state.new_hornColor = this.state.hornColor
+      } else if (randomBreedArr[3] === 3 || randomBreedArr[4] === 3 || randomBreedArr[5] === 3) {
+        this.state.new_hornColor = this.state.choice_hornColor
+      } else {
+        this.state.new_hornColor = pad(Math.floor(Math.random() * 3) + 1, 2)
+      }
+      console.log('this.state.new_hornColor:', this.state.new_hornColor)
+      // tail
+      if (randomBreedArr[0] === 4 || randomBreedArr[1] === 4 || randomBreedArr[2] === 4) {
+        this.state.new_tail = this.state.tail
+      } else if (randomBreedArr[3] === 4 || randomBreedArr[4] === 4 || randomBreedArr[5] === 4) {
+        this.state.new_tail = this.state.choice_tail
+      } else {
+        this.state.new_tail = pad(Math.floor(Math.random() * 3) + 1, 2)
+      }
+      console.log('this.state.new_tail:', this.state.new_tail)
+      // body
+      if (randomBreedArr[0] === 5 || randomBreedArr[1] === 5 || randomBreedArr[2] === 5) {
+        this.state.new_body = this.state.body
+      } else if (randomBreedArr[3] === 5 || randomBreedArr[4] === 5 || randomBreedArr[5] === 5) {
+        this.state.new_body = this.state.choice_body
+      } else {
+        this.state.new_body = pad(Math.floor(Math.random() * 3) + 1, 2)
+      }
+      console.log('this.state.new_body:', this.state.new_body)
+      // bodyColor
+      if (randomBreedArr[0] === 6 || randomBreedArr[1] === 6 || randomBreedArr[2] === 6) {
+        this.state.new_bodyColor = this.state.bodyColor
+      } else if (randomBreedArr[3] === 6 || randomBreedArr[4] === 6 || randomBreedArr[5] === 6) {
+        this.state.new_bodyColor = this.state.choice_bodyColor
+      } else {
+        this.state.new_bodyColor = pad(Math.floor(Math.random() * 3) + 1, 2)
+      }
+      console.log('this.state.new_bodyColor:', this.state.new_bodyColor)
+      // eye
+      if (randomBreedArr[0] === 7 || randomBreedArr[1] === 7 || randomBreedArr[2] === 7) {
+        this.state.new_eye = this.state.eye
+      } else if (randomBreedArr[3] === 7 || randomBreedArr[4] === 7 || randomBreedArr[5] === 7) {
+        this.state.new_eye = this.state.choice_eye
+      } else {
+        this.state.new_eye = pad(Math.floor(Math.random() * 3) + 1, 2)
+      }
+      console.log('this.state.new_eye:', this.state.new_eye)
+      // eyeColor
+      if (randomBreedArr[0] === 8 || randomBreedArr[1] === 8 || randomBreedArr[2] === 8) {
+        this.state.new_eyeColor = this.state.eyeColor
+      } else if (randomBreedArr[3] === 8 || randomBreedArr[4] === 8 || randomBreedArr[5] === 8) {
+        this.state.new_eyeColor = this.state.choice_eyeColor
+      } else {
+        this.state.new_eyeColor = pad(Math.floor(Math.random() * 3) + 1, 2)
+      }
+      console.log('this.state.new_eyeColor:', this.state.new_eyeColor)
+      // mouth
+      if (randomBreedArr[0] === 9 || randomBreedArr[1] === 9 || randomBreedArr[2] === 9) {
+        this.state.new_mouth = this.state.mouth
+      } else if (randomBreedArr[3] === 9 || randomBreedArr[4] === 9 || randomBreedArr[5] === 9) {
+        this.state.new_mouth = this.state.choice_mouth
+      } else {
+        this.state.new_mouth = pad(Math.floor(Math.random() * 3) + 1, 2)
+      }
+      console.log('this.state.new_mouth:', this.state.new_mouth)
+      // nose
+      if (randomBreedArr[0] === 10 || randomBreedArr[1] === 10 || randomBreedArr[2] === 10) {
+        this.state.new_nose = this.state.nose
+      } else if (randomBreedArr[3] === 10 || randomBreedArr[4] === 10 || randomBreedArr[5] === 10) {
+        this.state.new_nose = this.state.choice_nose
+      } else {
+        this.state.new_nose = pad(Math.floor(Math.random() * 3) + 1, 2)
+      }
+      console.log('this.state.new_nose:', this.state.new_nose)
 
-    this.state.new_property = pad(Math.floor(Math.random() * 5) + 1, 2)
-    this.state.new_comb = this.state.new_evolution + this.state.new_property + this.state.new_wing + this.state.new_wingColor + this.state.new_horn + this.state.new_hornColor +
-    this.state.new_tail + this.state.new_body + this.state.new_bodyColor + this.state.new_eye + this.state.new_eyeColor + this.state.new_mouth + this.state.new_nose
+      this.state.new_property = pad(Math.floor(Math.random() * 5) + 1, 2)
+      this.state.new_comb = this.state.new_evolution + this.state.new_property + this.state.new_wing + this.state.new_wingColor + this.state.new_horn + this.state.new_hornColor +
+      this.state.new_tail + this.state.new_body + this.state.new_bodyColor + this.state.new_eye + this.state.new_eyeColor + this.state.new_mouth + this.state.new_nose
 
-    console.log('email', localStorage.getItem('email'))
-    console.log('new_comb', this.state.new_comb)
+      console.log('email', localStorage.getItem('email'))
+      console.log('new_comb', this.state.new_comb)
 
-    // 새로운 용 서버로 보내기
-    this.props.mutate({ variables: { email: localStorage.getItem('email'), new_comb: this.state.new_comb } })
-      .then((res) => {
-        console.log(res)
-        this.setState({ redirect: true })
-      })
-      .catch((errors) => {
-        console.log('errors: ', errors)
-      })
+      // 새로운 용 서버로 보내기
+      this.props.mutate({ variables: { email: localStorage.getItem('email'), new_comb: this.state.new_comb } })
+        .then((res) => {
+          console.log(res)
+          this.setState({ redirect: true })
+        })
+        .catch((errors) => {
+          console.log('errors: ', errors)
+        })
+    }
   }
   render() {
     if (this.state.redirect) {

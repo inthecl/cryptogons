@@ -164,7 +164,7 @@ class MyGons extends Component {
                           </div>
                         </div>
                         <div className="card-action">
-                          <Link to={`/Detail/${item.serial}`}>{item.serial}</Link>
+                          <a href={`/Detail/${item.serial}`}>{item.serial}</a>
                         </div>
                       </div>
                     </div>
