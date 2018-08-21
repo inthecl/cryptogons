@@ -5,7 +5,9 @@ const DragonSchema = new mongoose.Schema({
   birthday: Number,
   price: Number,
   serial: String,
-  choice_cbg: String
+  choice_cbg: String,
+  choice_sword: String,
+  choice_shield: String
 })
 const Dragon = mongoose.model('dragon', DragonSchema)
 const Book = mongoose.model('book', { id: String, title: String, author: String })
@@ -21,6 +23,8 @@ const User = mongoose.model('user', {
   gold: Number,
   iconNum: Number,
   cbg: [String],
+  sword: [String],
+  shield: [String],
   dragons: [DragonSchema]
 })
 

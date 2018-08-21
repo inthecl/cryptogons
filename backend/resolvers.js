@@ -28,7 +28,10 @@ const resolvers = {
         combination: args.new_comb,
         birthday: String(Date.now()),
         price: 1000,
-        serial:serial
+        serial:serial,
+        choice_cbg: 'null',
+        choice_sword: 'null',
+        choice_shield: 'null'
       })
       console.log(test)
       const user = await ctx.models.User.findOne({email:args.email})
@@ -89,6 +92,26 @@ const resolvers = {
       })
       if (idx != null) {
         user.dragons[idx].choice_cbg = args.choice_cbg
+      }
+      return user.save()
+    },
+    editChoicesword: async (obj, args, ctx) => {
+      const user = await ctx.models.User.findOne({email:args.email})
+      let idx = user.dragons.findIndex((elem) => {
+        return elem.serial == args.serial
+      })
+      if (idx != null) {
+        user.dragons[idx].choice_sword = args.choice_sword
+      }
+      return user.save()
+    },
+    editChoiceshield: async (obj, args, ctx) => {
+      const user = await ctx.models.User.findOne({email:args.email})
+      let idx = user.dragons.findIndex((elem) => {
+        return elem.serial == args.serial
+      })
+      if (idx != null) {
+        user.dragons[idx].choice_shield = args.choice_shield
       }
       return user.save()
     },

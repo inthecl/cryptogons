@@ -11,6 +11,8 @@ const typeDefs = `
     price: Int
     serial: String
     choice_cbg: String
+    choice_sword: String
+    choice_shield: String
   }
   type User {
     email: String
@@ -20,6 +22,8 @@ const typeDefs = `
     gold: Int
     iconNum: Int
     cbg: [String]
+    sword: [String]
+    shield: [String]
     dragons: [Dragon]
   }
   type Statistic {
@@ -49,6 +53,8 @@ const typeDefs = `
     addUserDragon(email: String!, comb: String, choice_comb: String, new_comb: String!, name: String): User
     removeUserDragon(email: String!, comb: String!): User
     editChoicecbg(email: String!, serial: String!, choice_cbg: String!): User
+    editChoicesword(email: String!, serial: String!, choice_sword: String!): User
+    editChoiceshield(email: String!, serial: String!, choice_shield: String!): User
   }
 `
 export default typeDefs
