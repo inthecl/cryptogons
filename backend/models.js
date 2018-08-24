@@ -27,9 +27,13 @@ const User = mongoose.model('user', {
   shield: [String],
   dragons: [DragonSchema]
 })
-
+const Item = mongoose.model('item', {
+  sword: [String],
+  shield: [String],
+  cbg: [String]
+})
 const Statistic = mongoose.model('statistic', { usercount: Number, dragoncount: Number })
 
 export default {
-  Book, User, Dragon, Statistic
+  Book, User, Dragon, Statistic, Item
 }

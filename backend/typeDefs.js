@@ -34,6 +34,11 @@ const typeDefs = `
     token: String!
     refreshToken: String!
   }
+  type Item {
+    sword: [String]
+    shield: [String]
+    cbg: [String]
+  }
   type Query{
     books: [Book]
     findbook(id:String!): Book
@@ -43,12 +48,14 @@ const typeDefs = `
     finddragon(serial:String!): Dragon
     statistic: Statistic
     finduser(email:String!): User
+    items: [Item]
   }
   type Mutation{
     resetCount(usercount: Int, dragoncount: Int): Statistic
     addDragon(name:String, combination:String, birthday:String, price:Int, serial:String): Dragon
     addBook(title:String,author:String): Book
     registerUser(email:String!,username:String!,password:String!): User
+    registerItem(email:String!): Item
     login(email:String!,password:String!): AuthPayload!
     addUserDragon(email: String!, comb: String, choice_comb: String, new_comb: String!, name: String): User
     removeUserDragon(email: String!, comb: String!): User

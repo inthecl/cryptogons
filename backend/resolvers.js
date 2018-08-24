@@ -13,7 +13,8 @@ const resolvers = {
     dragons: async (obj, args, ctx) => ctx.models.Dragon.find(),
     finddragon: async (obj, args, ctx) => ctx.models.Dragon.findOne({serial: args.serial}),
     statistic: async (obj, args, ctx) => ctx.models.Statistic.findOne(),
-    finduser: async (obj, args, ctx) => ctx.models.User.findOne({ email: args.email })
+    finduser: async (obj, args, ctx) => ctx.models.User.findOne({ email: args.email }),
+    items: async (obj, args, ctx) => ctx.models.Item.find()
   },
   Mutation: {
     resetCount: async (obj, args, ctx) => {
@@ -129,6 +130,18 @@ const resolvers = {
       user.gold = 1000
       user.iconNum = 1
       const newone = await new ctx.models.User(user)
+      console.log(newone)
+      //const link = createConfirmEmailLink(user.username)
+      //console.log(link)
+      //sendEmail(user.email, link)
+      return newone.save()
+    },
+    registerItem: async (obj, args, ctx) => {
+      const item = args
+      item.sword = ['01', '02', '03']
+      item.shield = ['01', '02', '03']
+      item.cbg = ['01', '02', '03', '04']
+      const newone = await new ctx.models.Item(item)
       console.log(newone)
       //const link = createConfirmEmailLink(user.username)
       //console.log(link)
