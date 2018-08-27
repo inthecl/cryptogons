@@ -13,7 +13,7 @@ mutation{
       combination
       birthday
       price
-      serial
+      serialw
       choice_cbg
     }
   }
@@ -63,3 +63,28 @@ mutation{
 }
 
 user.dragons 에서 serial 이 매칭되는 dragons에 대해 choice_cbg를 업데이트 하는 mutation
+
+mutation{
+  addItemSword(number:"??", gold: ?, diamond: ?, trophy: ?) {
+    sword {
+      number
+      gold
+      diamond
+      trophy
+    }
+    shield {
+      number
+      gold
+      diamond
+      trophy
+    }
+    cbg {
+      number
+      gold
+      diamond
+      trophy
+    }
+  }
+}
+
+아이템샵 Sword 추가 mutation, Shield,Cbg는 addItemSword에서 Sword만 변경

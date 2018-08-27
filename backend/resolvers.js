@@ -11,9 +11,10 @@ const resolvers = {
     users: async (obj, args, ctx) => ctx.models.User.find(),
     checkemail: async (obj, args, ctx) => ctx.models.User.findOne({ email: args.email }),
     dragons: async (obj, args, ctx) => ctx.models.Dragon.find(),
-    finddragon: async (obj, args, ctx) => ctx.models.Dragon.findOne({serial: args.serial}),
+    finddragon: async (obj, args, ctx) => ctx.models.Dragon.findOne({ serial: args.serial }),
     statistic: async (obj, args, ctx) => ctx.models.Statistic.findOne(),
     finduser: async (obj, args, ctx) => ctx.models.User.findOne({ email: args.email }),
+    finditem: async (obj, args, ctx) => ctx.models.Item.findOne(),
     items: async (obj, args, ctx) => ctx.models.Item.find()
   },
   Mutation: {
@@ -138,15 +139,51 @@ const resolvers = {
     },
     registerItem: async (obj, args, ctx) => {
       const item = args
-      item.sword = ['01', '02', '03']
-      item.shield = ['01', '02', '03']
-      item.cbg = ['01', '02', '03', '04']
+      item.sword = []
+      item.shield = []
+      item.cbg = []
       const newone = await new ctx.models.Item(item)
       console.log(newone)
       //const link = createConfirmEmailLink(user.username)
       //console.log(link)
       //sendEmail(user.email, link)
       return newone.save()
+    },
+    addItemSword: async (obj, args, ctx) => {
+      const itemArgs = args
+      const test = Object.assign({
+        number: itemArgs.number,
+        gold: itemArgs.gold,
+        diamond: itemArgs.diamond,
+        trophy: itemArgs.trophy
+      })
+      const item = await ctx.models.Item.findOne()
+      item.sword.push(test)
+      return item.save()
+    },
+    addItemShield: async (obj, args, ctx) => {
+      const itemArgs = args
+      const test = Object.assign({
+        number: itemArgs.number,
+        gold: itemArgs.gold,
+        diamond: itemArgs.diamond,
+        trophy: itemArgs.trophy
+      })
+      const item = await ctx.models.Item.findOne()
+      item.shield.push(test)
+      return item.save()
+    },
+    addItemCbg: async (obj, args, ctx) => {
+      const itemArgs = args
+      const test = Object.assign({
+        number: itemArgs.number,
+        gold: itemArgs.gold,
+        diamond: itemArgs.diamond,
+        trophy: itemArgs.trophy
+      })
+      const item = await ctx.models.Item.findOne()
+      item.cbg.push(test)
+      return item.save()
     },
     login: async (obj, args, ctx) => {
       console.log(args)

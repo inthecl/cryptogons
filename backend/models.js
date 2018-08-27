@@ -27,13 +27,34 @@ const User = mongoose.model('user', {
   shield: [String],
   dragons: [DragonSchema]
 })
+const SwordSchema = new mongoose.Schema({
+  number: String,
+  gold: Number,
+  diamond: Number,
+  trophy: Number
+})
+const ShieldSchema = new mongoose.Schema({
+  number: String,
+  gold: Number,
+  diamond: Number,
+  trophy: Number
+})
+const CbgSchema = new mongoose.Schema({
+  number: String,
+  gold: Number,
+  diamond: Number,
+  trophy: Number
+})
+const Sword = mongoose.model('sword', SwordSchema)
+const Shield = mongoose.model('shield', ShieldSchema)
+const Cbg = mongoose.model('cbg', CbgSchema)
 const Item = mongoose.model('item', {
-  sword: [String],
-  shield: [String],
-  cbg: [String]
+  sword: [SwordSchema],
+  shield: [ShieldSchema],
+  cbg: [CbgSchema]
 })
 const Statistic = mongoose.model('statistic', { usercount: Number, dragoncount: Number })
 
 export default {
-  Book, User, Dragon, Statistic, Item
+  Book, User, Dragon, Statistic, Item, Sword, Shield, Cbg
 }

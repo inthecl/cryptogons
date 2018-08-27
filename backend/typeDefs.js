@@ -34,10 +34,28 @@ const typeDefs = `
     token: String!
     refreshToken: String!
   }
+  type Sword {
+    number: String
+    gold: Int
+    diamond: Int
+    trophy: Int
+  }
+  type Shield {
+    number: String
+    gold: Int
+    diamond: Int
+    trophy: Int
+  }
+  type Cbg {
+    number: String
+    gold: Int
+    diamond: Int
+    trophy: Int
+  }
   type Item {
-    sword: [String]
-    shield: [String]
-    cbg: [String]
+    sword: [Sword]
+    shield: [Shield]
+    cbg: [Cbg]
   }
   type Query{
     books: [Book]
@@ -45,9 +63,11 @@ const typeDefs = `
     users: [User]
     checkemail(email:String!): User
     dragons: [Dragon]
+    sword: [Sword]
     finddragon(serial:String!): Dragon
     statistic: Statistic
     finduser(email:String!): User
+    finditem(email:String!): Item
     items: [Item]
   }
   type Mutation{
@@ -55,9 +75,12 @@ const typeDefs = `
     addDragon(name:String, combination:String, birthday:String, price:Int, serial:String): Dragon
     addBook(title:String,author:String): Book
     registerUser(email:String!,username:String!,password:String!): User
-    registerItem(email:String!): Item
-    login(email:String!,password:String!): AuthPayload!
     addUserDragon(email: String!, comb: String, choice_comb: String, new_comb: String!, name: String): User
+    registerItem(email:String!): Item
+    addItemSword(number: String!, gold: Int!, diamond: Int!, trophy: Int!): Item
+    addItemShield(number: String!, gold: Int!, diamond: Int!, trophy: Int!): Item
+    addItemCbg(number: String!, gold: Int!, diamond: Int!, trophy: Int!): Item
+    login(email:String!,password:String!): AuthPayload!
     removeUserDragon(email: String!, comb: String!): User
     editChoicecbg(email: String!, serial: String!, choice_cbg: String!): User
     editChoicesword(email: String!, serial: String!, choice_sword: String!): User
