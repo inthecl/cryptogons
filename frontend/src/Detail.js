@@ -292,17 +292,23 @@ class Detail extends Component {
         this.state.pages.splice(this.state.pages.indexOf(this.state.except_cbg[a]), 1)
       }
 
-      this.state.possible_sword = this.state.all_sword.slice(startItem, endItem) // 이것을 해야 splice가 작동하는 이유????????
-      for (let b = 0; b < this.state.except_sword.length; b += 1) {
-        this.state.possible_sword.splice(this.state.possible_sword.indexOf(this.state.except_sword[b]), 1)
+      // all sword - expect sword = possible sword
+      Array.prototype.subtract = function (array) {
+        var hash = Object.create(null);
+        array.forEach(function (a) {
+            hash[a] = (hash[a] || 0) + 1;
+        });
+        return this.filter(function (a) {
+           return !hash[a] || (hash[a]--, false);
+        });
       }
-      this.state.possible_shield = this.state.all_shield.slice(startItem, endItem)
-      for (let b = 0; b < this.state.except_shield.length; b += 1) {
-        this.state.possible_shield.splice(this.state.possible_shield.indexOf(this.state.except_shield[b]), 1)
-      }
-      console.log('this.state.pages: ', this.state.pages)
-      console.log('this.state.possible_sword: ', this.state.possible_sword)
-      console.log('this.state.possible_shield: ', this.state.possible_shield)
+      var a = this.state.all_sword,
+          b = this.state.except_sword;
+      this.state.possible_sword = (a.subtract(b))
+      // all shield - expect shield = possible shield
+      var c = this.state.all_shield,
+          d = this.state.except_shield;
+      this.state.possible_shield = (c.subtract(d))
     }
     return (
       <Layout>
@@ -322,12 +328,12 @@ class Detail extends Component {
                             <img src={`${process.env.PUBLIC_URL}/images/item/sword/sword_${item}.png`} onClick={ () => this.handleChoiceSword(item)}/>
                             {this.state.choice_sword === item && this.state.change_sword === 'doNotClick' &&
                               <div class="absolute">
-                                <img src={`${process.env.PUBLIC_URL}/images/custom_bg/cbg_choice.png`} onClick={this.handleReleaseSword}/>
+                                <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_choice.png`} onClick={this.handleReleaseSword}/>
                               </div>
                             }
                             {this.state.change_sword === item &&
                               <div class="absolute">
-                                <img src={`${process.env.PUBLIC_URL}/images/custom_bg/cbg_choice.png`} onClick={this.handleReleaseSword}/>
+                                <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_choice.png`} onClick={this.handleReleaseSword}/>
                               </div>
                             }
                             {this.state.change_sword === 'null' &&
@@ -366,12 +372,12 @@ class Detail extends Component {
                             <img src={`${process.env.PUBLIC_URL}/images/item/shield/shield_${item}.png`} onClick={ () => this.handleChoiceShield(item)}/>
                             {this.state.choice_shield === item && this.state.change_shield === 'doNotClick' &&
                               <div class="absolute">
-                                <img src={`${process.env.PUBLIC_URL}/images/custom_bg/cbg_choice.png`} onClick={this.handleReleaseShield}/>
+                                <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_choice.png`} onClick={this.handleReleaseShield}/>
                               </div>
                             }
                             {this.state.change_shield === item &&
                               <div class="absolute">
-                                <img src={`${process.env.PUBLIC_URL}/images/custom_bg/cbg_choice.png`} onClick={this.handleReleaseShield}/>
+                                <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_choice.png`} onClick={this.handleReleaseShield}/>
                               </div>
                             }
                             {this.state.change_shield === 'null' &&
@@ -405,20 +411,20 @@ class Detail extends Component {
                     <div className="col s12 m6 l3">
                       <div className="card">
                         <div className="card-image">
-                          <img src={`${process.env.PUBLIC_URL}/images/custom_bg/cbg_${item}.png`} onClick={ () => this.handleChoiceCbg(item)}/>
+                          <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${item}.png`} onClick={ () => this.handleChoiceCbg(item)}/>
                           {this.state.choice_cbg === item && this.state.change_cbg === 'doNotClick' &&
                             <div class="absolute">
-                              <img src={`${process.env.PUBLIC_URL}/images/custom_bg/cbg_choice.png`} onClick={this.handleReleaseCbg}/>
+                              <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_choice.png`} onClick={this.handleReleaseCbg}/>
                             </div>
                           }
                           {this.state.change_cbg === item &&
                             <div class="absolute">
-                              <img src={`${process.env.PUBLIC_URL}/images/custom_bg/cbg_choice.png`} onClick={this.handleReleaseCbg}/>
+                              <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_choice.png`} onClick={this.handleReleaseCbg}/>
                             </div>
                           }
                           {this.state.change_cbg === 'null' &&
                             <div class="absolute">
-                              <img src={`${process.env.PUBLIC_URL}/images/custom_bg/cbg_${item}.png`} onClick={ () => this.handleChoiceCbg(item)}/>
+                              <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${item}.png`} onClick={ () => this.handleChoiceCbg(item)}/>
                             </div>
                           }
                         </div>
@@ -453,10 +459,10 @@ class Detail extends Component {
                           <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${this.state.property}.png`}/>
                         }
                         {this.state.choice_cbg !== 'null' && this.state.change_cbg === 'doNotClick' &&
-                          <img src={`${process.env.PUBLIC_URL}/images/custom_bg/cbg_${this.state.choice_cbg}.png`}/>
+                          <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${this.state.choice_cbg}.png`}/>
                         }
                         {this.state.change_cbg !== 'doNotClick' && this.state.change_cbg !== 'null' &&
-                          <img src={`${process.env.PUBLIC_URL}/images/custom_bg/cbg_${this.state.change_cbg}.png`}/>
+                          <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${this.state.change_cbg}.png`}/>
                         }
                         {this.state.change_cbg === 'null' &&
                           <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${this.state.property}.png`}/>
@@ -550,10 +556,10 @@ class Detail extends Component {
                         <a class="modal-trigger" href="#modal_cbg"><img src={`${process.env.PUBLIC_URL}/images/btn_select_gon.png`} width="80%" height="80%"/></a>
                       }
                       {this.state.choice_cbg !== 'null' && this.state.change_cbg === 'doNotClick' &&
-                        <a class="modal-trigger" href="#modal_cbg"><img src={`${process.env.PUBLIC_URL}/images/custom_bg/cbg_${this.state.choice_cbg}.png`} width="80%" height="80%"/></a>
+                        <a class="modal-trigger" href="#modal_cbg"><img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${this.state.choice_cbg}.png`} width="80%" height="80%"/></a>
                       }
                       {this.state.change_cbg !== 'doNotClick' && this.state.change_cbg !== 'null' &&
-                        <a class="modal-trigger" href="#modal_cbg"><img src={`${process.env.PUBLIC_URL}/images/custom_bg/cbg_${this.state.change_cbg}.png`} width="80%" height="80%"/></a>
+                        <a class="modal-trigger" href="#modal_cbg"><img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${this.state.change_cbg}.png`} width="80%" height="80%"/></a>
                       }
                       {this.state.change_cbg === 'null' &&
                         <a class="modal-trigger" href="#modal_cbg"><img src={`${process.env.PUBLIC_URL}/images/btn_select_gon.png`} width="80%" height="80%"/></a>

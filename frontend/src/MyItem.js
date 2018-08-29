@@ -16,12 +16,18 @@ query finduser($email: String!){
   diamond
   gold
   iconNum
+  cbg
+  sword
+  shield
   dragons {
     name
     combination
     birthday
     price
     serial
+    choice_cbg
+    choice_sword
+    choice_shield
   }
  }
 }
@@ -31,11 +37,16 @@ class MyItem extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      sword: ['01', '02', '03'],
-      shield: ['01', '02', '03']
+      sword: [],
+      shield: []
     }
   }
   render() {
+    if (!this.props.data.loading) {
+      this.state.sword = this.props.data.finduser.sword
+      this.state.shield = this.props.data.finduser.shield
+      console.log('this.props', this.props)
+    }
     return (
       <Layout>
         <MyGonHeader/>

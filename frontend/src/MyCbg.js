@@ -17,6 +17,8 @@ query finduser($email: String!){
   gold
   iconNum
   cbg
+  sword
+  shield
   dragons {
     name
     combination
@@ -24,6 +26,8 @@ query finduser($email: String!){
     price
     serial
     choice_cbg
+    choice_sword
+    choice_shield
   }
  }
 }
@@ -53,45 +57,8 @@ class MyAcce extends Component {
     return (
       <Layout>
         <MyGonHeader/>
-        <div class="row container">
-
-          <div class="col s6">
-            <br/>
-            <form action="#">
-              <span className="margin-right-10">
-                <label>
-                  <input name="group1" type="radio" checked/>
-                  <span>all</span>
-                </label>
-              </span>
-              <span className="margin-right-10">
-                <label>
-                  <input name="group1" type="radio"/>
-                  <span>for sale</span>
-                </label>
-              </span>
-              <span>
-                <label>
-                  <input name="group1" type="radio"/>
-                  <span>siring</span>
-                </label>
-              </span>
-            </form>
-          </div>
-          <div class="col s6">
-            <br/>
-            <div class="input-field col l6 s12 right">
-              <select>
-                <option value="" disabled selected>Choose your option</option>
-                <option value="1">Option 1</option>
-                <option value="2">Option 2</option>
-                <option value="3">Option 3</option>
-              </select>
-              <label>Materialize Select</label>
-              <br/>
-            </div>
-          </div>
-
+        <div class="row container margin-top-50">
+          <h4>배경</h4>
           <div class="col s12">
             <div className='center'>
               <div className="row">
@@ -100,7 +67,7 @@ class MyAcce extends Component {
                     <div className="col s12 m6 l3">
                       <div className="card">
                         <div className="card-image">
-                          <img src={`${process.env.PUBLIC_URL}/images/custom_bg/cbg_${item}.png`}/>
+                          <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${item}.png`}/>
                         </div>
                         <div className="card-content">
                           <p>I am a very simple card.</p>

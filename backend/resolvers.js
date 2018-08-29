@@ -127,8 +127,9 @@ const resolvers = {
       const user = args
       user.password = await bcrypt.hash(user.password, 12)
       user.confirmed = false
-      user.diamond = 300
+      user.diamond = 3000
       user.gold = 1000
+      user.trophy = 10
       user.iconNum = 1
       const newone = await new ctx.models.User(user)
       console.log(newone)
@@ -184,6 +185,28 @@ const resolvers = {
       const item = await ctx.models.Item.findOne()
       item.cbg.push(test)
       return item.save()
+    },
+    itemPurchase: async (obj, args, ctx) => {
+      const user = await ctx.models.User.findOne({ email: args.email })
+      if (args.diamond != null) {
+        user.diamond -= args.diamond
+      }
+      if (args.gold != null) {
+        user.gold -= args.gold
+      }
+      if (args.trophy != null) {
+        user.trophy -= args.trophy
+      }
+      if (args.sword != null) {
+        user.sword.push(args.sword)
+      }
+      if (args.shield != null) {
+        user.shield.push(args.shield)
+      }
+      if (args.cbg != null) {
+        user.cbg.push(args.cbg)
+      }
+      return user.save()
     },
     login: async (obj, args, ctx) => {
       console.log(args)

@@ -52,15 +52,27 @@ export default class MarketSiringDetail extends Component {
               <div class="s12 m4 l8">
                 <div className="card z-depth-1">
                   <div className="card-image">
-                    <img src={`${process.env.PUBLIC_URL}/images/Transparency.png`}/>
+                    <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${this.state.property}.png`}/>
                     <div class="absolute">
-                      <img src={`${process.env.PUBLIC_URL}/images/color_${color}.png`}/>
+                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${this.state.evolution}${this.state.wing}${this.state.wingColor}.png`}/>
                     </div>
                     <div class="absolute">
-                      <img src={`${process.env.PUBLIC_URL}/images/dragon_line${line}.png`}/>
+                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/3_horn/horn_${this.state.evolution}${this.state.horn}${this.state.hornColor}.png`}/>
                     </div>
                     <div class="absolute">
-                      <img src={`${process.env.PUBLIC_URL}/images/eye_${eye}.png`}/>
+                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/4_tail/tail_${this.state.evolution}${this.state.tail}${this.state.bodyColor}.png`}/>
+                    </div>
+                    <div class="absolute">
+                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/5_body/body_${this.state.evolution}${this.state.body}${this.state.bodyColor}.png`}/>
+                    </div>
+                    <div class="absolute">
+                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/6_eye/eye_${this.state.evolution}${this.state.eye}${this.state.eyeColor}.png`}/>
+                    </div>
+                    <div class="absolute">
+                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/7_mouth/mouth_${this.state.evolution}${this.state.mouth}.png`}/>
+                    </div>
+                    <div class="absolute">
+                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${this.state.evolution}${this.state.nose}.png`}/>
                     </div>
                   </div>
                 </div>

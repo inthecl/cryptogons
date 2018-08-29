@@ -129,7 +129,7 @@ class MyGons extends Component {
                             <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${item.property}.png`}/>
                           }
                           {item.choice_cbg !== 'null' &&
-                            <img src={`${process.env.PUBLIC_URL}/images/custom_bg/cbg_${item.choice_cbg}.png`}/>
+                            <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${item.choice_cbg}.png`}/>
                           }
                           <div class="absolute">
                             <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${item.evolution}${item.wing}${item.wingColor}.png`}/>

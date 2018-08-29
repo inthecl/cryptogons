@@ -21,6 +21,7 @@ const User = mongoose.model('user', {
   confirmed: Boolean,
   diamond: Number,
   gold: Number,
+  trophy: Number,
   iconNum: Number,
   cbg: [String],
   sword: [String],

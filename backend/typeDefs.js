@@ -20,6 +20,7 @@ const typeDefs = `
     name: String
     diamond: Int
     gold: Int
+    trophy: Int
     iconNum: Int
     cbg: [String]
     sword: [String]
@@ -85,6 +86,7 @@ const typeDefs = `
     editChoicecbg(email: String!, serial: String!, choice_cbg: String!): User
     editChoicesword(email: String!, serial: String!, choice_sword: String!): User
     editChoiceshield(email: String!, serial: String!, choice_shield: String!): User
+    itemPurchase(email: String!, sword: String, shield: String, cbg: String, diamond: Int, gold: Int, trophy: Int): User
   }
 `
 export default typeDefs
