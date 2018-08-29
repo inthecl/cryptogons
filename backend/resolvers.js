@@ -153,6 +153,8 @@ const resolvers = {
     addItemSword: async (obj, args, ctx) => {
       const itemArgs = args
       const test = Object.assign({
+        name: itemArgs.name,
+        description: itemArgs.description,
         number: itemArgs.number,
         gold: itemArgs.gold,
         diamond: itemArgs.diamond,
@@ -165,6 +167,8 @@ const resolvers = {
     addItemShield: async (obj, args, ctx) => {
       const itemArgs = args
       const test = Object.assign({
+        name: itemArgs.name,
+        description: itemArgs.description,
         number: itemArgs.number,
         gold: itemArgs.gold,
         diamond: itemArgs.diamond,
@@ -177,6 +181,8 @@ const resolvers = {
     addItemCbg: async (obj, args, ctx) => {
       const itemArgs = args
       const test = Object.assign({
+        name: itemArgs.name,
+        description: itemArgs.description,
         number: itemArgs.number,
         gold: itemArgs.gold,
         diamond: itemArgs.diamond,

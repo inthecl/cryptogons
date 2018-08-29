@@ -36,18 +36,24 @@ const finditem = gql`
 query finditem($email: String!){
   finditem(email:$email) {
   sword {
+    name
+    description
     number
     gold
     diamond
     trophy
   }
   shield {
+    name
+    description
     number
     gold
     diamond
     trophy
   }
   cbg {
+    name
+    description
     number
     gold
     diamond
@@ -92,16 +98,15 @@ class Itemshop extends Component {
       user_sword: [],
       user_shield: [],
       user_cbg: [],
-      dia: null,
-      point: null,
-      trophy: null,
       all_sword: [],
       all_shield: [],
       all_cbg: [],
       modal_item: null,
       modal_dia: null,
       modal_gold: null,
-      modal_trophy: null
+      modal_trophy: null,
+      modal_name: null,
+      modal_desc: null
     }
     this.handlePurchase = this.handlePurchase.bind(this) // 구매버튼
     this.handleModal = this.handleModal.bind(this) // 아이템선택
@@ -140,12 +145,14 @@ class Itemshop extends Component {
         })
     }
   }
-  handleModal(choiceItem, choiceDiamond, choiceGold, choiceTrophy) {
+  handleModal(choiceItem, choiceDiamond, choiceGold, choiceTrophy, choiceName, choiceDesc) {
     this.setState({
       modal_item: choiceItem,
       modal_dia: choiceDiamond,
       modal_gold: choiceGold,
-      modal_trophy: choiceTrophy
+      modal_trophy: choiceTrophy,
+      modal_name: choiceName,
+      modal_desc: choiceDesc
     })
   }
   render() {
@@ -179,6 +186,8 @@ class Itemshop extends Component {
             <h4>Modal Header</h4>
             <p>{this.state.modal_item}</p>
             <img class="responsive-img" src={`${process.env.PUBLIC_URL}/images/item/${this.state.modal_item}.png`} width='200px' height='200px'/>
+            <h3>{this.state.modal_name}</h3>
+            <h3>{this.state.modal_desc}</h3>
             {this.state.modal_dia !== 0 &&
               <span>
                 <img src={`${process.env.PUBLIC_URL}/images/brief_info/dia.png`}/>
@@ -229,7 +238,7 @@ class Itemshop extends Component {
                         <div className="card">
                           <div className="card-image">
                             <a class="modal-trigger" href="#buyitem_modal">
-                              <img src={`${process.env.PUBLIC_URL}/images/item/sword/sword_${item.number}.png`} onClick={ () => this.handleModal(`sword/sword_${item.number}`, item.diamond, item.gold, item.trophy)}/>
+                              <img src={`${process.env.PUBLIC_URL}/images/item/sword/sword_${item.number}.png`} onClick={ () => this.handleModal(`sword/sword_${item.number}`, item.diamond, item.gold, item.trophy, item.name, item.description)}/>
                             </a>
                             {this.state.user_sword.map(buyed =>
                               <div key={buyed.id}>
@@ -241,6 +250,8 @@ class Itemshop extends Component {
                               </div>)}
                           </div>
                           <div className="card-content">
+                            <h6>{item.name}</h6>
+                            <h6>{item.description}</h6>
                             {item.diamond !== 0 &&
                               <span>
                                 <img src={`${process.env.PUBLIC_URL}/images/brief_info/dia.png`}/>
@@ -277,7 +288,7 @@ class Itemshop extends Component {
                         <div className="card">
                           <div className="card-image">
                             <a class="modal-trigger" href="#buyitem_modal">
-                              <img src={`${process.env.PUBLIC_URL}/images/item/shield/shield_${item.number}.png`} onClick={ () => this.handleModal(`shield/shield_${item.number}`, item.diamond, item.gold, item.trophy)}/>
+                              <img src={`${process.env.PUBLIC_URL}/images/item/shield/shield_${item.number}.png`} onClick={ () => this.handleModal(`shield/shield_${item.number}`, item.diamond, item.gold, item.trophy, item.name, item.description)}/>
                             </a>
                             {this.state.user_shield.map(buyed =>
                               <div key={buyed.id}>
@@ -289,6 +300,8 @@ class Itemshop extends Component {
                               </div>)}
                           </div>
                           <div className="card-content">
+                            <h6>{item.name}</h6>
+                            <h6>{item.description}</h6>
                             {item.diamond !== 0 &&
                               <span>
                                 <img src={`${process.env.PUBLIC_URL}/images/brief_info/dia.png`}/>
@@ -325,7 +338,7 @@ class Itemshop extends Component {
                         <div className="card">
                           <div className="card-image">
                             <a class="modal-trigger" href="#buyitem_modal">
-                              <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${item.number}.png`} onClick={ () => this.handleModal(`custom_bg/cbg_${item.number}`, item.diamond, item.gold, item.trophy)}/>
+                              <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${item.number}.png`} onClick={ () => this.handleModal(`custom_bg/cbg_${item.number}`, item.diamond, item.gold, item.trophy, item.name, item.description)}/>
                             </a>
                             {this.state.user_cbg.map(buyed =>
                               <div key={buyed.id}>
@@ -337,6 +350,8 @@ class Itemshop extends Component {
                               </div>)}
                           </div>
                           <div className="card-content">
+                            <h6>{item.name}</h6>
+                            <h6>{item.description}</h6>
                             {item.diamond !== 0 &&
                               <span>
                                 <img src={`${process.env.PUBLIC_URL}/images/brief_info/dia.png`}/>

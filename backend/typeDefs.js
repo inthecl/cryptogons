@@ -36,18 +36,24 @@ const typeDefs = `
     refreshToken: String!
   }
   type Sword {
+    name: String
+    description: String
     number: String
     gold: Int
     diamond: Int
     trophy: Int
   }
   type Shield {
+    name: String
+    description: String
     number: String
     gold: Int
     diamond: Int
     trophy: Int
   }
   type Cbg {
+    name: String
+    description: String
     number: String
     gold: Int
     diamond: Int
@@ -78,9 +84,9 @@ const typeDefs = `
     registerUser(email:String!,username:String!,password:String!): User
     addUserDragon(email: String!, comb: String, choice_comb: String, new_comb: String!, name: String): User
     registerItem(email:String!): Item
-    addItemSword(number: String!, gold: Int!, diamond: Int!, trophy: Int!): Item
-    addItemShield(number: String!, gold: Int!, diamond: Int!, trophy: Int!): Item
-    addItemCbg(number: String!, gold: Int!, diamond: Int!, trophy: Int!): Item
+    addItemSword(name: String!, description: String!, number: String!, gold: Int!, diamond: Int!, trophy: Int!): Item
+    addItemShield(name: String!, description: String!, number: String!, gold: Int!, diamond: Int!, trophy: Int!): Item
+    addItemCbg(name: String!, description: String!, number: String!, gold: Int!, diamond: Int!, trophy: Int!): Item
     login(email:String!,password:String!): AuthPayload!
     removeUserDragon(email: String!, comb: String!): User
     editChoicecbg(email: String!, serial: String!, choice_cbg: String!): User

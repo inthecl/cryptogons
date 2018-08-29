@@ -65,20 +65,26 @@ mutation{
 user.dragons 에서 serial 이 매칭되는 dragons에 대해 choice_cbg를 업데이트 하는 mutation
 
 mutation{
-  addItemSword(number:"??", gold: ?, diamond: ?, trophy: ?) {
+  addItemSword(name:"??", description:"??", number:"??", gold: ?, diamond: ?, trophy: ?) {
     sword {
+      name
+      description
       number
       gold
       diamond
       trophy
     }
     shield {
+      name
+      description
       number
       gold
       diamond
       trophy
     }
     cbg {
+      name
+      description
       number
       gold
       diamond

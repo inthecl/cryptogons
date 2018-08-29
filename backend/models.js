@@ -29,18 +29,24 @@ const User = mongoose.model('user', {
   dragons: [DragonSchema]
 })
 const SwordSchema = new mongoose.Schema({
+  name: String,
+  description: String,
   number: String,
   gold: Number,
   diamond: Number,
   trophy: Number
 })
 const ShieldSchema = new mongoose.Schema({
+  name: String,
+  description: String,
   number: String,
   gold: Number,
   diamond: Number,
   trophy: Number
 })
 const CbgSchema = new mongoose.Schema({
+  name: String,
+  description: String,
   number: String,
   gold: Number,
   diamond: Number,
