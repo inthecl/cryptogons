@@ -153,9 +153,19 @@ class Itemshop extends Component {
     this.handlePurchase = this.handlePurchase.bind(this) // 구매버튼
     this.handleModal = this.handleModal.bind(this) // 아이템선택
   }
-  handlePurchase() {
+  handlePurchase(e) {
     const modalItem = this.state.modal_item.split('/') // 구매할 아이템 종류 modalItem[0]
-    const modalNumber = modalItem[1].split('_') // 구매할 아이템 번호 modalNumber[1]
+    const modalNumber = modalItem[1].split('_') // 구매할 아이템 번호 modalNumber[1]+
+    if (e === 'diaPayment') {
+      this.state.modal_gold = 0
+      this.state.modal_trophy = 0
+    } else if (e === 'goldPayment') {
+      this.state.modal_dia = 0
+      this.state.modal_trophy = 0
+    } else if (e === 'trophyPayment') {
+      this.state.modal_dia = 0
+      this.state.modal_gold = 0
+    }
     this.props.itemPurchase({ variables: { email: localStorage.getItem('email'), number: modalNumber[1], item: modalItem[0], name: this.state.modal_name, description: this.state.modal_desc, diamond: this.state.modal_dia, gold: this.state.modal_gold, trophy: this.state.modal_trophy } })
       .then((res) => {
         this.setState({ redirect: true })
@@ -203,7 +213,6 @@ class Itemshop extends Component {
         this.state.all_cbg[cb] = this.props.finditem.finditem.cbg[cb]
       }
     }
-    console.log('user_sword', this.state.user_sword)
     return (
       <Layout>
         <div id="buyitem_modal" class="modal">
@@ -216,22 +225,42 @@ class Itemshop extends Component {
             {this.state.modal_dia !== 0 &&
               <span>
                 <img src={`${process.env.PUBLIC_URL}/images/brief_info/dia.png`}/>
-                <font size="5">{this.state.modal_dia}</font>
+                <font size="5">{this.state.modal_dia}</font><br/>
+                { this.state.modal_dia <= this.state.user_dia &&
+                  <a class="waves-effect waves-light btn-large" onClick={ () => this.handlePurchase('diaPayment')}>구매하기</a>
+                }
+                { this.state.modal_dia > this.state.user_dia &&
+                  <a class="waves-effect waves-light btn-large red accent-4">잔액부족</a>
+                }
+                <br/>
               </span>
             }
             {this.state.modal_gold !== 0 &&
               <span>
                 <img src={`${process.env.PUBLIC_URL}/images/brief_info/gold.png`}/>
-                <font size="5">{this.state.modal_gold}</font>
+                <font size="5">{this.state.modal_gold}</font><br/>
+                { this.state.modal_gold <= this.state.user_gold &&
+                  <a class="waves-effect waves-light btn-large" onClick={ () => this.handlePurchase('goldPayment')}>구매하기</a>
+                }
+                { this.state.modal_gold > this.state.user_gold &&
+                  <a class="waves-effect waves-light btn-large red accent-4">잔액부족</a>
+                }
+                <br/>
               </span>
             }
             {this.state.modal_trophy !== 0 &&
               <span>
                 <img src={`${process.env.PUBLIC_URL}/images/brief_info/trophy2.png`}/>
-                <font size="5">{this.state.modal_trophy}</font>
+                <font size="5">{this.state.modal_trophy}</font><br/>
+                { this.state.modal_trophy <= this.state.user_trophy &&
+                  <a class="waves-effect waves-light btn-large" onClick={ () => this.handlePurchase('trophyPayment')}>구매하기</a>
+                }
+                { this.state.modal_trophy > this.state.user_trophy &&
+                  <a class="waves-effect waves-light btn-large red accent-4">잔액부족</a>
+                }
+                <br/>
               </span>
             }
-            <a class="waves-effect waves-light btn-large" onClick={this.handlePurchase}>구매하기</a>
 
           </div>
           <div class="modal-footer">
