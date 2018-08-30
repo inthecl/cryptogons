@@ -1,4 +1,31 @@
 import mongoose from 'mongoose'
+const SwordSchema = new mongoose.Schema({
+  number: String,
+  name: String,
+  description: String,
+  gold: Number,
+  diamond: Number,
+  trophy: Number
+})
+const ShieldSchema = new mongoose.Schema({
+  number: String,
+  name: String,
+  description: String,
+  gold: Number,
+  diamond: Number,
+  trophy: Number
+})
+const CbgSchema = new mongoose.Schema({
+  number: String,
+  name: String,
+  description: String,
+  gold: Number,
+  diamond: Number,
+  trophy: Number
+})
+const Sword = mongoose.model('sword', SwordSchema)
+const Shield = mongoose.model('shield', ShieldSchema)
+const Cbg = mongoose.model('cbg', CbgSchema)
 const DragonSchema = new mongoose.Schema({
   name: String,
   combination: String,
@@ -23,38 +50,11 @@ const User = mongoose.model('user', {
   gold: Number,
   trophy: Number,
   iconNum: Number,
-  cbg: [String],
-  sword: [String],
-  shield: [String],
+  cbg: [CbgSchema],
+  sword: [SwordSchema],
+  shield: [ShieldSchema],
   dragons: [DragonSchema]
 })
-const SwordSchema = new mongoose.Schema({
-  name: String,
-  description: String,
-  number: String,
-  gold: Number,
-  diamond: Number,
-  trophy: Number
-})
-const ShieldSchema = new mongoose.Schema({
-  name: String,
-  description: String,
-  number: String,
-  gold: Number,
-  diamond: Number,
-  trophy: Number
-})
-const CbgSchema = new mongoose.Schema({
-  name: String,
-  description: String,
-  number: String,
-  gold: Number,
-  diamond: Number,
-  trophy: Number
-})
-const Sword = mongoose.model('sword', SwordSchema)
-const Shield = mongoose.model('shield', ShieldSchema)
-const Cbg = mongoose.model('cbg', CbgSchema)
 const Item = mongoose.model('item', {
   sword: [SwordSchema],
   shield: [ShieldSchema],

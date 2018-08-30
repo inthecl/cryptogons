@@ -17,8 +17,32 @@ query finduser($email: String!){
   name
   diamond
   gold
+  trophy
   iconNum
-  cbg
+  cbg {
+    number
+    name
+    description
+    gold
+    diamond
+    trophy
+  }
+  sword {
+    number
+    name
+    description
+    gold
+    diamond
+    trophy
+  }
+  shield {
+    number
+    name
+    description
+    gold
+    diamond
+    trophy
+  }
   dragons {
     name
     combination
@@ -26,6 +50,8 @@ query finduser($email: String!){
     price
     serial
     choice_cbg
+    choice_sword
+    choice_shield
   }
  }
 }

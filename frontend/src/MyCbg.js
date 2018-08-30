@@ -15,10 +15,32 @@ query finduser($email: String!){
   name
   diamond
   gold
+  trophy
   iconNum
-  cbg
-  sword
-  shield
+  cbg {
+    number
+    name
+    description
+    gold
+    diamond
+    trophy
+  }
+  sword {
+    number
+    name
+    description
+    gold
+    diamond
+    trophy
+  }
+  shield {
+    number
+    name
+    description
+    gold
+    diamond
+    trophy
+  }
   dragons {
     name
     combination
@@ -37,23 +59,25 @@ class MyAcce extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      custom_bg: []
+      all_cbg: []
     }
   }
   render() {
     if (!this.props.data.loading) {
-      this.state.custom_bg = this.props.data.finduser.cbg
+      for (let z = 0; z < this.props.data.finduser.cbg.length; z += 1) {
+        this.state.all_cbg[z] = this.props.data.finduser.cbg[z]
+      }
       console.log('this.state.custom_bg', this.state.custom_bg)
     }
     const { pagenum } = this.props.match.params
-    const lastItem = this.state.custom_bg.length
+    const lastItem = this.state.all_cbg.length
     const lastPage = lastItem / 12
     const startItem = (pagenum - 1) * 12
     let endItem = pagenum * 12
     if (pagenum < 1) return <Redirect to="/MyCbg/1"/>
     if (pagenum > lastPage + 1) return <Redirect to="/MyCbg/1"/>
     if (endItem > lastItem) endItem = lastItem
-    const pages = this.state.custom_bg.slice(startItem, endItem)
+    const pages = this.state.all_cbg.slice(startItem, endItem)
     return (
       <Layout>
         <MyGonHeader/>
@@ -67,10 +91,10 @@ class MyAcce extends Component {
                     <div className="col s12 m6 l3">
                       <div className="card">
                         <div className="card-image">
-                          <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${item}.png`}/>
+                          <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${item.number}.png`}/>
                         </div>
                         <div className="card-content">
-                          <p>I am a very simple card.</p>
+                          <p>{item.name}</p>
                         </div>
                       </div>
                     </div>

@@ -151,42 +151,39 @@ const resolvers = {
       return newone.save()
     },
     addItemSword: async (obj, args, ctx) => {
-      const itemArgs = args
       const test = Object.assign({
-        name: itemArgs.name,
-        description: itemArgs.description,
-        number: itemArgs.number,
-        gold: itemArgs.gold,
-        diamond: itemArgs.diamond,
-        trophy: itemArgs.trophy
+        name: args.name,
+        description: args.description,
+        number: args.number,
+        gold: args.gold,
+        diamond: args.diamond,
+        trophy: args.trophy
       })
       const item = await ctx.models.Item.findOne()
       item.sword.push(test)
       return item.save()
     },
     addItemShield: async (obj, args, ctx) => {
-      const itemArgs = args
       const test = Object.assign({
-        name: itemArgs.name,
-        description: itemArgs.description,
-        number: itemArgs.number,
-        gold: itemArgs.gold,
-        diamond: itemArgs.diamond,
-        trophy: itemArgs.trophy
+        name: args.name,
+        description: args.description,
+        number: args.number,
+        gold: args.gold,
+        diamond: args.diamond,
+        trophy: args.trophy
       })
       const item = await ctx.models.Item.findOne()
       item.shield.push(test)
       return item.save()
     },
     addItemCbg: async (obj, args, ctx) => {
-      const itemArgs = args
       const test = Object.assign({
-        name: itemArgs.name,
-        description: itemArgs.description,
-        number: itemArgs.number,
-        gold: itemArgs.gold,
-        diamond: itemArgs.diamond,
-        trophy: itemArgs.trophy
+        name: args.name,
+        description: args.description,
+        number: args.number,
+        gold: args.gold,
+        diamond: args.diamond,
+        trophy: args.trophy
       })
       const item = await ctx.models.Item.findOne()
       item.cbg.push(test)
@@ -194,23 +191,47 @@ const resolvers = {
     },
     itemPurchase: async (obj, args, ctx) => {
       const user = await ctx.models.User.findOne({ email: args.email })
-      if (args.diamond != null) {
+      if (args.diamond !== 0) {
         user.diamond -= args.diamond
       }
-      if (args.gold != null) {
+      if (args.gold !== 0) {
         user.gold -= args.gold
       }
-      if (args.trophy != null) {
+      if (args.trophy !== 0) {
         user.trophy -= args.trophy
       }
-      if (args.sword != null) {
-        user.sword.push(args.sword)
+      if (args.item === 'sword') {
+        const sword = Object.assign({
+          name: args.name,
+          description: args.description,
+          number: args.number,
+          gold: args.gold,
+          diamond: args.diamond,
+          trophy: args.trophy
+        })
+        user.sword.push(sword)
       }
-      if (args.shield != null) {
-        user.shield.push(args.shield)
+      if (args.item === 'shield') {
+        const shield = Object.assign({
+          name: args.name,
+          description: args.description,
+          number: args.number,
+          gold: args.gold,
+          diamond: args.diamond,
+          trophy: args.trophy
+        })
+        user.shield.push(shield)
       }
-      if (args.cbg != null) {
-        user.cbg.push(args.cbg)
+      if (args.item === 'custom_bg') {
+        const cbg = Object.assign({
+          name: args.name,
+          description: args.description,
+          number: args.number,
+          gold: args.gold,
+          diamond: args.diamond,
+          trophy: args.trophy
+        })
+        user.cbg.push(cbg)
       }
       return user.save()
     },

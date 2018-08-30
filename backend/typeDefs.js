@@ -22,9 +22,9 @@ const typeDefs = `
     gold: Int
     trophy: Int
     iconNum: Int
-    cbg: [String]
-    sword: [String]
-    shield: [String]
+    cbg: [Cbg]
+    sword: [Sword]
+    shield: [Shield]
     dragons: [Dragon]
   }
   type Statistic {
@@ -92,7 +92,7 @@ const typeDefs = `
     editChoicecbg(email: String!, serial: String!, choice_cbg: String!): User
     editChoicesword(email: String!, serial: String!, choice_sword: String!): User
     editChoiceshield(email: String!, serial: String!, choice_shield: String!): User
-    itemPurchase(email: String!, sword: String, shield: String, cbg: String, diamond: Int, gold: Int, trophy: Int): User
+    itemPurchase(email: String!, item: String!, number: String!,  name: String!, description: String!, diamond: Int!, gold: Int!, trophy: Int!): User
   }
 `
 export default typeDefs

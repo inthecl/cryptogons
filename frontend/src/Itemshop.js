@@ -16,9 +16,30 @@ query finduser($email: String!){
   gold
   trophy
   iconNum
-  cbg
-  sword
-  shield
+  cbg {
+    number
+    name
+    description
+    gold
+    diamond
+    trophy
+  }
+  sword {
+    number
+    name
+    description
+    gold
+    diamond
+    trophy
+  }
+  shield {
+    number
+    name
+    description
+    gold
+    diamond
+    trophy
+  }
   dragons {
     name
     combination
@@ -36,25 +57,25 @@ const finditem = gql`
 query finditem($email: String!){
   finditem(email:$email) {
   sword {
+    number
     name
     description
-    number
     gold
     diamond
     trophy
   }
   shield {
+    number
     name
     description
-    number
     gold
     diamond
     trophy
   }
   cbg {
+    number
     name
     description
-    number
     gold
     diamond
     trophy
@@ -63,8 +84,8 @@ query finditem($email: String!){
 }
 `
 const itemPurchase = gql`
-mutation itemPurchase($email: String!, $sword: String, $shield: String, $cbg: String, $diamond: Int, $gold: Int, $trophy: Int) {
-  itemPurchase(email:$email, sword:$sword, shield:$shield, cbg:$cbg, diamond:$diamond, gold:$gold, trophy:$trophy) {
+mutation itemPurchase($email: String!, $number: String!, $item: String!, $name: String!, $description: String!, $diamond: Int!, $gold: Int!, $trophy: Int!) {
+  itemPurchase(email:$email, number:$number, item:$item, name:$name, description:$description, diamond:$diamond, gold:$gold, trophy:$trophy) {
     email
     username
     name
@@ -72,9 +93,30 @@ mutation itemPurchase($email: String!, $sword: String, $shield: String, $cbg: St
     gold
     trophy
     iconNum
-    sword
-    shield
-    cbg
+    cbg {
+      name
+      description
+      number
+      gold
+      diamond
+      trophy
+    }
+    sword {
+      name
+      description
+      number
+      gold
+      diamond
+      trophy
+    }
+    shield {
+      name
+      description
+      number
+      gold
+      diamond
+      trophy
+    }
     dragons {
       name
       combination
@@ -114,36 +156,14 @@ class Itemshop extends Component {
   handlePurchase() {
     const modalItem = this.state.modal_item.split('/') // 구매할 아이템 종류 modalItem[0]
     const modalNumber = modalItem[1].split('_') // 구매할 아이템 번호 modalNumber[1]
-    if (modalItem[0] === 'sword') {
-      this.props.itemPurchase({ variables: { email: localStorage.getItem('email'), sword: modalNumber[1], shield: null, cbg: null, diamond: this.state.modal_dia, gold: this.state.modal_gold, trophy: this.state.modal_trophy } })
-        .then((res) => {
-          this.setState({ redirect: true })
-          console.log(res)
-        })
-        .catch((errors) => {
-          console.log('errors: ', errors)
-        })
-    }
-    if (modalItem[0] === 'shield') {
-      this.props.itemPurchase({ variables: { email: localStorage.getItem('email'), sword: null, shield: modalNumber[1], cbg: null, diamond: this.state.modal_dia, gold: this.state.modal_gold, trophy: this.state.modal_trophy } })
-        .then((res) => {
-          this.setState({ redirect: true })
-          console.log(res)
-        })
-        .catch((errors) => {
-          console.log('errors: ', errors)
-        })
-    }
-    if (modalItem[0] === 'custom_bg') {
-      this.props.itemPurchase({ variables: { email: localStorage.getItem('email'), sword: null, shield: null, cbg: modalNumber[1], diamond: this.state.modal_dia, gold: this.state.modal_gold, trophy: this.state.modal_trophy } })
-        .then((res) => {
-          this.setState({ redirect: true })
-          console.log(res)
-        })
-        .catch((errors) => {
-          console.log('errors: ', errors)
-        })
-    }
+    this.props.itemPurchase({ variables: { email: localStorage.getItem('email'), number: modalNumber[1], item: modalItem[0], name: this.state.modal_name, description: this.state.modal_desc, diamond: this.state.modal_dia, gold: this.state.modal_gold, trophy: this.state.modal_trophy } })
+      .then((res) => {
+        this.setState({ redirect: true })
+        console.log(res)
+      })
+      .catch((errors) => {
+        console.log('errors: ', errors)
+      })
   }
   handleModal(choiceItem, choiceDiamond, choiceGold, choiceTrophy, choiceName, choiceDesc) {
     this.setState({
@@ -164,10 +184,15 @@ class Itemshop extends Component {
       this.state.user_dia = this.props.finduser.finduser.diamond
       this.state.user_gold = this.props.finduser.finduser.gold
       this.state.user_trophy = this.props.finduser.finduser.trophy
-      this.state.user_sword = this.props.finduser.finduser.sword
-      this.state.user_shield = this.props.finduser.finduser.shield
-      this.state.user_cbg = this.props.finduser.finduser.cbg
-
+      for (let x = 0; x < this.props.finduser.finduser.sword.length; x += 1) {
+        this.state.user_sword[x] = this.props.finduser.finduser.sword[x].number
+      }
+      for (let y = 0; y < this.props.finduser.finduser.shield.length; y += 1) {
+        this.state.user_shield[y] = this.props.finduser.finduser.shield[y].number
+      }
+      for (let z = 0; z < this.props.finduser.finduser.cbg.length; z += 1) {
+        this.state.user_cbg[z] = this.props.finduser.finduser.cbg[z].number
+      }
       for (let sw = 0; sw < this.props.finditem.finditem.sword.length; sw += 1) {
         this.state.all_sword[sw] = this.props.finditem.finditem.sword[sw]
       }

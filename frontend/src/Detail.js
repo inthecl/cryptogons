@@ -15,10 +15,32 @@ query finduser($email: String!){
   name
   diamond
   gold
+  trophy
   iconNum
-  cbg
-  sword
-  shield
+  cbg {
+    number
+    name
+    description
+    gold
+    diamond
+    trophy
+  }
+  sword {
+    number
+    name
+    description
+    gold
+    diamond
+    trophy
+  }
+  shield {
+    number
+    name
+    description
+    gold
+    diamond
+    trophy
+  }
   dragons {
     name
     combination
@@ -41,9 +63,30 @@ mutation editChoicecbg($email: String!, $serial: String!, $choice_cbg: String!) 
     diamond
     gold
     iconNum
-    cbg
-    sword
-    shield
+    cbg {
+      number
+      name
+      description
+      gold
+      diamond
+      trophy
+    }
+    sword {
+      number
+      name
+      description
+      gold
+      diamond
+      trophy
+    }
+    shield {
+      number
+      name
+      description
+      gold
+      diamond
+      trophy
+    }
     dragons {
       name
       combination
@@ -66,9 +109,30 @@ mutation editChoicesword($email: String!, $serial: String!, $choice_sword: Strin
     diamond
     gold
     iconNum
-    cbg
-    sword
-    shield
+    cbg {
+      number
+      name
+      description
+      gold
+      diamond
+      trophy
+    }
+    sword {
+      number
+      name
+      description
+      gold
+      diamond
+      trophy
+    }
+    shield {
+      number
+      name
+      description
+      gold
+      diamond
+      trophy
+    }
     dragons {
       name
       combination
@@ -91,9 +155,30 @@ mutation editChoiceshield($email: String!, $serial: String!, $choice_shield: Str
     diamond
     gold
     iconNum
-    cbg
-    sword
-    shield
+    cbg {
+      number
+      name
+      description
+      gold
+      diamond
+      trophy
+    }
+    sword {
+      number
+      name
+      description
+      gold
+      diamond
+      trophy
+    }
+    shield {
+      number
+      name
+      description
+      gold
+      diamond
+      trophy
+    }
     dragons {
       name
       combination
@@ -233,9 +318,15 @@ class Detail extends Component {
     let y = 0
     let z = 0
     if (!this.props.data.loading) {
-      this.state.all_cbg = this.props.data.finduser.cbg
-      this.state.all_sword = this.props.data.finduser.sword
-      this.state.all_shield = this.props.data.finduser.shield
+      for (let a = 0; a < this.props.data.finduser.sword.length; a += 1) {
+        this.state.all_sword[a] = this.props.data.finduser.sword[a].number
+      }
+      for (let b = 0; b < this.props.data.finduser.shield.length; b += 1) {
+        this.state.all_shield[b] = this.props.data.finduser.shield[b].number
+      }
+      for (let c = 0; c < this.props.data.finduser.cbg.length; c += 1) {
+        this.state.all_cbg[c] = this.props.data.finduser.cbg[c].number
+      }
       console.log('this.props', this.props.data.finduser.dragons)
       for (let dl = 0; dl < this.props.data.finduser.dragons.length; dl += 1) {
         if (this.props.data.finduser.dragons[dl].serial === this.props.match.params.serialnumber) {

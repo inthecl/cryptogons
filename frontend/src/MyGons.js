@@ -15,8 +15,32 @@ query finduser($email: String!){
   name
   diamond
   gold
+  trophy
   iconNum
-  cbg
+  cbg {
+    name
+    description
+    number
+    gold
+    diamond
+    trophy
+  }
+  sword {
+    name
+    description
+    number
+    gold
+    diamond
+    trophy
+  }
+  shield {
+    name
+    description
+    number
+    gold
+    diamond
+    trophy
+  }
   dragons {
     name
     combination
