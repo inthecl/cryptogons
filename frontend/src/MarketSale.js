@@ -1,20 +1,8 @@
 import React, { Component } from 'react'
 import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import { finddragon } from './queries'
 import './App.css'
 import Layout from './Layout'
-
-const finddragon = gql`
-query finddragon($serial: String!){
-  finddragon(serial:$serial) {
-  name
-  combination
-  birthday
-  price
-  serial
-  } 
-}
-`
 
 class MarketSale extends Component {
   constructor(props) {

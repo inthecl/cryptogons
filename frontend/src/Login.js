@@ -1,18 +1,9 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import { login } from './queries'
 import './App.css'
 import imgTestLogo from './image/img_test_logo.png'
-
-const query = gql`
-mutation login($email: String!, $password: String!) {
-  login(email:$email,  password:$password) {
-    token
-    refreshToken
-  }
-}
-`
 
 class Login extends Component {
   constructor(props) {
@@ -107,4 +98,4 @@ class Login extends Component {
   }
 }
 
-export default graphql(query)(Login)
+export default graphql(login)(Login)

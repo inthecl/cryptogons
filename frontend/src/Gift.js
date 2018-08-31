@@ -1,57 +1,9 @@
 import React, { Component } from 'react'
 import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import { finduser } from './queries'
 import './App.css'
 import Layout from './Layout'
 import MyGonHeader from './MyGonHeader'
-
-const finduser = gql`
-query finduser($email: String!){
-  finduser(email:$email) {
-  email
-  username
-  name
-  diamond
-  gold
-  trophy
-  iconNum
-  cbg {
-    number
-    name
-    description
-    gold
-    diamond
-    trophy
-  }
-  sword {
-    number
-    name
-    description
-    gold
-    diamond
-    trophy
-  }
-  shield {
-    number
-    name
-    description
-    gold
-    diamond
-    trophy
-  }
-  dragons {
-    name
-    combination
-    birthday
-    price
-    serial
-    choice_cbg
-    choice_sword
-    choice_shield
-  }
- }
-}
-`
 
 class Gift extends Component {
   constructor(props) {

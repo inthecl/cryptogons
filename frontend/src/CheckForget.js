@@ -1,18 +1,8 @@
 import React, { Component } from 'react'
 import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import { CheckEmailquery } from './queries'
 import './App.css'
 import Layout from './Layout'
-
-const query = gql`
-query CheckEmail($email: String!){
-  checkemail(email:$email) {
-    email
-    username
-    name
-  } 
-}
-`
 
 class CheckForget extends Component {
   constructor(props) {
@@ -44,4 +34,4 @@ const queryOptions = {
   })
 }
 
-export default graphql(query, queryOptions)(CheckForget)
+export default graphql(CheckEmailquery, queryOptions)(CheckForget)

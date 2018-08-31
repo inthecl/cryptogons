@@ -1,82 +1,13 @@
 import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import { graphql, compose } from 'react-apollo'
-import gql from 'graphql-tag'
+import { finduser, addUserDragon } from './queries'
 import './App.css'
 import Layout from './Layout'
 import btnPlus from './image/plus.png'
 import btnMinus from './image/minus.png'
 import MyGonHeader from './MyGonHeader'
 import MaterialPagination from './MaterialPagination'
-
-const finduser = gql`
-query finduser($email: String!){
-  finduser(email:$email) {
-  email
-  username
-  name
-  diamond
-  gold
-  trophy
-  iconNum
-  cbg {
-    number
-    name
-    description
-    gold
-    diamond
-    trophy
-  }
-  sword {
-    number
-    name
-    description
-    gold
-    diamond
-    trophy
-  }
-  shield {
-    number
-    name
-    description
-    gold
-    diamond
-    trophy
-  }
-  dragons {
-    name
-    combination
-    birthday
-    price
-    serial
-    choice_cbg
-    choice_sword
-    choice_shield
-  }
- }
-}
-`
-const addUserDragon = gql`
-mutation addUserDragon($email: String!, $new_comb: String!) {
-  addUserDragon(email:$email, new_comb:$new_comb) {
-    email
-    username
-    name
-    diamond
-    gold
-    iconNum
-    cbg
-    dragons {
-      name
-      combination
-      birthday
-      price
-      serial
-      choice_cbg
-    }
-  }
-}
-`
 
 class Breed extends Component {
   constructor(props) {

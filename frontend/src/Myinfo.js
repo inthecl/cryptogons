@@ -1,20 +1,8 @@
 import React, { Component } from 'react'
 import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import { CheckEmailquery } from './queries'
 import './App.css'
 import Layout from './Layout'
-
-const CheckEmailquery = gql`
-query CheckEmail($email: String!){
-  checkemail(email:$email) {
-    email
-    username
-    iconNum
-    diamond
-    gold
-  } 
-}
-`
 
 class Myinfo extends Component {
   constructor(props) {

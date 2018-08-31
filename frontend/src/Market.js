@@ -1,19 +1,9 @@
 import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import { dragons } from './queries'
 import Layout from './Layout'
 import MaterialPagination from './MaterialPagination'
-
-const dragons = gql`
-query { dragons {
-  name
-  combination
-  birthday
-  price
-  serial
-} }
-`
 
 class Market extends Component {
   constructor(props) {

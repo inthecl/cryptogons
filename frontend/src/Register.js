@@ -1,17 +1,8 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import { registerUser } from './queries'
 import './App.css'
-
-const query = gql`
-mutation registerUser($email: String!, $username: String!, $password: String!) {
-  registerUser(email:$email, username: $username, password: $password) {
-    email
-    username
-  }
-}
-`
 
 class Register extends Component {
   constructor(props) {
@@ -115,4 +106,4 @@ class Register extends Component {
   }
 }
 
-export default graphql(query)(Register)
+export default graphql(registerUser)(Register)

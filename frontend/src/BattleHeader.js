@@ -3,20 +3,8 @@ import { Link } from 'react-router-dom'
 import { Progress } from 'react-sweet-progress'
 import 'react-sweet-progress/lib/style.css'
 import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import { CheckEmailquery } from './queries'
 import './App.css'
-
-const CheckEmailquery = gql`
-query CheckEmail($email: String!){
-  checkemail(email:$email) {
-    email
-    username
-    iconNum
-    diamond
-    gold
-  } 
-}
-`
 
 class BattleHeader extends Component {
   render() {

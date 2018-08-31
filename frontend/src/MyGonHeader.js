@@ -1,20 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import { CheckEmailquery } from './queries'
 import './App.css'
-
-const CheckEmailquery = gql`
-query CheckEmail($email: String!){
-  checkemail(email:$email) {
-    email
-    username
-    iconNum
-    diamond
-    gold
-  } 
-}
-`
 
 class MyGonHeader extends Component {
   render() {
