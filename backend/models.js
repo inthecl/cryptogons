@@ -27,14 +27,30 @@ const Sword = mongoose.model('sword', SwordSchema)
 const Shield = mongoose.model('shield', ShieldSchema)
 const Cbg = mongoose.model('cbg', CbgSchema)
 const DragonSchema = new mongoose.Schema({
-  name: String,
-  combination: String,
-  birthday: Number,
-  price: Number,
+  email: String,
   serial: String,
+  combination: String,
+  name: String,
+  birthday: String,
+  state: String,
+  price: Number,
+  period: Number,
+  gen: Number,
+  cooldown: [String],
+  parents: [String],
+  child: [String],
   choice_cbg: String,
   choice_sword: String,
-  choice_shield: String
+  choice_shield: String,
+  cintamani: [String],
+  base_attack: Number,
+  add_attack: Number,
+  base_armor: Number,
+  add_armor: Number,
+  win: Number,
+  lose: Number,
+  winning_rate: Number,
+  ranking: Number
 })
 const Dragon = mongoose.model('dragon', DragonSchema)
 const Book = mongoose.model('book', { id: String, title: String, author: String })

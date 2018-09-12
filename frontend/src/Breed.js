@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import { graphql, compose } from 'react-apollo'
-import { finduser, addUserDragon } from './queries'
+import { finduser, addUserDragon, editUserDragonState } from './queries'
 import './App.css'
 import Layout from './Layout'
 import btnPlus from './image/plus.png'
@@ -36,6 +36,7 @@ class Breed extends Component {
       siring_price: 10,
       siring_period: 1,
       serial: null,
+      state: null,
       choice_cbg: 'null',
       username: 'JaeDragon',
       generation: 'generation',
@@ -43,6 +44,7 @@ class Breed extends Component {
       parents: 'parents,parents',
       children: 'children,children',
       choiceGon: false,
+      choice_serial: null,
       choice_comb: null,
       choice_evolution: null,
       choice_property: null,
@@ -131,6 +133,7 @@ class Breed extends Component {
       if (this.props.data.finduser.dragons[dl].serial === e.target.id) {
         this.setState({
           choiceGon: true,
+          choice_serial: this.props.data.finduser.dragons[dl].serial,
           choice_comb: this.props.data.finduser.dragons[dl].combination,
           choice_evolution: this.props.data.finduser.dragons[dl].combination.substring(0, 2),
           choice_property: this.props.data.finduser.dragons[dl].combination.substring(2, 4),
@@ -280,7 +283,7 @@ class Breed extends Component {
       console.log('new_comb', this.state.new_comb)
 
       // 새로운 용 서버로 보내기
-      this.props.mutate({ variables: { email: localStorage.getItem('email'), new_comb: this.state.new_comb } })
+      this.props.addUserDragon({ variables: { email: localStorage.getItem('email'), new_comb: this.state.new_comb, parents: [this.state.serial, this.state.choice_serial] } })
         .then((res) => {
           console.log(res)
           this.setState({ redirect: true })
@@ -295,7 +298,6 @@ class Breed extends Component {
       return <Redirect to='/Activity'/>
     }
     if (!this.props.data.loading) {
-      console.log('this.props', this.props.data.finduser.dragons)
       for (let dl = 0; dl < this.props.data.finduser.dragons.length; dl += 1) {
         if (this.props.data.finduser.dragons[dl].serial === this.props.match.params.serialnumber) {
           this.state.name = this.props.data.finduser.dragons[dl].name
@@ -318,41 +320,42 @@ class Breed extends Component {
           this.state.mouth = this.state.comb.substring(22, 24)
           this.state.nose = this.state.comb.substring(24, 26)
         } else {
-          this.state.dragonsComb[dl] = {
-            name: this.props.data.finduser.dragons[dl].name,
-            serial: this.props.data.finduser.dragons[dl].serial,
-            evolution: this.props.data.finduser.dragons[dl].combination.substring(0, 2),
-            property: this.props.data.finduser.dragons[dl].combination.substring(2, 4),
-            wing: this.props.data.finduser.dragons[dl].combination.substring(4, 6),
-            wingColor: this.props.data.finduser.dragons[dl].combination.substring(6, 8),
-            horn: this.props.data.finduser.dragons[dl].combination.substring(8, 10),
-            hornColor: this.props.data.finduser.dragons[dl].combination.substring(10, 12),
-            tail: this.props.data.finduser.dragons[dl].combination.substring(12, 14),
-            body: this.props.data.finduser.dragons[dl].combination.substring(14, 16),
-            bodyColor: this.props.data.finduser.dragons[dl].combination.substring(16, 18),
-            eye: this.props.data.finduser.dragons[dl].combination.substring(18, 20),
-            eyeColor: this.props.data.finduser.dragons[dl].combination.substring(20, 22),
-            mouth: this.props.data.finduser.dragons[dl].combination.substring(22, 24),
-            nose: this.props.data.finduser.dragons[dl].combination.substring(24, 26)
+          if (this.props.data.finduser.dragons[dl].state === 'Normal') { // 현재용을 제외한 state가 Normal인 용의 리스트
+            this.state.dragonsComb[dl] = {
+              name: this.props.data.finduser.dragons[dl].name,
+              serial: this.props.data.finduser.dragons[dl].serial,
+              evolution: this.props.data.finduser.dragons[dl].combination.substring(0, 2),
+              property: this.props.data.finduser.dragons[dl].combination.substring(2, 4),
+              wing: this.props.data.finduser.dragons[dl].combination.substring(4, 6),
+              wingColor: this.props.data.finduser.dragons[dl].combination.substring(6, 8),
+              horn: this.props.data.finduser.dragons[dl].combination.substring(8, 10),
+              hornColor: this.props.data.finduser.dragons[dl].combination.substring(10, 12),
+              tail: this.props.data.finduser.dragons[dl].combination.substring(12, 14),
+              body: this.props.data.finduser.dragons[dl].combination.substring(14, 16),
+              bodyColor: this.props.data.finduser.dragons[dl].combination.substring(16, 18),
+              eye: this.props.data.finduser.dragons[dl].combination.substring(18, 20),
+              eyeColor: this.props.data.finduser.dragons[dl].combination.substring(20, 22),
+              mouth: this.props.data.finduser.dragons[dl].combination.substring(22, 24),
+              nose: this.props.data.finduser.dragons[dl].combination.substring(24, 26)
+            }
+          }
+        }
+        // 소유한 모든 용 스테이트, 쿨타임 확인, 수정
+        if (this.props.data.finduser.dragons[dl].state === 'Resting' || this.props.data.finduser.dragons[dl].state === 'brooding' || this.props.data.finduser.dragons[dl].state === 'Egg' || this.props.data.finduser.dragons[dl].state === 'during battle') {
+          if (Date.now() >= this.props.data.finduser.dragons[dl].cooldown[1]) {
+            this.props.editUserDragonState({ variables: { email: localStorage.getItem('email'), serial: this.props.data.finduser.dragons[dl].serial, change_state: 'Normal' } })
+              .then((res) => {
+                console.log(res)
+              })
+              .catch((errors) => {
+                console.log('errors: ', errors)
+              })
           }
         }
       }
-      console.log('1 : ', this.state.dragonsComb[0])
-      console.log('2 : ', this.state.dragonsComb[1])
-      console.log('3 : ', this.state.dragonsComb[2])
-      console.log('4 : ', this.state.dragonsComb[3])
-      console.log('5 : ', this.props.match.params)
+      console.log('this.props.data.finduser.dragons', this.props.data.finduser.dragons)
+      console.log('this.state.dragonsComb : ', this.state.dragonsComb)
     }
-    const { pagenum } = {pagenum: '1'} 
-    const lastItem = this.state.dragonsComb.length
-    const lastPage = lastItem / 12
-    const startItem = (pagenum - 1) * 12
-    let endItem = pagenum * 12
-    if (pagenum < 1) return <Redirect to="/Market/1"/>
-    if (pagenum > lastPage + 1) return <Redirect to="/Market/1"/>
-    if (endItem > lastItem) endItem = lastItem
-    const pages = this.state.dragonsComb.slice(startItem, endItem)
-    console.log('pages:', pages)
     return (
       <Layout>
         <MyGonHeader/>
@@ -500,7 +503,7 @@ class Breed extends Component {
                               <h4>Select a gon to be the mother</h4>
                               <div className='center margin-top-50'>
                                 <div className="row">
-                                  {pages.map(item =>
+                                  {this.state.dragonsComb.map(item =>
                                     <div key={item.id}>
                                       <div className="col s12 m6 l3">
                                         <div className="card">
@@ -535,7 +538,6 @@ class Breed extends Component {
                                       </div>
                                     </div>)}
                                 </div>
-                                <MaterialPagination linkPath="Breed" pageNum={pagenum} lastPage={lastPage} />
                               </div>
                             </div>
                             <div class="modal-footer">
@@ -610,6 +612,8 @@ const queryOptions = {
 
 export default compose(
   graphql(finduser, queryOptions),
-  graphql(addUserDragon),
+  graphql(addUserDragon, { name: 'addUserDragon' }),
+  graphql(editUserDragonState, { name: 'editUserDragonState' })
 )(Breed)
+
 

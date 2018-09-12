@@ -57,6 +57,11 @@ class Myinfo extends Component {
                     <td>{this.props.data.checkemail.gold}</td>
                     <td></td>
                   </tr>
+                  <tr>
+                    <td height="80px">Trophy</td>
+                    <td>{this.props.data.checkemail.trophy}</td>
+                    <td></td>
+                  </tr>
                 </tbody>
               </table>
               <h5>비밀번호 변경하기</h5>

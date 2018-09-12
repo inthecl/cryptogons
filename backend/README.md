@@ -1,25 +1,68 @@
 cryptogons backend
 
-mutation{
-  addUserDragon(email:"hjkim.email", comb:"123", choice_comb:"345",new_comb:"01050201020302030102020302",name:"dragon10") {
-    email
-    username
+mutation addUserDragon($email: String!, $new_comb: String!, $parents: [String]!) {
+  addUserDragon(email:$email, new_comb:$new_comb, parents: $parents) {
+  email
+  username
+  name
+  diamond
+  gold
+  trophy
+  iconNum
+  cbg {
+    number
     name
-    diamond
+    description
     gold
-    iconNum
-    dragons {
-      name
-      combination
-      birthday
-      price
-      serialw
-      choice_cbg
-    }
+    diamond
+    trophy
   }
+  sword {
+    number
+    name
+    description
+    gold
+    diamond
+    trophy
+  }
+  shield {
+    number
+    name
+    description
+    gold
+    diamond
+    trophy
+  }
+  dragons {
+    email
+    serial
+    combination
+    name
+    birthday
+    state
+    price
+    period
+    gen
+    cooldown
+    parents
+    child
+    choice_cbg
+    choice_sword
+    choice_shield
+    cintamani
+    base_attack
+    add_attack
+    base_armor
+    add_armor
+    win
+    lose
+    winning_rate
+    ranking
+  }
+ }
 }
 
-new_comb 가 user.dragons 에 추가됨
+new_comb 가 user.dragons 에 추가됨(Breed)
 
 mutation{
   removeUserDragon(email:"hjkim.email", comb:"0") {

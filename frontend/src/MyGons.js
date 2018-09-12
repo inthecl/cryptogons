@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import { Link, Redirect } from 'react-router-dom'
-import { finduser } from './queries'
+import { finduser, editUserDragonState } from './queries'
 import './App.css'
 import Layout from './Layout'
 import MyGonHeader from './MyGonHeader'
@@ -21,6 +21,7 @@ class MyGons extends Component {
         this.state.dragonsComb[dl] = {
           name: this.props.data.finduser.dragons[dl].name,
           serial: this.props.data.finduser.dragons[dl].serial,
+          state: this.props.data.finduser.dragons[dl].state,
           choice_cbg: this.props.data.finduser.dragons[dl].choice_cbg,
           evolution: this.props.data.finduser.dragons[dl].combination.substring(0, 2),
           property: this.props.data.finduser.dragons[dl].combination.substring(2, 4),
@@ -36,6 +37,18 @@ class MyGons extends Component {
           mouth: this.props.data.finduser.dragons[dl].combination.substring(22, 24),
           nose: this.props.data.finduser.dragons[dl].combination.substring(24, 26)
         }
+        // 소유한 모든 용 스테이트, 쿨타임 확인, 수정
+        if (this.props.data.finduser.dragons[dl].state === 'Resting' || this.props.data.finduser.dragons[dl].state === 'brooding' || this.props.data.finduser.dragons[dl].state === 'Egg' || this.props.data.finduser.dragons[dl].state === 'during battle') {
+          if (Date.now() >= this.props.data.finduser.dragons[dl].cooldown[1]) {
+            this.props.mutate({ variables: { email: localStorage.getItem('email'), serial: this.props.data.finduser.dragons[dl].serial, change_state: 'Normal' } })
+              .then((res) => {
+                console.log(res)
+              })
+              .catch((errors) => {
+                console.log('errors: ', errors)
+              })
+          }
+        }
       }
       console.log('1 : ', this.state.dragonsComb[0])
       console.log('2 : ', this.state.dragonsComb[1])
@@ -48,8 +61,8 @@ class MyGons extends Component {
     const lastPage = lastItem / 12
     const startItem = (pagenum - 1) * 12
     let endItem = pagenum * 12
-    if (pagenum < 1) return <Redirect to="/Market/1"/>
-    if (pagenum > lastPage + 1) return <Redirect to="/Market/1"/>
+    if (pagenum < 1) return <Redirect to="/Mygon/1"/>
+    if (pagenum > lastPage + 1) return <Redirect to="/Mygon/1"/>
     if (endItem > lastItem) endItem = lastItem
     const pages = this.state.dragonsComb.slice(startItem, endItem)
     console.log('this.props.match.params:', this.props.match.params)
@@ -109,29 +122,38 @@ class MyGons extends Component {
                           {item.choice_cbg !== 'null' &&
                             <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${item.choice_cbg}.png`}/>
                           }
-                          <div class="absolute">
-                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${item.evolution}${item.wing}${item.wingColor}.png`}/>
-                          </div>
-                          <div class="absolute">
-                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/3_horn/horn_${item.evolution}${item.horn}${item.hornColor}.png`}/>
-                          </div>
-                          <div class="absolute">
-                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/4_tail/tail_${item.evolution}${item.tail}${item.bodyColor}.png`}/>
-                          </div>
-                          <div class="absolute">
-                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/5_body/body_${item.evolution}${item.body}${item.bodyColor}.png`}/>
-                          </div>
-                          <div class="absolute">
-                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/6_eye/eye_${item.evolution}${item.eye}${item.eyeColor}.png`}/>
-                          </div>
-                          <div class="absolute">
-                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/7_mouth/mouth_${item.evolution}${item.mouth}.png`}/>
-                          </div>
-                          <div class="absolute">
-                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${item.evolution}${item.nose}.png`}/>
-                          </div>
+                          {item.state === 'Egg' &&
+                            <div class="absolute">
+                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg.png`}/>
+                            </div>
+                          }
+                          {item.state !== 'Egg' &&
+                            <div>
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${item.evolution}${item.wing}${item.wingColor}.png`}/>
+                              </div>
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/3_horn/horn_${item.evolution}${item.horn}${item.hornColor}.png`}/>
+                              </div>
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/4_tail/tail_${item.evolution}${item.tail}${item.bodyColor}.png`}/>
+                              </div>
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/5_body/body_${item.evolution}${item.body}${item.bodyColor}.png`}/>
+                              </div>
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/6_eye/eye_${item.evolution}${item.eye}${item.eyeColor}.png`}/>
+                              </div>
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/7_mouth/mouth_${item.evolution}${item.mouth}.png`}/>
+                              </div>
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${item.evolution}${item.nose}.png`}/>
+                              </div>
+                            </div>
+                          }
                         </div>
-                        <div className='itemz'>
+                        <div className='item'>
                           <div className='l12'>
                             <img src={`${process.env.PUBLIC_URL}/images/brief_Info/level_1.png`}/>
                             <img src={`${process.env.PUBLIC_URL}/images/brief_Info/level_2.png`}/>
@@ -142,7 +164,12 @@ class MyGons extends Component {
                           </div>
                         </div>
                         <div className="card-action">
-                          <a href={`/Detail/${item.serial}`}>{item.serial}</a>
+                          {item.state !== 'Egg' &&
+                            <a href={`/Detail/${item.serial}`}>{item.serial}</a>
+                          }
+                          {item.state === 'Egg' &&
+                            'egg'
+                          }
                         </div>
                       </div>
                     </div>
@@ -166,4 +193,7 @@ const queryOptions = {
   })
 }
 
-export default graphql(finduser, queryOptions)(MyGons)
+export default compose(
+  graphql(finduser, queryOptions),
+  graphql(editUserDragonState),
+)(MyGons)

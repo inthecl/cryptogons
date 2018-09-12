@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { graphql } from 'react-apollo'
-import { finduser } from './queries'
+import { graphql, compose } from 'react-apollo'
+import { finduser, editUserDragonState } from './queries'
 import './App.css'
 import Layout from './Layout'
 import MyGonHeader from './MyGonHeader'
@@ -93,6 +93,18 @@ class Gift extends Component {
           this.state.eyeColor = this.state.comb.substring(20, 22)
           this.state.mouth = this.state.comb.substring(22, 24)
           this.state.nose = this.state.comb.substring(24, 26)
+        }
+        // 소유한 모든 용 스테이트, 쿨타임 확인, 수정
+        if (this.props.data.finduser.dragons[dl].state === 'Resting' || this.props.data.finduser.dragons[dl].state === 'brooding' || this.props.data.finduser.dragons[dl].state === 'Egg' || this.props.data.finduser.dragons[dl].state === 'during battle') {
+          if (Date.now() >= this.props.data.finduser.dragons[dl].cooldown[1]) {
+            this.props.mutate({ variables: { email: localStorage.getItem('email'), serial: this.props.data.finduser.dragons[dl].serial, change_state: 'Normal' } })
+              .then((res) => {
+                console.log(res)
+              })
+              .catch((errors) => {
+                console.log('errors: ', errors)
+              })
+          }
         }
       }
     }
@@ -191,5 +203,8 @@ const queryOptions = {
   })
 }
 
-export default graphql(finduser, queryOptions)(Gift)
+export default compose(
+  graphql(finduser, queryOptions),
+  graphql(editUserDragonState),
+)(Gift)
 

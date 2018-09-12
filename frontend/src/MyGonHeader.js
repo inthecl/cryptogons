@@ -28,12 +28,17 @@ class MyGonHeader extends Component {
               <div class="right valign-wrapper margin-top-15">
                 <div class="col">
                   <div class="valign-wrapper">
-                    <i class="material-icons margin-right-5">details</i><span class="blue-text text-darken-2">{this.props.data.checkemail.diamond}</span>
+                    <img src={`${process.env.PUBLIC_URL}/images/brief_info/dia.png`}/><span class="blue-text text-darken-2">{this.props.data.checkemail.diamond}</span>
                   </div>
                 </div>
                 <div class="col">
                   <div class="valign-wrapper">
-                    <i class="material-icons margin-right-5">attach_money</i><span class="blue-text text-darken-2">{this.props.data.checkemail.gold}</span>
+                    <img src={`${process.env.PUBLIC_URL}/images/brief_info/gold.png`}/><span class="blue-text text-darken-2">{this.props.data.checkemail.gold}</span>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="valign-wrapper">
+                    <img src={`${process.env.PUBLIC_URL}/images/brief_info/trophy2.png`}/><span class="blue-text text-darken-2">{this.props.data.checkemail.trophy}</span>
                   </div>
                 </div>
                 <div class="col">

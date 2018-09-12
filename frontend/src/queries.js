@@ -24,6 +24,7 @@ query CheckEmail($email: String!){
     iconNum
     diamond
     gold
+    trophy
   } 
 }
 `
@@ -82,22 +83,38 @@ query finduser($email: String!){
     trophy
   }
   dragons {
-    name
-    combination
-    birthday
-    price
+    email
     serial
+    combination
+    name
+    birthday
+    state
+    price
+    period
+    gen
+    cooldown
+    parents
+    child
     choice_cbg
     choice_sword
     choice_shield
+    cintamani
+    base_attack
+    add_attack
+    base_armor
+    add_armor
+    win
+    lose
+    winning_rate
+    ranking
   }
  }
 }
 `
 const addUserDragon = gql`
-mutation addUserDragon($email: String!, $new_comb: String!) {
-  addUserDragon(email:$email, new_comb:$new_comb) {
-    email
+mutation addUserDragon($email: String!, $new_comb: String!, $parents: [String]! ) {
+  addUserDragon(email:$email, new_comb:$new_comb, parents: $parents ) {
+  email
   username
   name
   diamond
@@ -129,14 +146,30 @@ mutation addUserDragon($email: String!, $new_comb: String!) {
     trophy
   }
   dragons {
-    name
-    combination
-    birthday
-    price
+    email
     serial
+    combination
+    name
+    birthday
+    state
+    price
+    period
+    gen
+    cooldown
+    parents
+    child
     choice_cbg
     choice_sword
     choice_shield
+    cintamani
+    base_attack
+    add_attack
+    base_armor
+    add_armor
+    win
+    lose
+    winning_rate
+    ranking
   }
  }
 }
@@ -355,4 +388,67 @@ mutation itemPurchase($email: String!, $number: String!, $item: String!, $name: 
   }
   `
 
-export { registerUser, login, CheckEmailquery, dragons, finddragon, finduser, addUserDragon, editChoicecbg, editChoicesword, editChoiceshield, finditem, itemPurchase }
+const editUserDragonState = gql`
+  mutation editUserDragonState($email: String!, $serial: String!, $change_state: String!) {
+    editUserDragonState(email:$email, serial:$serial, change_state: $change_state) {
+    email
+    username
+    name
+    diamond
+    gold
+    trophy
+    iconNum
+    cbg {
+      name
+      description
+      number
+      gold
+      diamond
+      trophy
+    }
+    sword {
+      name
+      description
+      number
+      gold
+      diamond
+      trophy
+    }
+    shield {
+      name
+      description
+      number
+      gold
+      diamond
+      trophy
+    }
+    dragons {
+      email
+      serial
+      combination
+      name
+      birthday
+      state
+      price
+      period
+      gen
+      cooldown
+      parents
+      child
+      choice_cbg
+      choice_sword
+      choice_shield
+      cintamani
+      base_attack
+      add_attack
+      base_armor
+      add_armor
+      win
+      lose
+      winning_rate
+      ranking
+    }
+   }
+  }
+  `
+export { registerUser, login, CheckEmailquery, dragons, finddragon, finduser, addUserDragon, editChoicecbg, editChoicesword, editChoiceshield, finditem, itemPurchase, editUserDragonState }

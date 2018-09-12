@@ -22,21 +22,70 @@ const resolvers = {
       const one = await new ctx.models.Statistic(args)
       return one.save()
     },
-    addUserDragon: async (obj, args, ctx) => {
+    addUserDragon: async (obj, args, ctx) => { // Breed
       let serial = String(generator.generate(20))
+      // 부모 시리얼의 gen을 찾아 새로운용의 gen을 구함, 부모의 state 상태변경, child 추가, 자식의 개수로 쿨타임 조정
+      const user = await ctx.models.User.findOne({email:args.email})
+
+      const coodTimeX = Date.now() + 60000
+      let idx = user.dragons.findIndex((elem) => {
+        return elem.serial === args.parents[0]
+      })
+      if (idx != null) {
+        user.dragons[idx].state = 'Resting' // 부의 state, child, cooldown 변경
+        user.dragons[idx].child.push(serial)
+        user.dragons[idx].cooldown[1] = (coodTimeX) // cooldown[1] 시간 설정 후 cooldown[0] 쿨타임 설정
+      }
+
+      const coodTimeY = Date.now() + 60000
+      let idy = user.dragons.findIndex((elem) => {
+        return elem.serial === args.parents[1]
+      })
+      if (idy != null) {
+        user.dragons[idy].state = 'brooding' // 모의 state, child, cooldown 변경
+        user.dragons[idy].child.push(serial)
+        user.dragons[idy].cooldown[1] = (coodTimeY) // cooldown[1] 시간 설정 후 cooldown[0] 쿨타임 설정
+      }
+
+      let ngen = null
+      if (user.dragons[idx].gen === user.dragons[idy].gen) {
+        ngen = user.dragons[idx].gen + 1
+      }
+      if (user.dragons[idx].gen < user.dragons[idy].gen) {
+        ngen = user.dragons[idy].gen + 1
+      }
+      if (user.dragons[idx].gen > user.dragons[idy].gen) {
+        ngen = user.dragons[idx].gen + 1
+      }
+
       console.log(serial)
       let test = Object.assign({
-        name: args.name,
+        email: args.email,
+        serial: serial,
         combination: args.new_comb,
+        name: 'dragon_name',
         birthday: String(Date.now()),
-        price: 1000,
-        serial:serial,
+        state: 'Egg',
+        price: 0,
+        period: 0,
+        gen: ngen,
+        cooldown: ['Very fast', coodTimeY],
+        parents: args.parents,
+        child: [],
         choice_cbg: 'null',
         choice_sword: 'null',
-        choice_shield: 'null'
+        choice_shield: 'null',
+        cintamani: [],
+        base_attack: Math.floor(Math.random() * 8) + 20,
+        add_attack: 0,
+        base_armor: Math.floor(Math.random() * 10) + 5,
+        add_armor: 0,
+        win: 0,
+        lose: 0,
+        winning_rate: 0,
+        ranking: 0
       })
       console.log(test)
-      const user = await ctx.models.User.findOne({email:args.email})
       user.dragons.push(test)
       console.log(user)
       return user.save()
@@ -58,6 +107,7 @@ const resolvers = {
       console.log(args)
       const dragon = Object.assign(args)
       const statistic = await ctx.models.Statistic.findOne()
+      dragon.email = 'devman'
       dragon.name = `dragon${statistic.dragoncount}`
       let tmp = '01'
       const dragons = await ctx.models.Dragon.find()
@@ -79,7 +129,25 @@ const resolvers = {
       }
       dragon.combination = tmp
       dragon.birthday = String(Date.now())
-      dragon.price = 1000
+      dragon.state = 'Normal'
+      dragon.price = args.price
+      dragon.period = 0
+      dragon.gen = 0
+      dragon.cooldown = ['Very fast', '0']
+      dragon.parents = ['devman']
+      dragon.child = []
+      dragon.choice_cbg = 'null'
+      dragon.choice_sword = 'null'
+      dragon.choice_shield = 'null'
+      dragon.cintamani = []
+      dragon.base_attack = Math.floor(Math.random() * 8) + 20
+      dragon.add_attack = 0
+      dragon.base_armor = Math.floor(Math.random() * 10) + 5
+      dragon.add_armor = 0
+      dragon.win = 0
+      dragon.lose = 0
+      dragon.winning_rate = 0
+      dragon.ranking = 0
       const one = await new ctx.models.Dragon(dragon)
       one.serial = one._id
       console.log(one)
@@ -88,9 +156,9 @@ const resolvers = {
       return one.save()
     },
     editChoicecbg: async (obj, args, ctx) => {
-      const user = await ctx.models.User.findOne({email:args.email})
+      const user = await ctx.models.User.findOne({ email: args.email })
       let idx = user.dragons.findIndex((elem) => {
-        return elem.serial == args.serial
+        return elem.serial === args.serial
       })
       if (idx != null) {
         user.dragons[idx].choice_cbg = args.choice_cbg
@@ -98,9 +166,9 @@ const resolvers = {
       return user.save()
     },
     editChoicesword: async (obj, args, ctx) => {
-      const user = await ctx.models.User.findOne({email:args.email})
+      const user = await ctx.models.User.findOne({ email: args.email })
       let idx = user.dragons.findIndex((elem) => {
-        return elem.serial == args.serial
+        return elem.serial === args.serial
       })
       if (idx != null) {
         user.dragons[idx].choice_sword = args.choice_sword
@@ -108,12 +176,22 @@ const resolvers = {
       return user.save()
     },
     editChoiceshield: async (obj, args, ctx) => {
-      const user = await ctx.models.User.findOne({email:args.email})
+      const user = await ctx.models.User.findOne({ email: args.email })
       let idx = user.dragons.findIndex((elem) => {
-        return elem.serial == args.serial
+        return elem.serial === args.serial
       })
       if (idx != null) {
         user.dragons[idx].choice_shield = args.choice_shield
+      }
+      return user.save()
+    },
+    editUserDragonState: async (obj, args, ctx) => {
+      const user = await ctx.models.User.findOne({ email: args.email })
+      let idx = user.dragons.findIndex((elem) => {
+        return elem.serial === args.serial
+      })
+      if (idx != null) {
+        user.dragons[idx].state = args.change_state
       }
       return user.save()
     },

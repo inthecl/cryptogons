@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo'
 import { Link, Redirect } from 'react-router-dom'
-import { finduser, editChoicecbg, editChoicesword, editChoiceshield } from './queries'
+import M from 'materialize-css'
+import { finduser, editChoicecbg, editChoicesword, editChoiceshield, editUserDragonState } from './queries'
 import './App.css'
 import Layout from './Layout'
 import MyGonHeader from './MyGonHeader'
@@ -29,11 +30,15 @@ class Detail extends Component {
       birthday: null,
       price: null,
       serial: null,
+      state: null,
+      winning_rate: null,
       username: 'JaeDragon',
-      generation: 'generation',
-      cooldown: 'cooldown',
-      parents: 'parents,parents',
-      children: 'children,children',
+      gen: null,
+      cooldown: [],
+      parents: [],
+      parents_comb: [],
+      child: [],
+      child_comb: [],
       all_cbg: [],
       except_cbg: [], // 제외할 cbg
       choice_cbg: 'null', // 선택한 cbg
@@ -48,7 +53,7 @@ class Detail extends Component {
       change_shield: 'doNotClick',
       pagenum: null,
       lastPage: null,
-      pages: [],
+      possible_cbg: [],
       possible_sword: [],
       possible_shield: []
     }
@@ -58,6 +63,18 @@ class Detail extends Component {
     this.handleReleaseSword = this.handleReleaseSword.bind(this)
     this.handleChoiceShield = this.handleChoiceShield.bind(this)
     this.handleReleaseShield = this.handleReleaseShield.bind(this)
+    this.handleResting = this.handleResting.bind(this)
+    this.handleBrooding = this.handleBrooding.bind(this)
+    this.handleDuringBattle = this.handleDuringBattle.bind(this)
+  }
+  handleResting() {
+    M.toast({ html: 'Resting' })
+  }
+  handleBrooding() {
+    M.toast({ html: 'brooding' })
+  }
+  handleDuringBattle() {
+    M.toast({ html: 'during battle' })
   }
   handleChoiceCbg(event) {
     this.setState({ change_cbg: event })
@@ -148,9 +165,15 @@ class Detail extends Component {
           this.state.birthday = this.props.data.finduser.dragons[dl].birthday
           this.state.price = this.props.data.finduser.dragons[dl].price
           this.state.serial = this.props.data.finduser.dragons[dl].serial
+          this.state.gen = this.props.data.finduser.dragons[dl].gen
+          this.state.state = this.props.data.finduser.dragons[dl].state
+          this.state.cooldown = this.props.data.finduser.dragons[dl].cooldown
+          this.state.parents = this.props.data.finduser.dragons[dl].parents
+          this.state.child = this.props.data.finduser.dragons[dl].child
           this.state.choice_cbg = this.props.data.finduser.dragons[dl].choice_cbg
           this.state.choice_sword = this.props.data.finduser.dragons[dl].choice_sword
           this.state.choice_shield = this.props.data.finduser.dragons[dl].choice_shield
+          this.state.winning_rate = this.props.data.finduser.dragons[dl].winning_rate
           this.state.comb = this.props.data.finduser.dragons[dl].combination
           this.state.evolution = this.state.comb.substring(0, 2)
           this.state.property = this.state.comb.substring(2, 4)
@@ -182,19 +205,24 @@ class Detail extends Component {
           }
           console.log('this.state.except_shield : ', this.state.except_shield)
         }
+        // 소유한 모든 용 스테이트, 쿨타임 확인, 수정
+        if (this.props.data.finduser.dragons[dl].state === 'Resting' || this.props.data.finduser.dragons[dl].state === 'brooding' || this.props.data.finduser.dragons[dl].state === 'Egg' || this.props.data.finduser.dragons[dl].state === 'during battle') {
+          if (Date.now() >= this.props.data.finduser.dragons[dl].cooldown[1]) {
+            this.state.state = 'Normal'
+            this.props.editUserDragonState({ variables: { email: localStorage.getItem('email'), serial: this.props.data.finduser.dragons[dl].serial, change_state: 'Normal' } })
+              .then((res) => {
+                console.log(res)
+              })
+              .catch((errors) => {
+                console.log('errors: ', errors)
+              })
+          }
+        }
       }
-      // cbg pagination
-      this.state.pagenum = '1'
-      const lastItem = this.state.all_cbg.length
-      this.state.lastPage = lastItem / 12
-      const startItem = (this.state.pagenum - 1) * 12
-      let endItem = this.state.pagenum * 12
-      if (this.state.pagenum < 1) return <Redirect to="/MyCbg/1"/>
-      if (this.state.pagenum > this.state.lastPage + 1) return <Redirect to="/MyCbg/1"/>
-      if (endItem > lastItem) endItem = lastItem
-      this.state.pages = this.state.all_cbg.slice(startItem, endItem)
+
+      this.state.possible_cbg = this.state.all_cbg
       for (let a = 0; a < this.state.except_cbg.length; a += 1) {
-        this.state.pages.splice(this.state.pages.indexOf(this.state.except_cbg[a]), 1)
+        this.state.possible_cbg.splice(this.state.possible_cbg.indexOf(this.state.except_cbg[a]), 1)
       }
 
       // all sword - expect sword = possible sword
@@ -214,6 +242,9 @@ class Detail extends Component {
       var c = this.state.all_shield,
           d = this.state.except_shield;
       this.state.possible_shield = (c.subtract(d))
+
+      console.log('this.state.state : ', this.state.state)
+      console.log('this.state.cooldown : ', this.state.cooldown)
     }
     return (
       <Layout>
@@ -311,7 +342,7 @@ class Detail extends Component {
             <h4>Modal Header</h4>
             <div className='center'>
               <div className="row">
-                {this.state.pages.map(item =>
+                {this.state.possible_cbg.map(item =>
                   <div key={item.id}>
                     <div className="col s12 m6 l3">
                       <div className="card">
@@ -406,13 +437,38 @@ class Detail extends Component {
                   <font size="7">{this.state.name}</font>&nbsp;&nbsp;&nbsp;&nbsp;<font size="6">{this.state.serial}</font>
                 </div>
                 <div className="right margin-top-15">
-                  <span><a href={`/Breed/${this.state.serial}`} class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Breed</a></span>
-                  <span><a href={`/Sell/${this.state.serial}`} class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Sell</a></span>
-                  <span><a href={`/Gift/${this.state.serial}`} class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>Gift</a></span>
+                  {this.state.state !== 'Resting' && this.state.state !== 'brooding' && this.state.state !== 'during battle' &&
+                    <span>
+                      <a href={`/Breed/${this.state.serial}`} class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Breed</a>
+                      <a href={`/Sell/${this.state.serial}`} class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Sell</a>
+                      <a href={`/Gift/${this.state.serial}`} class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>Gift</a>
+                    </span>
+                  }
+                  {this.state.state === 'Resting' &&
+                    <span>
+                      <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleResting}><i class="material-icons left">cloud</i>Breed</a>
+                      <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleResting}><i class="material-icons left">cloud</i>Sell</a>
+                      <a class="waves-effect waves-light btn-large" onClick={this.handleResting}><i class="material-icons left">cloud</i>Gift</a>
+                    </span>
+                  }
+                  {this.state.state === 'brooding' &&
+                    <span>
+                      <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleBrooding}><i class="material-icons left">cloud</i>Breed</a>
+                      <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleBrooding}><i class="material-icons left">cloud</i>Sell</a>
+                      <a class="waves-effect waves-light btn-large" onClick={this.handleBrooding}><i class="material-icons left">cloud</i>Gift</a>
+                    </span>
+                  }
+                  {this.state.state === 'during battle' &&
+                    <span>
+                      <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleDuringBattle}><i class="material-icons left">cloud</i>Breed</a>
+                      <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleDuringBattle}><i class="material-icons left">cloud</i>Sell</a>
+                      <a class="waves-effect waves-light btn-large" onClick={this.handleDuringBattle}><i class="material-icons left">cloud</i>Gift</a>
+                    </span>
+                  }
                 </div>
               </div>
 
-              - win 70%&nbsp;&nbsp;&nbsp;- gen {this.state.generation}&nbsp;&nbsp;&nbsp;- cooldown {this.state.cooldown}
+              - win {this.state.winning_rate}&nbsp;&nbsp;&nbsp;- gen {this.state.gen}&nbsp;&nbsp;&nbsp;- cooldown {this.state.cooldown[0]}
                   &nbsp;&nbsp;&nbsp;- price {this.state.price}&nbsp;&nbsp;&nbsp;- birthday {this.state.birthday}
               <br/><br/><br/>
 
@@ -481,7 +537,7 @@ class Detail extends Component {
               {this.state.parents}
               <br/><br/><br/>
               <h5>children</h5>
-              {this.state.children}
+              {this.state.child}
             </div>
           </div>
         )}
@@ -502,5 +558,6 @@ export default compose(
   graphql(finduser, queryOptions),
   graphql(editChoicecbg, { name: 'editChoicecbg' }),
   graphql(editChoicesword, { name: 'editChoicesword' }),
-  graphql(editChoiceshield, { name: 'editChoiceshield' })
+  graphql(editChoiceshield, { name: 'editChoiceshield' }),
+  graphql(editUserDragonState, { name: 'editUserDragonState' })
 )(Detail)
