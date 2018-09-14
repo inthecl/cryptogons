@@ -41,7 +41,7 @@ const typeDefs = `
     cbg: [Cbg]
     sword: [Sword]
     shield: [Shield]
-    dragons: [Dragon]
+    dragonsNumber: [String]
   }
   type Statistic {
     usercount: Int
@@ -98,17 +98,17 @@ const typeDefs = `
     addDragon(name:String, price: Int!): Dragon
     addBook(title:String,author:String): Book
     registerUser(email:String!,username:String!,password:String!): User
-    addUserDragon(email: String!, new_comb: String!, parents: [String]!): User
+    addUserDragon(email: String!, new_comb: String!, parents: [String]!): Dragon
     registerItem(email:String!): Item
     addItemSword(name: String!, description: String!, number: String!, gold: Int!, diamond: Int!, trophy: Int!): Item
     addItemShield(name: String!, description: String!, number: String!, gold: Int!, diamond: Int!, trophy: Int!): Item
     addItemCbg(name: String!, description: String!, number: String!, gold: Int!, diamond: Int!, trophy: Int!): Item
     login(email:String!,password:String!): AuthPayload!
     removeUserDragon(email: String!, comb: String!): User
-    editChoicecbg(email: String!, serial: String!, choice_cbg: String!): User
-    editChoicesword(email: String!, serial: String!, choice_sword: String!): User
-    editChoiceshield(email: String!, serial: String!, choice_shield: String!): User
-    editUserDragonState(email: String!, serial: String!, change_state: String!): User
+    editChoicecbg(email: String!, serial: String!, choice_cbg: String!): Dragon
+    editChoicesword(email: String!, serial: String!, choice_sword: String!): Dragon
+    editChoiceshield(email: String!, serial: String!, choice_shield: String!): Dragon
+    editUserDragonState(email: String!, serial: String!, change_state: String!): Dragon
     itemPurchase(email: String!, item: String!, number: String!,  name: String!, description: String!, diamond: Int!, gold: Int!, trophy: Int!): User
   }
 `

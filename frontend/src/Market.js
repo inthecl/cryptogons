@@ -17,29 +17,27 @@ class Market extends Component {
   render() {
     if (!this.props.data.loading) {
       for (let dl = 0; dl < this.props.data.dragons.length; dl += 1) {
-        this.state.dragonsComb[dl] = {
-          name: this.props.data.dragons[dl].name,
-          serial: this.props.data.dragons[dl].serial,
-          evolution: this.props.data.dragons[dl].combination.substring(0, 2),
-          property: this.props.data.dragons[dl].combination.substring(2, 4),
-          wing: this.props.data.dragons[dl].combination.substring(4, 6),
-          wingColor: this.props.data.dragons[dl].combination.substring(6, 8),
-          horn: this.props.data.dragons[dl].combination.substring(8, 10),
-          hornColor: this.props.data.dragons[dl].combination.substring(10, 12),
-          tail: this.props.data.dragons[dl].combination.substring(12, 14),
-          body: this.props.data.dragons[dl].combination.substring(14, 16),
-          bodyColor: this.props.data.dragons[dl].combination.substring(16, 18),
-          eye: this.props.data.dragons[dl].combination.substring(18, 20),
-          eyeColor: this.props.data.dragons[dl].combination.substring(20, 22),
-          mouth: this.props.data.dragons[dl].combination.substring(22, 24),
-          nose: this.props.data.dragons[dl].combination.substring(24, 26)
+        if (this.props.data.dragons[dl].state === 'New') {
+          this.state.dragonsComb[dl] = {
+            name: this.props.data.dragons[dl].name,
+            serial: this.props.data.dragons[dl].serial,
+            evolution: this.props.data.dragons[dl].combination.substring(0, 2),
+            property: this.props.data.dragons[dl].combination.substring(2, 4),
+            wing: this.props.data.dragons[dl].combination.substring(4, 6),
+            wingColor: this.props.data.dragons[dl].combination.substring(6, 8),
+            horn: this.props.data.dragons[dl].combination.substring(8, 10),
+            hornColor: this.props.data.dragons[dl].combination.substring(10, 12),
+            tail: this.props.data.dragons[dl].combination.substring(12, 14),
+            body: this.props.data.dragons[dl].combination.substring(14, 16),
+            bodyColor: this.props.data.dragons[dl].combination.substring(16, 18),
+            eye: this.props.data.dragons[dl].combination.substring(18, 20),
+            eyeColor: this.props.data.dragons[dl].combination.substring(20, 22),
+            mouth: this.props.data.dragons[dl].combination.substring(22, 24),
+            nose: this.props.data.dragons[dl].combination.substring(24, 26)
+          }
         }
       }
-      console.log('1 : ', this.state.dragonsComb[0])
-      console.log('2 : ', this.state.dragonsComb[1])
-      console.log('3 : ', this.state.dragonsComb[2])
-      console.log('4 : ', this.state.dragonsComb[3])
-      console.log('5 : ', this.state.dragonsComb[4])
+      console.log('this.props.data.dragons : ', this.props.data.dragons)
     }
     const { pagenum } = this.props.match.params
     const lastItem = this.state.dragonsComb.length

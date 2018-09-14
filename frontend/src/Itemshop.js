@@ -49,6 +49,8 @@ class Itemshop extends Component {
       })
       .catch((errors) => {
         console.log('errors: ', errors)
+        console.log('modalNumber: ', modalNumber)
+        console.log('this.state.modal_name: ', this.state.modal_name)
       })
   }
   handleModal(choiceItem, choiceDiamond, choiceGold, choiceTrophy, choiceName, choiceDesc) {

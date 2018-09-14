@@ -26,7 +26,25 @@ const CbgSchema = new mongoose.Schema({
 const Sword = mongoose.model('sword', SwordSchema)
 const Shield = mongoose.model('shield', ShieldSchema)
 const Cbg = mongoose.model('cbg', CbgSchema)
-const DragonSchema = new mongoose.Schema({
+const Book = mongoose.model('book', { id: String, title: String, author: String })
+const User = mongoose.model('user', {
+  email: {
+    type: String
+  },
+  username: String,
+  password: String,
+  name: String,
+  confirmed: Boolean,
+  diamond: Number,
+  gold: Number,
+  trophy: Number,
+  iconNum: Number,
+  cbg: [CbgSchema],
+  sword: [SwordSchema],
+  shield: [ShieldSchema],
+  dragonsNumber: [String]
+})
+const Dragon = mongoose.model('dragon', {
   email: String,
   serial: String,
   combination: String,
@@ -51,25 +69,6 @@ const DragonSchema = new mongoose.Schema({
   lose: Number,
   winning_rate: Number,
   ranking: Number
-})
-const Dragon = mongoose.model('dragon', DragonSchema)
-const Book = mongoose.model('book', { id: String, title: String, author: String })
-const User = mongoose.model('user', {
-  email: {
-    type: String
-  },
-  username: String,
-  password: String,
-  name: String,
-  confirmed: Boolean,
-  diamond: Number,
-  gold: Number,
-  trophy: Number,
-  iconNum: Number,
-  cbg: [CbgSchema],
-  sword: [SwordSchema],
-  shield: [ShieldSchema],
-  dragons: [DragonSchema]
 })
 const Item = mongoose.model('item', {
   sword: [SwordSchema],

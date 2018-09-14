@@ -1,5 +1,65 @@
 cryptogons backend
 
+// dragons에 New추가
+mutation{
+  addDragon(price: 100) {
+  email
+  serial
+  combination
+  name
+  birthday
+  state
+  price
+  period
+  gen
+  cooldown
+  parents
+  child
+  choice_cbg
+  choice_sword
+  choice_shield
+  cintamani
+  base_attack
+  add_attack
+  base_armor
+  add_armor
+  win
+  lose
+  winning_rate
+  ranking
+  }
+}
+
+// dragons 배경, 검, 방패 수정
+mutation editChoicecbg($email: String!, $serial: String!, $choice_cbg: String!) {
+  editChoicecbg(email:$email, serial:$serial, choice_cbg:$choice_cbg) {
+    email
+    serial
+    combination
+    name
+    birthday
+    state
+    price
+    period
+    gen
+    cooldown
+    parents
+    child
+    choice_cbg
+    choice_sword
+    choice_shield
+    cintamani
+    base_attack
+    add_attack
+    base_armor
+    add_armor
+    win
+    lose
+    winning_rate
+    ranking
+   }
+  }
+
 mutation addUserDragon($email: String!, $new_comb: String!, $parents: [String]!) {
   addUserDragon(email:$email, new_comb:$new_comb, parents: $parents) {
   email

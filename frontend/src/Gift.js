@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo'
-import { finduser, editUserDragonState } from './queries'
+import { finduser, dragons, editUserDragonState } from './queries'
 import './App.css'
 import Layout from './Layout'
 import MyGonHeader from './MyGonHeader'
 
-class Gift extends Component {
+class gift extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -27,6 +27,7 @@ class Gift extends Component {
       birthday: null,
       price: null,
       serial: null,
+      change_state: null,
       choice_cbg: 'null',
       username: 'JaeDragon',
       generation: 'generation',
@@ -71,15 +72,31 @@ class Gift extends Component {
   btnSelectGon
   render() {
     if (!this.props.data.loading) {
-      console.log('this.props', this.props.data.finduser.dragons)
-      for (let dl = 0; dl < this.props.data.finduser.dragons.length; dl += 1) {
-        if (this.props.data.finduser.dragons[dl].serial === this.props.match.params.serialnumber) {
-          this.state.name = this.props.data.finduser.dragons[dl].name
-          this.state.birthday = this.props.data.finduser.dragons[dl].birthday
-          this.state.price = this.props.data.finduser.dragons[dl].price
-          this.state.serial = this.props.data.finduser.dragons[dl].serial
-          this.state.choice_cbg = this.props.data.finduser.dragons[dl].choice_cbg
-          this.state.comb = this.props.data.finduser.dragons[dl].combination
+      console.log('this.props', this.props.data.dragons)
+      for (let dl = 0; dl < this.props.data.dragons.length; dl += 1) {
+        if (this.props.data.dragons[dl].serial === this.props.match.params.serialnumber) {
+          // 소유한 모든 용 스테이트, 쿨타임 확인, 수정
+          if (this.props.data.dragons[dl].state === 'Resting' || this.props.data.dragons[dl].state === 'brooding' || this.props.data.dragons[dl].state === 'Egg' || this.props.data.dragons[dl].state === 'during battle') {
+            if (Date.now() >= this.props.data.dragons[dl].cooldown[1]) {
+              this.state.change_state = 'Normal'
+              this.props.mutate({ variables: { email: localStorage.getItem('email'), serial: this.props.data.dragons[dl].serial, change_state: 'Normal' } })
+                .then((res) => {
+                  console.log(res)
+                })
+                .catch((errors) => {
+                  console.log('errors: ', errors)
+                })
+            } else {
+              this.state.change_state = this.props.data.dragons[dl].state
+            }
+          }
+          this.state.name = this.props.data.dragons[dl].name
+          this.state.birthday = this.props.data.dragons[dl].birthday
+          this.state.price = this.props.data.dragons[dl].price
+          this.state.serial = this.props.data.dragons[dl].serial
+          this.state.state = this.state.change_state
+          this.state.choice_cbg = this.props.data.dragons[dl].choice_cbg
+          this.state.comb = this.props.data.dragons[dl].combination
           this.state.evolution = this.state.comb.substring(0, 2)
           this.state.property = this.state.comb.substring(2, 4)
           this.state.wing = this.state.comb.substring(4, 6)
@@ -95,9 +112,9 @@ class Gift extends Component {
           this.state.nose = this.state.comb.substring(24, 26)
         }
         // 소유한 모든 용 스테이트, 쿨타임 확인, 수정
-        if (this.props.data.finduser.dragons[dl].state === 'Resting' || this.props.data.finduser.dragons[dl].state === 'brooding' || this.props.data.finduser.dragons[dl].state === 'Egg' || this.props.data.finduser.dragons[dl].state === 'during battle') {
-          if (Date.now() >= this.props.data.finduser.dragons[dl].cooldown[1]) {
-            this.props.mutate({ variables: { email: localStorage.getItem('email'), serial: this.props.data.finduser.dragons[dl].serial, change_state: 'Normal' } })
+        if (this.props.data.dragons[dl].state === 'Resting' || this.props.data.dragons[dl].state === 'brooding' || this.props.data.dragons[dl].state === 'Egg' || this.props.data.dragons[dl].state === 'during battle') {
+          if (Date.now() >= this.props.data.dragons[dl].cooldown[1]) {
+            this.props.mutate({ variables: { email: localStorage.getItem('email'), serial: this.props.data.dragons[dl].serial, change_state: 'Normal' } })
               .then((res) => {
                 console.log(res)
               })
@@ -195,16 +212,16 @@ class Gift extends Component {
   }
 }
 
-const queryOptions = {
-  options: props => ({
-    variables: {
-      email: localStorage.getItem('email')
-    }
-  })
-}
-
 export default compose(
-  graphql(finduser, queryOptions),
+  graphql(finduser, {
+    name: 'finduser',
+    options: props => ({
+      variables: {
+        email: localStorage.getItem('email')
+      }
+    })
+  }),
+  graphql(dragons),
   graphql(editUserDragonState),
-)(Gift)
+)(gift)
 

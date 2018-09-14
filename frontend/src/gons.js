@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo'
 import { Link, Redirect } from 'react-router-dom'
 import M from 'materialize-css'
-import { finduser, editChoicecbg, editChoicesword, editChoiceshield, editUserDragonState } from './queries'
+import { finduser, dragons, editChoicecbg, editChoicesword, editChoiceshield, editUserDragonState } from './queries'
 import './App.css'
 import Layout from './Layout'
 import MyGonHeader from './MyGonHeader'
 import MaterialPagination from './MaterialPagination'
 
-class Detail extends Component {
+class gons extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -31,6 +31,7 @@ class Detail extends Component {
       price: null,
       serial: null,
       state: null,
+      change_state: null,
       winning_rate: null,
       username: 'JaeDragon',
       gen: null,
@@ -77,6 +78,9 @@ class Detail extends Component {
     M.toast({ html: 'during battle' })
   }
   handleChoiceCbg(event) {
+    console.log('email: ', localStorage.getItem('email'))
+    console.log('serial: ', this.props.match.params.serialnumber)
+    console.log('choice_cbg: ', event)
     this.setState({ change_cbg: event })
     // 서버에 현재용의 serial, choice_cbg(event) 보냄
     this.props.editChoicecbg({ variables: { email: localStorage.getItem('email'), serial: this.props.match.params.serialnumber, choice_cbg: event } })
@@ -148,33 +152,48 @@ class Detail extends Component {
     let x = 0
     let y = 0
     let z = 0
-    if (!this.props.data.loading) {
-      for (let a = 0; a < this.props.data.finduser.sword.length; a += 1) {
-        this.state.all_sword[a] = this.props.data.finduser.sword[a].number
+    if (!this.props.finduser.loading && !this.props.data.loading) {
+      for (let a = 0; a < this.props.finduser.finduser.sword.length; a += 1) {
+        this.state.all_sword[a] = this.props.finduser.finduser.sword[a].number
       }
-      for (let b = 0; b < this.props.data.finduser.shield.length; b += 1) {
-        this.state.all_shield[b] = this.props.data.finduser.shield[b].number
+      for (let b = 0; b < this.props.finduser.finduser.shield.length; b += 1) {
+        this.state.all_shield[b] = this.props.finduser.finduser.shield[b].number
       }
-      for (let c = 0; c < this.props.data.finduser.cbg.length; c += 1) {
-        this.state.all_cbg[c] = this.props.data.finduser.cbg[c].number
+      for (let c = 0; c < this.props.finduser.finduser.cbg.length; c += 1) {
+        this.state.all_cbg[c] = this.props.finduser.finduser.cbg[c].number
       }
       console.log('this.props', this.props)
-      for (let dl = 0; dl < this.props.data.finduser.dragons.length; dl += 1) {
-        if (this.props.data.finduser.dragons[dl].serial === this.props.match.params.serialnumber) {
-          this.state.name = this.props.data.finduser.dragons[dl].name
-          this.state.birthday = this.props.data.finduser.dragons[dl].birthday
-          this.state.price = this.props.data.finduser.dragons[dl].price
-          this.state.serial = this.props.data.finduser.dragons[dl].serial
-          this.state.gen = this.props.data.finduser.dragons[dl].gen
-          this.state.state = this.props.data.finduser.dragons[dl].state
-          this.state.cooldown = this.props.data.finduser.dragons[dl].cooldown
-          this.state.parents = this.props.data.finduser.dragons[dl].parents
-          this.state.child = this.props.data.finduser.dragons[dl].child
-          this.state.choice_cbg = this.props.data.finduser.dragons[dl].choice_cbg
-          this.state.choice_sword = this.props.data.finduser.dragons[dl].choice_sword
-          this.state.choice_shield = this.props.data.finduser.dragons[dl].choice_shield
-          this.state.winning_rate = this.props.data.finduser.dragons[dl].winning_rate
-          this.state.comb = this.props.data.finduser.dragons[dl].combination
+      for (let dl = 0; dl < this.props.data.dragons.length; dl += 1) {
+        if (this.props.data.dragons[dl].serial === this.props.match.params.serialnumber) {
+          // 소유한 모든 용 스테이트, 쿨타임 확인, 수정
+          if (this.props.data.dragons[dl].state === 'Resting' || this.props.data.dragons[dl].state === 'brooding' || this.props.data.dragons[dl].state === 'Egg' || this.props.data.dragons[dl].state === 'during battle') {
+            if (Date.now() >= this.props.data.dragons[dl].cooldown[1]) {
+              this.state.change_state = 'Normal'
+              this.props.mutate({ variables: { email: localStorage.getItem('email'), serial: this.props.data.dragons[dl].serial, change_state: 'Normal' } })
+                .then((res) => {
+                  console.log(res)
+                })
+                .catch((errors) => {
+                  console.log('errors: ', errors)
+                })
+            } else {
+              this.state.change_state = this.props.data.dragons[dl].state
+            }
+          }
+          this.state.name = this.props.data.dragons[dl].name
+          this.state.birthday = this.props.data.dragons[dl].birthday
+          this.state.price = this.props.data.dragons[dl].price
+          this.state.serial = this.props.data.dragons[dl].serial
+          this.state.gen = this.props.data.dragons[dl].gen
+          this.state.state = this.state.change_state
+          this.state.cooldown = this.props.data.dragons[dl].cooldown
+          this.state.parents = this.props.data.dragons[dl].parents
+          this.state.child = this.props.data.dragons[dl].child
+          this.state.choice_cbg = this.props.data.dragons[dl].choice_cbg
+          this.state.choice_sword = this.props.data.dragons[dl].choice_sword
+          this.state.choice_shield = this.props.data.dragons[dl].choice_shield
+          this.state.winning_rate = this.props.data.dragons[dl].winning_rate
+          this.state.comb = this.props.data.dragons[dl].combination
           this.state.evolution = this.state.comb.substring(0, 2)
           this.state.property = this.state.comb.substring(2, 4)
           this.state.wing = this.state.comb.substring(4, 6)
@@ -189,34 +208,21 @@ class Detail extends Component {
           this.state.mouth = this.state.comb.substring(22, 24)
           this.state.nose = this.state.comb.substring(24, 26)
         } else {
-          if (this.props.data.finduser.dragons[dl].choice_cbg !== 'null') {
-            this.state.except_cbg[x] = this.props.data.finduser.dragons[dl].choice_cbg
+          if (this.props.data.dragons[dl].choice_cbg !== 'null') {
+            this.state.except_cbg[x] = this.props.data.dragons[dl].choice_cbg
             x += 1
           }
           console.log('this.state.except_cbg : ', this.state.except_cbg)
-          if (this.props.data.finduser.dragons[dl].choice_sword !== 'null') {
-            this.state.except_sword[y] = this.props.data.finduser.dragons[dl].choice_sword
+          if (this.props.data.dragons[dl].choice_sword !== 'null') {
+            this.state.except_sword[y] = this.props.data.dragons[dl].choice_sword
             y += 1
           }
           console.log('this.state.except_sword : ', this.state.except_sword)
-          if (this.props.data.finduser.dragons[dl].choice_shield !== 'null') {
-            this.state.except_shield[z] = this.props.data.finduser.dragons[dl].choice_shield
+          if (this.props.data.dragons[dl].choice_shield !== 'null') {
+            this.state.except_shield[z] = this.props.data.dragons[dl].choice_shield
             z += 1
           }
           console.log('this.state.except_shield : ', this.state.except_shield)
-        }
-        // 소유한 모든 용 스테이트, 쿨타임 확인, 수정
-        if (this.props.data.finduser.dragons[dl].state === 'Resting' || this.props.data.finduser.dragons[dl].state === 'brooding' || this.props.data.finduser.dragons[dl].state === 'Egg' || this.props.data.finduser.dragons[dl].state === 'during battle') {
-          if (Date.now() >= this.props.data.finduser.dragons[dl].cooldown[1]) {
-            this.state.state = 'Normal'
-            this.props.editUserDragonState({ variables: { email: localStorage.getItem('email'), serial: this.props.data.finduser.dragons[dl].serial, change_state: 'Normal' } })
-              .then((res) => {
-                console.log(res)
-              })
-              .catch((errors) => {
-                console.log('errors: ', errors)
-              })
-          }
         }
       }
 
@@ -227,20 +233,20 @@ class Detail extends Component {
 
       // all sword - expect sword = possible sword
       Array.prototype.subtract = function (array) {
-        var hash = Object.create(null);
+        var hash = Object.create(null)
         array.forEach(function (a) {
-            hash[a] = (hash[a] || 0) + 1;
-        });
+            hash[a] = (hash[a] || 0) + 1
+        })
         return this.filter(function (a) {
-           return !hash[a] || (hash[a]--, false);
-        });
+           return !hash[a] || (hash[a]--, false)
+        })
       }
       var a = this.state.all_sword,
-          b = this.state.except_sword;
+          b = this.state.except_sword
       this.state.possible_sword = (a.subtract(b))
       // all shield - expect shield = possible shield
       var c = this.state.all_shield,
-          d = this.state.except_shield;
+          d = this.state.except_shield
       this.state.possible_shield = (c.subtract(d))
 
       console.log('this.state.state : ', this.state.state)
@@ -371,7 +377,7 @@ class Detail extends Component {
                     </div>
                   </div>)}
               </div>
-              <MaterialPagination linkPath="Detail" pageNum={this.state.pagenum} lastPage={this.state.lastPage} />
+              <MaterialPagination linkPath="gons" pageNum={this.state.pagenum} lastPage={this.state.lastPage} />
             </div>
           </div>
           <div class="modal-footer">
@@ -439,9 +445,9 @@ class Detail extends Component {
                 <div className="right margin-top-15">
                   {this.state.state !== 'Resting' && this.state.state !== 'brooding' && this.state.state !== 'during battle' &&
                     <span>
-                      <a href={`/Breed/${this.state.serial}`} class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Breed</a>
-                      <a href={`/Sell/${this.state.serial}`} class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Sell</a>
-                      <a href={`/Gift/${this.state.serial}`} class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>Gift</a>
+                      <a href={`/breed/${this.state.serial}`} class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Breed</a>
+                      <a href={`/sell/${this.state.serial}`} class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Sell</a>
+                      <a href={`/gift/${this.state.serial}`} class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>Gift</a>
                     </span>
                   }
                   {this.state.state === 'Resting' &&
@@ -546,18 +552,18 @@ class Detail extends Component {
   }
 }
 
-const queryOptions = {
-  options: props => ({
-    variables: {
-      email: localStorage.getItem('email')
-    }
-  })
-}
-
 export default compose(
-  graphql(finduser, queryOptions),
+  graphql(finduser, {
+    name: 'finduser',
+    options: props => ({
+      variables: {
+        email: localStorage.getItem('email')
+      }
+    })
+  }),
+  graphql(dragons),
   graphql(editChoicecbg, { name: 'editChoicecbg' }),
   graphql(editChoicesword, { name: 'editChoicesword' }),
   graphql(editChoiceshield, { name: 'editChoiceshield' }),
   graphql(editUserDragonState, { name: 'editUserDragonState' })
-)(Detail)
+)(gons)

@@ -22,43 +22,37 @@ const resolvers = {
       const one = await new ctx.models.Statistic(args)
       return one.save()
     },
-    addUserDragon: async (obj, args, ctx) => { // Breed
+    // Breed 내꺼끼리 교배
+    addUserDragon: async (obj, args, ctx) => {
       let serial = String(generator.generate(20))
-      // 부모 시리얼의 gen을 찾아 새로운용의 gen을 구함, 부모의 state 상태변경, child 추가, 자식의 개수로 쿨타임 조정
-      const user = await ctx.models.User.findOne({email:args.email})
+      
+      const user = await ctx.models.User.findOne({ email: args.email }) // 유저 dragonsNumber에 새로운 용 시리얼 추가
+      user.dragonsNumber.push(serial)
 
-      const coodTimeX = Date.now() + 60000
-      let idx = user.dragons.findIndex((elem) => {
-        return elem.serial === args.parents[0]
-      })
-      if (idx != null) {
-        user.dragons[idx].state = 'Resting' // 부의 state, child, cooldown 변경
-        user.dragons[idx].child.push(serial)
-        user.dragons[idx].cooldown[1] = (coodTimeX) // cooldown[1] 시간 설정 후 cooldown[0] 쿨타임 설정
-      }
+      const xdragon = await ctx.models.Dragon.findOne({ serial: args.parents[0] })
+      const coodTimeX = Date.now() + 120000 // 임시 2분 쿨타임
+      xdragon.state = 'Resting' // 부의 state 변경
+      xdragon.child.push(serial) // 부의 child에 자식 시리얼 추가
+      xdragon.cooldown = ['Very fast', coodTimeX] // 현재 cooldown[0] 쿨타임등급, cooldown[1] 쿨타임시간 미설정
 
-      const coodTimeY = Date.now() + 60000
-      let idy = user.dragons.findIndex((elem) => {
-        return elem.serial === args.parents[1]
-      })
-      if (idy != null) {
-        user.dragons[idy].state = 'brooding' // 모의 state, child, cooldown 변경
-        user.dragons[idy].child.push(serial)
-        user.dragons[idy].cooldown[1] = (coodTimeY) // cooldown[1] 시간 설정 후 cooldown[0] 쿨타임 설정
-      }
+      const ydragon = await ctx.models.Dragon.findOne({ serial: args.parents[1] })
+      const coodTimeY = Date.now() + 120000 // 임시 2분 쿨타임
+      ydragon.state = 'brooding' // 모의 state 변경
+      ydragon.child.push(serial) // 모의 child에 자식 시리얼 추가
+      ydragon.cooldown = ['Very fast', coodTimeY]// 현재 cooldown[0] 쿨타임등급, cooldown[1] 쿨타임시간 미설정
 
+      // 새로운 용의 세대 계산
       let ngen = null
-      if (user.dragons[idx].gen === user.dragons[idy].gen) {
-        ngen = user.dragons[idx].gen + 1
+      if (xdragon.gen === ydragon.gen) {
+        ngen = xdragon.gen + 1
       }
-      if (user.dragons[idx].gen < user.dragons[idy].gen) {
-        ngen = user.dragons[idy].gen + 1
+      if (xdragon.gen < ydragon.gen) {
+        ngen = ydragon.gen + 1
       }
-      if (user.dragons[idx].gen > user.dragons[idy].gen) {
-        ngen = user.dragons[idx].gen + 1
+      if (xdragon.gen > ydragon.gen) {
+        ngen = xdragon.gen + 1
       }
 
-      console.log(serial)
       let test = Object.assign({
         email: args.email,
         serial: serial,
@@ -85,14 +79,13 @@ const resolvers = {
         winning_rate: 0,
         ranking: 0
       })
-      console.log(test)
-      user.dragons.push(test)
-      console.log(user)
-      return user.save()
+      const bdragon = await ctx.models.Dragon(test)
+
+      return bdragon.save(), user.save(), xdragon.save(), ydragon.save()
     },
     removeUserDragon: async (obj, args, ctx) => {
       const user = await ctx.models.User.findOne({email:args.email})
-      if(args.comb === '0') {
+      if (args.comb === '0') {
         user.dragons = []
       } else {
         let idx = user.dragons.findIndex((elem) => {
@@ -103,7 +96,8 @@ const resolvers = {
       console.log(user)
       return user.save()
     },
-    addDragon: async (obj, args, ctx) => {
+    // dragons에 New용 추가
+    addDragon: async (obj, args, ctx) => { 
       console.log(args)
       const dragon = Object.assign(args)
       const statistic = await ctx.models.Statistic.findOne()
@@ -129,7 +123,7 @@ const resolvers = {
       }
       dragon.combination = tmp
       dragon.birthday = String(Date.now())
-      dragon.state = 'Normal'
+      dragon.state = 'New'
       dragon.price = args.price
       dragon.period = 0
       dragon.gen = 0
@@ -155,45 +149,26 @@ const resolvers = {
       statistic.save()
       return one.save()
     },
+    // dragons 배경, 검, 방패 수정
     editChoicecbg: async (obj, args, ctx) => {
-      const user = await ctx.models.User.findOne({ email: args.email })
-      let idx = user.dragons.findIndex((elem) => {
-        return elem.serial === args.serial
-      })
-      if (idx != null) {
-        user.dragons[idx].choice_cbg = args.choice_cbg
-      }
-      return user.save()
+      const dragon = await ctx.models.Dragon.findOne({ serial: args.serial })
+      dragon.choice_cbg = args.choice_cbg
+      return dragon.save()
     },
     editChoicesword: async (obj, args, ctx) => {
-      const user = await ctx.models.User.findOne({ email: args.email })
-      let idx = user.dragons.findIndex((elem) => {
-        return elem.serial === args.serial
-      })
-      if (idx != null) {
-        user.dragons[idx].choice_sword = args.choice_sword
-      }
-      return user.save()
+      const dragon = await ctx.models.Dragon.findOne({ serial: args.serial })
+      dragon.choice_sword = args.choice_sword
+      return dragon.save()
     },
     editChoiceshield: async (obj, args, ctx) => {
-      const user = await ctx.models.User.findOne({ email: args.email })
-      let idx = user.dragons.findIndex((elem) => {
-        return elem.serial === args.serial
-      })
-      if (idx != null) {
-        user.dragons[idx].choice_shield = args.choice_shield
-      }
-      return user.save()
+      const dragon = await ctx.models.Dragon.findOne({ serial: args.serial })
+      dragon.choice_shield = args.choice_shield
+      return dragon.save()
     },
     editUserDragonState: async (obj, args, ctx) => {
-      const user = await ctx.models.User.findOne({ email: args.email })
-      let idx = user.dragons.findIndex((elem) => {
-        return elem.serial === args.serial
-      })
-      if (idx != null) {
-        user.dragons[idx].state = args.change_state
-      }
-      return user.save()
+      const dragon = await ctx.models.Dragon.findOne({ serial: args.serial })
+      dragon.state = args.change_state
+      return dragon.save()
     },
     addBook: async (obj, args, ctx) => {
       const one = await new ctx.models.Book(args)

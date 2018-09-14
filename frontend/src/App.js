@@ -16,10 +16,10 @@ import MarketNew from './MarketNew'
 import Itemshop from './Itemshop'
 import Battles from './Battles'
 import Activity from './Activity'
-import Detail from './Detail'
-import Breed from './Breed'
-import Sell from './Sell'
-import Gift from './Gift'
+import gons from './gons'
+import breed from './breed'
+import sell from './sell'
+import gift from './gift'
 import Myinfo from './Myinfo'
 import CheckForget from './CheckForget'
 
@@ -44,10 +44,10 @@ class App extends Component {
             <Route exacy path="/Itemshop/:pagenum" component={Itemshop}/>
             <Route path="/Battles" component={Battles}/>
             <Route path="/Activity" component={Activity}/>
-            <Route path="/Detail/:serialnumber" component={Detail}/>
-            <Route path="/Breed/:serialnumber" component={Breed}/>
-            <Route path="/Sell/:serialnumber" component={Sell}/>
-            <Route path="/Gift/:serialnumber" component={Gift}/>
+            <Route path="/gons/:serialnumber" component={gons}/>
+            <Route path="/breed/:serialnumber" component={breed}/>
+            <Route path="/sell/:serialnumber" component={sell}/>
+            <Route path="/gift/:serialnumber" component={gift}/>
             <Route path="/Myinfo" component={Myinfo}/>
             <Route path="/CheckForget/:checkForget" component={CheckForget}/>
           </Switch>

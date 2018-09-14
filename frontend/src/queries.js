@@ -30,12 +30,32 @@ query CheckEmail($email: String!){
 `
 const dragons = gql`
 query { dragons {
-  name
-  combination
-  birthday
-  price
+  email
   serial
-} }
+  combination
+  name
+  birthday
+  state
+  price
+  period
+  gen
+  cooldown
+  parents
+  child
+  choice_cbg
+  choice_sword
+  choice_shield
+  cintamani
+  base_attack
+  add_attack
+  base_armor
+  add_armor
+  win
+  lose
+  winning_rate
+  ranking
+  } 
+}
 `
 const finddragon = gql`
 query finddragon($serial: String!){
@@ -82,70 +102,13 @@ query finduser($email: String!){
     diamond
     trophy
   }
-  dragons {
-    email
-    serial
-    combination
-    name
-    birthday
-    state
-    price
-    period
-    gen
-    cooldown
-    parents
-    child
-    choice_cbg
-    choice_sword
-    choice_shield
-    cintamani
-    base_attack
-    add_attack
-    base_armor
-    add_armor
-    win
-    lose
-    winning_rate
-    ranking
-  }
+  dragonsNumber
  }
 }
 `
 const addUserDragon = gql`
 mutation addUserDragon($email: String!, $new_comb: String!, $parents: [String]! ) {
   addUserDragon(email:$email, new_comb:$new_comb, parents: $parents ) {
-  email
-  username
-  name
-  diamond
-  gold
-  trophy
-  iconNum
-  cbg {
-    number
-    name
-    description
-    gold
-    diamond
-    trophy
-  }
-  sword {
-    number
-    name
-    description
-    gold
-    diamond
-    trophy
-  }
-  shield {
-    number
-    name
-    description
-    gold
-    diamond
-    trophy
-  }
-  dragons {
     email
     serial
     combination
@@ -170,7 +133,6 @@ mutation addUserDragon($email: String!, $new_comb: String!, $parents: [String]! 
     lose
     winning_rate
     ranking
-  }
  }
 }
 `
@@ -178,45 +140,29 @@ const editChoicecbg = gql`
 mutation editChoicecbg($email: String!, $serial: String!, $choice_cbg: String!) {
   editChoicecbg(email:$email, serial:$serial, choice_cbg:$choice_cbg) {
     email
-    username
+    serial
+    combination
     name
-    diamond
-    gold
-    iconNum
-    cbg {
-      number
-      name
-      description
-      gold
-      diamond
-      trophy
-    }
-    sword {
-      number
-      name
-      description
-      gold
-      diamond
-      trophy
-    }
-    shield {
-      number
-      name
-      description
-      gold
-      diamond
-      trophy
-    }
-    dragons {
-      name
-      combination
-      birthday
-      price
-      serial
-      choice_cbg
-      choice_sword
-      choice_shield
-    }
+    birthday
+    state
+    price
+    period
+    gen
+    cooldown
+    parents
+    child
+    choice_cbg
+    choice_sword
+    choice_shield
+    cintamani
+    base_attack
+    add_attack
+    base_armor
+    add_armor
+    win
+    lose
+    winning_rate
+    ranking
    }
   }
   `
@@ -224,45 +170,29 @@ const editChoicesword = gql`
 mutation editChoicesword($email: String!, $serial: String!, $choice_sword: String!) {
   editChoicesword(email:$email, serial:$serial, choice_sword:$choice_sword) {
     email
-    username
+    serial
+    combination
     name
-    diamond
-    gold
-    iconNum
-    cbg {
-      number
-      name
-      description
-      gold
-      diamond
-      trophy
-    }
-    sword {
-      number
-      name
-      description
-      gold
-      diamond
-      trophy
-    }
-    shield {
-      number
-      name
-      description
-      gold
-      diamond
-      trophy
-    }
-    dragons {
-      name
-      combination
-      birthday
-      price
-      serial
-      choice_cbg
-      choice_sword
-      choice_shield
-    }
+    birthday
+    state
+    price
+    period
+    gen
+    cooldown
+    parents
+    child
+    choice_cbg
+    choice_sword
+    choice_shield
+    cintamani
+    base_attack
+    add_attack
+    base_armor
+    add_armor
+    win
+    lose
+    winning_rate
+    ranking
    }
   }
   `
@@ -270,45 +200,29 @@ const editChoiceshield = gql`
 mutation editChoiceshield($email: String!, $serial: String!, $choice_shield: String!) {
   editChoiceshield(email:$email, serial:$serial, choice_shield:$choice_shield) {
     email
-    username
+    serial
+    combination
     name
-    diamond
-    gold
-    iconNum
-    cbg {
-      number
-      name
-      description
-      gold
-      diamond
-      trophy
-    }
-    sword {
-      number
-      name
-      description
-      gold
-      diamond
-      trophy
-    }
-    shield {
-      number
-      name
-      description
-      gold
-      diamond
-      trophy
-    }
-    dragons {
-      name
-      combination
-      birthday
-      price
-      serial
-      choice_cbg
-      choice_sword
-      choice_shield
-    }
+    birthday
+    state
+    price
+    period
+    gen
+    cooldown
+    parents
+    child
+    choice_cbg
+    choice_sword
+    choice_shield
+    cintamani
+    base_attack
+    add_attack
+    base_armor
+    add_armor
+    win
+    lose
+    winning_rate
+    ranking
    }
   }
   `
@@ -376,14 +290,7 @@ mutation itemPurchase($email: String!, $number: String!, $item: String!, $name: 
       diamond
       trophy
     }
-    dragons {
-      name
-      combination
-      birthday
-      price
-      serial
-      choice_cbg
-    }
+    dragonsNumber
    }
   }
   `
@@ -391,38 +298,6 @@ mutation itemPurchase($email: String!, $number: String!, $item: String!, $name: 
 const editUserDragonState = gql`
   mutation editUserDragonState($email: String!, $serial: String!, $change_state: String!) {
     editUserDragonState(email:$email, serial:$serial, change_state: $change_state) {
-    email
-    username
-    name
-    diamond
-    gold
-    trophy
-    iconNum
-    cbg {
-      name
-      description
-      number
-      gold
-      diamond
-      trophy
-    }
-    sword {
-      name
-      description
-      number
-      gold
-      diamond
-      trophy
-    }
-    shield {
-      name
-      description
-      number
-      gold
-      diamond
-      trophy
-    }
-    dragons {
       email
       serial
       combination
@@ -447,7 +322,6 @@ const editUserDragonState = gql`
       lose
       winning_rate
       ranking
-    }
    }
   }
   `
