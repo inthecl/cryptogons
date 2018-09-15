@@ -17,7 +17,8 @@ class MyGons extends Component {
   }
   render() {
     if (!this.props.data.loading) {
-      console.log('this.props', this.props.data.dragons)
+      console.log('this.props', this.props.data)
+      let dcx = 0
       for (let dl = 0; dl < this.props.data.dragons.length; dl += 1) {
         if (this.props.data.dragons[dl].email === localStorage.getItem('email')) {
           // 소유한 모든 용 스테이트, 쿨타임 확인, 수정
@@ -35,7 +36,7 @@ class MyGons extends Component {
               this.state.change_state = this.props.data.dragons[dl].state
             }
           }
-          this.state.dragonsComb[dl] = {
+          this.state.dragonsComb[dcx] = {
             name: this.props.data.dragons[dl].name,
             serial: this.props.data.dragons[dl].serial,
             state: this.state.change_state,
@@ -54,16 +55,15 @@ class MyGons extends Component {
             mouth: this.props.data.dragons[dl].combination.substring(22, 24),
             nose: this.props.data.dragons[dl].combination.substring(24, 26)
           }
+          dcx += 1
         }
       }
-      console.log('1 : ', this.state.dragonsComb[0])
-      console.log('2 : ', this.state.dragonsComb[1])
-      console.log('3 : ', this.state.dragonsComb[2])
-      console.log('4 : ', this.state.dragonsComb[3])
-      console.log('5 : ', this.state.dragonsComb[4])
+      console.log('this.state.dragonsComb : ', this.state.dragonsComb)
     }
     const { pagenum } = this.props.match.params
+    console.log('this.props.match.params:', this.props.match.params)
     const lastItem = this.state.dragonsComb.length
+    console.log('this.state.dragonsComb.length', this.state.dragonsComb.length)
     const lastPage = lastItem / 12
     const startItem = (pagenum - 1) * 12
     let endItem = pagenum * 12
@@ -71,7 +71,6 @@ class MyGons extends Component {
     if (pagenum > lastPage + 1) return <Redirect to="/Mygon/1"/>
     if (endItem > lastItem) endItem = lastItem
     const pages = this.state.dragonsComb.slice(startItem, endItem)
-    console.log('this.props.match.params:', this.props.match.params)
     return (
       <Layout>
         <MyGonHeader/>

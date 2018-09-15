@@ -16,9 +16,10 @@ class Market extends Component {
   }
   render() {
     if (!this.props.data.loading) {
+      let dcx = 0
       for (let dl = 0; dl < this.props.data.dragons.length; dl += 1) {
         if (this.props.data.dragons[dl].state === 'New') {
-          this.state.dragonsComb[dl] = {
+          this.state.dragonsComb[dcx] = {
             name: this.props.data.dragons[dl].name,
             serial: this.props.data.dragons[dl].serial,
             evolution: this.props.data.dragons[dl].combination.substring(0, 2),
@@ -35,6 +36,7 @@ class Market extends Component {
             mouth: this.props.data.dragons[dl].combination.substring(22, 24),
             nose: this.props.data.dragons[dl].combination.substring(24, 26)
           }
+          dcx += 1
         }
       }
       console.log('this.props.data.dragons : ', this.props.data.dragons)
@@ -155,7 +157,7 @@ class Market extends Component {
                         <p>I am a very simple card.</p>
                       </div>
                       <div className="card-action">
-                        <Link to={`/MarketSale/${item.serial}`}>{item.serial}</Link>
+                        <Link to={`/gons/${item.serial}`}>{item.serial}</Link>
                       </div>
                     </div>
                   </div>

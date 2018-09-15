@@ -288,6 +288,22 @@ const resolvers = {
       }
       return user.save()
     },
+    dragonPurchase: async (obj, args, ctx) => {
+      const user = await ctx.models.User.findOne({ email: args.email })
+      user.diamond -= args.diamond
+      const dragon = await ctx.models.Dragon.findOne({ serial: args.serial })
+      dragon.email = args.email
+      dragon.name = 'Purchased Dragons'
+      dragon.state = 'Normal'
+      dragon.choice_cbg = 'null'
+      dragon.choice_sword = 'null'
+      dragon.choice_shield = 'null'
+      dragon.win = 0
+      dragon.lose = 0
+      dragon.winning_rate = 0
+      dragon.ranking = 0
+      return user.save(), dragon.save()
+    },
     login: async (obj, args, ctx) => {
       console.log(args)
       const user = await ctx.models.User.findOne({ email: args.email })

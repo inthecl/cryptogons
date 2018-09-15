@@ -325,4 +325,34 @@ const editUserDragonState = gql`
    }
   }
   `
-export { registerUser, login, CheckEmailquery, dragons, finddragon, finduser, addUserDragon, editChoicecbg, editChoicesword, editChoiceshield, finditem, itemPurchase, editUserDragonState }
+const dragonPurchase = gql`
+  mutation dragonPurchase($email: String!, $serial: String!, $diamond: Int!) {
+    dragonPurchase(email:$email, serial:$serial, diamond:$diamond) {
+      email
+      serial
+      combination
+      name
+      birthday
+      state
+      price
+      period
+      gen
+      cooldown
+      parents
+      child
+      choice_cbg
+      choice_sword
+      choice_shield
+      cintamani
+      base_attack
+      add_attack
+      base_armor
+      add_armor
+      win
+      lose
+      winning_rate
+      ranking
+   }
+  }
+  `
+export { registerUser, login, CheckEmailquery, dragons, finddragon, finduser, addUserDragon, editChoicecbg, editChoicesword, editChoiceshield, finditem, itemPurchase, editUserDragonState, dragonPurchase }

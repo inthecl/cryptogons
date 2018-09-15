@@ -110,6 +110,7 @@ const typeDefs = `
     editChoiceshield(email: String!, serial: String!, choice_shield: String!): Dragon
     editUserDragonState(email: String!, serial: String!, change_state: String!): Dragon
     itemPurchase(email: String!, item: String!, number: String!,  name: String!, description: String!, diamond: Int!, gold: Int!, trophy: Int!): User
+    dragonPurchase(email: String! serial: String!, diamond: Int!): Dragon
   }
 `
 export default typeDefs
