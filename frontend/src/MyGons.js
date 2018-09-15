@@ -36,6 +36,9 @@ class MyGons extends Component {
               this.state.change_state = this.props.data.dragons[dl].state
             }
           }
+          if (this.props.data.dragons[dl].state === 'Sell') {
+            this.state.change_state = this.props.data.dragons[dl].state
+          }
           this.state.dragonsComb[dcx] = {
             name: this.props.data.dragons[dl].name,
             serial: this.props.data.dragons[dl].serial,

@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
+import M from 'materialize-css'
 import { graphql, compose } from 'react-apollo'
-import { finduser, dragons, editUserDragonState } from './queries'
+import { Redirect } from 'react-router-dom'
+import { finduser, dragons, editUserDragonState, dragonSell } from './queries'
 import './App.css'
 import Layout from './Layout'
 import btnPlus from './image/plus.png'
@@ -11,6 +13,7 @@ class sell extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      redirect: false,
       comb: null,
       evolution: null,
       property: null,
@@ -28,6 +31,7 @@ class sell extends Component {
       name: null,
       birthday: null,
       price: null,
+      period: null,
       average_sell_price: 100,
       sell_price: 10,
       sell_period: 1,
@@ -46,7 +50,7 @@ class sell extends Component {
     this.btnPeriodMinus = this.btnPeriodMinus.bind(this)
     this.onlyPriceNumber = this.onlyPriceNumber.bind(this)
     this.onlyPeriodNumber = this.onlyPeriodNumber.bind(this)
-    this.btnSelectGon = this.btnSelectGon.bind(this)
+    this.btnSellbtn = this.btnSellbtn.bind(this)
   }
   togglePopup() {
     this.setState({
@@ -97,11 +101,24 @@ class sell extends Component {
       this.setState({ sell_period: Number(event.target.value) })
     }
   }
-  btnSelectGon() {
-    console.log('btnSelectGon')
+  btnSellbtn() {
+    M.toast({ html: '판매등록 완료' })
+    console.log('this.props.match.params.serialnumber: ', this.props.match.params.serialnumber)
+    console.log('this.state.sell_price : ', this.state.sell_price)
+    console.log('this.state.sell_period : ', this.state.sell_period)
+    this.props.dragonSell({ variables: { serial: this.props.match.params.serialnumber, diamond: this.state.sell_price, period: this.state.sell_period } })
+      .then((res) => {
+        console.log(res)
+        this.setState({ redirect: true })
+      })
+      .catch((errors) => {
+        console.log('errors: ', errors)
+      })
   }
-  btnSelectGon
   render() {
+    if (this.state.redirect) {
+      return <Redirect to='/Activity'/>
+    }
     if (!this.props.data.loading) {
       console.log('this.props', this.props)
       for (let dl = 0; dl < this.props.data.dragons.length; dl += 1) {
@@ -110,7 +127,7 @@ class sell extends Component {
           if (this.props.data.dragons[dl].state === 'Resting' || this.props.data.dragons[dl].state === 'brooding' || this.props.data.dragons[dl].state === 'Egg' || this.props.data.dragons[dl].state === 'during battle') {
             if (Date.now() >= this.props.data.dragons[dl].cooldown[1]) {
               this.state.change_state = 'Normal'
-              this.props.mutate({ variables: { email: localStorage.getItem('email'), serial: this.props.data.dragons[dl].serial, change_state: 'Normal' } })
+              this.props.editUserDragonState({ variables: { email: localStorage.getItem('email'), serial: this.props.data.dragons[dl].serial, change_state: 'Normal' } })
                 .then((res) => {
                   console.log(res)
                 })
@@ -124,6 +141,7 @@ class sell extends Component {
           this.state.name = this.props.data.dragons[dl].name
           this.state.birthday = this.props.data.dragons[dl].birthday
           this.state.price = this.props.data.dragons[dl].price
+          this.state.period = this.props.data.dragons[dl].period
           this.state.serial = this.props.data.dragons[dl].serial
           this.state.state = this.state.change_state
           this.state.choice_cbg = this.props.data.dragons[dl].choice_cbg
@@ -231,7 +249,7 @@ class sell extends Component {
 
               <br/>
               <div class="center-align">
-                <a class="waves-effect waves-light btn-large col s12">Done</a>
+                <a class="waves-effect waves-light btn-large col s12" onClick={this.btnSellbtn}>Sell</a>
               </div>
               <br/><br/><br/><br/>
               <div class="card-panel">
@@ -255,5 +273,6 @@ export default compose(
     })
   }),
   graphql(dragons),
-  graphql(editUserDragonState),
+  graphql(editUserDragonState, { name: 'editUserDragonState' }),
+  graphql(dragonSell, { name: 'dragonSell' })
 )(sell)

@@ -18,7 +18,7 @@ class Market extends Component {
     if (!this.props.data.loading) {
       let dcx = 0
       for (let dl = 0; dl < this.props.data.dragons.length; dl += 1) {
-        if (this.props.data.dragons[dl].state === 'New') {
+        if (this.props.data.dragons[dl].state === 'New' || this.props.data.dragons[dl].state === 'Sell') {
           this.state.dragonsComb[dcx] = {
             name: this.props.data.dragons[dl].name,
             serial: this.props.data.dragons[dl].serial,

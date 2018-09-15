@@ -111,6 +111,8 @@ const typeDefs = `
     editUserDragonState(email: String!, serial: String!, change_state: String!): Dragon
     itemPurchase(email: String!, item: String!, number: String!,  name: String!, description: String!, diamond: Int!, gold: Int!, trophy: Int!): User
     dragonPurchase(email: String! serial: String!, diamond: Int!): Dragon
+    dragonSell(serial: String!, diamond: Int!, period: Int!): Dragon
+    dragonSellCancel(serial: String!): Dragon
   }
 `
 export default typeDefs

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo'
 import { Link, Redirect } from 'react-router-dom'
 import M from 'materialize-css'
-import { finduser, dragons, editChoicecbg, editChoicesword, editChoiceshield, editUserDragonState, dragonPurchase } from './queries'
+import { finduser, dragons, editChoicecbg, editChoicesword, editChoiceshield, editUserDragonState, dragonPurchase, dragonSellCancel } from './queries'
 import './App.css'
 import Layout from './Layout'
 import MyGonHeader from './MyGonHeader'
@@ -71,6 +71,7 @@ class gons extends Component {
     this.handleBrooding = this.handleBrooding.bind(this)
     this.handleDuringBattle = this.handleDuringBattle.bind(this)
     this.handleSell = this.handleSell.bind(this)
+    this.handleSellCancel = this.handleSellCancel.bind(this)
     this.handleBuybtn = this.handleBuybtn.bind(this)
   }
   handleResting() {
@@ -83,7 +84,18 @@ class gons extends Component {
     M.toast({ html: 'during battle' })
   }
   handleSell() {
-    M.toast({ html: 'sell' })
+    M.toast({ html: 'Sell' })
+  }
+  handleSellCancel() {
+    M.toast({ html: '판매취소' })
+    this.props.dragonSellCancel({ variables: { serial: this.props.match.params.serialnumber } })
+      .then((res) => {
+        console.log(res)
+        this.setState({ redirect: true })
+      })
+      .catch((errors) => {
+        console.log('errors: ', errors)
+      })
   }
   // Market 용 구매
   handleBuybtn() {
@@ -91,8 +103,8 @@ class gons extends Component {
       M.toast({ html: '구매 성공' })
       this.props.dragonPurchase({ variables: { email: localStorage.getItem('email'), serial: this.props.match.params.serialnumber, diamond: this.state.price } })
         .then((res) => {
-          this.setState({ redirect: true })
           console.log(res)
+          this.setState({ redirect: true })
         })
         .catch((errors) => {
           console.log('errors: ', errors)
@@ -206,6 +218,9 @@ class gons extends Component {
             } else {
               this.state.change_state = this.props.data.dragons[dl].state
             }
+          }
+          if (this.props.data.dragons[dl].state === 'Sell') {
+            this.state.change_state = this.props.data.dragons[dl].state
           }
           this.state.email = this.props.data.dragons[dl].email
           this.state.name = this.props.data.dragons[dl].name
@@ -330,6 +345,7 @@ class gons extends Component {
           d = this.state.except_shield
       this.state.possible_shield = (c.subtract(d))
     }
+    console.log('tttttttttttttttttttttttttttttt', this.state.change_state)
     return (
       <Layout>
         {this.state.email === localStorage.getItem('email') &&
@@ -531,7 +547,7 @@ class gons extends Component {
                 }
                 {this.state.email === localStorage.getItem('email') &&
                   <div className="right margin-top-15">
-                    {this.state.state !== 'Resting' && this.state.state !== 'brooding' && this.state.state !== 'during battle' &&
+                    {this.state.state !== 'Resting' && this.state.state !== 'brooding' && this.state.state !== 'during battle' && this.state.state !== 'Sell' &&
                       <span>
                         <a href={`/breed/${this.state.serial}`} class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Breed</a>
                         <a href={`/sell/${this.state.serial}`} class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Sell</a>
@@ -559,10 +575,10 @@ class gons extends Component {
                         <a class="waves-effect waves-light btn-large" onClick={this.handleDuringBattle}><i class="material-icons left">cloud</i>Gift</a>
                       </span>
                     }
-                    {this.state.state === 'sell' &&
+                    {this.state.state === 'Sell' &&
                       <span>
                         <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleSell}><i class="material-icons left">cloud</i>Breed</a>
-                        <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleSell}><i class="material-icons left">cloud</i>Sell</a>
+                        <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleSellCancel}><i class="material-icons left">cloud</i>SellCancel</a>
                         <a class="waves-effect waves-light btn-large" onClick={this.handleSell}><i class="material-icons left">cloud</i>Gift</a>
                       </span>
                     }
@@ -748,5 +764,6 @@ export default compose(
   graphql(editChoicesword, { name: 'editChoicesword' }),
   graphql(editChoiceshield, { name: 'editChoiceshield' }),
   graphql(editUserDragonState, { name: 'editUserDragonState' }),
-  graphql(dragonPurchase, { name: 'dragonPurchase' })
+  graphql(dragonPurchase, { name: 'dragonPurchase' }),
+  graphql(dragonSellCancel, { name: 'dragonSellCancel' })
 )(gons)
