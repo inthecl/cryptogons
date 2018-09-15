@@ -37,9 +37,9 @@ class gons extends Component {
       gen: null,
       cooldown: [],
       parents: [],
-      parents_comb: [],
+      parentsList: [],
       child: [],
-      child_comb: [],
+      childList: [],
       all_cbg: [],
       except_cbg: [], // 제외할 cbg
       choice_cbg: 'null', // 선택한 cbg
@@ -67,6 +67,7 @@ class gons extends Component {
     this.handleResting = this.handleResting.bind(this)
     this.handleBrooding = this.handleBrooding.bind(this)
     this.handleDuringBattle = this.handleDuringBattle.bind(this)
+    this.handleSell = this.handleSell.bind(this)
   }
   handleResting() {
     M.toast({ html: 'Resting' })
@@ -76,6 +77,9 @@ class gons extends Component {
   }
   handleDuringBattle() {
     M.toast({ html: 'during battle' })
+  }
+  handleSell() {
+    M.toast({ html: 'sell' })
   }
   handleChoiceCbg(event) {
     console.log('email: ', localStorage.getItem('email'))
@@ -226,6 +230,58 @@ class gons extends Component {
         }
       }
 
+      // 부모용 리스트
+      let plx = 0
+      if (this.state.parents[0] === 'devman') {
+        this.state.parentsList[0] = 'devman'
+      }
+      if (this.state.parents !== null) {
+        for (let pl = 0; pl < this.props.data.dragons.length; pl += 1) {
+          if (this.props.data.dragons[pl].serial === this.state.parents[plx]) {
+            plx += 1
+            this.state.parentsList[plx] = {
+              evolution: this.props.data.dragons[pl].combination.substring(0, 2),
+              property: this.props.data.dragons[pl].combination.substring(2, 4),
+              wing: this.props.data.dragons[pl].combination.substring(4, 6),
+              wingColor: this.props.data.dragons[pl].combination.substring(6, 8),
+              horn: this.props.data.dragons[pl].combination.substring(8, 10),
+              hornColor: this.props.data.dragons[pl].combination.substring(10, 12),
+              tail: this.props.data.dragons[pl].combination.substring(12, 14),
+              body: this.props.data.dragons[pl].combination.substring(14, 16),
+              bodyColor: this.props.data.dragons[pl].combination.substring(16, 18),
+              eye: this.props.data.dragons[pl].combination.substring(18, 20),
+              eyeColor: this.props.data.dragons[pl].combination.substring(20, 22),
+              mouth: this.props.data.dragons[pl].combination.substring(22, 24),
+              nose: this.props.data.dragons[pl].combination.substring(24, 26)
+            }
+          }
+        }
+      }
+      // 자식용 리스트
+      let clx = 0
+      if (this.state.child !== null) {
+        for (let cl = 0; cl < this.props.data.dragons.length; cl += 1) {
+          if (this.props.data.dragons[cl].serial === this.state.child[clx]) {
+            clx += 1
+            this.state.childList[clx] = {
+              evolution: this.props.data.dragons[cl].combination.substring(0, 2),
+              property: this.props.data.dragons[cl].combination.substring(2, 4),
+              wing: this.props.data.dragons[cl].combination.substring(4, 6),
+              wingColor: this.props.data.dragons[cl].combination.substring(6, 8),
+              horn: this.props.data.dragons[cl].combination.substring(8, 10),
+              hornColor: this.props.data.dragons[cl].combination.substring(10, 12),
+              tail: this.props.data.dragons[cl].combination.substring(12, 14),
+              body: this.props.data.dragons[cl].combination.substring(14, 16),
+              bodyColor: this.props.data.dragons[cl].combination.substring(16, 18),
+              eye: this.props.data.dragons[cl].combination.substring(18, 20),
+              eyeColor: this.props.data.dragons[cl].combination.substring(20, 22),
+              mouth: this.props.data.dragons[cl].combination.substring(22, 24),
+              nose: this.props.data.dragons[cl].combination.substring(24, 26)
+            }
+          }
+        }
+      }
+
       this.state.possible_cbg = this.state.all_cbg
       for (let a = 0; a < this.state.except_cbg.length; a += 1) {
         this.state.possible_cbg.splice(this.state.possible_cbg.indexOf(this.state.except_cbg[a]), 1)
@@ -248,10 +304,8 @@ class gons extends Component {
       var c = this.state.all_shield,
           d = this.state.except_shield
       this.state.possible_shield = (c.subtract(d))
-
-      console.log('this.state.state : ', this.state.state)
-      console.log('this.state.cooldown : ', this.state.cooldown)
     }
+    console.log('sdddddddddddddddddddd: ', this.state.parents)
     return (
       <Layout>
         <MyGonHeader/>
@@ -471,6 +525,13 @@ class gons extends Component {
                       <a class="waves-effect waves-light btn-large" onClick={this.handleDuringBattle}><i class="material-icons left">cloud</i>Gift</a>
                     </span>
                   }
+                  {this.state.state === 'sell' &&
+                    <span>
+                      <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleSell}><i class="material-icons left">cloud</i>Breed</a>
+                      <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleSell}><i class="material-icons left">cloud</i>Sell</a>
+                      <a class="waves-effect waves-light btn-large" onClick={this.handleSell}><i class="material-icons left">cloud</i>Gift</a>
+                    </span>
+                  }
                 </div>
               </div>
 
@@ -540,10 +601,85 @@ class gons extends Component {
               {this.state.comb}
               <br/><br/><br/>
               <h5>parents</h5>
-              {this.state.parents}
+              <div className='center'>
+                <div className="row">
+                  {this.state.parentsList.map(item =>
+                    <div key={item.id}>
+                      <div className="col s12 m6 l3">
+                        <div className="card">
+                          { this.state.parentsList[0] === 'devman' &&
+                            <div className="card-image">
+                              <img src={`${process.env.PUBLIC_URL}/images/brief_Info/DragonBalls.png`}/>
+                            </div>
+                          }
+                          { this.state.parentsList[0] !== 'devman' &&
+                            <div className="card-image">
+                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${item.property}.png`}/>
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${item.evolution}${item.wing}${item.wingColor}.png`}/>
+                              </div>
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/3_horn/horn_${item.evolution}${item.horn}${item.hornColor}.png`}/>
+                              </div>
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/4_tail/tail_${item.evolution}${item.tail}${item.bodyColor}.png`}/>
+                              </div>
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/5_body/body_${item.evolution}${item.body}${item.bodyColor}.png`}/>
+                              </div>
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/6_eye/eye_${item.evolution}${item.eye}${item.eyeColor}.png`}/>
+                              </div>
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/7_mouth/mouth_${item.evolution}${item.mouth}.png`}/>
+                              </div>
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${item.evolution}${item.nose}.png`}/>
+                              </div>
+                            </div>
+                          }
+                        </div>
+                      </div>
+                    </div>)}
+                </div>
+              </div>
               <br/><br/><br/>
               <h5>children</h5>
-              {this.state.child}
+              <div className='center'>
+                <div className="row">
+                  {this.state.childList.map(item =>
+                    <div key={item.id}>
+                      <div className="col s12 m6 l3">
+                        <div className="card">
+                          <div className="card-image">
+                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${item.property}.png`}/>
+                            <div class="absolute">
+                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${item.evolution}${item.wing}${item.wingColor}.png`}/>
+                            </div>
+                            <div class="absolute">
+                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/3_horn/horn_${item.evolution}${item.horn}${item.hornColor}.png`}/>
+                            </div>
+                            <div class="absolute">
+                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/4_tail/tail_${item.evolution}${item.tail}${item.bodyColor}.png`}/>
+                            </div>
+                            <div class="absolute">
+                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/5_body/body_${item.evolution}${item.body}${item.bodyColor}.png`}/>
+                            </div>
+                            <div class="absolute">
+                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/6_eye/eye_${item.evolution}${item.eye}${item.eyeColor}.png`}/>
+                            </div>
+                            <div class="absolute">
+                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/7_mouth/mouth_${item.evolution}${item.mouth}.png`}/>
+                            </div>
+                            <div class="absolute">
+                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${item.evolution}${item.nose}.png`}/>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>)}
+                </div>
+              </div>
             </div>
           </div>
         )}
