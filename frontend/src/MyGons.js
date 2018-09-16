@@ -35,8 +35,7 @@ class MyGons extends Component {
             } else {
               this.state.change_state = this.props.data.dragons[dl].state
             }
-          }
-          if (this.props.data.dragons[dl].state === 'Sell') {
+          } else {
             this.state.change_state = this.props.data.dragons[dl].state
           }
           this.state.dragonsComb[dcx] = {
@@ -169,11 +168,12 @@ class MyGons extends Component {
                             <img src={`${process.env.PUBLIC_URL}/images/brief_Info/mutation.png`}/>
                             <img src={`${process.env.PUBLIC_URL}/images/brief_Info/new_icon.png`}/>
                             <img src={`${process.env.PUBLIC_URL}/images/brief_Info/trophy.png`}/>
+                            state : {item.state}
                           </div>
                         </div>
                         <div className="card-action">
                           {item.state !== 'Egg' &&
-                            <a href={`/gons/${item.serial}`}>{item.serial}</a>
+                            <a href={`/gons/${item.serial}`}>{item.serial}{item.state}</a>
                           }
                           {item.state === 'Egg' &&
                             'egg'
