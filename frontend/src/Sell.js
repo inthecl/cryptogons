@@ -102,13 +102,13 @@ class sell extends Component {
     }
   }
   btnSellbtn() {
-    M.toast({ html: '판매등록 완료' })
     console.log('this.props.match.params.serialnumber: ', this.props.match.params.serialnumber)
     console.log('this.state.sell_price : ', this.state.sell_price)
     console.log('this.state.sell_period : ', this.state.sell_period)
     this.props.dragonSell({ variables: { serial: this.props.match.params.serialnumber, diamond: this.state.sell_price, period: this.state.sell_period } })
       .then((res) => {
         console.log(res)
+        M.toast({ html: '판매등록 완료' })
         this.setState({ redirect: true })
       })
       .catch((errors) => {

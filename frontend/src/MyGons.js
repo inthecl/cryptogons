@@ -173,7 +173,7 @@ class MyGons extends Component {
                         </div>
                         <div className="card-action">
                           {item.state !== 'Egg' &&
-                            <a href={`/gons/${item.serial}`}>{item.serial}{item.state}</a>
+                            <a href={`/gons/${item.serial}`}>{item.serial}</a>
                           }
                           {item.state === 'Egg' &&
                             'egg'

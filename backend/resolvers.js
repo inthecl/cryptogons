@@ -291,28 +291,37 @@ const resolvers = {
     dragonPurchase: async (obj, args, ctx) => {
       const dragon = await ctx.models.Dragon.findOne({ serial: args.serial }) // 판매용
       let seller = null // 판매자
-      if (dragon.email !== 'devman') {
-        seller = await ctx.models.User.findOne({ email: dragon.email })
-        seller.diamond += args.diamond
-      }
       const buyer = await ctx.models.User.findOne({ email: args.email }) // 구매자
-      buyer.diamond -= args.diamond
 
-      dragon.email = args.email
-      dragon.name = 'Purchased Dragons'
-      dragon.state = 'Normal'
-      dragon.choice_cbg = 'null'
-      dragon.choice_sword = 'null'
-      dragon.choice_shield = 'null'
-      dragon.win = 0
-      dragon.lose = 0
-      dragon.winning_rate = 0
-      dragon.ranking = 0
-      if (seller !== null) {
-        return seller.save(), buyer.save(), dragon.save()
+      if (dragon.state === 'Sell') {
+        buyer.diamond -= args.diamond
+
+        if (dragon.email === 'devman') {
+          dragon.email = args.email
+          dragon.state = 'Normal'
+        }
+        if (dragon.email !== 'devman') {
+          seller = await ctx.models.User.findOne({ email: dragon.email })
+          seller.diamond += args.diamond
+
+          dragon.email = args.email
+          dragon.name = 'Purchased Dragons'
+          dragon.state = 'Normal'
+          dragon.choice_cbg = 'null'
+          dragon.choice_sword = 'null'
+          dragon.choice_shield = 'null'
+          dragon.win = 0
+          dragon.lose = 0
+          dragon.winning_rate = 0
+          dragon.ranking = 0
+        }
       }
+
       if (seller === null) {
         return buyer.save(), dragon.save()
+      }
+      if (seller !== null) {
+        return seller.save(), buyer.save(), dragon.save()
       }
     },
     dragonSell: async (obj, args, ctx) => {

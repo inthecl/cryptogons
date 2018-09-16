@@ -100,11 +100,16 @@ class gons extends Component {
   // Market 용 구매
   handleBuybtn() {
     if (this.state.price <= this.props.finduser.finduser.diamond ) {
-      M.toast({ html: '구매 성공' })
       this.props.dragonPurchase({ variables: { email: localStorage.getItem('email'), serial: this.props.match.params.serialnumber, diamond: this.state.price } })
         .then((res) => {
           console.log(res)
-          this.setState({ redirect: true })
+          if (res.data.dragonPurchase.email === localStorage.getItem('email')) {
+            M.toast({ html: '구매 성공' })
+            this.setState({ redirect: true })
+          }
+          if (res.data.dragonPurchase.email !== localStorage.getItem('email')) {
+            M.toast({ html: '구매 할 용이 없어졌어요' })
+          }
         })
         .catch((errors) => {
           console.log('errors: ', errors)
@@ -510,17 +515,30 @@ class gons extends Component {
                   <div class="s12 m4 l8">
                     <div className="card z-depth-1">
                       <div className="card-image">
-                        {this.state.choice_cbg === 'null' && this.state.change_cbg === 'doNotClick' &&
+                        {this.state.email !== localStorage.getItem('email') && this.state.choice_cbg === 'null' &&
                           <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${this.state.property}.png`}/>
                         }
-                        {this.state.choice_cbg !== 'null' && this.state.change_cbg === 'doNotClick' &&
+                        {this.state.email !== localStorage.getItem('email') && this.state.choice_cbg !== 'null' && this.state.state !== 'Sell' &&
                           <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${this.state.choice_cbg}.png`}/>
                         }
-                        {this.state.change_cbg !== 'doNotClick' && this.state.change_cbg !== 'null' &&
-                          <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${this.state.change_cbg}.png`}/>
-                        }
-                        {this.state.change_cbg === 'null' &&
+                        {this.state.email !== localStorage.getItem('email') && this.state.choice_cbg !== 'null' && this.state.state === 'Sell' &&
                           <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${this.state.property}.png`}/>
+                        }
+                        {this.state.email === localStorage.getItem('email') &&
+                          <div>
+                            {this.state.choice_cbg === 'null' && this.state.change_cbg === 'doNotClick' &&
+                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${this.state.property}.png`}/>
+                            }
+                            {this.state.choice_cbg !== 'null' && this.state.change_cbg === 'doNotClick' &&
+                              <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${this.state.choice_cbg}.png`}/>
+                            }
+                            {this.state.change_cbg !== 'doNotClick' && this.state.change_cbg !== 'null' &&
+                              <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${this.state.change_cbg}.png`}/>
+                            }
+                            {this.state.change_cbg === 'null' &&
+                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${this.state.property}.png`}/>
+                            }
+                          </div>
                         }
                         <div class="absolute">
                           <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${this.state.evolution}${this.state.wing}${this.state.wingColor}.png`}/>
@@ -555,7 +573,7 @@ class gons extends Component {
                 <div className="left">
                   <font size="7">{this.state.name}</font>&nbsp;&nbsp;&nbsp;&nbsp;<font size="6">{this.state.serial}</font>
                 </div>
-                {this.state.email !== localStorage.getItem('email') &&
+                {this.state.email !== localStorage.getItem('email') && this.state.state === 'Sell' &&
                   <div className="right margin-top-15">
                     <span>
                       <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleBuybtn}><i class="material-icons left">cloud</i>Buy</a>
