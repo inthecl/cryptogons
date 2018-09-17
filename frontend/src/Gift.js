@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo'
+import { Redirect } from 'react-router-dom'
 import { finduser, dragons, editUserDragonState } from './queries'
 import './App.css'
 import Layout from './Layout'
@@ -9,6 +10,7 @@ class gift extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      redirect: false,
       comb: null,
       evolution: null,
       property: null,
@@ -23,6 +25,7 @@ class gift extends Component {
       eyeColor: null,
       mouth: null,
       nose: null,
+      email: null,
       name: null,
       birthday: null,
       price: null,
@@ -71,6 +74,9 @@ class gift extends Component {
   }
   btnSelectGon
   render() {
+    if (this.state.redirect) {
+      return <Redirect to='/Activity'/>
+    }
     if (!this.props.data.loading) {
       console.log('this.props', this.props.data.dragons)
       for (let dl = 0; dl < this.props.data.dragons.length; dl += 1) {
@@ -90,6 +96,7 @@ class gift extends Component {
               this.state.change_state = this.props.data.dragons[dl].state
             }
           }
+          this.state.email = this.props.data.dragons[dl].email
           this.state.name = this.props.data.dragons[dl].name
           this.state.birthday = this.props.data.dragons[dl].birthday
           this.state.price = this.props.data.dragons[dl].price
@@ -114,15 +121,24 @@ class gift extends Component {
         // 소유한 모든 용 스테이트, 쿨타임 확인, 수정
         if (this.props.data.dragons[dl].state === 'Resting' || this.props.data.dragons[dl].state === 'brooding' || this.props.data.dragons[dl].state === 'Egg' || this.props.data.dragons[dl].state === 'during battle') {
           if (Date.now() >= this.props.data.dragons[dl].cooldown[1]) {
-            this.props.mutate({ variables: { email: localStorage.getItem('email'), serial: this.props.data.dragons[dl].serial, change_state: 'Normal' } })
+            this.state.change_state = 'Normal'
+            this.props.editUserDragonState({ variables: { email: localStorage.getItem('email'), serial: this.props.data.dragons[dl].serial, change_state: 'Normal' } })
               .then((res) => {
                 console.log(res)
               })
               .catch((errors) => {
                 console.log('errors: ', errors)
               })
+          } else {
+            this.state.change_state = this.props.data.dragons[dl].state
           }
+        } else {
+          this.state.change_state = this.props.data.dragons[dl].state
         }
+      }
+
+      if (this.state.email !== localStorage.getItem('email')) {
+        return <Redirect to='/'/>
       }
     }
     return (

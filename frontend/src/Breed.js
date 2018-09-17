@@ -313,18 +313,22 @@ class breed extends Component {
           })
       }
 
-      // 마켓의 종마와 교배
-      {this.state.email !== localStorage.getItem('email') &&
-        this.props.dragonSiringPurchase({ variables: { email: localStorage.getItem('email'), new_comb: this.state.new_comb, parents: [this.state.serial, this.state.choice_serial], diamond: this.state.price } })
-          .then((res) => {
-            console.log(res)
-            this.setState({ redirect: true })
-          })
-          .catch((errors) => {
-            console.log('errors: ', errors)
-          })
+      if (this.state.price <= this.props.finduser.finduser.diamond) {
+        // 마켓의 종마와 교배 새로운 용 서버로 보내기
+        {this.state.email !== localStorage.getItem('email') &&
+          this.props.dragonSiringPurchase({ variables: { email: localStorage.getItem('email'), new_comb: this.state.new_comb, parents: [this.state.serial, this.state.choice_serial], diamond: this.state.price } })
+            .then((res) => {
+              console.log(res)
+              M.toast({ html: '교배 성공' })
+              this.setState({ redirect: true })
+            })
+            .catch((errors) => {
+              console.log('errors: ', errors)
+            })
+        }
+      } else {
+        M.toast({ html: '잔액 부족' })
       }
-
     }
   }
   render() {
@@ -349,6 +353,8 @@ class breed extends Component {
             } else {
               this.state.change_state = this.props.data.dragons[dl].state
             }
+          } else {
+            this.state.change_state = this.props.data.dragons[dl].state
           }
           this.state.email = this.props.data.dragons[dl].email
           this.state.name = this.props.data.dragons[dl].name
@@ -406,8 +412,10 @@ class breed extends Component {
           }
         }
       }
-      console.log('this.props.data.dragons', this.props.data.dragons)
-      console.log('this.state.mdragons : ', this.state.mdragons)
+
+      if (this.state.email !== localStorage.getItem('email') && this.state.state !== 'Siring') {
+        return <Redirect to='/'/>
+      }
     }
     return (
       <Layout>

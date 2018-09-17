@@ -293,7 +293,7 @@ const resolvers = {
       let seller = null // 판매자
       const buyer = await ctx.models.User.findOne({ email: args.email }) // 구매자
 
-      if (dragon.state === 'Sell') {
+      if (dragon.state === 'New' || dragon.state === 'Sell') {
         buyer.diamond -= args.diamond
 
         if (dragon.email === 'devman') {

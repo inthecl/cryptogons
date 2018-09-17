@@ -28,6 +28,7 @@ class sell extends Component {
       eyeColor: null,
       mouth: null,
       nose: null,
+      email: null,
       name: null,
       birthday: null,
       price: null,
@@ -137,7 +138,10 @@ class sell extends Component {
             } else {
               this.state.change_state = this.props.data.dragons[dl].state
             }
+          } else {
+            this.state.change_state = this.props.data.dragons[dl].state
           }
+          this.state.email = this.props.data.dragons[dl].email
           this.state.name = this.props.data.dragons[dl].name
           this.state.birthday = this.props.data.dragons[dl].birthday
           this.state.price = this.props.data.dragons[dl].price
@@ -160,6 +164,10 @@ class sell extends Component {
           this.state.mouth = this.state.comb.substring(22, 24)
           this.state.nose = this.state.comb.substring(24, 26)
         }
+      }
+
+      if (this.state.email !== localStorage.getItem('email')) {
+        return <Redirect to='/'/>
       }
     }
     return (

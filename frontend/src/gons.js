@@ -117,6 +117,7 @@ class gons extends Component {
   // Market 용 구매
   handleBuybtn() {
     if (this.state.price <= this.props.finduser.finduser.diamond) {
+      console.log('this.state.price : ', this.state.price)
       this.props.dragonPurchase({ variables: { email: localStorage.getItem('email'), serial: this.props.match.params.serialnumber, diamond: this.state.price } })
         .then((res) => {
           console.log(res)
@@ -273,17 +274,17 @@ class gons extends Component {
           this.state.mouth = this.state.comb.substring(22, 24)
           this.state.nose = this.state.comb.substring(24, 26)
         } else {
-          if (this.props.data.dragons[dl].choice_cbg !== 'null') {
+          if (this.props.data.dragons[dl].choice_cbg !== 'null' && this.props.data.dragons[dl].email === localStorage.getItem('email')) {
             this.state.except_cbg[x] = this.props.data.dragons[dl].choice_cbg
             x += 1
           }
           console.log('this.state.except_cbg : ', this.state.except_cbg)
-          if (this.props.data.dragons[dl].choice_sword !== 'null') {
+          if (this.props.data.dragons[dl].choice_sword !== 'null' && this.props.data.dragons[dl].email === localStorage.getItem('email')) {
             this.state.except_sword[y] = this.props.data.dragons[dl].choice_sword
             y += 1
           }
           console.log('this.state.except_sword : ', this.state.except_sword)
-          if (this.props.data.dragons[dl].choice_shield !== 'null') {
+          if (this.props.data.dragons[dl].choice_shield !== 'null' && this.props.data.dragons[dl].email === localStorage.getItem('email')) {
             this.state.except_shield[z] = this.props.data.dragons[dl].choice_shield
             z += 1
           }
@@ -298,6 +299,7 @@ class gons extends Component {
         for (let pl = 0; pl < this.props.data.dragons.length; pl += 1) {
           if (this.props.data.dragons[pl].serial === this.state.parents[0]) {
             this.state.parentsList[0] = {
+              serial: this.props.data.dragons[pl].serial,
               state: this.props.data.dragons[pl].state,
               evolution: this.props.data.dragons[pl].combination.substring(0, 2),
               property: this.props.data.dragons[pl].combination.substring(2, 4),
@@ -316,6 +318,7 @@ class gons extends Component {
           }
           if (this.props.data.dragons[pl].serial === this.state.parents[1]) {
             this.state.parentsList[1] = {
+              serial: this.props.data.dragons[pl].serial,
               state: this.props.data.dragons[pl].state,
               evolution: this.props.data.dragons[pl].combination.substring(0, 2),
               property: this.props.data.dragons[pl].combination.substring(2, 4),
@@ -334,7 +337,7 @@ class gons extends Component {
           }
         }
       }
-      console.log('this.state.parentsList : ', this.state.parentsListyy)
+      console.log('this.state.child : ', this.state.child)
 
       // 자식용 리스트
       let clx = 0
@@ -351,6 +354,7 @@ class gons extends Component {
               this.state.egg_state = this.props.data.dragons[cl].state
             }
             this.state.childList[clx] = {
+              serial: this.props.data.dragons[cl].serial,
               state: this.state.egg_state,
               evolution: this.props.data.dragons[cl].combination.substring(0, 2),
               property: this.props.data.dragons[cl].combination.substring(2, 4),
@@ -371,10 +375,13 @@ class gons extends Component {
         }
       }
 
+      console.log('this.state.all_cbg 111', this.state.all_cbg)
+      console.log('this.state.except_cbg 222', this.state.except_cbg)
       this.state.possible_cbg = this.state.all_cbg
       for (let a = 0; a < this.state.except_cbg.length; a += 1) {
         this.state.possible_cbg.splice(this.state.possible_cbg.indexOf(this.state.except_cbg[a]), 1)
       }
+      console.log('this.state.possible_cbg 333', this.state.possible_cbg)
 
       // all sword - expect sword = possible sword
       Array.prototype.subtract = function (array) {
@@ -781,7 +788,7 @@ class gons extends Component {
                                 <img src={`${process.env.PUBLIC_URL}/images/gonImages/7_mouth/mouth_${item.evolution}${item.mouth}.png`}/>
                               </div>
                               <div class="absolute">
-                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${item.evolution}${item.nose}.png`}/>
+                                <a href={`/gons/${item.serial}`}><img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${item.evolution}${item.nose}.png`}/></a>
                               </div>
                             </div>
                           }
@@ -800,7 +807,12 @@ class gons extends Component {
                         <div className="card">
                           <div className="card-image">
                             {item.state === 'Egg' &&
-                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg.png`}/>
+                              <div>
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${item.property}.png`}/>
+                                <div class="absolute">
+                                  <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg.png`}/>
+                                </div>
+                              </div>
                             }
                             {item.state !== 'Egg' &&
                               <div>
@@ -824,7 +836,7 @@ class gons extends Component {
                                   <img src={`${process.env.PUBLIC_URL}/images/gonImages/7_mouth/mouth_${item.evolution}${item.mouth}.png`}/>
                                 </div>
                                 <div class="absolute">
-                                  <img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${item.evolution}${item.nose}.png`}/>
+                                  <a href={`/gons/${item.serial}`}><img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${item.evolution}${item.nose}.png`}/></a>
                                 </div>
                               </div>
                             }
