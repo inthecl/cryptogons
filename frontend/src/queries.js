@@ -418,4 +418,97 @@ const dragonSellCancel = gql`
   }
   `
 
-export { registerUser, login, CheckEmailquery, dragons, finddragon, finduser, addUserDragon, editChoicecbg, editChoicesword, editChoiceshield, finditem, itemPurchase, editUserDragonState, dragonPurchase, dragonSell, dragonSellCancel }
+const dragonSiring = gql`
+  mutation dragonSiring($serial: String!, $diamond: Int!, $period: Int!) {
+    dragonSiring(serial:$serial, diamond:$diamond, period:$period) {
+      email
+      serial
+      combination
+      name
+      birthday
+      state
+      price
+      period
+      gen
+      cooldown
+      parents
+      child
+      choice_cbg
+      choice_sword
+      choice_shield
+      cintamani
+      base_attack
+      add_attack
+      base_armor
+      add_armor
+      win
+      lose
+      winning_rate
+      ranking
+    }
+  }
+  `
+
+const dragonSiringCancel = gql`
+  mutation dragonSiringCancel($serial: String!) {
+    dragonSiringCancel(serial:$serial) {
+      email
+      serial
+      combination
+      name
+      birthday
+      state
+      price
+      period
+      gen
+      cooldown
+      parents
+      child
+      choice_cbg
+      choice_sword
+      choice_shield
+      cintamani
+      base_attack
+      add_attack
+      base_armor
+      add_armor
+      win
+      lose
+      winning_rate
+      ranking
+    }
+  }
+  `
+
+const dragonSiringPurchase = gql`
+  mutation dragonSiringPurchase($email: String!, $new_comb: String!, $parents: [String]!, $diamond: Int!) {
+    dragonSiringPurchase(email:$email, new_comb:$new_comb, parents:$parents, diamond:$diamond) {
+      email
+      serial
+      combination
+      name
+      birthday
+      state
+      price
+      period
+      gen
+      cooldown
+      parents
+      child
+      choice_cbg
+      choice_sword
+      choice_shield
+      cintamani
+      base_attack
+      add_attack
+      base_armor
+      add_armor
+      win
+      lose
+      winning_rate
+      ranking
+   }
+  }
+  `
+
+export { registerUser, login, CheckEmailquery, dragons, finddragon, finduser, addUserDragon, editChoicecbg, editChoicesword, editChoiceshield, finditem, itemPurchase, editUserDragonState, dragonPurchase, dragonSell, dragonSellCancel, dragonSiring, dragonSiringCancel, dragonSiringPurchase }

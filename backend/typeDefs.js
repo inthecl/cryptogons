@@ -113,6 +113,9 @@ const typeDefs = `
     dragonPurchase(email: String! serial: String!, diamond: Int!): Dragon
     dragonSell(serial: String!, diamond: Int!, period: Int!): Dragon
     dragonSellCancel(serial: String!): Dragon
+    dragonSiring(serial: String!, diamond: Int!, period: Int!): Dragon
+    dragonSiringCancel(serial: String!): Dragon
+    dragonSiringPurchase(email: String!, new_comb: String!, parents: [String]!, diamond: Int!): Dragon
   }
 `
 export default typeDefs

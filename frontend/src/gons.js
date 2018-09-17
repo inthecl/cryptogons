@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo'
 import { Link, Redirect } from 'react-router-dom'
 import M from 'materialize-css'
-import { finduser, dragons, editChoicecbg, editChoicesword, editChoiceshield, editUserDragonState, dragonPurchase, dragonSellCancel } from './queries'
+import { finduser, dragons, editChoicecbg, editChoicesword, editChoiceshield, editUserDragonState, dragonPurchase, dragonSellCancel, dragonSiringCancel } from './queries'
 import './App.css'
 import Layout from './Layout'
 import MyGonHeader from './MyGonHeader'
@@ -43,6 +43,7 @@ class gons extends Component {
       parentsList: [],
       child: [],
       childList: [],
+      egg_state: null,
       all_cbg: [],
       except_cbg: [], // 제외할 cbg
       choice_cbg: 'null', // 선택한 cbg
@@ -72,6 +73,8 @@ class gons extends Component {
     this.handleDuringBattle = this.handleDuringBattle.bind(this)
     this.handleSell = this.handleSell.bind(this)
     this.handleSellCancel = this.handleSellCancel.bind(this)
+    this.handleSiring = this.handleSiring.bind(this)
+    this.handleSiringCancel = this.handleSiringCancel.bind(this)
     this.handleBuybtn = this.handleBuybtn.bind(this)
   }
   handleResting() {
@@ -87,10 +90,24 @@ class gons extends Component {
     M.toast({ html: 'Sell' })
   }
   handleSellCancel() {
-    M.toast({ html: '판매취소' })
     this.props.dragonSellCancel({ variables: { serial: this.props.match.params.serialnumber } })
       .then((res) => {
         console.log(res)
+        M.toast({ html: '판매취소' })
+        this.setState({ redirect: true })
+      })
+      .catch((errors) => {
+        console.log('errors: ', errors)
+      })
+  }
+  handleSiring() {
+    M.toast({ html: 'Siring' })
+  }
+  handleSiringCancel() {
+    this.props.dragonSiringCancel({ variables: { serial: this.props.match.params.serialnumber } })
+      .then((res) => {
+        console.log(res)
+        M.toast({ html: '판매취소' })
         this.setState({ redirect: true })
       })
       .catch((errors) => {
@@ -99,7 +116,7 @@ class gons extends Component {
   }
   // Market 용 구매
   handleBuybtn() {
-    if (this.state.price <= this.props.finduser.finduser.diamond ) {
+    if (this.state.price <= this.props.finduser.finduser.diamond) {
       this.props.dragonPurchase({ variables: { email: localStorage.getItem('email'), serial: this.props.match.params.serialnumber, diamond: this.state.price } })
         .then((res) => {
           console.log(res)
@@ -213,7 +230,7 @@ class gons extends Component {
           if (this.props.data.dragons[dl].state === 'Resting' || this.props.data.dragons[dl].state === 'brooding' || this.props.data.dragons[dl].state === 'Egg' || this.props.data.dragons[dl].state === 'during battle') {
             if (Date.now() >= this.props.data.dragons[dl].cooldown[1]) {
               this.state.change_state = 'Normal'
-              this.props.mutate({ variables: { email: localStorage.getItem('email'), serial: this.props.data.dragons[dl].serial, change_state: 'Normal' } })
+              this.props.editUserDragonState({ variables: { email: localStorage.getItem('email'), serial: this.props.data.dragons[dl].serial, change_state: 'Normal' } })
                 .then((res) => {
                   console.log(res)
                 })
@@ -324,8 +341,17 @@ class gons extends Component {
       if (this.state.child !== null) {
         for (let cl = 0; cl < this.props.data.dragons.length; cl += 1) {
           if (this.props.data.dragons[cl].serial === this.state.child[clx]) {
+            if (this.props.data.dragons[cl].state === 'Egg') {
+              if (Date.now() >= Number(this.props.data.dragons[cl].cooldown[1])) {
+                this.state.egg_state = 'Normal'
+              } else {
+                this.state.egg_state = this.props.data.dragons[cl].state
+              }
+            } else {
+              this.state.egg_state = this.props.data.dragons[cl].state
+            }
             this.state.childList[clx] = {
-              state: this.props.data.dragons[cl].state,
+              state: this.state.egg_state,
               evolution: this.props.data.dragons[cl].combination.substring(0, 2),
               property: this.props.data.dragons[cl].combination.substring(2, 4),
               wing: this.props.data.dragons[cl].combination.substring(4, 6),
@@ -518,10 +544,13 @@ class gons extends Component {
                         {this.state.email !== localStorage.getItem('email') && this.state.choice_cbg === 'null' &&
                           <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${this.state.property}.png`}/>
                         }
-                        {this.state.email !== localStorage.getItem('email') && this.state.choice_cbg !== 'null' && this.state.state !== 'Sell' &&
+                        {this.state.email !== localStorage.getItem('email') && this.state.choice_cbg !== 'null' && this.state.state !== 'Sell' && this.state.state !== 'Siring' &&
                           <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${this.state.choice_cbg}.png`}/>
                         }
                         {this.state.email !== localStorage.getItem('email') && this.state.choice_cbg !== 'null' && this.state.state === 'Sell' &&
+                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${this.state.property}.png`}/>
+                        }
+                        {this.state.email !== localStorage.getItem('email') && this.state.choice_cbg !== 'null' && this.state.state === 'Siring' &&
                           <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${this.state.property}.png`}/>
                         }
                         {this.state.email === localStorage.getItem('email') &&
@@ -573,6 +602,13 @@ class gons extends Component {
                 <div className="left">
                   <font size="7">{this.state.name}</font>&nbsp;&nbsp;&nbsp;&nbsp;<font size="6">{this.state.serial}</font>
                 </div>
+                {this.state.email !== localStorage.getItem('email') && this.state.state === 'New' &&
+                  <div className="right margin-top-15">
+                    <span>
+                      <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleBuybtn}><i class="material-icons left">cloud</i>Buy</a>
+                    </span>
+                  </div>
+                }
                 {this.state.email !== localStorage.getItem('email') && this.state.state === 'Sell' &&
                   <div className="right margin-top-15">
                     <span>
@@ -580,9 +616,16 @@ class gons extends Component {
                     </span>
                   </div>
                 }
+                {this.state.email !== localStorage.getItem('email') && this.state.state === 'Siring' &&
+                  <div className="right margin-top-15">
+                    <span>
+                      <a href={`/breed/${this.state.serial}`} class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Siring</a>
+                    </span>
+                  </div>
+                }
                 {this.state.email === localStorage.getItem('email') &&
                   <div className="right margin-top-15">
-                    {this.state.state !== 'Resting' && this.state.state !== 'brooding' && this.state.state !== 'during battle' && this.state.state !== 'Sell' &&
+                    {this.state.state !== 'Resting' && this.state.state !== 'brooding' && this.state.state !== 'during battle' && this.state.state !== 'Sell' && this.state.state !== 'Siring' &&
                       <span>
                         <a href={`/breed/${this.state.serial}`} class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Breed</a>
                         <a href={`/sell/${this.state.serial}`} class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Sell</a>
@@ -615,6 +658,13 @@ class gons extends Component {
                         <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleSell}><i class="material-icons left">cloud</i>Breed</a>
                         <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleSellCancel}><i class="material-icons left">cloud</i>SellCancel</a>
                         <a class="waves-effect waves-light btn-large" onClick={this.handleSell}><i class="material-icons left">cloud</i>Gift</a>
+                      </span>
+                    }
+                    {this.state.state === 'Siring' &&
+                      <span>
+                        <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleSiring}><i class="material-icons left">cloud</i>Breed</a>
+                        <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleSiringCancel}><i class="material-icons left">cloud</i>SiringCancel</a>
+                        <a class="waves-effect waves-light btn-large" onClick={this.handleSiring}><i class="material-icons left">cloud</i>Gift</a>
                       </span>
                     }
                   </div>
@@ -807,5 +857,6 @@ export default compose(
   graphql(editChoiceshield, { name: 'editChoiceshield' }),
   graphql(editUserDragonState, { name: 'editUserDragonState' }),
   graphql(dragonPurchase, { name: 'dragonPurchase' }),
-  graphql(dragonSellCancel, { name: 'dragonSellCancel' })
+  graphql(dragonSellCancel, { name: 'dragonSellCancel' }),
+  graphql(dragonSiringCancel, { name: 'dragonSiringCancel' })
 )(gons)

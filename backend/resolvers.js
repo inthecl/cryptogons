@@ -336,6 +336,92 @@ const resolvers = {
       dragon.state = 'Normal'
       return dragon.save()
     },
+    dragonSiringPurchase: async (obj, args, ctx) => {
+      const dragon = await ctx.models.Dragon.findOne({ serial: args.parents[0] }) // 판매용
+      const seller = await ctx.models.User.findOne({ email: dragon.email }) // 판매자
+      const buyer = await ctx.models.User.findOne({ email: args.email }) // 구매자
+
+
+      let bdragon = null
+      let xdragon = null
+      let ydragon = null
+      if (dragon.state === 'Siring') {
+        // 가격 지불
+        seller.diamond += args.diamond
+        buyer.diamond -= args.diamond
+
+        // 새로운 용 생성
+        const serial = String(generator.generate(20))
+
+        buyer.dragonsNumber.push(serial) // 유저 dragonsNumber에 새로운 용 시리얼 추가
+
+        xdragon = await ctx.models.Dragon.findOne({ serial: args.parents[0] })
+        const coodTimeX = Date.now() + 120000 // 임시 2분 쿨타임
+        xdragon.state = 'Resting' // 부의 state 변경
+        xdragon.child.push(serial) // 부의 child에 자식 시리얼 추가
+        xdragon.cooldown = ['Very fast', coodTimeX] // 현재 cooldown[0] 쿨타임등급, cooldown[1] 쿨타임시간 미설정
+
+        ydragon = await ctx.models.Dragon.findOne({ serial: args.parents[1] })
+        const coodTimeY = Date.now() + 120000 // 임시 2분 쿨타임
+        ydragon.state = 'brooding' // 모의 state 변경
+        ydragon.child.push(serial) // 모의 child에 자식 시리얼 추가
+        ydragon.cooldown = ['Very fast', coodTimeY]// 현재 cooldown[0] 쿨타임등급, cooldown[1] 쿨타임시간 미설정
+
+        // 새로운 용의 세대 계산
+        let ngen = null
+        if (xdragon.gen === ydragon.gen) {
+          ngen = xdragon.gen + 1
+        }
+        if (xdragon.gen < ydragon.gen) {
+          ngen = ydragon.gen + 1
+        }
+        if (xdragon.gen > ydragon.gen) {
+          ngen = xdragon.gen + 1
+        }
+
+        let test = Object.assign({
+          email: args.email,
+          serial: serial,
+          combination: args.new_comb,
+          name: 'Siring_dragon',
+          birthday: String(Date.now()),
+          state: 'Egg',
+          price: 0,
+          period: 0,
+          gen: ngen,
+          cooldown: ['Very fast', coodTimeY],
+          parents: args.parents,
+          child: [],
+          choice_cbg: 'null',
+          choice_sword: 'null',
+          choice_shield: 'null',
+          cintamani: [],
+          base_attack: Math.floor(Math.random() * 8) + 20,
+          add_attack: 0,
+          base_armor: Math.floor(Math.random() * 10) + 5,
+          add_armor: 0,
+          win: 0,
+          lose: 0,
+          winning_rate: 0,
+          ranking: 0
+        })
+        bdragon = await ctx.models.Dragon(test)
+      }
+
+      return dragon.save(), seller.save(), buyer.save(), bdragon.save(), xdragon.save(), ydragon.save()
+    },
+    dragonSiring: async (obj, args, ctx) => {
+      const dragon = await ctx.models.Dragon.findOne({ serial: args.serial }) // 판매할 용
+      dragon.state = 'Siring'
+      dragon.price = args.diamond
+      dragon.period = args.period
+      return dragon.save()
+    },
+    dragonSiringCancel: async (obj, args, ctx) => {
+      const dragon = await ctx.models.Dragon.findOne({ serial: args.serial }) // 판매할 용
+      dragon.state = 'Normal'
+      return dragon.save()
+    },
     login: async (obj, args, ctx) => {
       console.log(args)
       const user = await ctx.models.User.findOne({ email: args.email })

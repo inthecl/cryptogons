@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom'
-import { graphql } from 'react-apollo'
-import { dragons } from './queries'
+import { graphql, compose } from 'react-apollo'
+import { finduser, dragons } from './queries'
 import Layout from './Layout'
 import MaterialPagination from './MaterialPagination'
 
@@ -10,18 +10,23 @@ class Market extends Component {
     super(props)
     this.state = {
       dragonsComb: [],
-      dia: '300',
-      point: '45'
+      user_dia: null,
+      user_gold: null,
+      user_trophy: null
     }
   }
   render() {
-    if (!this.props.data.loading) {
+    if (!this.props.data.loading && !this.props.finduser.loading) {
+      this.state.user_dia = this.props.finduser.finduser.diamond
+      this.state.user_gold = this.props.finduser.finduser.gold
+      this.state.user_trophy = this.props.finduser.finduser.trophy
       let dcx = 0
       for (let dl = 0; dl < this.props.data.dragons.length; dl += 1) {
-        if (this.props.data.dragons[dl].state === 'New' || this.props.data.dragons[dl].state === 'Sell') {
+        if (this.props.data.dragons[dl].state === 'New' || this.props.data.dragons[dl].state === 'Sell' || this.props.data.dragons[dl].state === 'Siring') {
           this.state.dragonsComb[dcx] = {
             name: this.props.data.dragons[dl].name,
             serial: this.props.data.dragons[dl].serial,
+            state: this.props.data.dragons[dl].state,
             evolution: this.props.data.dragons[dl].combination.substring(0, 2),
             property: this.props.data.dragons[dl].combination.substring(2, 4),
             wing: this.props.data.dragons[dl].combination.substring(4, 6),
@@ -60,12 +65,14 @@ class Market extends Component {
           <div className='container center'>
             <div className="row">
 
-              <div className="col l12 m12 s12">
+              <div className="col l12 m12 s12 margin-bottom-30">
                 <div className="col s12 m6 l6 left left-align">
                   <h2>Market</h2>
                 </div>
                 <div className="col s12 m6 l6 right right-align">
-                  <h5>다이아 {this.state.dia} 포인트 {this.state.point}</h5>
+                  <h5><img src={`${process.env.PUBLIC_URL}/images/brief_info/dia.png`}/> {this.state.user_dia}
+                    <img src={`${process.env.PUBLIC_URL}/images/brief_info/gold.png`}/> {this.state.user_gold}
+                    <img src={`${process.env.PUBLIC_URL}/images/brief_info/trophy2.png`}/> {this.state.user_trophy}</h5>
                 </div>
               </div>
 
@@ -154,7 +161,7 @@ class Market extends Component {
                         <span className="card-title">Card Title</span>
                       </div>
                       <div className="card-content">
-                        <p>I am a very simple card.</p>
+                        {item.state}
                       </div>
                       <div className="card-action">
                         <Link to={`/gons/${item.serial}`}>{item.serial}</Link>
@@ -172,5 +179,15 @@ class Market extends Component {
   }
 }
 
-export default graphql(dragons)(Market)
+export default compose(
+  graphql(finduser, {
+    name: 'finduser',
+    options: props => ({
+      variables: {
+        email: localStorage.getItem('email')
+      }
+    })
+  }),
+  graphql(dragons)
+)(Market)
 

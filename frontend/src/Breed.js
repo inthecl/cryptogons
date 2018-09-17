@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
+import M from 'materialize-css'
 import { Link, Redirect } from 'react-router-dom'
 import { graphql, compose } from 'react-apollo'
-import { finduser, dragons, addUserDragon, editUserDragonState } from './queries'
+import { finduser, dragons, addUserDragon, editUserDragonState, dragonSiring, dragonSiringPurchase } from './queries'
 import './App.css'
 import Layout from './Layout'
 import btnPlus from './image/plus.png'
@@ -29,6 +30,7 @@ class breed extends Component {
       eyeColor: null,
       mouth: null,
       nose: null,
+      email: null,
       name: null,
       birthday: null,
       price: null,
@@ -83,7 +85,9 @@ class breed extends Component {
     this.onlyPeriodNumber = this.onlyPeriodNumber.bind(this)
     this.btnSelectGon = this.btnSelectGon.bind(this)
     this.btnBreed = this.btnBreed.bind(this)
+    this.btnSiring = this.btnSiring.bind(this)
   }
+
   btnPricePlus() {
     if (this.state.siring_price < 1000000) {
       this.setState({
@@ -127,6 +131,18 @@ class breed extends Component {
     } else {
       this.setState({ siring_period: Number(event.target.value) })
     }
+  }
+  btnSiring() {
+    console.log('btnSiring')
+    this.props.dragonSiring({ variables: { serial: this.props.match.params.serialnumber, diamond: this.state.siring_price, period: this.state.siring_period } })
+      .then((res) => {
+        console.log(res)
+        M.toast({ html: '종마등록 완료' })
+        this.setState({ redirect: true })
+      })
+      .catch((errors) => {
+        console.log('errors: ', errors)
+      })
   }
   btnSelectGon(e) {
     console.log('btnSelectGon', e.target.id)
@@ -285,15 +301,30 @@ class breed extends Component {
       console.log('parents[0]', this.state.serial)
       console.log('parents[1]', this.state.choice_serial)
 
-      // 새로운 용 서버로 보내기
-      this.props.addUserDragon({ variables: { email: localStorage.getItem('email'), new_comb: this.state.new_comb, parents: [this.state.serial, this.state.choice_serial] } })
-        .then((res) => {
-          console.log(res)
-          this.setState({ redirect: true })
-        })
-        .catch((errors) => {
-          console.log('errors: ', errors)
-        })
+      // 내꺼끼리 교배 새로운 용 서버로 보내기
+      {this.state.email === localStorage.getItem('email') &&
+        this.props.addUserDragon({ variables: { email: localStorage.getItem('email'), new_comb: this.state.new_comb, parents: [this.state.serial, this.state.choice_serial] } })
+          .then((res) => {
+            console.log(res)
+            this.setState({ redirect: true })
+          })
+          .catch((errors) => {
+            console.log('errors: ', errors)
+          })
+      }
+
+      // 마켓의 종마와 교배
+      {this.state.email !== localStorage.getItem('email') &&
+        this.props.dragonSiringPurchase({ variables: { email: localStorage.getItem('email'), new_comb: this.state.new_comb, parents: [this.state.serial, this.state.choice_serial], diamond: this.state.price } })
+          .then((res) => {
+            console.log(res)
+            this.setState({ redirect: true })
+          })
+          .catch((errors) => {
+            console.log('errors: ', errors)
+          })
+      }
+
     }
   }
   render() {
@@ -319,6 +350,7 @@ class breed extends Component {
               this.state.change_state = this.props.data.dragons[dl].state
             }
           }
+          this.state.email = this.props.data.dragons[dl].email
           this.state.name = this.props.data.dragons[dl].name
           this.state.birthday = this.props.data.dragons[dl].birthday
           this.state.price = this.props.data.dragons[dl].price
@@ -379,7 +411,9 @@ class breed extends Component {
     }
     return (
       <Layout>
-        <MyGonHeader/>
+        {this.state.email === localStorage.getItem('email') &&
+          <MyGonHeader/>
+        }
         <div className="container margin-top-50">
           <div className="col s12 right">
             <i class="Small material-icons">share</i>
@@ -389,11 +423,18 @@ class breed extends Component {
               <div class="s12 m4 l8">
                 <div className="card z-depth-1">
                   <div className="card-image">
-                    {this.state.choice_cbg === 'null' &&
+                    {this.state.email !== localStorage.getItem('email') &&
                       <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${this.state.property}.png`}/>
                     }
-                    {this.state.choice_cbg !== 'null' &&
-                      <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${this.state.choice_cbg}.png`}/>
+                    {this.state.email === localStorage.getItem('email') &&
+                      <div>
+                        {this.state.choice_cbg === 'null' &&
+                        <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${this.state.property}.png`}/>
+                        }
+                        {this.state.choice_cbg !== 'null' &&
+                          <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${this.state.choice_cbg}.png`}/>
+                        }
+                      </div>
                     }
                     <div class="absolute">
                       <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${this.state.evolution}${this.state.wing}${this.state.wingColor}.png`}/>
@@ -426,60 +467,61 @@ class breed extends Component {
         <div class="detail-Explanation" >
           <div className="row">
             <h4 align='center'><p>Breed Gon</p></h4>
+
+            {this.state.email === localStorage.getItem('email') &&
+              <div class="col s12">
+                <br/>
+                <h5>마켓에 종마를 올립니다</h5>
+                <br/>
+                <h6> - Register my gon in the market. Another user can cross with my gon.</h6>
+                <h6> - The minimum price starts at 10dia.</h6>
+                <br/><br/>
+
+                <div className="row">
+                  <div class="col s12 m6 l6 left">
+                    <p>Average price for the same gen</p>
+                  </div>
+                  <div class="col s12 m6 l6 right right-align">
+                    <span class="textbox"><input type="text" class="browser-default" id="ex_input" value={this.state.average_siring_price}/></span>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div class="col s12 m6 l6 left">
+                    <p>Enter siring price</p>
+                  </div>
+                  <div class="col s12 m6 l6 right right-align">
+                    <img src={btnMinus} onClick={this.btnPriceMinus} align="center" hspace="10"/>
+                    <span class="textbox"><input type="text" class="browser-default" id="ex_input" value={this.state.siring_price} onChange={this.onlyPriceNumber} maxlength="7"/></span>
+                    <img src={btnPlus} onClick={this.btnPricePlus} align="center" hspace="10"/>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div class="col s12 m6 l6 left">
+                    <p>Enter sales period</p>
+                  </div>
+                  <div class="col s12 m6 l6 right right-align">
+                    <img src={btnMinus} onClick={this.btnPeriodMinus} align="center" hspace="10"/>
+                    <span class="textbox"><input type="text" class="browser-default" id="ex_input" value={this.state.siring_period} onChange={this.onlyPeriodNumber} maxlength="1"/></span>
+                    <img src={btnPlus} onClick={this.btnPeriodPlus} align="center" hspace="10"/>
+                  </div>
+                </div>
+
+                <br/>
+                <div class="center-align">
+                  <a class="waves-effect waves-light btn-large col s12" onClick={this.btnSiring}>Siring</a>
+                </div>
+                <br/><br/><br/><br/>
+                <div class="card-panel">
+                  <span class="red-text text-lighten-1">This is a card panel with dark blue text</span>
+                </div>
+              </div>
+            }
+
             <div class="col s12">
-              <ul class="tabs">
-                <li class="tab col s6"><a class="active" href="#test1">대중과 교배</a></li>
-                <li class="tab col s6"><a href="#test2">내꺼랑 교배</a></li>
-              </ul>
-            </div>
-            <div id="test1" class="col s12">
-              <br/>
-              <h6> - Register my gon in the market. Another user can cross with my gon.</h6>
-              <h6> - The minimum price starts at 10dia.</h6>
               <br/><br/>
-
-              <div className="row">
-                <div class="col s12 m6 l6 left">
-                  <p>Average price for the same gen</p>
-                </div>
-                <div class="col s12 m6 l6 right right-align">
-                  <span class="textbox"><input type="text" class="browser-default" id="ex_input" value={this.state.average_siring_price}/></span>
-                </div>
-              </div>
-
-              <div className="row">
-                <div class="col s12 m6 l6 left">
-                  <p>Enter siring price</p>
-                </div>
-                <div class="col s12 m6 l6 right right-align">
-                  <img src={btnMinus} onClick={this.btnPriceMinus} align="center" hspace="10"/>
-                  <span class="textbox"><input type="text" class="browser-default" id="ex_input" value={this.state.siring_price} onChange={this.onlyPriceNumber} maxlength="7"/></span>
-                  <img src={btnPlus} onClick={this.btnPricePlus} align="center" hspace="10"/>
-                </div>
-              </div>
-
-              <div className="row">
-                <div class="col s12 m6 l6 left">
-                  <p>Enter sales period</p>
-                </div>
-                <div class="col s12 m6 l6 right right-align">
-                  <img src={btnMinus} onClick={this.btnPeriodMinus} align="center" hspace="10"/>
-                  <span class="textbox"><input type="text" class="browser-default" id="ex_input" value={this.state.siring_period} onChange={this.onlyPeriodNumber} maxlength="1"/></span>
-                  <img src={btnPlus} onClick={this.btnPeriodPlus} align="center" hspace="10"/>
-                </div>
-              </div>
-
-              <br/>
-              <div class="center-align">
-                <a class="waves-effect waves-light btn-large col s12">Done</a>
-              </div>
-              <br/><br/><br/><br/>
-              <div class="card-panel">
-                <span class="red-text text-lighten-1">This is a card panel with dark blue text</span>
-              </div>
-            </div>
-
-            <div id="test2" class="col s12">
+              <h5>교배 할 용을 선택하세요</h5>
               <br/>
               <h6> - Please select a breeder. Breeding increases cooldown.</h6>
               <h6> - The minimum price starts at 10dia.</h6>
@@ -614,8 +656,8 @@ class breed extends Component {
               <div class="card-panel">
                 <span class="red-text text-lighten-1">This is a card panel with dark blue text</span>
               </div>
-
             </div>
+
           </div>
         </div>
       </Layout>
@@ -634,5 +676,7 @@ export default compose(
   }),
   graphql(dragons),
   graphql(addUserDragon, { name: 'addUserDragon' }),
-  graphql(editUserDragonState, { name: 'editUserDragonState' })
+  graphql(editUserDragonState, { name: 'editUserDragonState' }),
+  graphql(dragonSiring, { name: 'dragonSiring' }),
+  graphql(dragonSiringPurchase, { name: 'dragonSiringPurchase' })
 )(breed)
