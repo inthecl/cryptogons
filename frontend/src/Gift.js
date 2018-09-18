@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo'
 import { Redirect } from 'react-router-dom'
-import { finduser, dragons, editUserDragonState } from './queries'
+import M from 'materialize-css'
+import { finduser, dragons, editUserDragonState, dragonGift } from './queries'
 import './App.css'
 import Layout from './Layout'
 import MyGonHeader from './MyGonHeader'
@@ -36,12 +37,16 @@ class gift extends Component {
       generation: 'generation',
       cooldown: 'cooldown',
       parents: 'parents,parents',
-      children: 'children,children'
+      children: 'children,children',
+      recipient: null,
+      recipientConfirm: null
     }
     this.btnPlus = this.btnPlus.bind(this)
     this.btnMinus = this.btnMinus.bind(this)
     this.onlyNumber = this.onlyNumber.bind(this)
-    this.btnSelectGon = this.btnSelectGon.bind(this)
+    this.handleEmail = this.handleEmail.bind(this)
+    this.handleEmailConfirm = this.handleEmailConfirm.bind(this)
+    this.btnGiftGon = this.btnGiftGon.bind(this)
   }
   togglePopup() {
     this.setState({
@@ -69,10 +74,28 @@ class gift extends Component {
       this.setState({ price: event.target.value })
     }
   }
-  btnSelectGon() {
-    console.log('btnSelectGon')
+  handleEmail(event) {
+    console.log('recipient : ', event.target.value)
+    this.setState({ recipient: event.target.value })
   }
-  btnSelectGon
+  handleEmailConfirm(event) {
+    console.log('recipientConfirm : ', event.target.value)
+    this.setState({ recipientConfirm: event.target.value })
+  }
+  btnGiftGon() {
+    if (this.state.recipient === this.state.recipientConfirm) {
+      this.props.dragonGift({ variables: { email: localStorage.getItem('email'), serial: this.props.match.params.serialnumber, recipient: this.state.recipient } })
+        .then((res) => {
+          console.log(res)
+          this.setState({ redirect: true })
+        })
+        .catch((errors) => {
+          console.log('errors: ', errors)
+        })
+    } else {
+      M.toast({ html: '이메일 확인이 일치하지 않습니다' })
+    }
+  }
   render() {
     if (this.state.redirect) {
       return <Redirect to='/Activity'/>
@@ -85,7 +108,7 @@ class gift extends Component {
           if (this.props.data.dragons[dl].state === 'Resting' || this.props.data.dragons[dl].state === 'brooding' || this.props.data.dragons[dl].state === 'Egg' || this.props.data.dragons[dl].state === 'during battle') {
             if (Date.now() >= this.props.data.dragons[dl].cooldown[1]) {
               this.state.change_state = 'Normal'
-              this.props.mutate({ variables: { email: localStorage.getItem('email'), serial: this.props.data.dragons[dl].serial, change_state: 'Normal' } })
+              this.props.editUserDragonState({ variables: { email: localStorage.getItem('email'), serial: this.props.data.dragons[dl].serial, change_state: 'Normal' } })
                 .then((res) => {
                   console.log(res)
                 })
@@ -95,6 +118,8 @@ class gift extends Component {
             } else {
               this.state.change_state = this.props.data.dragons[dl].state
             }
+          } else {
+            this.state.change_state = this.props.data.dragons[dl].state
           }
           this.state.email = this.props.data.dragons[dl].email
           this.state.name = this.props.data.dragons[dl].name
@@ -200,12 +225,12 @@ class gift extends Component {
                 <form class="col s12">
                   <div class="row">
                     <div class="input-field col s12">
-                      <input id="email" type="email" class="validate"/>
+                      <input id="email" type="email" class="validate" onChange={this.handleEmail}/>
                       <label for="email">Email</label>
                       <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
                     </div>
                     <div class="input-field col s12">
-                      <input id="email" type="email" class="validate"/>
+                      <input id="email" type="email" class="validate" onChange={this.handleEmailConfirm}/>
                       <label for="email">Confirm Email</label>
                       <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
                     </div>
@@ -214,7 +239,7 @@ class gift extends Component {
               </div>
 
               <div class="center-align">
-                <a class="waves-effect waves-light btn-large col s12">Done</a>
+                <a class="waves-effect waves-light btn-large col s12" onClick={this.btnGiftGon}>Gift</a>
               </div>
               <br/><br/><br/><br/>
               <div class="card-panel">
@@ -238,6 +263,7 @@ export default compose(
     })
   }),
   graphql(dragons),
-  graphql(editUserDragonState),
+  graphql(editUserDragonState, { name: 'editUserDragonState' }),
+  graphql(dragonGift, { name: 'dragonGift' })
 )(gift)
 

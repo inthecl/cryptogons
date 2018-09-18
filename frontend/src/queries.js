@@ -511,4 +511,35 @@ const dragonSiringPurchase = gql`
   }
   `
 
-export { registerUser, login, CheckEmailquery, dragons, finddragon, finduser, addUserDragon, editChoicecbg, editChoicesword, editChoiceshield, finditem, itemPurchase, editUserDragonState, dragonPurchase, dragonSell, dragonSellCancel, dragonSiring, dragonSiringCancel, dragonSiringPurchase }
+const dragonGift = gql`
+  mutation dragonGift($email: String!, $serial: String!, $recipient: String!) {
+    dragonGift(email:$email, serial:$serial, recipient:$recipient) {
+      email
+      serial
+      combination
+      name
+      birthday
+      state
+      price
+      period
+      gen
+      cooldown
+      parents
+      child
+      choice_cbg
+      choice_sword
+      choice_shield
+      cintamani
+      base_attack
+      add_attack
+      base_armor
+      add_armor
+      win
+      lose
+      winning_rate
+      ranking
+   }
+  }
+  `
+
+export { registerUser, login, CheckEmailquery, dragons, finddragon, finduser, addUserDragon, editChoicecbg, editChoicesword, editChoiceshield, finditem, itemPurchase, editUserDragonState, dragonPurchase, dragonSell, dragonSellCancel, dragonSiring, dragonSiringCancel, dragonSiringPurchase, dragonGift }

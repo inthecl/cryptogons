@@ -422,6 +422,24 @@ const resolvers = {
       dragon.state = 'Normal'
       return dragon.save()
     },
+    dragonGift: async (obj, args, ctx) => {
+      const dragon = await ctx.models.Dragon.findOne({ serial: args.serial }) // 선물할 용
+      const user = await ctx.models.User.findOne({ email: args.recipient })
+
+      if (dragon.email === args.email && user !== null) {
+        dragon.email = args.recipient
+        dragon.name = 'Gifts Dragon'
+        dragon.state = 'Normal'
+        dragon.choice_cbg = 'null'
+        dragon.choice_sword = 'null'
+        dragon.choice_shield = 'null'
+        dragon.win = 0
+        dragon.lose = 0
+        dragon.winning_rate = 0
+        dragon.ranking = 0
+      }
+      return dragon.save()
+    },
     login: async (obj, args, ctx) => {
       console.log(args)
       const user = await ctx.models.User.findOne({ email: args.email })

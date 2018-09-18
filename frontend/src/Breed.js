@@ -479,7 +479,7 @@ class breed extends Component {
             {this.state.email === localStorage.getItem('email') &&
               <div class="col s12">
                 <br/>
-                <h5>마켓에 종마를 올립니다</h5>
+                <h5>마켓에 나의 종마를 올립니다.</h5>
                 <br/>
                 <h6> - Register my gon in the market. Another user can cross with my gon.</h6>
                 <h6> - The minimum price starts at 10dia.</h6>
@@ -528,8 +528,8 @@ class breed extends Component {
             }
 
             <div class="col s12">
-              <br/><br/>
-              <h5>교배 할 용을 선택하세요</h5>
+              <br/><br/><br/>
+              <h5>나의 용과 교배합니다. 교배 할 용을 선택하세요.</h5>
               <br/>
               <h6> - Please select a breeder. Breeding increases cooldown.</h6>
               <h6> - The minimum price starts at 10dia.</h6>

@@ -116,6 +116,7 @@ const typeDefs = `
     dragonSiring(serial: String!, diamond: Int!, period: Int!): Dragon
     dragonSiringCancel(serial: String!): Dragon
     dragonSiringPurchase(email: String!, new_comb: String!, parents: [String]!, diamond: Int!): Dragon
+    dragonGift(email: String!, serial: String!, recipient: String!): Dragon
   }
 `
 export default typeDefs
