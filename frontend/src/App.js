@@ -14,7 +14,11 @@ import MarketSiring from './MarketSiring'
 import MarketSiringDetail from './MarketSiringDetail'
 import MarketNew from './MarketNew'
 import Itemshop from './Itemshop'
-import Battles from './Battles'
+import battles from './battles'
+import ring from './ring'
+import record from './record'
+import rank from './rank'
+import tournament from './tournament'
 import Activity from './Activity'
 import gons from './gons'
 import breed from './breed'
@@ -42,7 +46,11 @@ class App extends Component {
             <Route path="/MarketSiringDetail/:number" component={MarketSiringDetail}/>
             <Route path="/MarketNew/:number" component={MarketNew}/>
             <Route exacy path="/Itemshop/:pagenum" component={Itemshop}/>
-            <Route path="/Battles" component={Battles}/>
+            <Route path="/battles" component={battles}/>
+            <Route path="/ring" component={ring}/>
+            <Route path="/record" component={record}/>
+            <Route path="/rank" component={rank}/>
+            <Route path="/tournament" component={tournament}/>
             <Route path="/Activity" component={Activity}/>
             <Route path="/gons/:serialnumber" component={gons}/>
             <Route path="/breed/:serialnumber" component={breed}/>

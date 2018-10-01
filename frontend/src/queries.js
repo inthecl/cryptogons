@@ -21,7 +21,6 @@ query CheckEmail($email: String!){
   checkemail(email:$email) {
     email
     username
-    iconNum
     diamond
     gold
     trophy
@@ -46,8 +45,8 @@ query { dragons {
   choice_sword
   choice_shield
   cintamani
-  base_attack
-  add_attack
+  base_damage
+  add_damage
   base_armor
   add_armor
   win
@@ -73,11 +72,15 @@ query finduser($email: String!){
   finduser(email:$email) {
   email
   username
-  name
   diamond
   gold
   trophy
-  iconNum
+  iconNum {
+    name
+    description
+    number
+  }
+  choice_icon
   cbg {
     name
     description
@@ -102,7 +105,8 @@ query finduser($email: String!){
     diamond
     trophy
   }
-  dragonsNumber
+  myDragons
+  activity
  }
 }
 `
@@ -125,8 +129,8 @@ mutation addUserDragon($email: String!, $new_comb: String!, $parents: [String]! 
     choice_sword
     choice_shield
     cintamani
-    base_attack
-    add_attack
+    base_damage
+    add_damage
     base_armor
     add_armor
     win
@@ -155,8 +159,8 @@ mutation editChoicecbg($email: String!, $serial: String!, $choice_cbg: String!) 
     choice_sword
     choice_shield
     cintamani
-    base_attack
-    add_attack
+    base_damage
+    add_damage
     base_armor
     add_armor
     win
@@ -167,8 +171,8 @@ mutation editChoicecbg($email: String!, $serial: String!, $choice_cbg: String!) 
   }
   `
 const editChoicesword = gql`
-mutation editChoicesword($email: String!, $serial: String!, $choice_sword: String!) {
-  editChoicesword(email:$email, serial:$serial, choice_sword:$choice_sword) {
+mutation editChoicesword($email: String!, $serial: String!, $choice_sword: String!, $add_damage: Int!) {
+  editChoicesword(email:$email, serial:$serial, choice_sword:$choice_sword, add_damage:$add_damage) {
     email
     serial
     combination
@@ -185,8 +189,8 @@ mutation editChoicesword($email: String!, $serial: String!, $choice_sword: Strin
     choice_sword
     choice_shield
     cintamani
-    base_attack
-    add_attack
+    base_damage
+    add_damage
     base_armor
     add_armor
     win
@@ -197,8 +201,8 @@ mutation editChoicesword($email: String!, $serial: String!, $choice_sword: Strin
   }
   `
 const editChoiceshield = gql`
-mutation editChoiceshield($email: String!, $serial: String!, $choice_shield: String!) {
-  editChoiceshield(email:$email, serial:$serial, choice_shield:$choice_shield) {
+mutation editChoiceshield($email: String!, $serial: String!, $choice_shield: String!, $add_armor: Int!) {
+  editChoiceshield(email:$email, serial:$serial, choice_shield:$choice_shield, add_armor:$add_armor) {
     email
     serial
     combination
@@ -215,8 +219,8 @@ mutation editChoiceshield($email: String!, $serial: String!, $choice_shield: Str
     choice_sword
     choice_shield
     cintamani
-    base_attack
-    add_attack
+    base_damage
+    add_damage
     base_armor
     add_armor
     win
@@ -261,11 +265,15 @@ mutation itemPurchase($email: String!, $number: String!, $item: String!, $name: 
   itemPurchase(email:$email, number:$number, item:$item, name:$name, description:$description, diamond:$diamond, gold:$gold, trophy:$trophy) {
     email
     username
-    name
     diamond
     gold
     trophy
-    iconNum
+    iconNum {
+      name
+      description
+      number
+    }
+    choice_icon
     cbg {
       name
       description
@@ -290,14 +298,15 @@ mutation itemPurchase($email: String!, $number: String!, $item: String!, $name: 
       diamond
       trophy
     }
-    dragonsNumber
+    myDragons
+    activity
    }
   }
   `
 
 const editUserDragonState = gql`
-  mutation editUserDragonState($email: String!, $serial: String!, $change_state: String!) {
-    editUserDragonState(email:$email, serial:$serial, change_state: $change_state) {
+  mutation editUserDragonState($serial: String!, $change_state: String!) {
+    editUserDragonState(serial:$serial, change_state: $change_state) {
       email
       serial
       combination
@@ -314,8 +323,8 @@ const editUserDragonState = gql`
       choice_sword
       choice_shield
       cintamani
-      base_attack
-      add_attack
+      base_damage
+      add_damage
       base_armor
       add_armor
       win
@@ -344,8 +353,8 @@ const dragonPurchase = gql`
       choice_sword
       choice_shield
       cintamani
-      base_attack
-      add_attack
+      base_damage
+      add_damage
       base_armor
       add_armor
       win
@@ -375,8 +384,8 @@ const dragonSell = gql`
       choice_sword
       choice_shield
       cintamani
-      base_attack
-      add_attack
+      base_damage
+      add_damage
       base_armor
       add_armor
       win
@@ -406,8 +415,8 @@ const dragonSellCancel = gql`
       choice_sword
       choice_shield
       cintamani
-      base_attack
-      add_attack
+      base_damage
+      add_damage
       base_armor
       add_armor
       win
@@ -437,8 +446,8 @@ const dragonSiring = gql`
       choice_sword
       choice_shield
       cintamani
-      base_attack
-      add_attack
+      base_damage
+      add_damage
       base_armor
       add_armor
       win
@@ -468,8 +477,8 @@ const dragonSiringCancel = gql`
       choice_sword
       choice_shield
       cintamani
-      base_attack
-      add_attack
+      base_damage
+      add_damage
       base_armor
       add_armor
       win
@@ -499,8 +508,8 @@ const dragonSiringPurchase = gql`
       choice_sword
       choice_shield
       cintamani
-      base_attack
-      add_attack
+      base_damage
+      add_damage
       base_armor
       add_armor
       win
@@ -530,8 +539,8 @@ const dragonGift = gql`
       choice_sword
       choice_shield
       cintamani
-      base_attack
-      add_attack
+      base_damage
+      add_damage
       base_armor
       add_armor
       win

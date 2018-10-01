@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import { graphql } from 'react-apollo'
-import { Link, Redirect } from 'react-router-dom'
 import { finduser } from './queries'
 import './App.css'
 import Layout from './Layout'
 import MyGonHeader from './MyGonHeader'
-import MaterialPagination from './MaterialPagination'
 
 class MyItem extends Component {
   constructor(props) {

@@ -45,6 +45,13 @@ class BattleHeader extends Component {
                 <Link to={'/'}><a class="waves-effect waves-light btn-small"><i class="material-icons left">account_circle</i>내유닛관리</a></Link>
               </div>
             </div>
+            <div className='col l12 m12 s12'>
+              <a href={'/battles'} class="waves-effect waves-light btn-large margin-top-15 margin-right-10"><i class="material-icons left">cloud</i>대기실</a>
+              <a href={'/ring'} class="waves-effect waves-light btn-large margin-top-15 margin-right-10"><i class="material-icons left">cloud</i>경기장</a>
+              <a href={'/record'} class="waves-effect waves-light btn-large margin-top-15 margin-right-10"><i class="material-icons left">cloud</i>전적실</a>
+              <a href={'/rank'} class="waves-effect waves-light btn-large margin-top-15 margin-right-10"><i class="material-icons left">cloud</i>시상대</a>
+              <a href={'/tournament'} class="waves-effect waves-light btn-large margin-top-15"><i class="material-icons left">cloud</i>토너먼트</a>
+            </div>
           </div>
         )}
       </div>

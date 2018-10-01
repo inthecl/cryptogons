@@ -116,24 +116,29 @@ class gons extends Component {
   }
   // Market 용 구매
   handleBuybtn() {
-    if (this.state.price <= this.props.finduser.finduser.diamond) {
-      console.log('this.state.price : ', this.state.price)
-      this.props.dragonPurchase({ variables: { email: localStorage.getItem('email'), serial: this.props.match.params.serialnumber, diamond: this.state.price } })
-        .then((res) => {
-          console.log(res)
-          if (res.data.dragonPurchase.email === localStorage.getItem('email')) {
-            M.toast({ html: '구매 성공' })
-            this.setState({ redirect: true })
-          }
-          if (res.data.dragonPurchase.email !== localStorage.getItem('email')) {
-            M.toast({ html: '구매 할 용이 없어졌어요' })
-          }
-        })
-        .catch((errors) => {
-          console.log('errors: ', errors)
-        })
-    } else {
-      M.toast({ html: '잔액 부족' })
+    if (localStorage.getItem('email') !== null) {
+      if (this.state.price <= this.props.finduser.finduser.diamond) {
+        console.log('this.state.price : ', this.state.price)
+        this.props.dragonPurchase({ variables: { email: localStorage.getItem('email'), serial: this.props.match.params.serialnumber, diamond: this.state.price } })
+          .then((res) => {
+            console.log(res)
+            if (res.data.dragonPurchase.email === localStorage.getItem('email')) {
+              M.toast({ html: '구매 성공' })
+              this.setState({ redirect: true })
+            }
+            if (res.data.dragonPurchase.email !== localStorage.getItem('email')) {
+              M.toast({ html: '구매 할 용이 없어졌어요' })
+            }
+          })
+          .catch((errors) => {
+            console.log('errors: ', errors)
+          })
+      } else {
+        M.toast({ html: '잔액 부족' })
+      }
+    }
+    if (localStorage.getItem('email') === null) {
+      M.toast({ html: '로그인을 해주세요' })
     }
   }
   handleChoiceCbg(event) {
@@ -161,10 +166,10 @@ class gons extends Component {
         console.log('errors: ', errors)
       })
   }
-  handleChoiceSword(event) {
+  handleChoiceSword(event, event2) {
     this.setState({ change_sword: event })
     // 서버에 현재용의 serial, choice_sword(event) 보냄
-    this.props.editChoicesword({ variables: { email: localStorage.getItem('email'), serial: this.props.match.params.serialnumber, choice_sword: event } })
+    this.props.editChoicesword({ variables: { email: localStorage.getItem('email'), serial: this.props.match.params.serialnumber, choice_sword: event, add_damage: event2 } })
       .then((res) => {
         console.log(res)
       })
@@ -176,7 +181,7 @@ class gons extends Component {
   handleReleaseSword() {
     this.setState({ change_sword: 'null' })
     // 서버에 현재용의 serial, choice_sword(null) 보냄
-    this.props.editChoicesword({ variables: { email: localStorage.getItem('email'), serial: this.props.match.params.serialnumber, choice_sword: 'null' } })
+    this.props.editChoicesword({ variables: { email: localStorage.getItem('email'), serial: this.props.match.params.serialnumber, choice_sword: 'null', add_damage: 0 } })
       .then((res) => {
         console.log(res)
       })
@@ -184,10 +189,10 @@ class gons extends Component {
         console.log('errors: ', errors)
       })
   }
-  handleChoiceShield(event) {
+  handleChoiceShield(event, event2) {
     this.setState({ change_shield: event })
     // 서버에 현재용의 serial, choice_shield(event) 보냄
-    this.props.editChoiceshield({ variables: { email: localStorage.getItem('email'), serial: this.props.match.params.serialnumber, choice_shield: event } })
+    this.props.editChoiceshield({ variables: { email: localStorage.getItem('email'), serial: this.props.match.params.serialnumber, choice_shield: event, add_armor: event2 } })
       .then((res) => {
         console.log(res)
       })
@@ -199,7 +204,7 @@ class gons extends Component {
   handleReleaseShield() {
     this.setState({ change_shield: 'null' })
     // 서버에 현재용의 serial, choice_shield(null) 보냄
-    this.props.editChoiceshield({ variables: { email: localStorage.getItem('email'), serial: this.props.match.params.serialnumber, choice_shield: 'null' } })
+    this.props.editChoiceshield({ variables: { email: localStorage.getItem('email'), serial: this.props.match.params.serialnumber, choice_shield: 'null', add_armor: 0 } })
       .then((res) => {
         console.log(res)
       })
@@ -215,14 +220,16 @@ class gons extends Component {
     let y = 0
     let z = 0
     if (!this.props.finduser.loading && !this.props.data.loading) {
-      for (let a = 0; a < this.props.finduser.finduser.sword.length; a += 1) {
-        this.state.all_sword[a] = this.props.finduser.finduser.sword[a].number
-      }
-      for (let b = 0; b < this.props.finduser.finduser.shield.length; b += 1) {
-        this.state.all_shield[b] = this.props.finduser.finduser.shield[b].number
-      }
-      for (let c = 0; c < this.props.finduser.finduser.cbg.length; c += 1) {
-        this.state.all_cbg[c] = this.props.finduser.finduser.cbg[c].number
+      if (localStorage.getItem('email') !== null) {
+        for (let a = 0; a < this.props.finduser.finduser.sword.length; a += 1) {
+          this.state.all_sword[a] = this.props.finduser.finduser.sword[a]
+        }
+        for (let b = 0; b < this.props.finduser.finduser.shield.length; b += 1) {
+          this.state.all_shield[b] = this.props.finduser.finduser.shield[b]
+        }
+        for (let c = 0; c < this.props.finduser.finduser.cbg.length; c += 1) {
+          this.state.all_cbg[c] = this.props.finduser.finduser.cbg[c].number
+        }
       }
       console.log('this.props', this.props)
       for (let dl = 0; dl < this.props.data.dragons.length; dl += 1) {
@@ -231,7 +238,7 @@ class gons extends Component {
           if (this.props.data.dragons[dl].state === 'Resting' || this.props.data.dragons[dl].state === 'brooding' || this.props.data.dragons[dl].state === 'Egg' || this.props.data.dragons[dl].state === 'during battle') {
             if (Date.now() >= this.props.data.dragons[dl].cooldown[1]) {
               this.state.change_state = 'Normal'
-              this.props.editUserDragonState({ variables: { email: localStorage.getItem('email'), serial: this.props.data.dragons[dl].serial, change_state: 'Normal' } })
+              this.props.editUserDragonState({ variables: { serial: this.props.data.dragons[dl].serial, change_state: 'Normal' } })
                 .then((res) => {
                   console.log(res)
                 })
@@ -375,35 +382,48 @@ class gons extends Component {
         }
       }
 
-      console.log('this.state.all_cbg 111', this.state.all_cbg)
-      console.log('this.state.except_cbg 222', this.state.except_cbg)
       this.state.possible_cbg = this.state.all_cbg
       for (let a = 0; a < this.state.except_cbg.length; a += 1) {
         this.state.possible_cbg.splice(this.state.possible_cbg.indexOf(this.state.except_cbg[a]), 1)
       }
-      console.log('this.state.possible_cbg 333', this.state.possible_cbg)
 
       // all sword - expect sword = possible sword
-      Array.prototype.subtract = function (array) {
-        var hash = Object.create(null)
-        array.forEach(function (a) {
-            hash[a] = (hash[a] || 0) + 1
-        })
-        return this.filter(function (a) {
-           return !hash[a] || (hash[a]--, false)
-        })
+      let psword = 0
+      for (let sn = 0; sn < this.state.all_sword.length; sn += 1) {
+        if (this.state.except_sword.length !== 0) {
+          for (let en = 0; en < this.state.except_sword.length; en += 1) {
+            if (this.state.all_sword[sn].number !== this.state.except_sword[en]) {
+              this.state.possible_sword[psword] = this.state.all_sword[sn]
+              psword += 1
+            }
+          }
+        } else {
+          this.state.possible_sword[psword] = this.state.all_sword[sn]
+          psword += 1
+        }
       }
-      var a = this.state.all_sword,
-          b = this.state.except_sword
-      this.state.possible_sword = (a.subtract(b))
+      console.log('possible_sword', this.state.possible_sword)
+
       // all shield - expect shield = possible shield
-      var c = this.state.all_shield,
-          d = this.state.except_shield
-      this.state.possible_shield = (c.subtract(d))
+      let pshield = 0
+      for (let sn = 0; sn < this.state.all_shield.length; sn += 1) {
+        if (this.state.except_shield.length !== 0) {
+          for (let en = 0; en < this.state.except_shield.length; en += 1) {
+            if (this.state.all_shield[sn].number !== this.state.except_shield[en]) {
+              this.state.possible_shield[pshield] = this.state.all_shield[sn]
+              pshield += 1
+            }
+          }
+        } else {
+          this.state.possible_shield[pshield] = this.state.all_shield[sn]
+          pshield += 1
+        }
+      }
+      console.log('possible_shield', this.state.possible_shield)
     }
     return (
       <Layout>
-        {this.state.email === localStorage.getItem('email') &&
+        {this.state.email === localStorage.getItem('email') && localStorage.getItem('email') !== null &&
           <MyGonHeader/>
         }
         <div id="modal_sword" class="modal">
@@ -418,20 +438,20 @@ class gons extends Component {
                         <div className="card">
                           <div className="card-image">
 
-                            <img src={`${process.env.PUBLIC_URL}/images/item/sword/sword_${item}.png`} onClick={ () => this.handleChoiceSword(item)}/>
-                            {this.state.choice_sword === item && this.state.change_sword === 'doNotClick' &&
+                            <img src={`${process.env.PUBLIC_URL}/images/item/sword/sword_${item.number}.png`} onClick={ () => this.handleChoiceSword(item.number, item.description)}/>
+                            {this.state.choice_sword === item.number && this.state.change_sword === 'doNotClick' &&
                               <div class="absolute">
                                 <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_choice.png`} onClick={this.handleReleaseSword}/>
                               </div>
                             }
-                            {this.state.change_sword === item &&
+                            {this.state.change_sword === item.number &&
                               <div class="absolute">
                                 <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_choice.png`} onClick={this.handleReleaseSword}/>
                               </div>
                             }
                             {this.state.change_sword === 'null' &&
                               <div class="absolute">
-                                <img src={`${process.env.PUBLIC_URL}/images/item/sword/sword_${item}.png`} onClick={ () => this.handleChoiceSword(item)}/>
+                                <img src={`${process.env.PUBLIC_URL}/images/item/sword/sword_${item.number}.png`} onClick={ () => this.handleChoiceSword(item.number, item.description)}/>
                               </div>
                             }
 
@@ -462,20 +482,20 @@ class gons extends Component {
                         <div className="card">
                           <div className="card-image">
 
-                            <img src={`${process.env.PUBLIC_URL}/images/item/shield/shield_${item}.png`} onClick={ () => this.handleChoiceShield(item)}/>
-                            {this.state.choice_shield === item && this.state.change_shield === 'doNotClick' &&
+                            <img src={`${process.env.PUBLIC_URL}/images/item/shield/shield_${item.number}.png`} onClick={ () => this.handleChoiceShield(item.number, item.description)}/>
+                            {this.state.choice_shield === item.number && this.state.change_shield === 'doNotClick' &&
                               <div class="absolute">
                                 <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_choice.png`} onClick={this.handleReleaseShield}/>
                               </div>
                             }
-                            {this.state.change_shield === item &&
+                            {this.state.change_shield === item.number &&
                               <div class="absolute">
                                 <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_choice.png`} onClick={this.handleReleaseShield}/>
                               </div>
                             }
                             {this.state.change_shield === 'null' &&
                               <div class="absolute">
-                                <img src={`${process.env.PUBLIC_URL}/images/item/shield/shield_${item}.png`} onClick={ () => this.handleChoiceShield(item)}/>
+                                <img src={`${process.env.PUBLIC_URL}/images/item/shield/shield_${item.number}.png`} onClick={ () => this.handleChoiceShield(item.number, item.description)}/>
                               </div>
                             }
 
@@ -623,7 +643,7 @@ class gons extends Component {
                     </span>
                   </div>
                 }
-                {this.state.email !== localStorage.getItem('email') && this.state.state === 'Siring' &&
+                {this.state.email !== localStorage.getItem('email') && this.state.state === 'Siring' && localStorage.getItem('email') !== null &&
                   <div className="right margin-top-15">
                     <span>
                       <a href={`/breed/${this.state.serial}`} class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Siring</a>

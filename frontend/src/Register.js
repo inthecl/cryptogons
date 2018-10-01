@@ -44,9 +44,13 @@ class Register extends Component {
     if (this.state.password === this.state.passwordConfirm) {
       event.preventDefault()
       this.props.mutate({ variables: { email: this.state.email, username: this.state.username, password: this.state.password } })
-        .then(() => this.setState({ redirect: true }))
-    } else {
-      console.log('Password Confirm fail')
+        .then((res) => {
+          console.log(res)
+          this.setState({ redirect: true })
+        })
+        .catch((errors) => {
+          console.log('errors: ', errors)
+        })
     }
   }
 

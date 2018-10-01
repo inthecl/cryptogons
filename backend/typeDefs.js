@@ -21,8 +21,8 @@ const typeDefs = `
     choice_sword: String
     choice_shield: String
     cintamani: [String]
-    base_attack: Int
-    add_attack: Int
+    base_damage: Int
+    add_damage: Int
     base_armor: Int
     add_armor: Int
     win: Int
@@ -33,15 +33,16 @@ const typeDefs = `
   type User {
     email: String
     username: String
-    name: String
     diamond: Int
     gold: Int
     trophy: Int
-    iconNum: Int
+    iconNum: [IconNum]
+    choice_icon: String
     cbg: [Cbg]
     sword: [Sword]
     shield: [Shield]
-    dragonsNumber: [String]
+    myDragons: [String]
+    activity: [String]
   }
   type Statistic {
     usercount: Int
@@ -50,6 +51,11 @@ const typeDefs = `
   type AuthPayload {
     token: String!
     refreshToken: String!
+  }
+  type IconNum {
+    name: String
+    description: String
+    number: String
   }
   type Sword {
     name: String
@@ -106,9 +112,9 @@ const typeDefs = `
     login(email:String!,password:String!): AuthPayload!
     removeUserDragon(email: String!, comb: String!): User
     editChoicecbg(email: String!, serial: String!, choice_cbg: String!): Dragon
-    editChoicesword(email: String!, serial: String!, choice_sword: String!): Dragon
-    editChoiceshield(email: String!, serial: String!, choice_shield: String!): Dragon
-    editUserDragonState(email: String!, serial: String!, change_state: String!): Dragon
+    editChoicesword(email: String!, serial: String!, choice_sword: String!, add_damage: Int!): Dragon
+    editChoiceshield(email: String!, serial: String!, choice_shield: String!, add_armor: Int!): Dragon
+    editUserDragonState(serial: String!, change_state: String!): Dragon
     itemPurchase(email: String!, item: String!, number: String!,  name: String!, description: String!, diamond: Int!, gold: Int!, trophy: Int!): User
     dragonPurchase(email: String! serial: String!, diamond: Int!): Dragon
     dragonSell(serial: String!, diamond: Int!, period: Int!): Dragon

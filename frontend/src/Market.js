@@ -16,10 +16,13 @@ class Market extends Component {
     }
   }
   render() {
+    console.log('this.props : ', this.props)
     if (!this.props.data.loading && !this.props.finduser.loading) {
-      this.state.user_dia = this.props.finduser.finduser.diamond
-      this.state.user_gold = this.props.finduser.finduser.gold
-      this.state.user_trophy = this.props.finduser.finduser.trophy
+      if (localStorage.getItem('email') !== null) {
+        this.state.user_dia = this.props.finduser.finduser.diamond
+        this.state.user_gold = this.props.finduser.finduser.gold
+        this.state.user_trophy = this.props.finduser.finduser.trophy
+      }
       let dcx = 0
       for (let dl = 0; dl < this.props.data.dragons.length; dl += 1) {
         if (this.props.data.dragons[dl].state === 'New' || this.props.data.dragons[dl].state === 'Sell' || this.props.data.dragons[dl].state === 'Siring') {
@@ -69,11 +72,13 @@ class Market extends Component {
                 <div className="col s12 m6 l6 left left-align">
                   <h2>Market</h2>
                 </div>
-                <div className="col s12 m6 l6 right right-align">
-                  <h5><img src={`${process.env.PUBLIC_URL}/images/brief_info/dia.png`}/> {this.state.user_dia}
-                    <img src={`${process.env.PUBLIC_URL}/images/brief_info/gold.png`}/> {this.state.user_gold}
-                    <img src={`${process.env.PUBLIC_URL}/images/brief_info/trophy2.png`}/> {this.state.user_trophy}</h5>
-                </div>
+                { localStorage.getItem('email') !== null &&
+                  <div className="col s12 m6 l6 right right-align">
+                    <h5><img src={`${process.env.PUBLIC_URL}/images/brief_info/dia.png`}/> {this.state.user_dia}
+                      <img src={`${process.env.PUBLIC_URL}/images/brief_info/gold.png`}/> {this.state.user_gold}
+                      <img src={`${process.env.PUBLIC_URL}/images/brief_info/trophy2.png`}/> {this.state.user_trophy}</h5>
+                  </div>
+                }
               </div>
 
               <div className="col s12 m12 l12 margin-top-15">

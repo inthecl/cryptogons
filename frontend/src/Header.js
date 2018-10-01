@@ -37,30 +37,38 @@ export default class Header extends Component {
           <div class="nav-wrapper container">
             <a id="logo-container" href="/" class="brand-logo"><img src={imgTestLogo}/></a>
             <ul class="right hide-on-med-and-down">
-
               {this.state.login ? (
                 <li><a href='/MyGons/1'>MyGons</a></li>
               ) : (
                 <li><a href='/Login'>Login</a></li>
               )}
-
               <li><a href='/Market/1'>Market</a></li>
-              <li><a href='/Itemshop/1'>Items</a></li>
-              <li><a href='/Battles'>Battles</a></li>
-              <li><a href='/Activity'>Activity</a></li>
+              {this.state.login === true &&
+                <li><a href='/Itemshop/1'>Items</a></li>
+              }
+              {this.state.login === true &&
+                <li><a href='/battles'>battles</a></li>
+              }
+              {this.state.login === true &&
+                <li><a href='/Activity'>Activity</a></li>
+              }
             </ul>
             <ul id="nav-mobile" class="sidenav">
-
               {this.state.login ? (
                 <li><a href='/MyGons/1'>MyGons</a></li>
               ) : (
                 <li><a href='/Login'>Login</a></li>
               )}
-
               <li><a href='/Market/1'>Market</a></li>
-              <li><a href='/Itemshop/1'>Items</a></li>
-              <li><a href='/Battles'>Battles</a></li>
-              <li><a href='/Activity'>Activity</a></li>
+              {this.state.login === true &&
+                <li><a href='/Itemshop/1'>Items</a></li>
+              }
+              {this.state.login === true &&
+                <li><a href='/battles'>battles</a></li>
+              }
+              {this.state.login === true &&
+                <li><a href='/Activity'>Activity</a></li>
+              }
             </ul>
             <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
           </div>

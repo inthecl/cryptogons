@@ -25,9 +25,9 @@ const resolvers = {
     // Breed 내꺼끼리 교배
     addUserDragon: async (obj, args, ctx) => {
       let serial = String(generator.generate(20))
-      
+
       const user = await ctx.models.User.findOne({ email: args.email }) // 유저 dragonsNumber에 새로운 용 시리얼 추가
-      user.dragonsNumber.push(serial)
+      user.myDragons.push(serial)
 
       const xdragon = await ctx.models.Dragon.findOne({ serial: args.parents[0] })
       const coodTimeX = Date.now() + 120000 // 임시 2분 쿨타임
@@ -70,8 +70,8 @@ const resolvers = {
         choice_sword: 'null',
         choice_shield: 'null',
         cintamani: [],
-        base_attack: Math.floor(Math.random() * 8) + 20,
-        add_attack: 0,
+        base_damage: Math.floor(Math.random() * 8) + 20,
+        add_damage: 0,
         base_armor: Math.floor(Math.random() * 10) + 5,
         add_armor: 0,
         win: 0,
@@ -134,8 +134,8 @@ const resolvers = {
       dragon.choice_sword = 'null'
       dragon.choice_shield = 'null'
       dragon.cintamani = []
-      dragon.base_attack = Math.floor(Math.random() * 8) + 20
-      dragon.add_attack = 0
+      dragon.base_damage = Math.floor(Math.random() * 8) + 20
+      dragon.add_damage = 0
       dragon.base_armor = Math.floor(Math.random() * 10) + 5
       dragon.add_armor = 0
       dragon.win = 0
@@ -158,11 +158,13 @@ const resolvers = {
     editChoicesword: async (obj, args, ctx) => {
       const dragon = await ctx.models.Dragon.findOne({ serial: args.serial })
       dragon.choice_sword = args.choice_sword
+      dragon.add_damage = args.add_damage
       return dragon.save()
     },
     editChoiceshield: async (obj, args, ctx) => {
       const dragon = await ctx.models.Dragon.findOne({ serial: args.serial })
       dragon.choice_shield = args.choice_shield
+      dragon.add_armor = args.add_armor
       return dragon.save()
     },
     editUserDragonState: async (obj, args, ctx) => {
@@ -183,7 +185,8 @@ const resolvers = {
       user.diamond = 3000
       user.gold = 1000
       user.trophy = 10
-      user.iconNum = 1
+      user.iconNum = []
+      user.choice_icon = '01'
       const newone = await new ctx.models.User(user)
       console.log(newone)
       //const link = createConfirmEmailLink(user.username)
@@ -295,6 +298,7 @@ const resolvers = {
 
       if (dragon.state === 'New' || dragon.state === 'Sell') {
         buyer.diamond -= args.diamond
+        buyer.myDragons.push(args.serial)
 
         if (dragon.email === 'devman') {
           dragon.email = args.email
@@ -303,6 +307,7 @@ const resolvers = {
         if (dragon.email !== 'devman') {
           seller = await ctx.models.User.findOne({ email: dragon.email })
           seller.diamond += args.diamond
+          seller.myDragons.pull(args.serial)
 
           dragon.email = args.email
           dragon.name = 'Purchased Dragons'
@@ -353,7 +358,7 @@ const resolvers = {
         // 새로운 용 생성
         const serial = String(generator.generate(20))
 
-        buyer.dragonsNumber.push(serial) // 유저 dragonsNumber에 새로운 용 시리얼 추가
+        buyer.myDragons.push(serial) // 유저 dragonsNumber에 새로운 용 시리얼 추가
 
         xdragon = await ctx.models.Dragon.findOne({ serial: args.parents[0] })
         const coodTimeX = Date.now() + 120000 // 임시 2분 쿨타임
@@ -396,8 +401,8 @@ const resolvers = {
           choice_sword: 'null',
           choice_shield: 'null',
           cintamani: [],
-          base_attack: Math.floor(Math.random() * 8) + 20,
-          add_attack: 0,
+          base_damage: Math.floor(Math.random() * 8) + 20,
+          add_damage: 0,
           base_armor: Math.floor(Math.random() * 10) + 5,
           add_armor: 0,
           win: 0,
@@ -424,9 +429,12 @@ const resolvers = {
     },
     dragonGift: async (obj, args, ctx) => {
       const dragon = await ctx.models.Dragon.findOne({ serial: args.serial }) // 선물할 용
-      const user = await ctx.models.User.findOne({ email: args.recipient })
+      const presenter = await ctx.models.User.findOne({ email: args.email }) // 선물하는 사람
+      const recipient = await ctx.models.User.findOne({ email: args.recipient }) // 선물받는 사람
 
-      if (dragon.email === args.email && user !== null) {
+      if (dragon.email === args.email && recipient !== null) {
+        presenter.myDragons.pull(args.serial)
+        recipient.myDragons.push(args.serial)
         dragon.email = args.recipient
         dragon.name = 'Gifts Dragon'
         dragon.state = 'Normal'

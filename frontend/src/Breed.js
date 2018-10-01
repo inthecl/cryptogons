@@ -8,7 +8,6 @@ import Layout from './Layout'
 import btnPlus from './image/plus.png'
 import btnMinus from './image/minus.png'
 import MyGonHeader from './MyGonHeader'
-import MaterialPagination from './MaterialPagination'
 
 class breed extends Component {
   constructor(props) {
@@ -343,7 +342,7 @@ class breed extends Component {
           if (this.props.data.dragons[dl].state === 'Resting' || this.props.data.dragons[dl].state === 'brooding' || this.props.data.dragons[dl].state === 'Egg' || this.props.data.dragons[dl].state === 'during battle') {
             if (Date.now() >= this.props.data.dragons[dl].cooldown[1]) {
               this.state.change_state = 'Normal'
-              this.props.mutate({ variables: { email: localStorage.getItem('email'), serial: this.props.data.dragons[dl].serial, change_state: 'Normal' } })
+              this.props.editUserDragonState({ variables: { serial: this.props.data.dragons[dl].serial, change_state: 'Normal' } })
                 .then((res) => {
                   console.log(res)
                 })
@@ -378,37 +377,43 @@ class breed extends Component {
           this.state.mouth = this.state.comb.substring(22, 24)
           this.state.nose = this.state.comb.substring(24, 26)
         } else {
-          if (this.props.data.dragons[dl].email === localStorage.getItem('email') && this.props.data.dragons[dl].state === 'Normal') { // 현재용을 제외한 state가 Normal인 용의 리스트
-            this.state.mdragons[dl] = {
-              name: this.props.data.dragons[dl].name,
-              serial: this.props.data.dragons[dl].serial,
-              evolution: this.props.data.dragons[dl].combination.substring(0, 2),
-              property: this.props.data.dragons[dl].combination.substring(2, 4),
-              wing: this.props.data.dragons[dl].combination.substring(4, 6),
-              wingColor: this.props.data.dragons[dl].combination.substring(6, 8),
-              horn: this.props.data.dragons[dl].combination.substring(8, 10),
-              hornColor: this.props.data.dragons[dl].combination.substring(10, 12),
-              tail: this.props.data.dragons[dl].combination.substring(12, 14),
-              body: this.props.data.dragons[dl].combination.substring(14, 16),
-              bodyColor: this.props.data.dragons[dl].combination.substring(16, 18),
-              eye: this.props.data.dragons[dl].combination.substring(18, 20),
-              eyeColor: this.props.data.dragons[dl].combination.substring(20, 22),
-              mouth: this.props.data.dragons[dl].combination.substring(22, 24),
-              nose: this.props.data.dragons[dl].combination.substring(24, 26)
+          if (this.props.data.dragons[dl].email === localStorage.getItem('email')) { // 현재용을 제외한 state가 Normal인 용의 리스트
+            // 소유한 모든 용 스테이트, 쿨타임 확인, 수정
+            if (this.props.data.dragons[dl].state === 'Resting' || this.props.data.dragons[dl].state === 'brooding' || this.props.data.dragons[dl].state === 'Egg' || this.props.data.dragons[dl].state === 'during battle') {
+              if (Date.now() >= this.props.data.dragons[dl].cooldown[1]) {
+                this.state.change_state = 'Normal'
+                this.props.mutate({ variables: { email: localStorage.getItem('email'), serial: this.props.data.dragons[dl].serial, change_state: 'Normal' } })
+                  .then((res) => {
+                    console.log(res)
+                  })
+                  .catch((errors) => {
+                    console.log('errors: ', errors)
+                  })
+              } else {
+                this.state.change_state = this.props.data.dragons[dl].state
+              }
+            } else {
+              this.state.change_state = this.props.data.dragons[dl].state
             }
-          }
-        }
-        // 소유한 모든 용 스테이트, 쿨타임 확인, 수정
-        if (this.props.data.dragons[dl].state === 'Resting' || this.props.data.dragons[dl].state === 'brooding' || this.props.data.dragons[dl].state === 'Egg' || this.props.data.dragons[dl].state === 'during battle') {
-          if (Date.now() >= this.props.data.dragons[dl].cooldown[1]) {
-
-            this.props.editUserDragonState({ variables: { email: localStorage.getItem('email'), serial: this.props.data.dragons[dl].serial, change_state: 'Normal' } })
-              .then((res) => {
-                console.log(res)
-              })
-              .catch((errors) => {
-                console.log('errors: ', errors)
-              })
+            if (this.props.data.dragons[dl].state === 'Normal') {
+              this.state.mdragons[dl] = {
+                name: this.props.data.dragons[dl].name,
+                serial: this.props.data.dragons[dl].serial,
+                evolution: this.props.data.dragons[dl].combination.substring(0, 2),
+                property: this.props.data.dragons[dl].combination.substring(2, 4),
+                wing: this.props.data.dragons[dl].combination.substring(4, 6),
+                wingColor: this.props.data.dragons[dl].combination.substring(6, 8),
+                horn: this.props.data.dragons[dl].combination.substring(8, 10),
+                hornColor: this.props.data.dragons[dl].combination.substring(10, 12),
+                tail: this.props.data.dragons[dl].combination.substring(12, 14),
+                body: this.props.data.dragons[dl].combination.substring(14, 16),
+                bodyColor: this.props.data.dragons[dl].combination.substring(16, 18),
+                eye: this.props.data.dragons[dl].combination.substring(18, 20),
+                eyeColor: this.props.data.dragons[dl].combination.substring(20, 22),
+                mouth: this.props.data.dragons[dl].combination.substring(22, 24),
+                nose: this.props.data.dragons[dl].combination.substring(24, 26)
+              }
+            }
           }
         }
       }
