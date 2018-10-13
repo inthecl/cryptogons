@@ -29,10 +29,16 @@ const CbgSchema = new mongoose.Schema({
   diamond: Number,
   trophy: Number
 })
+const BattleHistorySchema = new mongoose.Schema({
+  mydragon: String,
+  enemydragon: String,
+  result: String
+})
 const IconNum = mongoose.model('iconNum', IconNumSchema)
 const Sword = mongoose.model('sword', SwordSchema)
 const Shield = mongoose.model('shield', ShieldSchema)
 const Cbg = mongoose.model('cbg', CbgSchema)
+const BattleHistory = mongoose.model('battlehistory', BattleHistorySchema)
 const Book = mongoose.model('book', { id: String, title: String, author: String })
 const User = mongoose.model('user', {
   email: {
@@ -50,6 +56,7 @@ const User = mongoose.model('user', {
   sword: [SwordSchema],
   shield: [ShieldSchema],
   myDragons: [String],
+  battle_history: [BattleHistorySchema],
   activity: [String]
 })
 const Dragon = mongoose.model('dragon', {
@@ -83,8 +90,11 @@ const Item = mongoose.model('item', {
   shield: [ShieldSchema],
   cbg: [CbgSchema]
 })
+const Queue = mongoose.model('queue', {
+  queue: [String]
+})
 const Statistic = mongoose.model('statistic', { usercount: Number, dragoncount: Number })
 
 export default {
-  Book, User, Dragon, Statistic, Item, IconNum, Sword, Shield, Cbg
+  Book, User, Dragon, Statistic, Item, IconNum, Sword, Shield, Cbg, Queue, BattleHistory
 }

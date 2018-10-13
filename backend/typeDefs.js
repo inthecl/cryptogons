@@ -30,6 +30,11 @@ const typeDefs = `
     winning_rate: Int
     ranking: Int
   }
+  type BattleHistory {
+    mydragon: String
+    enemydragon: String
+    result: String
+  }
   type User {
     email: String
     username: String
@@ -42,6 +47,7 @@ const typeDefs = `
     sword: [Sword]
     shield: [Shield]
     myDragons: [String]
+    battle_history: [BattleHistory]
     activity: [String]
   }
   type Statistic {
@@ -86,6 +92,9 @@ const typeDefs = `
     shield: [Shield]
     cbg: [Cbg]
   }
+  type Queue {
+    queue: [String]
+  }
   type Query{
     books: [Book]
     findbook(id:String!): Book
@@ -123,6 +132,9 @@ const typeDefs = `
     dragonSiringCancel(serial: String!): Dragon
     dragonSiringPurchase(email: String!, new_comb: String!, parents: [String]!, diamond: Int!): Dragon
     dragonGift(email: String!, serial: String!, recipient: String!): Dragon
+    battleStart(email: String!, serial: String!) : Dragon
+    battleCancle(email: String!, serial: String!) : Dragon
+    battleUpdate(email: String!) : User
   }
 `
 export default typeDefs

@@ -106,6 +106,11 @@ query finduser($email: String!){
     trophy
   }
   myDragons
+  battle_history {
+    mydragon
+    enemydragon
+    result
+  }
   activity
  }
 }
@@ -551,4 +556,115 @@ const dragonGift = gql`
   }
   `
 
-export { registerUser, login, CheckEmailquery, dragons, finddragon, finduser, addUserDragon, editChoicecbg, editChoicesword, editChoiceshield, finditem, itemPurchase, editUserDragonState, dragonPurchase, dragonSell, dragonSellCancel, dragonSiring, dragonSiringCancel, dragonSiringPurchase, dragonGift }
+const battleStart = gql`
+  mutation battleStart($email: String!, $serial: String!) {
+    battleStart(email:$email, serial:$serial) {
+      email
+      serial
+      combination
+      name
+      birthday
+      state
+      price
+      period
+      gen
+      cooldown
+      parents
+      child
+      choice_cbg
+      choice_sword
+      choice_shield
+      cintamani
+      base_damage
+      add_damage
+      base_armor
+      add_armor
+      win
+      lose
+      winning_rate
+      ranking
+   }
+  }
+  `
+
+const battleCancle = gql`
+  mutation battleCancle($email: String!, $serial: String!) {
+    battleCancle(email:$email, serial:$serial) {
+      email
+      serial
+      combination
+      name
+      birthday
+      state
+      price
+      period
+      gen
+      cooldown
+      parents
+      child
+      choice_cbg
+      choice_sword
+      choice_shield
+      cintamani
+      base_damage
+      add_damage
+      base_armor
+      add_armor
+      win
+      lose
+      winning_rate
+      ranking
+   }
+  }
+  `
+
+const battleUpdate = gql`
+  mutation battleUpdate($email: String!){
+    battleUpdate(email:$email) {
+    email
+    username
+    diamond
+    gold
+    trophy
+    iconNum {
+      name
+      description
+      number
+    }
+    choice_icon
+    cbg {
+      name
+      description
+      number
+      gold
+      diamond
+      trophy
+    }
+    sword {
+      name
+      description
+      number
+      gold
+      diamond
+      trophy
+    }
+    shield {
+      name
+      description
+      number
+      gold
+      diamond
+      trophy
+    }
+    myDragons
+    battle_history {
+      mydragon
+      enemydragon
+      result
+    }
+    activity
+   }
+  }
+  `
+
+export { registerUser, login, CheckEmailquery, dragons, finddragon, finduser, addUserDragon, editChoicecbg, editChoicesword, editChoiceshield, finditem, itemPurchase, editUserDragonState, dragonPurchase, dragonSell, dragonSellCancel, dragonSiring, dragonSiringCancel, dragonSiringPurchase, dragonGift, battleStart, battleCancle, battleUpdate }

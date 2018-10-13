@@ -317,12 +317,13 @@ class breed extends Component {
         {this.state.email !== localStorage.getItem('email') &&
           this.props.dragonSiringPurchase({ variables: { email: localStorage.getItem('email'), new_comb: this.state.new_comb, parents: [this.state.serial, this.state.choice_serial], diamond: this.state.price } })
             .then((res) => {
-              console.log(res)
+              console.log('Siring res : ',res)
               M.toast({ html: '교배 성공' })
               this.setState({ redirect: true })
             })
             .catch((errors) => {
               console.log('errors: ', errors)
+              M.toast({ html: '교배 할 용이 없어졌어요' })
             })
         }
       } else {
@@ -339,16 +340,26 @@ class breed extends Component {
       for (let dl = 0; dl < this.props.data.dragons.length; dl += 1) {
         if (this.props.data.dragons[dl].serial === this.props.match.params.serialnumber) {
           // 소유한 모든 용 스테이트, 쿨타임 확인, 수정
-          if (this.props.data.dragons[dl].state === 'Resting' || this.props.data.dragons[dl].state === 'brooding' || this.props.data.dragons[dl].state === 'Egg' || this.props.data.dragons[dl].state === 'during battle') {
+          if (this.props.data.dragons[dl].state === 'Resting' || this.props.data.dragons[dl].state === 'brooding' || this.props.data.dragons[dl].state === 'Egg' || this.props.data.dragons[dl].state === 'Sell' || this.props.data.dragons[dl].state === 'Siring' || this.props.data.dragons[dl].state === 'during battle') {
             if (Date.now() >= this.props.data.dragons[dl].cooldown[1]) {
-              this.state.change_state = 'Normal'
-              this.props.editUserDragonState({ variables: { serial: this.props.data.dragons[dl].serial, change_state: 'Normal' } })
-                .then((res) => {
-                  console.log(res)
-                })
-                .catch((errors) => {
-                  console.log('errors: ', errors)
-                })
+              if (this.props.data.dragons[dl].state === 'during battle') {
+                this.props.battleUpdate({ variables: { email: localStorage.getItem('email') } })
+                  .then((res) => {
+                    console.log(res)
+                  })
+                  .catch((errors) => {
+                    console.log('errors: ', errors)
+                  })
+              } else {
+                this.state.change_state = 'Normal'
+                this.props.editUserDragonState({ variables: { serial: this.props.data.dragons[dl].serial, change_state: 'Normal' } })
+                  .then((res) => {
+                    console.log(res)
+                  })
+                  .catch((errors) => {
+                    console.log('errors: ', errors)
+                  })
+              }
             } else {
               this.state.change_state = this.props.data.dragons[dl].state
             }
@@ -379,23 +390,29 @@ class breed extends Component {
         } else {
           if (this.props.data.dragons[dl].email === localStorage.getItem('email')) { // 현재용을 제외한 state가 Normal인 용의 리스트
             // 소유한 모든 용 스테이트, 쿨타임 확인, 수정
-            if (this.props.data.dragons[dl].state === 'Resting' || this.props.data.dragons[dl].state === 'brooding' || this.props.data.dragons[dl].state === 'Egg' || this.props.data.dragons[dl].state === 'during battle') {
+            if (this.props.data.dragons[dl].state === 'Resting' || this.props.data.dragons[dl].state === 'brooding' || this.props.data.dragons[dl].state === 'Egg' || this.props.data.dragons[dl].state === 'Sell' || this.props.data.dragons[dl].state === 'Siring' || this.props.data.dragons[dl].state === 'during battle') {
               if (Date.now() >= this.props.data.dragons[dl].cooldown[1]) {
-                this.state.change_state = 'Normal'
-                this.props.mutate({ variables: { email: localStorage.getItem('email'), serial: this.props.data.dragons[dl].serial, change_state: 'Normal' } })
-                  .then((res) => {
-                    console.log(res)
-                  })
-                  .catch((errors) => {
-                    console.log('errors: ', errors)
-                  })
-              } else {
-                this.state.change_state = this.props.data.dragons[dl].state
+                if (this.props.data.dragons[dl].state === 'during battle') {
+                  this.props.battleUpdate({ variables: { email: localStorage.getItem('email') } })
+                    .then((res) => {
+                      console.log(res)
+                    })
+                    .catch((errors) => {
+                      console.log('errors: ', errors)
+                    })
+                } else {
+                  this.state.change_state = 'Normal'
+                  this.props.editUserDragonState({ variables: { serial: this.props.data.dragons[dl].serial, change_state: 'Normal' } })
+                    .then((res) => {
+                      console.log(res)
+                    })
+                    .catch((errors) => {
+                      console.log('errors: ', errors)
+                    })
+                }
               }
-            } else {
-              this.state.change_state = this.props.data.dragons[dl].state
             }
-            if (this.props.data.dragons[dl].state === 'Normal') {
+            if (Date.now() >= this.props.data.dragons[dl].cooldown[1]) {
               this.state.mdragons[dl] = {
                 name: this.props.data.dragons[dl].name,
                 serial: this.props.data.dragons[dl].serial,
@@ -419,6 +436,7 @@ class breed extends Component {
       }
 
       if (this.state.email !== localStorage.getItem('email') && this.state.state !== 'Siring') {
+        M.toast({ html: '해당 용을 찾을 수 없습니다' })
         return <Redirect to='/'/>
       }
     }

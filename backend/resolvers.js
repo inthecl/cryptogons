@@ -127,7 +127,7 @@ const resolvers = {
       dragon.price = args.price
       dragon.period = 0
       dragon.gen = 0
-      dragon.cooldown = ['Very fast', '0']
+      dragon.cooldown = ['Very fast', null]
       dragon.parents = ['devman']
       dragon.child = []
       dragon.choice_cbg = 'null'
@@ -205,6 +205,100 @@ const resolvers = {
       //console.log(link)
       //sendEmail(user.email, link)
       return newone.save()
+    },
+    battleStart: async (obj, args, ctx) => {
+      const user = await ctx.models.User.findOne({ email: args.email }) // 1p 유저
+      let enemyuser = null // 2p 유저
+      const dragon = await ctx.models.Dragon.findOne({ serial: args.serial }) // 1p 용
+      let enemydragon = null // 2p 용
+      const queues = await ctx.models.Queue.findOne() // 대기열
+      let waiting = false
+      if (!queues.queue[0]) { // 대기열이 없을때 ????
+        waiting = false
+        queues.queue.push(args.serial)
+        dragon.state = 'Matching'
+      } else {
+        waiting = true
+        enemydragon = await ctx.models.Dragon.findOne({ serial: queues.queue[0] }) // ????
+        enemyuser = await ctx.models.User.findOne({ myDragons: queues.queue[0] })
+
+        let userScout = (dragon.base_damage + dragon.add_damage) - (enemydragon.base_armor + enemydragon.add_armor) // 1p 공격력
+        let enemyScout = (enemydragon.base_damage + enemydragon.add_damage) - (dragon.base_armor + dragon.add_armor) // 2p 공격력
+        if (userScout === enemyScout) {
+          const luck = Math.floor(Math.random() * 2)
+          if (luck === 0) {
+            userScout += 1
+          } else {
+            enemyScout += 1
+          }
+        }
+        if (userScout > enemyScout) {
+          const input1p = Object.assign({
+            mydragon: args.serial,
+            enemydragon: queues.queue[0],
+            result: 'win'
+          })
+          user.battle_history.push(input1p)
+          const input2p = Object.assign({
+            mydragon: queues.queue[0],
+            enemydragon: args.serial,
+            result: 'lose'
+          })
+          enemyuser.battle_history.push(input2p)
+        }
+        if (userScout < enemyScout) {
+          const input1p = Object.assign({
+            mydragon: args.serial,
+            enemydragon: queues.queue[0],
+            result: 'lose'
+          })
+          user.battle_history.push(input1p)
+          const input2p = Object.assign({
+            mydragon: queues.queue[0],
+            enemydragon: args.serial,
+            result: 'win'
+          })
+          enemyuser.battle_history.push(input2p)
+        }
+
+        dragon.state = 'during battle'
+        enemydragon.state = 'during battle'
+        dragon.cooldown = ['Very fast', Date.now() + 120000] // 임시 2분 쿨타임
+        enemydragon.cooldown = ['Very fast', Date.now() + 120000]
+      }
+
+      if (!waiting) { // 대기열이 없을때
+        return queues.save(), dragon.save()
+      }
+      if (waiting) {
+        queues.queue.shift()
+        return queues.save(), user.save(), enemyuser.save(), enemydragon.save(), dragon.save()
+      }
+    },
+    battleCancle: async (obj, args, ctx) => {
+      const dragon = await ctx.models.Dragon.findOne({ serial: args.serial }) // 나의 용
+      const queues = await ctx.models.Queue.findOne() // 대기열
+      if (dragon.state === 'Matching') {
+        dragon.state = 'Normal'
+        queues.queue.pull(dragon.serial)
+      }
+      return queues.save(), dragon.save()
+    },
+    battleUpdate: async (obj, args, ctx) => {
+      const user = await ctx.models.User.findOne({ email: args.email })
+      const input1p = await ctx.models.Dragon.findOne({ serial: user.battle_history[user.battle_history.length - 1].mydragon })
+      const input2p = await ctx.models.Dragon.findOne({ serial: user.battle_history[user.battle_history.length - 1].enemydragon })
+      if (user.battle_history[user.battle_history.length - 1].result === 'win') {
+        input1p.win += 1
+        input2p.lose += 1
+      }
+      if (user.battle_history[user.battle_history.length - 1].result === 'lose') {
+        input1p.lose += 1
+        input2p.win += 1
+      }
+      input1p.state = 'Normal'
+      input2p.state = 'Normal'
+      return input1p.save(), input2p.save(), user.save()
     },
     addItemSword: async (obj, args, ctx) => {
       const test = Object.assign({
@@ -333,12 +427,13 @@ const resolvers = {
       const dragon = await ctx.models.Dragon.findOne({ serial: args.serial }) // 판매할 용
       dragon.state = 'Sell'
       dragon.price = args.diamond
-      dragon.period = args.period
+      dragon.cooldown = ['Very fast', Date.now() + 120000] // 임시로 2분 쿨타임. args.period로 입력받아야함
       return dragon.save()
     },
     dragonSellCancel: async (obj, args, ctx) => {
       const dragon = await ctx.models.Dragon.findOne({ serial: args.serial }) // 판매할 용
       dragon.state = 'Normal'
+      dragon.cooldown = ['Very fast', Date.now()] // 배틀용 리스트는 쿨타임으로 판단한다.
       return dragon.save()
     },
     dragonSiringPurchase: async (obj, args, ctx) => {
@@ -419,12 +514,13 @@ const resolvers = {
       const dragon = await ctx.models.Dragon.findOne({ serial: args.serial }) // 판매할 용
       dragon.state = 'Siring'
       dragon.price = args.diamond
-      dragon.period = args.period
+      dragon.cooldown = ['Very fast', Date.now() + 120000] // 임시로 2분 쿨타임. args.period로 입력받아야함
       return dragon.save()
     },
     dragonSiringCancel: async (obj, args, ctx) => {
       const dragon = await ctx.models.Dragon.findOne({ serial: args.serial }) // 판매할 용
       dragon.state = 'Normal'
+      dragon.cooldown = ['Very fast', Date.now()] // 배틀용 리스트는 쿨타임으로 판단한다.
       return dragon.save()
     },
     dragonGift: async (obj, args, ctx) => {

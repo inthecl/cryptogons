@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo'
 import { Link, Redirect } from 'react-router-dom'
 import M from 'materialize-css'
-import { finduser, dragons, editChoicecbg, editChoicesword, editChoiceshield, editUserDragonState, dragonPurchase, dragonSellCancel, dragonSiringCancel } from './queries'
+import { finduser, dragons, editChoicecbg, editChoicesword, editChoiceshield, editUserDragonState, dragonPurchase, dragonSellCancel, dragonSiringCancel, battleUpdate } from './queries'
 import './App.css'
 import Layout from './Layout'
 import MyGonHeader from './MyGonHeader'
@@ -235,16 +235,26 @@ class gons extends Component {
       for (let dl = 0; dl < this.props.data.dragons.length; dl += 1) {
         if (this.props.data.dragons[dl].serial === this.props.match.params.serialnumber) {
           // 소유한 모든 용 스테이트, 쿨타임 확인, 수정
-          if (this.props.data.dragons[dl].state === 'Resting' || this.props.data.dragons[dl].state === 'brooding' || this.props.data.dragons[dl].state === 'Egg' || this.props.data.dragons[dl].state === 'during battle') {
+          if (this.props.data.dragons[dl].state === 'Resting' || this.props.data.dragons[dl].state === 'brooding' || this.props.data.dragons[dl].state === 'Egg' || this.props.data.dragons[dl].state === 'Sell' || this.props.data.dragons[dl].state === 'Siring' || this.props.data.dragons[dl].state === 'during battle') {
             if (Date.now() >= this.props.data.dragons[dl].cooldown[1]) {
-              this.state.change_state = 'Normal'
-              this.props.editUserDragonState({ variables: { serial: this.props.data.dragons[dl].serial, change_state: 'Normal' } })
-                .then((res) => {
-                  console.log(res)
-                })
-                .catch((errors) => {
-                  console.log('errors: ', errors)
-                })
+              if (this.props.data.dragons[dl].state === 'during battle') {
+                this.props.battleUpdate({ variables: { email: localStorage.getItem('email') } })
+                  .then((res) => {
+                    console.log(res)
+                  })
+                  .catch((errors) => {
+                    console.log('errors: ', errors)
+                  })
+              } else {
+                this.state.change_state = 'Normal'
+                this.props.editUserDragonState({ variables: { serial: this.props.data.dragons[dl].serial, change_state: 'Normal' } })
+                  .then((res) => {
+                    console.log(res)
+                  })
+                  .catch((errors) => {
+                    console.log('errors: ', errors)
+                  })
+              }
             } else {
               this.state.change_state = this.props.data.dragons[dl].state
             }
@@ -890,5 +900,6 @@ export default compose(
   graphql(editUserDragonState, { name: 'editUserDragonState' }),
   graphql(dragonPurchase, { name: 'dragonPurchase' }),
   graphql(dragonSellCancel, { name: 'dragonSellCancel' }),
-  graphql(dragonSiringCancel, { name: 'dragonSiringCancel' })
+  graphql(dragonSiringCancel, { name: 'dragonSiringCancel' }),
+  graphql(battleUpdate, { name: 'battleUpdate' })
 )(gons)

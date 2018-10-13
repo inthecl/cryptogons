@@ -26,25 +26,27 @@ class Market extends Component {
       let dcx = 0
       for (let dl = 0; dl < this.props.data.dragons.length; dl += 1) {
         if (this.props.data.dragons[dl].state === 'New' || this.props.data.dragons[dl].state === 'Sell' || this.props.data.dragons[dl].state === 'Siring') {
-          this.state.dragonsComb[dcx] = {
-            name: this.props.data.dragons[dl].name,
-            serial: this.props.data.dragons[dl].serial,
-            state: this.props.data.dragons[dl].state,
-            evolution: this.props.data.dragons[dl].combination.substring(0, 2),
-            property: this.props.data.dragons[dl].combination.substring(2, 4),
-            wing: this.props.data.dragons[dl].combination.substring(4, 6),
-            wingColor: this.props.data.dragons[dl].combination.substring(6, 8),
-            horn: this.props.data.dragons[dl].combination.substring(8, 10),
-            hornColor: this.props.data.dragons[dl].combination.substring(10, 12),
-            tail: this.props.data.dragons[dl].combination.substring(12, 14),
-            body: this.props.data.dragons[dl].combination.substring(14, 16),
-            bodyColor: this.props.data.dragons[dl].combination.substring(16, 18),
-            eye: this.props.data.dragons[dl].combination.substring(18, 20),
-            eyeColor: this.props.data.dragons[dl].combination.substring(20, 22),
-            mouth: this.props.data.dragons[dl].combination.substring(22, 24),
-            nose: this.props.data.dragons[dl].combination.substring(24, 26)
+          if (this.props.data.dragons[dl].cooldown[1] === null || Date.now() <= this.props.data.dragons[dl].cooldown[1]) { // 쿨타임 이전
+            this.state.dragonsComb[dcx] = {
+              name: this.props.data.dragons[dl].name,
+              serial: this.props.data.dragons[dl].serial,
+              state: this.props.data.dragons[dl].state,
+              evolution: this.props.data.dragons[dl].combination.substring(0, 2),
+              property: this.props.data.dragons[dl].combination.substring(2, 4),
+              wing: this.props.data.dragons[dl].combination.substring(4, 6),
+              wingColor: this.props.data.dragons[dl].combination.substring(6, 8),
+              horn: this.props.data.dragons[dl].combination.substring(8, 10),
+              hornColor: this.props.data.dragons[dl].combination.substring(10, 12),
+              tail: this.props.data.dragons[dl].combination.substring(12, 14),
+              body: this.props.data.dragons[dl].combination.substring(14, 16),
+              bodyColor: this.props.data.dragons[dl].combination.substring(16, 18),
+              eye: this.props.data.dragons[dl].combination.substring(18, 20),
+              eyeColor: this.props.data.dragons[dl].combination.substring(20, 22),
+              mouth: this.props.data.dragons[dl].combination.substring(22, 24),
+              nose: this.props.data.dragons[dl].combination.substring(24, 26)
+            }
+            dcx += 1
           }
-          dcx += 1
         }
       }
       console.log('this.props.data.dragons : ', this.props.data.dragons)
