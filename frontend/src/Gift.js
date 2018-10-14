@@ -232,7 +232,7 @@ class gift extends Component {
           </div>
         </div>
 
-        <div class="detail-Explanation" >
+        <div class="detail-Explanation">
           <div className="row">
             <h4 align='center'><p>Gift Gon</p></h4>
             <div class="col s12">

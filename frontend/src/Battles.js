@@ -248,7 +248,7 @@ class battles extends Component {
           </div>
         </div>
 
-        <div class="detail-Explanation margin-top-50" >
+        <div class="detail-Explanation margin-top-50">
           <div class="row valign-wrapper">
             <div class="col s12 m6 l6">
               <div className="card z-depth-0">

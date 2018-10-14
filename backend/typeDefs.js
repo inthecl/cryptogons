@@ -32,7 +32,9 @@ const typeDefs = `
   }
   type BattleHistory {
     mydragon: String
+    mycomb: String
     enemydragon: String
+    enemycomb: String
     result: String
   }
   type User {

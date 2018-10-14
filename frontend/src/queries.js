@@ -108,7 +108,9 @@ query finduser($email: String!){
   myDragons
   battle_history {
     mydragon
+    mycomb
     enemydragon
+    enemycomb
     result
   }
   activity
@@ -659,7 +661,9 @@ const battleUpdate = gql`
     myDragons
     battle_history {
       mydragon
+      mycomb
       enemydragon
+      enemycomb
       result
     }
     activity

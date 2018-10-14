@@ -235,13 +235,17 @@ const resolvers = {
         if (userScout > enemyScout) {
           const input1p = Object.assign({
             mydragon: args.serial,
+            mycomb: dragon.combination,
             enemydragon: queues.queue[0],
+            enemycomb: enemydragon.combination,
             result: 'win'
           })
           user.battle_history.push(input1p)
           const input2p = Object.assign({
             mydragon: queues.queue[0],
+            mycomb: enemydragon.combination,
             enemydragon: args.serial,
+            enemycomb: dragon.combination,
             result: 'lose'
           })
           enemyuser.battle_history.push(input2p)
@@ -249,13 +253,17 @@ const resolvers = {
         if (userScout < enemyScout) {
           const input1p = Object.assign({
             mydragon: args.serial,
+            mycomb: dragon.combination,
             enemydragon: queues.queue[0],
+            enemycomb: enemydragon.combination,
             result: 'lose'
           })
           user.battle_history.push(input1p)
           const input2p = Object.assign({
             mydragon: queues.queue[0],
+            mycomb: enemydragon.combination,
             enemydragon: args.serial,
+            enemycomb: dragon.combination,
             result: 'win'
           })
           enemyuser.battle_history.push(input2p)
@@ -286,6 +294,7 @@ const resolvers = {
     },
     battleUpdate: async (obj, args, ctx) => {
       const user = await ctx.models.User.findOne({ email: args.email })
+
       const input1p = await ctx.models.Dragon.findOne({ serial: user.battle_history[user.battle_history.length - 1].mydragon })
       const input2p = await ctx.models.Dragon.findOne({ serial: user.battle_history[user.battle_history.length - 1].enemydragon })
       if (user.battle_history[user.battle_history.length - 1].result === 'win') {

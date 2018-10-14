@@ -31,7 +31,9 @@ const CbgSchema = new mongoose.Schema({
 })
 const BattleHistorySchema = new mongoose.Schema({
   mydragon: String,
+  mycomb: String,
   enemydragon: String,
+  enemycomb: String,
   result: String
 })
 const IconNum = mongoose.model('iconNum', IconNumSchema)
