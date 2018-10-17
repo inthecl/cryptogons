@@ -21,7 +21,7 @@ class record extends Component {
         if (this.props.data.dragons[dl].email === localStorage.getItem('email')) {
           // 소유한 모든 용 스테이트, 쿨타임 확인, 수정
           if (this.props.data.dragons[dl].state === 'Resting' || this.props.data.dragons[dl].state === 'brooding' || this.props.data.dragons[dl].state === 'Egg' || this.props.data.dragons[dl].state === 'Sell' || this.props.data.dragons[dl].state === 'Siring' || this.props.data.dragons[dl].state === 'during battle') {
-            if (Date.now() >= this.props.data.dragons[dl].cooldown[1]) {
+            if (Date.now() > this.props.data.dragons[dl].cooldown[1]) {
               if (this.props.data.dragons[dl].state === 'during battle') {
                 this.state.situation = 'update'
                 this.props.battleUpdate({ variables: { email: localStorage.getItem('email') } })
@@ -91,7 +91,7 @@ class record extends Component {
                           <img src={`${process.env.PUBLIC_URL}/images/gonImages/7_mouth/mouth_${item.mycomb.substring(0, 2)}${item.mycomb.substring(22, 24)}.png`}/>
                         </div>
                         <div class="absolute">
-                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${item.mycomb.substring(0, 2)}${item.mycomb.substring(24, 26)}.png`}/>
+                          <a href={`/gons/${item.mydragon}`}><img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${item.mycomb.substring(0, 2)}${item.mycomb.substring(24, 26)}.png`}/></a>
                         </div>
 
                       </div>
@@ -128,7 +128,7 @@ class record extends Component {
                           <img src={`${process.env.PUBLIC_URL}/images/gonImages/7_mouth/mouth_${item.enemycomb.substring(0, 2)}${item.enemycomb.substring(22, 24)}.png`}/>
                         </div>
                         <div class="absolute">
-                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${item.enemycomb.substring(0, 2)}${item.enemycomb.substring(24, 26)}.png`}/>
+                          <a href={`/gons/${item.enemydragon}`}><img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${item.enemycomb.substring(0, 2)}${item.enemycomb.substring(24, 26)}.png`}/></a>
                         </div>
 
                       </div>

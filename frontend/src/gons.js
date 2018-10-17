@@ -35,6 +35,8 @@ class gons extends Component {
       serial: null,
       state: null,
       change_state: null,
+      win: null,
+      lose: null,
       winning_rate: null,
       username: 'JaeDragon',
       gen: null,
@@ -236,7 +238,7 @@ class gons extends Component {
         if (this.props.data.dragons[dl].serial === this.props.match.params.serialnumber) {
           // 소유한 모든 용 스테이트, 쿨타임 확인, 수정
           if (this.props.data.dragons[dl].state === 'Resting' || this.props.data.dragons[dl].state === 'brooding' || this.props.data.dragons[dl].state === 'Egg' || this.props.data.dragons[dl].state === 'Sell' || this.props.data.dragons[dl].state === 'Siring' || this.props.data.dragons[dl].state === 'during battle') {
-            if (Date.now() >= this.props.data.dragons[dl].cooldown[1]) {
+            if (Date.now() > this.props.data.dragons[dl].cooldown[1]) {
               if (this.props.data.dragons[dl].state === 'during battle') {
                 this.props.battleUpdate({ variables: { email: localStorage.getItem('email') } })
                   .then((res) => {
@@ -275,6 +277,8 @@ class gons extends Component {
           this.state.choice_cbg = this.props.data.dragons[dl].choice_cbg
           this.state.choice_sword = this.props.data.dragons[dl].choice_sword
           this.state.choice_shield = this.props.data.dragons[dl].choice_shield
+          this.state.win = this.props.data.dragons[dl].win
+          this.state.lose = this.props.data.dragons[dl].lose
           this.state.winning_rate = this.props.data.dragons[dl].winning_rate
           this.state.comb = this.props.data.dragons[dl].combination
           this.state.evolution = this.state.comb.substring(0, 2)
@@ -362,7 +366,7 @@ class gons extends Component {
         for (let cl = 0; cl < this.props.data.dragons.length; cl += 1) {
           if (this.props.data.dragons[cl].serial === this.state.child[clx]) {
             if (this.props.data.dragons[cl].state === 'Egg') {
-              if (Date.now() >= Number(this.props.data.dragons[cl].cooldown[1])) {
+              if (Date.now() > Number(this.props.data.dragons[cl].cooldown[1])) {
                 this.state.egg_state = 'Normal'
               } else {
                 this.state.egg_state = this.props.data.dragons[cl].state
@@ -708,7 +712,7 @@ class gons extends Component {
                 }
               </div>
 
-              - win {this.state.winning_rate}&nbsp;&nbsp;&nbsp;- gen {this.state.gen}&nbsp;&nbsp;&nbsp;- cooldown {this.state.cooldown[0]}
+              - win {this.state.win}&nbsp;&nbsp;&nbsp;- lose {this.state.lose}&nbsp;&nbsp;&nbsp;- rate {this.state.winning_rate}&nbsp;&nbsp;&nbsp;- gen {this.state.gen}&nbsp;&nbsp;&nbsp;- cooldown {this.state.cooldown[0]}
                   &nbsp;&nbsp;&nbsp;- price {this.state.price}&nbsp;&nbsp;&nbsp;- birthday {this.state.birthday}
               <br/><br/><br/>
 

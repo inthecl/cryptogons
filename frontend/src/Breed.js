@@ -300,7 +300,7 @@ class breed extends Component {
       console.log('parents[0]', this.state.serial)
       console.log('parents[1]', this.state.choice_serial)
 
-      // 내꺼끼리 교배 새로운 용 서버로 보내기
+      // 내꺼끼리 교배, 새로운 용 서버로 보내기
       {this.state.email === localStorage.getItem('email') &&
         this.props.addUserDragon({ variables: { email: localStorage.getItem('email'), new_comb: this.state.new_comb, parents: [this.state.serial, this.state.choice_serial] } })
           .then((res) => {
@@ -313,7 +313,7 @@ class breed extends Component {
       }
 
       if (this.state.price <= this.props.finduser.finduser.diamond) {
-        // 마켓의 종마와 교배 새로운 용 서버로 보내기
+        // 마켓의 종마와 교배, 새로운 용 서버로 보내기
         {this.state.email !== localStorage.getItem('email') &&
           this.props.dragonSiringPurchase({ variables: { email: localStorage.getItem('email'), new_comb: this.state.new_comb, parents: [this.state.serial, this.state.choice_serial], diamond: this.state.price } })
             .then((res) => {
@@ -341,7 +341,7 @@ class breed extends Component {
         if (this.props.data.dragons[dl].serial === this.props.match.params.serialnumber) {
           // 소유한 모든 용 스테이트, 쿨타임 확인, 수정
           if (this.props.data.dragons[dl].state === 'Resting' || this.props.data.dragons[dl].state === 'brooding' || this.props.data.dragons[dl].state === 'Egg' || this.props.data.dragons[dl].state === 'Sell' || this.props.data.dragons[dl].state === 'Siring' || this.props.data.dragons[dl].state === 'during battle') {
-            if (Date.now() >= this.props.data.dragons[dl].cooldown[1]) {
+            if (Date.now() > this.props.data.dragons[dl].cooldown[1]) {
               if (this.props.data.dragons[dl].state === 'during battle') {
                 this.props.battleUpdate({ variables: { email: localStorage.getItem('email') } })
                   .then((res) => {
@@ -391,7 +391,7 @@ class breed extends Component {
           if (this.props.data.dragons[dl].email === localStorage.getItem('email')) { // 현재용을 제외한 state가 Normal인 용의 리스트
             // 소유한 모든 용 스테이트, 쿨타임 확인, 수정
             if (this.props.data.dragons[dl].state === 'Resting' || this.props.data.dragons[dl].state === 'brooding' || this.props.data.dragons[dl].state === 'Egg' || this.props.data.dragons[dl].state === 'Sell' || this.props.data.dragons[dl].state === 'Siring' || this.props.data.dragons[dl].state === 'during battle') {
-              if (Date.now() >= this.props.data.dragons[dl].cooldown[1]) {
+              if (Date.now() > this.props.data.dragons[dl].cooldown[1]) {
                 if (this.props.data.dragons[dl].state === 'during battle') {
                   this.props.battleUpdate({ variables: { email: localStorage.getItem('email') } })
                     .then((res) => {
@@ -412,7 +412,7 @@ class breed extends Component {
                 }
               }
             }
-            if (Date.now() >= this.props.data.dragons[dl].cooldown[1]) {
+            if (Date.now() > this.props.data.dragons[dl].cooldown[1]) {
               this.state.mdragons[dl] = {
                 name: this.props.data.dragons[dl].name,
                 serial: this.props.data.dragons[dl].serial,

@@ -3,30 +3,30 @@ cryptogons backend
 // dragons에 New추가
 mutation{
   addDragon(price: 100) {
-  email
-  serial
-  combination
-  name
-  birthday
-  state
-  price
-  period
-  gen
-  cooldown
-  parents
-  child
-  choice_cbg
-  choice_sword
-  choice_shield
-  cintamani
-  base_attack
-  add_attack
-  base_armor
-  add_armor
-  win
-  lose
-  winning_rate
-  ranking
+    email
+    serial
+    combination
+    name
+    birthday
+    state
+    price
+    period
+    gen
+    cooldown
+    parents
+    child
+    choice_cbg
+    choice_sword
+    choice_shield
+    cintamani
+    base_damage
+    add_damage
+    base_armor
+    add_armor
+    win
+    lose
+    winning_rate
+    ranking
   }
 }
 

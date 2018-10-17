@@ -62,6 +62,7 @@ const resolvers = {
         state: 'Egg',
         price: 0,
         period: 0,
+        release_date: null,
         gen: ngen,
         cooldown: ['Very fast', coodTimeY],
         parents: args.parents,
@@ -96,7 +97,7 @@ const resolvers = {
       console.log(user)
       return user.save()
     },
-    // dragons에 New용 추가
+    // market에 New용 추가
     addDragon: async (obj, args, ctx) => { 
       console.log(args)
       const dragon = Object.assign(args)
@@ -126,6 +127,7 @@ const resolvers = {
       dragon.state = 'New'
       dragon.price = args.price
       dragon.period = 0
+      dragon.release_date = String(Date.now())
       dragon.gen = 0
       dragon.cooldown = ['Very fast', null]
       dragon.parents = ['devman']
@@ -305,6 +307,8 @@ const resolvers = {
         input1p.lose += 1
         input2p.win += 1
       }
+      input1p.winning_rate = parseInt((input1p.win / (input1p.win + input1p.lose)) * 100, 10)
+      input2p.winning_rate = parseInt((input2p.win / (input2p.win + input2p.lose)) * 100, 10)
       input1p.state = 'Normal'
       input2p.state = 'Normal'
       return input1p.save(), input2p.save(), user.save()
@@ -399,29 +403,31 @@ const resolvers = {
       let seller = null // 판매자
       const buyer = await ctx.models.User.findOne({ email: args.email }) // 구매자
 
-      if (dragon.state === 'New' || dragon.state === 'Sell') {
-        buyer.diamond -= args.diamond
-        buyer.myDragons.push(args.serial)
+      if (Date.now() <= dragon.cooldown[1]) {
+        if (dragon.state === 'New' || dragon.state === 'Sell') {
+          buyer.diamond -= args.diamond
+          buyer.myDragons.push(args.serial)
 
-        if (dragon.email === 'devman') {
-          dragon.email = args.email
-          dragon.state = 'Normal'
-        }
-        if (dragon.email !== 'devman') {
-          seller = await ctx.models.User.findOne({ email: dragon.email })
-          seller.diamond += args.diamond
-          seller.myDragons.pull(args.serial)
+          if (dragon.email === 'devman') {
+            dragon.email = args.email
+            dragon.state = 'Normal'
+          }
+          if (dragon.email !== 'devman') {
+            seller = await ctx.models.User.findOne({ email: dragon.email })
+            seller.diamond += args.diamond
+            seller.myDragons.pull(args.serial)
 
-          dragon.email = args.email
-          dragon.name = 'Purchased Dragons'
-          dragon.state = 'Normal'
-          dragon.choice_cbg = 'null'
-          dragon.choice_sword = 'null'
-          dragon.choice_shield = 'null'
-          dragon.win = 0
-          dragon.lose = 0
-          dragon.winning_rate = 0
-          dragon.ranking = 0
+            dragon.email = args.email
+            dragon.name = 'Purchased Dragons'
+            dragon.state = 'Normal'
+            dragon.choice_cbg = 'null'
+            dragon.choice_sword = 'null'
+            dragon.choice_shield = 'null'
+            dragon.win = 0
+            dragon.lose = 0
+            dragon.winning_rate = 0
+            dragon.ranking = 0
+          }
         }
       }
 
@@ -436,6 +442,7 @@ const resolvers = {
       const dragon = await ctx.models.Dragon.findOne({ serial: args.serial }) // 판매할 용
       dragon.state = 'Sell'
       dragon.price = args.diamond
+      dragon.release_date = String(Date.now())
       dragon.cooldown = ['Very fast', Date.now() + 120000] // 임시로 2분 쿨타임. args.period로 입력받아야함
       return dragon.save()
     },
@@ -454,7 +461,7 @@ const resolvers = {
       let bdragon = null
       let xdragon = null
       let ydragon = null
-      if (dragon.state === 'Siring') {
+      if (dragon.state === 'Siring' && Date.now() <= dragon.cooldown[1]) {
         // 가격 지불
         seller.diamond += args.diamond
         buyer.diamond -= args.diamond
@@ -497,6 +504,7 @@ const resolvers = {
           state: 'Egg',
           price: 0,
           period: 0,
+          release_date: null,
           gen: ngen,
           cooldown: ['Very fast', coodTimeY],
           parents: args.parents,
@@ -523,6 +531,7 @@ const resolvers = {
       const dragon = await ctx.models.Dragon.findOne({ serial: args.serial }) // 판매할 용
       dragon.state = 'Siring'
       dragon.price = args.diamond
+      dragon.release_date = String(Date.now())
       dragon.cooldown = ['Very fast', Date.now() + 120000] // 임시로 2분 쿨타임. args.period로 입력받아야함
       return dragon.save()
     },

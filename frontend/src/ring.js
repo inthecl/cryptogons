@@ -74,7 +74,7 @@ class ring extends Component {
         if (this.props.data.dragons[dl].email === localStorage.getItem('email')) {
           // 소유한 모든 용 스테이트, 쿨타임 확인, 수정
           if (this.props.data.dragons[dl].state === 'Resting' || this.props.data.dragons[dl].state === 'brooding' || this.props.data.dragons[dl].state === 'Egg' || this.props.data.dragons[dl].state === 'Sell' || this.props.data.dragons[dl].state === 'Siring' || this.props.data.dragons[dl].state === 'during battle') {
-            if (Date.now() >= this.props.data.dragons[dl].cooldown[1]) {
+            if (Date.now() > this.props.data.dragons[dl].cooldown[1]) {
               if (this.props.data.dragons[dl].state === 'during battle') {
                 this.state.situation = 'update'
                 this.props.battleUpdate({ variables: { email: localStorage.getItem('email') } })

@@ -37,6 +37,7 @@ query { dragons {
   state
   price
   period
+  release_date
   gen
   cooldown
   parents
@@ -128,6 +129,7 @@ mutation addUserDragon($email: String!, $new_comb: String!, $parents: [String]! 
     state
     price
     period
+    release_date
     gen
     cooldown
     parents
@@ -158,6 +160,7 @@ mutation editChoicecbg($email: String!, $serial: String!, $choice_cbg: String!) 
     state
     price
     period
+    release_date
     gen
     cooldown
     parents
@@ -188,6 +191,7 @@ mutation editChoicesword($email: String!, $serial: String!, $choice_sword: Strin
     state
     price
     period
+    release_date
     gen
     cooldown
     parents
@@ -218,6 +222,7 @@ mutation editChoiceshield($email: String!, $serial: String!, $choice_shield: Str
     state
     price
     period
+    release_date
     gen
     cooldown
     parents
@@ -322,6 +327,7 @@ const editUserDragonState = gql`
       state
       price
       period
+      release_date
       gen
       cooldown
       parents
@@ -352,6 +358,7 @@ const dragonPurchase = gql`
       state
       price
       period
+      release_date
       gen
       cooldown
       parents
@@ -383,6 +390,7 @@ const dragonSell = gql`
       state
       price
       period
+      release_date
       gen
       cooldown
       parents
@@ -414,6 +422,7 @@ const dragonSellCancel = gql`
       state
       price
       period
+      release_date
       gen
       cooldown
       parents
@@ -445,6 +454,7 @@ const dragonSiring = gql`
       state
       price
       period
+      release_date
       gen
       cooldown
       parents
@@ -476,6 +486,7 @@ const dragonSiringCancel = gql`
       state
       price
       period
+      release_date
       gen
       cooldown
       parents
@@ -507,6 +518,7 @@ const dragonSiringPurchase = gql`
       state
       price
       period
+      release_date
       gen
       cooldown
       parents
@@ -538,6 +550,7 @@ const dragonGift = gql`
       state
       price
       period
+      release_date
       gen
       cooldown
       parents
@@ -569,6 +582,7 @@ const battleStart = gql`
       state
       price
       period
+      release_date
       gen
       cooldown
       parents
@@ -600,6 +614,7 @@ const battleCancle = gql`
       state
       price
       period
+      release_date
       gen
       cooldown
       parents

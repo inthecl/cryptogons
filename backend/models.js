@@ -70,6 +70,7 @@ const Dragon = mongoose.model('dragon', {
   state: String,
   price: Number,
   period: Number,
+  release_date: String,
   gen: Number,
   cooldown: [String],
   parents: [String],

@@ -10,6 +10,7 @@ class Market extends Component {
     super(props)
     this.state = {
       dragonsComb: [],
+      release_date: null,
       user_dia: null,
       user_gold: null,
       user_trophy: null
@@ -28,6 +29,7 @@ class Market extends Component {
         if (this.props.data.dragons[dl].state === 'New' || this.props.data.dragons[dl].state === 'Sell' || this.props.data.dragons[dl].state === 'Siring') {
           if (this.props.data.dragons[dl].cooldown[1] === null || Date.now() <= this.props.data.dragons[dl].cooldown[1]) { // 쿨타임 이전
             this.state.dragonsComb[dcx] = {
+              release_date: this.props.data.dragons[dl].release_date,
               name: this.props.data.dragons[dl].name,
               serial: this.props.data.dragons[dl].serial,
               state: this.props.data.dragons[dl].state,
@@ -49,7 +51,10 @@ class Market extends Component {
           }
         }
       }
-      console.log('this.props.data.dragons : ', this.props.data.dragons)
+      this.state.dragonsComb.sort((a, b) => { // 최신순으로 정렬
+        return b['release_date'] - a['release_date']
+      })
+      console.log('this.state.dragonsComb : ', this.state.dragonsComb)
     }
     const { pagenum } = this.props.match.params
     const lastItem = this.state.dragonsComb.length
@@ -60,7 +65,7 @@ class Market extends Component {
     if (pagenum > lastPage + 1) return <Redirect to="/Market/1"/>
     if (endItem > lastItem) endItem = lastItem
     const pages = this.state.dragonsComb.slice(startItem, endItem)
-    console.log('lastPage:', pages)
+    console.log('pages:', pages)
 
     return (
       <Layout>

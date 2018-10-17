@@ -13,6 +13,7 @@ const typeDefs = `
     state: String
     price: Int
     period: Int
+    release_date: String
     gen: Int
     cooldown: [String]
     parents: [String]
