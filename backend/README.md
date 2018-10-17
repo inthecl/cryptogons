@@ -68,7 +68,12 @@ mutation addUserDragon($email: String!, $new_comb: String!, $parents: [String]!)
   diamond
   gold
   trophy
-  iconNum
+  icon {
+    name
+    description
+    number
+  }
+  choice_icon
   cbg {
     number
     name
@@ -197,3 +202,53 @@ mutation{
 }
 
 아이템샵 Sword 추가 mutation, Shield,Cbg는 addItemSword에서 Sword만 변경
+
+// 유저 아이콘 추가
+mutation addUserIcon($email: String!, $number: String!, $name: String!, $description: String!) {
+  addUserIcon(email:$email, number:$number, name: $name, description: $description) {
+  email
+  username
+  diamond
+  gold
+  trophy
+  icon {
+    name
+    description
+    number
+  }
+  choice_icon
+  cbg {
+    name
+    description
+    number
+    gold
+    diamond
+    trophy
+  }
+  sword {
+    name
+    description
+    number
+    gold
+    diamond
+    trophy
+  }
+  shield {
+    name
+    description
+    number
+    gold
+    diamond
+    trophy
+  }
+  myDragons
+  battle_history {
+    mydragon
+    mycomb
+    enemydragon
+    enemycomb
+    result
+  }
+  activity
+ }
+}

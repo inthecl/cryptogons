@@ -1,23 +1,77 @@
 import React, { Component } from 'react'
-import { graphql } from 'react-apollo'
-import { CheckEmailquery } from './queries'
+import { graphql, compose } from 'react-apollo'
+import { CheckEmailquery, editChoiceIcon } from './queries'
 import './App.css'
 import Layout from './Layout'
 
 class Myinfo extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      icon: [],
+      choice_icon: null,
+      change_icon: 'doNotClick'
+    }
     this.handleChangePassword = this.handleChangePassword.bind(this)
+    this.handleChoiceIcon = this.handleChoiceIcon.bind(this)
   }
-
   handleChangePassword(event) {
-    console.log(this.props.data)
+    console.log(this.props)
   }
-
+  handleChoiceIcon(event) {
+    this.setState({ change_icon: event })
+    this.props.editChoiceIcon({ variables: { email: localStorage.getItem('email'), number: event } })
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((errors) => {
+        console.log('errors: ', errors)
+      })
+  }
   render() {
+    console.log('this.props : ', this.props)
+    if (!this.props.CheckEmailquery.loading) {
+      console.log('this.props.CheckEmailquery.checkemail.icon : ', this.props.CheckEmailquery.checkemail.icon)
+      this.state.icon = this.props.CheckEmailquery.checkemail.icon
+      this.state.choice_icon = this.props.CheckEmailquery.checkemail.choice_icon
+    }
     return (
       <Layout>
-        {this.props.data.loading ? (
+        <div id="modal_icon" class="modal">
+          <div class="modal-content">
+            <h4>Modal Header</h4>
+            <div class="col s12">
+              <div className='center'>
+                <div className="row">
+                  {this.state.icon.map(item =>
+                    <div key={item.id}>
+                      <div className="col s6 m2 l2">
+                        <div className="card">
+                          <div className="card-image">
+                            <img src={`${process.env.PUBLIC_URL}/images/icon/icon_${item.number}.png`} onClick={ () => this.handleChoiceIcon(item.number)}/>
+                            {this.state.choice_icon === item.number && this.state.change_icon === 'doNotClick' &&
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/icon/icon_choice.png`} onClick={this.handleReleaseSword}/>
+                              </div>
+                            }
+                            {this.state.change_icon === item.number &&
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/icon/icon_choice.png`} onClick={this.handleReleaseSword}/>
+                              </div>
+                            }
+                          </div>
+                        </div>
+                      </div>
+                    </div>)}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+          </div>
+        </div>
+        {this.props.CheckEmailquery.loading ? (
           <h1>loading</h1>
         ) : (
           <div className="detail-Explanation">
@@ -34,32 +88,37 @@ class Myinfo extends Component {
                 <tbody>
                   <tr>
                     <td height="80px">Icon</td>
-                    <td><img src={`${process.env.PUBLIC_URL}/images/usericon_1.png`} class="circle responsive-img" width="45px"/></td>
-                    <td><i class="Medium material-icons right margin-right-10">edit</i></td>
+                    {this.state.change_icon === 'doNotClick' &&
+                      <td><img src={`${process.env.PUBLIC_URL}/images/icon/icon_${this.props.CheckEmailquery.checkemail.choice_icon}.png`} class="circle responsive-img" width="45px"/></td>
+                    }
+                    {this.state.change_icon !== null && this.state.change_icon !== 'doNotClick' &&
+                      <td><img src={`${process.env.PUBLIC_URL}/images/icon/icon_${this.state.change_icon}.png`} class="circle responsive-img" width="45px"/></td>
+                    }
+                    <td><a class="modal-trigger" href="#modal_icon"><i class="Medium material-icons right margin-right-10">edit</i></a></td>
                   </tr>
                   <tr>
                     <td height="80px" >User name</td>
-                    <td>{this.props.data.checkemail.username}</td>
+                    <td>{this.props.CheckEmailquery.checkemail.username}</td>
                     <td></td>
                   </tr>
                   <tr>
                     <td height="80px">E-Mail</td>
-                    <td>{this.props.data.checkemail.email}</td>
+                    <td>{this.props.CheckEmailquery.checkemail.email}</td>
                     <td></td>
                   </tr>
                   <tr>
                     <td height="80px">Diamond</td>
-                    <td>{this.props.data.checkemail.diamond}</td>
+                    <td>{this.props.CheckEmailquery.checkemail.diamond}</td>
                     <td></td>
                   </tr>
                   <tr>
                     <td height="80px">Gold</td>
-                    <td>{this.props.data.checkemail.gold}</td>
+                    <td>{this.props.CheckEmailquery.checkemail.gold}</td>
                     <td></td>
                   </tr>
                   <tr>
                     <td height="80px">Trophy</td>
-                    <td>{this.props.data.checkemail.trophy}</td>
+                    <td>{this.props.CheckEmailquery.checkemail.trophy}</td>
                     <td></td>
                   </tr>
                 </tbody>
@@ -75,13 +134,14 @@ class Myinfo extends Component {
   }
 }
 
-const queryOptions = {
-  options: props => ({
-    variables: {
-      email: localStorage.getItem('email')
-    }
-  })
-}
-
-export default graphql(CheckEmailquery, queryOptions)(Myinfo)
-
+export default compose(
+  graphql(CheckEmailquery, {
+    name: 'CheckEmailquery',
+    options: props => ({
+      variables: {
+        email: localStorage.getItem('email')
+      }
+    })
+  }),
+  graphql(editChoiceIcon, { name: 'editChoiceIcon' })
+)(Myinfo)

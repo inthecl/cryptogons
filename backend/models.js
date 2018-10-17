@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const IconNumSchema = new mongoose.Schema({
+const IconSchema = new mongoose.Schema({
   number: String,
   name: String,
   description: String
@@ -36,7 +36,7 @@ const BattleHistorySchema = new mongoose.Schema({
   enemycomb: String,
   result: String
 })
-const IconNum = mongoose.model('iconNum', IconNumSchema)
+const Icon = mongoose.model('icon', IconSchema)
 const Sword = mongoose.model('sword', SwordSchema)
 const Shield = mongoose.model('shield', ShieldSchema)
 const Cbg = mongoose.model('cbg', CbgSchema)
@@ -52,7 +52,7 @@ const User = mongoose.model('user', {
   diamond: Number,
   gold: Number,
   trophy: Number,
-  iconNum: [IconNumSchema],
+  icon: [IconSchema],
   choice_icon: String,
   cbg: [CbgSchema],
   sword: [SwordSchema],
@@ -99,5 +99,5 @@ const Queue = mongoose.model('queue', {
 const Statistic = mongoose.model('statistic', { usercount: Number, dragoncount: Number })
 
 export default {
-  Book, User, Dragon, Statistic, Item, IconNum, Sword, Shield, Cbg, Queue, BattleHistory
+  Book, User, Dragon, Statistic, Item, Icon, Sword, Shield, Cbg, Queue, BattleHistory
 }

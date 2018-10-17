@@ -44,7 +44,7 @@ const typeDefs = `
     diamond: Int
     gold: Int
     trophy: Int
-    iconNum: [IconNum]
+    icon: [Icon]
     choice_icon: String
     cbg: [Cbg]
     sword: [Sword]
@@ -61,7 +61,7 @@ const typeDefs = `
     token: String!
     refreshToken: String!
   }
-  type IconNum {
+  type Icon {
     name: String
     description: String
     number: String
@@ -138,6 +138,8 @@ const typeDefs = `
     battleStart(email: String!, serial: String!) : Dragon
     battleCancle(email: String!, serial: String!) : Dragon
     battleUpdate(email: String!) : User
+    addUserIcon(email: String!, number: String!, name: String!, description: String!) : User
+    editChoiceIcon(email: String!, number: String!) : User
   }
 `
 export default typeDefs

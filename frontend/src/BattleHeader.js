@@ -16,7 +16,7 @@ class BattleHeader extends Component {
           <div className="margin-top-20">
             <div class="left valign-wrapper">
               <div class="col s6 m6 l12">
-                <img src={`${process.env.PUBLIC_URL}/images/usericon_1.png`} alt="" class="circle responsive-img"/>
+                <img src={`${process.env.PUBLIC_URL}/images/icon/icon_${this.props.data.checkemail.choice_icon}.png`} alt="" class="circle responsive-img"/>
               </div>
               <div class="col">
                 <span class="black-text">

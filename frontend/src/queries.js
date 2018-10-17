@@ -24,6 +24,12 @@ query CheckEmail($email: String!){
     diamond
     gold
     trophy
+    icon {
+      name
+      description
+      number
+    }
+    choice_icon
   } 
 }
 `
@@ -76,7 +82,7 @@ query finduser($email: String!){
   diamond
   gold
   trophy
-  iconNum {
+  icon {
     name
     description
     number
@@ -280,7 +286,7 @@ mutation itemPurchase($email: String!, $number: String!, $item: String!, $name: 
     diamond
     gold
     trophy
-    iconNum {
+    icon {
       name
       description
       number
@@ -643,7 +649,7 @@ const battleUpdate = gql`
     diamond
     gold
     trophy
-    iconNum {
+    icon {
       name
       description
       number
@@ -686,4 +692,55 @@ const battleUpdate = gql`
   }
   `
 
-export { registerUser, login, CheckEmailquery, dragons, finddragon, finduser, addUserDragon, editChoicecbg, editChoicesword, editChoiceshield, finditem, itemPurchase, editUserDragonState, dragonPurchase, dragonSell, dragonSellCancel, dragonSiring, dragonSiringCancel, dragonSiringPurchase, dragonGift, battleStart, battleCancle, battleUpdate }
+const editChoiceIcon = gql`
+  mutation editChoiceIcon($email: String!, $number: String!){
+    editChoiceIcon(email:$email, number:$number) {
+    email
+    username
+    diamond
+    gold
+    trophy
+    icon {
+      name
+      description
+      number
+    }
+    choice_icon
+    cbg {
+      name
+      description
+      number
+      gold
+      diamond
+      trophy
+    }
+    sword {
+      name
+      description
+      number
+      gold
+      diamond
+      trophy
+    }
+    shield {
+      name
+      description
+      number
+      gold
+      diamond
+      trophy
+    }
+    myDragons
+    battle_history {
+      mydragon
+      mycomb
+      enemydragon
+      enemycomb
+      result
+    }
+    activity
+   }
+  }
+  `
+
+export { registerUser, login, CheckEmailquery, dragons, finddragon, finduser, addUserDragon, editChoicecbg, editChoicesword, editChoiceshield, finditem, itemPurchase, editUserDragonState, dragonPurchase, dragonSell, dragonSellCancel, dragonSiring, dragonSiringCancel, dragonSiringPurchase, dragonGift, battleStart, battleCancle, battleUpdate, editChoiceIcon }

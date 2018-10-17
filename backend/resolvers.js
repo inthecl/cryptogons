@@ -187,7 +187,13 @@ const resolvers = {
       user.diamond = 3000
       user.gold = 1000
       user.trophy = 10
-      user.iconNum = []
+      user.icon = []
+      const test = Object.assign({
+        number: '01',
+        name: 'Starter',
+        description: 'begin'
+      })
+      user.icon.push(test)
       user.choice_icon = '01'
       const newone = await new ctx.models.User(user)
       console.log(newone)
@@ -561,6 +567,21 @@ const resolvers = {
         dragon.ranking = 0
       }
       return dragon.save()
+    },
+    addUserIcon: async (obj, args, ctx) => {
+      const user = await ctx.models.User.findOne({ email: args.email })
+      const test = Object.assign({
+        number: args.number,
+        name: args.name,
+        description: args.description
+      })
+      user.icon.push(test)
+      return user.save()
+    },
+    editChoiceIcon: async (obj, args, ctx) => {
+      const user = await ctx.models.User.findOne({ email: args.email })
+      user.choice_icon = args.number
+      return user.save()
     },
     login: async (obj, args, ctx) => {
       console.log(args)
