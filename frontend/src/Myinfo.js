@@ -60,6 +60,9 @@ class Myinfo extends Component {
                               </div>
                             }
                           </div>
+                          <div className="card-content">
+                            <p>{item.name}</p>
+                          </div>
                         </div>
                       </div>
                     </div>)}

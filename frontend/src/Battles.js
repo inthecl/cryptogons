@@ -66,10 +66,7 @@ class battles extends Component {
     this.props.battleStart({ variables: { email: localStorage.getItem('email'), serial: this.state.choice_serial } })
       .then((res) => {
         console.log('btnBattleStart : ', res)
-        if (res.data.battleStart.state === 'Matching') {
-          window.location.href = '/ring'
-        }
-        if (res.data.battleStart.state === 'during battle') {
+        if (res.data.battleStart.state === 'Matching' || res.data.battleStart.state === 'during battle') {
           window.location.href = '/ring'
         }
       })

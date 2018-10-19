@@ -334,7 +334,7 @@ class breed extends Component {
   render() {
     console.log('this.props: ', this.props)
     if (this.state.redirect) {
-      return <Redirect to='/Activity'/>
+      window.location.replace('/Mygons/1')
     }
     if (!this.props.data.loading) {
       for (let dl = 0; dl < this.props.data.dragons.length; dl += 1) {

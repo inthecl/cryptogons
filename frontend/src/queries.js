@@ -742,5 +742,64 @@ const editChoiceIcon = gql`
    }
   }
   `
+const findbadge = gql`
+  mutation findbadge($email: String!){
+    findbadge(email:$email) {
+    email
+    username
+    choice_icon
+   }
+  }
+  `
+const findprofile = gql`
+query findprofile($username: String!){
+  findprofile(username:$username) {
+  email
+  username
+  diamond
+  gold
+  trophy
+  icon {
+    name
+    description
+    number
+  }
+  choice_icon
+  cbg {
+    name
+    description
+    number
+    gold
+    diamond
+    trophy
+  }
+  sword {
+    name
+    description
+    number
+    gold
+    diamond
+    trophy
+  }
+  shield {
+    name
+    description
+    number
+    gold
+    diamond
+    trophy
+  }
+  myDragons
+  battle_history {
+    mydragon
+    mycomb
+    enemydragon
+    enemycomb
+    result
+  }
+  activity
+ }
+}
+`
 
-export { registerUser, login, CheckEmailquery, dragons, finddragon, finduser, addUserDragon, editChoicecbg, editChoicesword, editChoiceshield, finditem, itemPurchase, editUserDragonState, dragonPurchase, dragonSell, dragonSellCancel, dragonSiring, dragonSiringCancel, dragonSiringPurchase, dragonGift, battleStart, battleCancle, battleUpdate, editChoiceIcon }
+export { registerUser, login, CheckEmailquery, dragons, finddragon, finduser, addUserDragon, editChoicecbg, editChoicesword, editChoiceshield, finditem, itemPurchase, editUserDragonState, dragonPurchase, dragonSell, dragonSellCancel, dragonSiring, dragonSiringCancel, dragonSiringPurchase, dragonGift, battleStart, battleCancle, battleUpdate, editChoiceIcon, findbadge, findprofile }

@@ -118,7 +118,7 @@ class sell extends Component {
   }
   render() {
     if (this.state.redirect) {
-      return <Redirect to='/Activity'/>
+      window.location.replace('/Mygons/1')
     }
     if (!this.props.data.loading) {
       console.log('this.props', this.props)

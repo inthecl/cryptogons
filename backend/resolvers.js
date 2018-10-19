@@ -15,7 +15,8 @@ const resolvers = {
     statistic: async (obj, args, ctx) => ctx.models.Statistic.findOne(),
     finduser: async (obj, args, ctx) => ctx.models.User.findOne({ email: args.email }),
     finditem: async (obj, args, ctx) => ctx.models.Item.findOne(),
-    items: async (obj, args, ctx) => ctx.models.Item.find()
+    items: async (obj, args, ctx) => ctx.models.Item.find(),
+    findprofile: async (obj, args, ctx) => ctx.models.User.findOne({ username: args.username })
   },
   Mutation: {
     resetCount: async (obj, args, ctx) => {
@@ -581,6 +582,10 @@ const resolvers = {
     editChoiceIcon: async (obj, args, ctx) => {
       const user = await ctx.models.User.findOne({ email: args.email })
       user.choice_icon = args.number
+      return user.save()
+    },
+    findbadge: async (obj, args, ctx) => {
+      const user = await ctx.models.User.findOne({ email: args.email })
       return user.save()
     },
     login: async (obj, args, ctx) => {

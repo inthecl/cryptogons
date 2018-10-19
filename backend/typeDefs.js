@@ -110,6 +110,7 @@ const typeDefs = `
     finduser(email:String!): User
     finditem(email:String!): Item
     items: [Item]
+    findprofile(username:String!): User
   }
   type Mutation{
     resetCount(usercount: Int, dragoncount: Int): Statistic
@@ -140,6 +141,7 @@ const typeDefs = `
     battleUpdate(email: String!) : User
     addUserIcon(email: String!, number: String!, name: String!, description: String!) : User
     editChoiceIcon(email: String!, number: String!) : User
+    findbadge(email: String!) : User
   }
 `
 export default typeDefs

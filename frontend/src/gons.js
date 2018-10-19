@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo'
 import { Link, Redirect } from 'react-router-dom'
 import M from 'materialize-css'
-import { finduser, dragons, editChoicecbg, editChoicesword, editChoiceshield, editUserDragonState, dragonPurchase, dragonSellCancel, dragonSiringCancel, battleUpdate } from './queries'
+import { finduser, dragons, editChoicecbg, editChoicesword, editChoiceshield, editUserDragonState, dragonPurchase, dragonSellCancel, dragonSiringCancel, battleUpdate, findbadge } from './queries'
 import './App.css'
 import Layout from './Layout'
 import MyGonHeader from './MyGonHeader'
@@ -62,7 +62,10 @@ class gons extends Component {
       lastPage: null,
       possible_cbg: [],
       possible_sword: [],
-      possible_shield: []
+      possible_shield: [],
+      owner_email: null,
+      owner_username: null,
+      owner_icon: null
     }
     this.handleChoiceCbg = this.handleChoiceCbg.bind(this)
     this.handleReleaseCbg = this.handleReleaseCbg.bind(this)
@@ -96,7 +99,7 @@ class gons extends Component {
       .then((res) => {
         console.log(res)
         M.toast({ html: '판매취소' })
-        this.setState({ redirect: true })
+        window.location.replace('/Mygons/1')
       })
       .catch((errors) => {
         console.log('errors: ', errors)
@@ -110,7 +113,7 @@ class gons extends Component {
       .then((res) => {
         console.log(res)
         M.toast({ html: '판매취소' })
-        this.setState({ redirect: true })
+        window.location.replace('/Mygons/1')
       })
       .catch((errors) => {
         console.log('errors: ', errors)
@@ -294,6 +297,17 @@ class gons extends Component {
           this.state.eyeColor = this.state.comb.substring(20, 22)
           this.state.mouth = this.state.comb.substring(22, 24)
           this.state.nose = this.state.comb.substring(24, 26)
+          // 다른유저일 경우 현재용의 소유자 정보를 가져온다.
+          if (this.state.owner_email === null && this.state.email !== localStorage.getItem('email')) {
+            this.props.findbadge({ variables: { email: this.state.email } })
+              .then((res) => {
+                console.log(res)
+                this.setState({ owner_email: res.data.findbadge.email, owner_username: res.data.findbadge.username, owner_icon: res.data.findbadge.choice_icon })
+              })
+              .catch((errors) => {
+                console.log('errors: ', errors)
+              })
+          }
         } else {
           if (this.props.data.dragons[dl].choice_cbg !== 'null' && this.props.data.dragons[dl].email === localStorage.getItem('email')) {
             this.state.except_cbg[x] = this.props.data.dragons[dl].choice_cbg
@@ -358,8 +372,6 @@ class gons extends Component {
           }
         }
       }
-      console.log('this.state.child : ', this.state.child)
-
       // 자식용 리스트
       let clx = 0
       if (this.state.child !== null) {
@@ -641,6 +653,25 @@ class gons extends Component {
             <div class="detail-Explanation" >
               <div class="row">
                 <div className="left">
+
+                  {this.state.email !== localStorage.getItem('email') &&
+                    <div className="right margin-top-15">
+                      <span>
+                        <div class="left valign-wrapper">
+                          <div class="col s6 m6 l12">
+                            <a href={`/profile/${this.state.owner_username}/1`}><img src={`${process.env.PUBLIC_URL}/images/icon/icon_${this.state.owner_icon}.png`} alt="" class="circle responsive-img"/></a>
+                          </div>
+                          <div class="col">
+                            <span class="black-text">
+                              <a href={`/profile/${this.state.owner_username}/1`}><h5>{this.state.owner_email}</h5></a>
+                              <a href={`/profile/${this.state.owner_username}/1`}><p>{this.state.owner_username}</p></a>
+                            </span>
+                          </div>
+                        </div>
+                      </span>
+                    </div>
+                  }
+
                   <font size="7">{this.state.name}</font>&nbsp;&nbsp;&nbsp;&nbsp;<font size="6">{this.state.serial}</font>
                 </div>
                 {this.state.email !== localStorage.getItem('email') && this.state.state === 'New' &&
@@ -905,5 +936,6 @@ export default compose(
   graphql(dragonPurchase, { name: 'dragonPurchase' }),
   graphql(dragonSellCancel, { name: 'dragonSellCancel' }),
   graphql(dragonSiringCancel, { name: 'dragonSiringCancel' }),
-  graphql(battleUpdate, { name: 'battleUpdate' })
+  graphql(battleUpdate, { name: 'battleUpdate' }),
+  graphql(findbadge, { name: 'findbadge' })
 )(gons)

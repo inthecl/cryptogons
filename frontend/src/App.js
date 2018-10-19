@@ -26,6 +26,7 @@ import sell from './sell'
 import gift from './gift'
 import Myinfo from './Myinfo'
 import CheckForget from './CheckForget'
+import Profile from './profile'
 
 class App extends Component {
   render() {
@@ -58,6 +59,7 @@ class App extends Component {
             <Route path="/gift/:serialnumber" component={gift}/>
             <Route path="/Myinfo" component={Myinfo}/>
             <Route path="/CheckForget/:checkForget" component={CheckForget}/>
+            <Route exacy path="/profile/:username/:pagenum" component={Profile}/>
           </Switch>
         </BrowserRouter>
       </div>
