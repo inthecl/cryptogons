@@ -38,6 +38,11 @@ const typeDefs = `
     enemycomb: String
     result: String
   }
+  type Activity {
+    type: String
+    date: String
+    contents : [String]
+  }
   type User {
     email: String
     username: String
@@ -51,7 +56,7 @@ const typeDefs = `
     shield: [Shield]
     myDragons: [String]
     battle_history: [BattleHistory]
-    activity: [String]
+    activity: [Activity]
   }
   type Statistic {
     usercount: Int

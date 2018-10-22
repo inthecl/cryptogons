@@ -298,7 +298,7 @@ class gons extends Component {
           this.state.mouth = this.state.comb.substring(22, 24)
           this.state.nose = this.state.comb.substring(24, 26)
           // 다른유저일 경우 현재용의 소유자 정보를 가져온다.
-          if (this.state.owner_email === null && this.state.email !== localStorage.getItem('email')) {
+          if (this.state.owner_email === null && this.state.email !== localStorage.getItem('email') && this.state.email !== 'devman') {
             this.props.findbadge({ variables: { email: this.state.email } })
               .then((res) => {
                 console.log(res)
@@ -415,37 +415,41 @@ class gons extends Component {
 
       // all sword - expect sword = possible sword
       let psword = 0
-      for (let sn = 0; sn < this.state.all_sword.length; sn += 1) {
-        if (this.state.except_sword.length !== 0) {
-          for (let en = 0; en < this.state.except_sword.length; en += 1) {
-            if (this.state.all_sword[sn].number !== this.state.except_sword[en]) {
-              this.state.possible_sword[psword] = this.state.all_sword[sn]
-              psword += 1
+      if (this.state.all_sword.length !== this.state.except_sword.length) {
+        for (let sn = 0; sn < this.state.all_sword.length; sn += 1) {
+          if (this.state.except_sword.length !== 0) {
+            for (let en = 0; en < this.state.except_sword.length; en += 1) {
+              if (this.state.all_sword[sn].number !== this.state.except_sword[en]) {
+                this.state.possible_sword[psword] = this.state.all_sword[sn]
+                psword += 1
+              }
             }
+          } else {
+            this.state.possible_sword[psword] = this.state.all_sword[sn]
+            psword += 1
           }
-        } else {
-          this.state.possible_sword[psword] = this.state.all_sword[sn]
-          psword += 1
         }
+        console.log('possible_sword', this.state.possible_sword)
       }
-      console.log('possible_sword', this.state.possible_sword)
 
       // all shield - expect shield = possible shield
-      let pshield = 0
-      for (let sn = 0; sn < this.state.all_shield.length; sn += 1) {
-        if (this.state.except_shield.length !== 0) {
-          for (let en = 0; en < this.state.except_shield.length; en += 1) {
-            if (this.state.all_shield[sn].number !== this.state.except_shield[en]) {
-              this.state.possible_shield[pshield] = this.state.all_shield[sn]
-              pshield += 1
+      if (this.state.all_shield.length !== this.state.except_shield.length) {
+        let pshield = 0
+        for (let sn = 0; sn < this.state.all_shield.length; sn += 1) {
+          if (this.state.except_shield.length !== 0) {
+            for (let en = 0; en < this.state.except_shield.length; en += 1) {
+              if (this.state.all_shield[sn].number !== this.state.except_shield[en]) {
+                this.state.possible_shield[pshield] = this.state.all_shield[sn]
+                pshield += 1
+              }
             }
+          } else {
+            this.state.possible_shield[pshield] = this.state.all_shield[sn]
+            pshield += 1
           }
-        } else {
-          this.state.possible_shield[pshield] = this.state.all_shield[sn]
-          pshield += 1
         }
+        console.log('possible_shield', this.state.possible_shield)
       }
-      console.log('possible_shield', this.state.possible_shield)
     }
     return (
       <Layout>

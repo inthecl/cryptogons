@@ -94,101 +94,112 @@ class battles extends Component {
     if (this.state.redirect === 'cancle') {
       window.location.reload()
     }
-    if (!this.props.data.loading) {
+    if (!this.props.finduser.loading && !this.props.data.loading) {
       console.log('this.props', this.props.data)
       let dcx = 0
-      for (let dl = 0; dl < this.props.data.dragons.length; dl += 1) {
-        if (this.props.data.dragons[dl].email === localStorage.getItem('email')) {
-          // 소유한 모든 용 스테이트, 쿨타임 확인, 수정
-          if (this.props.data.dragons[dl].state === 'Resting' || this.props.data.dragons[dl].state === 'brooding' || this.props.data.dragons[dl].state === 'Egg' || this.props.data.dragons[dl].state === 'Sell' || this.props.data.dragons[dl].state === 'Siring' || this.props.data.dragons[dl].state === 'during battle') {
-            if (Date.now() > this.props.data.dragons[dl].cooldown[1]) {
-              if (this.props.data.dragons[dl].state === 'during battle') {
-                this.state.situation = 'update'
-                this.props.battleUpdate({ variables: { email: localStorage.getItem('email') } })
-                  .then((res) => {
-                    console.log(res)
-                  })
-                  .catch((errors) => {
-                    console.log('errors: ', errors)
-                  })
+      for (let mdl = 0; mdl < this.props.finduser.finduser.myDragons.length; mdl += 1) {
+        for (let dl = 0; dl < this.props.data.dragons.length; dl += 1) {
+          if (this.props.finduser.finduser.myDragons[mdl] === this.props.data.dragons[dl].serial) {
+            // 소유한 모든 용 스테이트, 쿨타임 확인, 수정
+            if (this.props.data.dragons[dl].state === 'Resting' || this.props.data.dragons[dl].state === 'brooding' || this.props.data.dragons[dl].state === 'Egg' || this.props.data.dragons[dl].state === 'Sell' || this.props.data.dragons[dl].state === 'Siring' || this.props.data.dragons[dl].state === 'during battle') {
+              if (Date.now() > this.props.data.dragons[dl].cooldown[1]) { // 쿨타임 이후
+                if (this.props.data.dragons[dl].state === 'during battle') {
+                  this.state.situation = 'update'
+                  this.props.battleUpdate({ variables: { email: localStorage.getItem('email') } })
+                    .then((res) => {
+                      console.log(res)
+                    })
+                    .catch((errors) => {
+                      console.log('errors: ', errors)
+                    })
+                } else {
+                  this.state.change_state = 'Normal'
+                  this.props.editUserDragonState({ variables: { serial: this.props.data.dragons[dl].serial, change_state: 'Normal' } })
+                    .then((res) => {
+                      console.log(res)
+                    })
+                    .catch((errors) => {
+                      console.log('errors: ', errors)
+                    })
+                }
               } else {
-                this.props.editUserDragonState({ variables: { serial: this.props.data.dragons[dl].serial, change_state: 'Normal' } })
-                  .then((res) => {
-                    console.log(res)
-                  })
-                  .catch((errors) => {
-                    console.log('errors: ', errors)
-                  })
+                this.state.change_state = this.props.data.dragons[dl].state
               }
+            } else {
+              this.state.change_state = this.props.data.dragons[dl].state
             }
-          }
-          if (Date.now() > this.props.data.dragons[dl].cooldown[1]) {
-            this.state.bdragons[dcx] = {
-              name: this.props.data.dragons[dl].name,
-              serial: this.props.data.dragons[dl].serial,
-              choice_cbg: this.props.data.dragons[dl].choice_cbg,
-              evolution: this.props.data.dragons[dl].combination.substring(0, 2),
-              property: this.props.data.dragons[dl].combination.substring(2, 4),
-              wing: this.props.data.dragons[dl].combination.substring(4, 6),
-              wingColor: this.props.data.dragons[dl].combination.substring(6, 8),
-              horn: this.props.data.dragons[dl].combination.substring(8, 10),
-              hornColor: this.props.data.dragons[dl].combination.substring(10, 12),
-              tail: this.props.data.dragons[dl].combination.substring(12, 14),
-              body: this.props.data.dragons[dl].combination.substring(14, 16),
-              bodyColor: this.props.data.dragons[dl].combination.substring(16, 18),
-              eye: this.props.data.dragons[dl].combination.substring(18, 20),
-              eyeColor: this.props.data.dragons[dl].combination.substring(20, 22),
-              mouth: this.props.data.dragons[dl].combination.substring(22, 24),
-              nose: this.props.data.dragons[dl].combination.substring(24, 26)
+            if (Date.now() > this.props.data.dragons[dl].cooldown[1]) {
+              this.state.bdragons[dcx] = {
+                name: this.props.data.dragons[dl].name,
+                serial: this.props.data.dragons[dl].serial,
+                choice_sword: this.props.data.dragons[dl].choice_sword,
+                choice_shield: this.props.data.dragons[dl].choice_shield,
+                choice_cbg: this.props.data.dragons[dl].choice_cbg,
+                evolution: this.props.data.dragons[dl].combination.substring(0, 2),
+                property: this.props.data.dragons[dl].combination.substring(2, 4),
+                wing: this.props.data.dragons[dl].combination.substring(4, 6),
+                wingColor: this.props.data.dragons[dl].combination.substring(6, 8),
+                horn: this.props.data.dragons[dl].combination.substring(8, 10),
+                hornColor: this.props.data.dragons[dl].combination.substring(10, 12),
+                tail: this.props.data.dragons[dl].combination.substring(12, 14),
+                body: this.props.data.dragons[dl].combination.substring(14, 16),
+                bodyColor: this.props.data.dragons[dl].combination.substring(16, 18),
+                eye: this.props.data.dragons[dl].combination.substring(18, 20),
+                eyeColor: this.props.data.dragons[dl].combination.substring(20, 22),
+                mouth: this.props.data.dragons[dl].combination.substring(22, 24),
+                nose: this.props.data.dragons[dl].combination.substring(24, 26)
+              }
+              dcx += 1
             }
-            dcx += 1
-          }
-          if (this.state.situation !== 'update') {
-            if (this.props.data.dragons[dl].state === 'Matching') { // 이미 매칭중일 때
-              console.log('-----------------Matching')
-              this.state.choiceGon = true
-              this.state.situation = 'Matching'
-              this.state.choice_comb = this.props.data.dragons[dl].combination
-              this.state.choice_serial = this.props.data.dragons[dl].serial
-              this.state.choice_cbg = this.props.data.dragons[dl].choice_cbg
-              this.state.choice_evolution = this.props.data.dragons[dl].combination.substring(0, 2)
-              this.state.choice_property = this.props.data.dragons[dl].combination.substring(2, 4)
-              this.state.choice_wing = this.props.data.dragons[dl].combination.substring(4, 6)
-              this.state.choice_wingColor = this.props.data.dragons[dl].combination.substring(6, 8)
-              this.state.choice_horn = this.props.data.dragons[dl].combination.substring(8, 10)
-              this.state.choice_hornColor = this.props.data.dragons[dl].combination.substring(10, 12)
-              this.state.choice_tail = this.props.data.dragons[dl].combination.substring(12, 14)
-              this.state.choice_body = this.props.data.dragons[dl].combination.substring(14, 16)
-              this.state.choice_bodyColor = this.props.data.dragons[dl].combination.substring(16, 18)
-              this.state.choice_eye = this.props.data.dragons[dl].combination.substring(18, 20)
-              this.state.choice_eyeColor = this.props.data.dragons[dl].combination.substring(20, 22)
-              this.state.choice_mouth = this.props.data.dragons[dl].combination.substring(22, 24)
-              this.state.choice_nose = this.props.data.dragons[dl].combination.substring(24, 26)
-            }
-            if (this.props.data.dragons[dl].state === 'during battle') { // 이미 전투중일 때
-              console.log('-----------------during battle')
-              this.state.choiceGon = true
-              this.state.situation = 'during battle'
-              this.state.choice_comb = this.props.data.dragons[dl].combination
-              this.state.choice_serial = this.props.data.dragons[dl].serial
-              this.state.choice_cbg = this.props.data.dragons[dl].choice_cbg
-              this.state.choice_evolution = this.props.data.dragons[dl].combination.substring(0, 2)
-              this.state.choice_property = this.props.data.dragons[dl].combination.substring(2, 4)
-              this.state.choice_wing = this.props.data.dragons[dl].combination.substring(4, 6)
-              this.state.choice_wingColor = this.props.data.dragons[dl].combination.substring(6, 8)
-              this.state.choice_horn = this.props.data.dragons[dl].combination.substring(8, 10)
-              this.state.choice_hornColor = this.props.data.dragons[dl].combination.substring(10, 12)
-              this.state.choice_tail = this.props.data.dragons[dl].combination.substring(12, 14)
-              this.state.choice_body = this.props.data.dragons[dl].combination.substring(14, 16)
-              this.state.choice_bodyColor = this.props.data.dragons[dl].combination.substring(16, 18)
-              this.state.choice_eye = this.props.data.dragons[dl].combination.substring(18, 20)
-              this.state.choice_eyeColor = this.props.data.dragons[dl].combination.substring(20, 22)
-              this.state.choice_mouth = this.props.data.dragons[dl].combination.substring(22, 24)
-              this.state.choice_nose = this.props.data.dragons[dl].combination.substring(24, 26)
+            if (this.state.situation !== 'update') {
+              if (this.props.data.dragons[dl].state === 'Matching') { // 이미 매칭중일 때
+                console.log('-----------------Matching')
+                this.state.choiceGon = true
+                this.state.situation = 'Matching'
+                this.state.choice_comb = this.props.data.dragons[dl].combination
+                this.state.choice_serial = this.props.data.dragons[dl].serial
+                this.state.choice_cbg = this.props.data.dragons[dl].choice_cbg
+                this.state.choice_evolution = this.props.data.dragons[dl].combination.substring(0, 2)
+                this.state.choice_property = this.props.data.dragons[dl].combination.substring(2, 4)
+                this.state.choice_wing = this.props.data.dragons[dl].combination.substring(4, 6)
+                this.state.choice_wingColor = this.props.data.dragons[dl].combination.substring(6, 8)
+                this.state.choice_horn = this.props.data.dragons[dl].combination.substring(8, 10)
+                this.state.choice_hornColor = this.props.data.dragons[dl].combination.substring(10, 12)
+                this.state.choice_tail = this.props.data.dragons[dl].combination.substring(12, 14)
+                this.state.choice_body = this.props.data.dragons[dl].combination.substring(14, 16)
+                this.state.choice_bodyColor = this.props.data.dragons[dl].combination.substring(16, 18)
+                this.state.choice_eye = this.props.data.dragons[dl].combination.substring(18, 20)
+                this.state.choice_eyeColor = this.props.data.dragons[dl].combination.substring(20, 22)
+                this.state.choice_mouth = this.props.data.dragons[dl].combination.substring(22, 24)
+                this.state.choice_nose = this.props.data.dragons[dl].combination.substring(24, 26)
+              }
+              if (this.props.data.dragons[dl].state === 'during battle') { // 이미 전투중일 때
+                console.log('-----------------during battle')
+                this.state.choiceGon = true
+                this.state.situation = 'during battle'
+                this.state.choice_comb = this.props.data.dragons[dl].combination
+                this.state.choice_serial = this.props.data.dragons[dl].serial
+                this.state.choice_cbg = this.props.data.dragons[dl].choice_cbg
+                this.state.choice_evolution = this.props.data.dragons[dl].combination.substring(0, 2)
+                this.state.choice_property = this.props.data.dragons[dl].combination.substring(2, 4)
+                this.state.choice_wing = this.props.data.dragons[dl].combination.substring(4, 6)
+                this.state.choice_wingColor = this.props.data.dragons[dl].combination.substring(6, 8)
+                this.state.choice_horn = this.props.data.dragons[dl].combination.substring(8, 10)
+                this.state.choice_hornColor = this.props.data.dragons[dl].combination.substring(10, 12)
+                this.state.choice_tail = this.props.data.dragons[dl].combination.substring(12, 14)
+                this.state.choice_body = this.props.data.dragons[dl].combination.substring(14, 16)
+                this.state.choice_bodyColor = this.props.data.dragons[dl].combination.substring(16, 18)
+                this.state.choice_eye = this.props.data.dragons[dl].combination.substring(18, 20)
+                this.state.choice_eyeColor = this.props.data.dragons[dl].combination.substring(20, 22)
+                this.state.choice_mouth = this.props.data.dragons[dl].combination.substring(22, 24)
+                this.state.choice_nose = this.props.data.dragons[dl].combination.substring(24, 26)
+              }
             }
           }
         }
       }
+      this.state.bdragons.reverse() // 최신순으로 정렬
+      console.log('this.state.bdragons : ', this.state.bdragons)
     }
     return (
       <Layout>
@@ -229,6 +240,19 @@ class battles extends Component {
                           </div>
                           <div class="absolute">
                             <img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${item.evolution}${item.nose}.png`}/>
+                          </div>
+                        </div>
+                        <div className='item'>
+                          <div className='l12'>
+                            <img src={`${process.env.PUBLIC_URL}/images/brief_Info/new_icon.png`}/>
+                            <img src={`${process.env.PUBLIC_URL}/images/brief_Info/level_${item.evolution}.png`}/>
+                            <img src={`${process.env.PUBLIC_URL}/images/brief_Info/trophy.png`}/>
+                            {item.choice_sword !== 'null' &&
+                              <img src={`${process.env.PUBLIC_URL}/images/item/sword/preview/sword_${item.choice_sword}_preview.png`}/>
+                            }
+                            {item.choice_shield !== 'null' &&
+                              <img src={`${process.env.PUBLIC_URL}/images/item/shield/preview/shield_${item.choice_shield}_preview.png`}/>
+                            }
                           </div>
                         </div>
                         <div className="card-action">

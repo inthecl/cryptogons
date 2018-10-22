@@ -83,6 +83,13 @@ const resolvers = {
       })
       const bdragon = await ctx.models.Dragon(test)
 
+      const activity = Object.assign({
+        type: 'breed',
+        date: Date(),
+        contents: [xdragon.serial, ydragon.serial, serial] // 규칙 부 시리얼, 모 시리얼, 자 시리얼
+      })
+      user.activity.push(activity)
+
       return bdragon.save(), user.save(), xdragon.save(), ydragon.save()
     },
     removeUserDragon: async (obj, args, ctx) => {
@@ -318,6 +325,7 @@ const resolvers = {
       input2p.winning_rate = parseInt((input2p.win / (input2p.win + input2p.lose)) * 100, 10)
       input1p.state = 'Normal'
       input2p.state = 'Normal'
+
       return input1p.save(), input2p.save(), user.save()
     },
     addItemSword: async (obj, args, ctx) => {
@@ -361,14 +369,22 @@ const resolvers = {
     },
     itemPurchase: async (obj, args, ctx) => {
       const user = await ctx.models.User.findOne({ email: args.email })
+      let money = null
+      let price = null
       if (args.diamond !== 0) {
         user.diamond -= args.diamond
+        money = 'diamond'
+        price = args.diamond
       }
       if (args.gold !== 0) {
         user.gold -= args.gold
+        money = 'gold'
+        price = args.gold
       }
       if (args.trophy !== 0) {
         user.trophy -= args.trophy
+        money = 'trophy'
+        price = args.trophy
       }
       if (args.item === 'sword') {
         const sword = Object.assign({
@@ -403,6 +419,14 @@ const resolvers = {
         })
         user.cbg.push(cbg)
       }
+
+      const activity = Object.assign({
+        type: 'item',
+        date: Date(),
+        contents: [args.item, args.name, money, price] // 규칙 아이템종류, 아이템이름, 지불방법, 가격
+      })
+      user.activity.push(activity)
+
       return user.save()
     },
     dragonPurchase: async (obj, args, ctx) => {
@@ -410,7 +434,7 @@ const resolvers = {
       let seller = null // 판매자
       const buyer = await ctx.models.User.findOne({ email: args.email }) // 구매자
 
-      if (Date.now() <= dragon.cooldown[1]) {
+      if (Date.now() <= dragon.cooldown[1] || dragon.cooldown[1] === null) {
         if (dragon.state === 'New' || dragon.state === 'Sell') {
           buyer.diamond -= args.diamond
           buyer.myDragons.push(args.serial)
@@ -418,8 +442,14 @@ const resolvers = {
           if (dragon.email === 'devman') {
             dragon.email = args.email
             dragon.state = 'Normal'
-          }
-          if (dragon.email !== 'devman') {
+
+            const activity = Object.assign({
+              type: 'dragonPurchase',
+              date: Date(),
+              contents: ['devman', buyer.username, dragon.serial, args.diamond] // 규칙 판매자 이름, 구매자 이름, 용 시리얼, 가격
+            })
+            buyer.activity.push(activity)
+          } else {
             seller = await ctx.models.User.findOne({ email: dragon.email })
             seller.diamond += args.diamond
             seller.myDragons.pull(args.serial)
@@ -434,6 +464,14 @@ const resolvers = {
             dragon.lose = 0
             dragon.winning_rate = 0
             dragon.ranking = 0
+
+            const activity = Object.assign({
+              type: 'dragonPurchase',
+              date: Date(),
+              contents: [seller.username, buyer.username, dragon.serial, args.diamond] // 규칙 판매자 이름, 구매자 이름, 용 시리얼, 가격
+            })
+            seller.activity.push(activity)
+            buyer.activity.push(activity)
           }
         }
       }
@@ -460,15 +498,13 @@ const resolvers = {
       return dragon.save()
     },
     dragonSiringPurchase: async (obj, args, ctx) => {
-      const dragon = await ctx.models.Dragon.findOne({ serial: args.parents[0] }) // 판매용
-      const seller = await ctx.models.User.findOne({ email: dragon.email }) // 판매자
+      const xdragon = await ctx.models.Dragon.findOne({ serial: args.parents[0] }) // 판매용
+      const seller = await ctx.models.User.findOne({ email: xdragon.email }) // 판매자
       const buyer = await ctx.models.User.findOne({ email: args.email }) // 구매자
 
-
       let bdragon = null
-      let xdragon = null
       let ydragon = null
-      if (dragon.state === 'Siring' && Date.now() <= dragon.cooldown[1]) {
+      if (xdragon.state === 'Siring' && Date.now() <= xdragon.cooldown[1]) {
         // 가격 지불
         seller.diamond += args.diamond
         buyer.diamond -= args.diamond
@@ -478,7 +514,6 @@ const resolvers = {
 
         buyer.myDragons.push(serial) // 유저 dragonsNumber에 새로운 용 시리얼 추가
 
-        xdragon = await ctx.models.Dragon.findOne({ serial: args.parents[0] })
         const coodTimeX = Date.now() + 120000 // 임시 2분 쿨타임
         xdragon.state = 'Resting' // 부의 state 변경
         xdragon.child.push(serial) // 부의 child에 자식 시리얼 추가
@@ -532,7 +567,16 @@ const resolvers = {
         bdragon = await ctx.models.Dragon(test)
       }
 
-      return dragon.save(), seller.save(), buyer.save(), bdragon.save(), xdragon.save(), ydragon.save()
+      // 규칙 판매자 이름, 구매자 이름, 판매용 시리얼, 구매용 시리얼, 새로운용 시리얼, 가격
+      const activity = Object.assign({
+        type: 'SiringPurchase',
+        date: Date(),
+        contents: [seller.username, buyer.username, xdragon.serial, ydragon.serial, bdragon.serial, args.diamond]
+      })
+      buyer.activity.push(activity)
+      seller.activity.push(activity)
+
+      return seller.save(), buyer.save(), bdragon.save(), xdragon.save(), ydragon.save()
     },
     dragonSiring: async (obj, args, ctx) => {
       const dragon = await ctx.models.Dragon.findOne({ serial: args.serial }) // 판매할 용
@@ -567,7 +611,16 @@ const resolvers = {
         dragon.winning_rate = 0
         dragon.ranking = 0
       }
-      return dragon.save()
+
+      const activity = Object.assign({
+        type: 'gift',
+        date: Date(),
+        contents: [presenter.username, recipient.username, dragon.serial] // 규칙 선물하는사람 이름, 선물받는사람 이름, 선물할 용 시리얼
+      })
+      presenter.activity.push(activity)
+      recipient.activity.push(activity)
+
+      return presenter.save(), recipient.save(), dragon.save()
     },
     addUserIcon: async (obj, args, ctx) => {
       const user = await ctx.models.User.findOne({ email: args.email })

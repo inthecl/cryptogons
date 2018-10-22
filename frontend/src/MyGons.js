@@ -53,6 +53,8 @@ class MyGons extends Component {
               name: this.props.data.dragons[dl].name,
               serial: this.props.data.dragons[dl].serial,
               state: this.state.change_state,
+              choice_sword: this.props.data.dragons[dl].choice_sword,
+              choice_shield: this.props.data.dragons[dl].choice_shield,
               choice_cbg: this.props.data.dragons[dl].choice_cbg,
               evolution: this.props.data.dragons[dl].combination.substring(0, 2),
               property: this.props.data.dragons[dl].combination.substring(2, 4),
@@ -86,6 +88,7 @@ class MyGons extends Component {
     if (pagenum > lastPage + 1) return <Redirect to="/Mygon/1"/>
     if (endItem > lastItem) endItem = lastItem
     const pages = this.state.dragonsComb.slice(startItem, endItem)
+    console.log('pages : ', pages)
     return (
       <Layout>
         <MyGonHeader/>
@@ -174,22 +177,36 @@ class MyGons extends Component {
                           }
                         </div>
                         <div className='item'>
-                          <div className='l12'>
-                            <img src={`${process.env.PUBLIC_URL}/images/brief_Info/level_${item.evolution}.png`}/>
-                            <img src={`${process.env.PUBLIC_URL}/images/brief_Info/mutation.png`}/>
-                            <img src={`${process.env.PUBLIC_URL}/images/brief_Info/new_icon.png`}/>
-                            <img src={`${process.env.PUBLIC_URL}/images/brief_Info/trophy.png`}/>
-                            state : {item.state}
-                          </div>
-                        </div>
-                        <div className="card-action">
                           {item.state !== 'Egg' &&
-                            <a href={`/gons/${item.serial}`}>{item.serial}</a>
+                            <div className='l12'>
+                              <img src={`${process.env.PUBLIC_URL}/images/brief_Info/new_icon.png`}/>
+                              <img src={`${process.env.PUBLIC_URL}/images/brief_Info/level_${item.evolution}.png`}/>
+                              <img src={`${process.env.PUBLIC_URL}/images/brief_Info/trophy.png`}/>
+                              {item.choice_sword !== 'null' &&
+                                <img src={`${process.env.PUBLIC_URL}/images/item/sword/preview/sword_${item.choice_sword}_preview.png`}/>
+                              }
+                              {item.choice_shield !== 'null' &&
+                                <img src={`${process.env.PUBLIC_URL}/images/item/shield/preview/shield_${item.choice_shield}_preview.png`}/>
+                              }
+                              <br/>state : {item.state}
+                            </div>
                           }
                           {item.state === 'Egg' &&
-                            'egg'
+                            <div className='l12'>
+                              <p>'egg'</p>
+                            </div>
                           }
                         </div>
+                        {item.state !== 'Egg' &&
+                          <div className="card-action">
+                            <a href={`/gons/${item.serial}`}>{item.serial}</a>
+                          </div>
+                        }
+                        {item.state === 'Egg' &&
+                          <div className="card-action">
+                            {item.serial}
+                          </div>
+                        }
                       </div>
                     </div>
                   </div>)}

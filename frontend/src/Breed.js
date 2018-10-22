@@ -336,7 +336,7 @@ class breed extends Component {
     if (this.state.redirect) {
       window.location.replace('/Mygons/1')
     }
-    if (!this.props.data.loading) {
+    if (!this.props.finduser.loading && !this.props.data.loading) {
       for (let dl = 0; dl < this.props.data.dragons.length; dl += 1) {
         if (this.props.data.dragons[dl].serial === this.props.match.params.serialnumber) {
           // 소유한 모든 용 스테이트, 쿨타임 확인, 수정
@@ -387,11 +387,16 @@ class breed extends Component {
           this.state.eyeColor = this.state.comb.substring(20, 22)
           this.state.mouth = this.state.comb.substring(22, 24)
           this.state.nose = this.state.comb.substring(24, 26)
-        } else {
-          if (this.props.data.dragons[dl].email === localStorage.getItem('email')) { // 현재용을 제외한 state가 Normal인 용의 리스트
+        }
+      }
+
+      let dcx = 0
+      for (let mdl = 0; mdl < this.props.finduser.finduser.myDragons.length; mdl += 1) {
+        for (let dl = 0; dl < this.props.data.dragons.length; dl += 1) {
+          if (this.props.finduser.finduser.myDragons[mdl] === this.props.data.dragons[dl].serial) {
             // 소유한 모든 용 스테이트, 쿨타임 확인, 수정
             if (this.props.data.dragons[dl].state === 'Resting' || this.props.data.dragons[dl].state === 'brooding' || this.props.data.dragons[dl].state === 'Egg' || this.props.data.dragons[dl].state === 'Sell' || this.props.data.dragons[dl].state === 'Siring' || this.props.data.dragons[dl].state === 'during battle') {
-              if (Date.now() > this.props.data.dragons[dl].cooldown[1]) {
+              if (Date.now() > this.props.data.dragons[dl].cooldown[1]) { // 쿨타임 이후
                 if (this.props.data.dragons[dl].state === 'during battle') {
                   this.props.battleUpdate({ variables: { email: localStorage.getItem('email') } })
                     .then((res) => {
@@ -410,10 +415,14 @@ class breed extends Component {
                       console.log('errors: ', errors)
                     })
                 }
+              } else {
+                this.state.change_state = this.props.data.dragons[dl].state
               }
+            } else {
+              this.state.change_state = this.props.data.dragons[dl].state
             }
-            if (Date.now() > this.props.data.dragons[dl].cooldown[1]) {
-              this.state.mdragons[dl] = {
+            if (Date.now() > this.props.data.dragons[dl].cooldown[1] && this.props.data.dragons[dl].serial !== this.props.match.params.serialnumber) {
+              this.state.mdragons[dcx] = {
                 name: this.props.data.dragons[dl].name,
                 serial: this.props.data.dragons[dl].serial,
                 evolution: this.props.data.dragons[dl].combination.substring(0, 2),
@@ -430,10 +439,13 @@ class breed extends Component {
                 mouth: this.props.data.dragons[dl].combination.substring(22, 24),
                 nose: this.props.data.dragons[dl].combination.substring(24, 26)
               }
+              dcx += 1
             }
           }
         }
       }
+      this.state.mdragons.reverse() // 최신순으로 정렬
+      console.log('this.state.mdragons : ', this.state.mdragons)
 
       if (this.state.email !== localStorage.getItem('email') && this.state.state !== 'Siring') {
         M.toast({ html: '해당 용을 찾을 수 없습니다' })

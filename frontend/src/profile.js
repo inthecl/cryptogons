@@ -59,6 +59,8 @@ class profile extends Component {
               name: this.props.data.dragons[dl].name,
               serial: this.props.data.dragons[dl].serial,
               state: this.state.change_state,
+              choice_sword: this.props.data.dragons[dl].choice_sword,
+              choice_shield: this.props.data.dragons[dl].choice_shield,
               choice_cbg: this.props.data.dragons[dl].choice_cbg,
               evolution: this.props.data.dragons[dl].combination.substring(0, 2),
               property: this.props.data.dragons[dl].combination.substring(2, 4),
@@ -197,11 +199,16 @@ class profile extends Component {
                         </div>
                         <div className='item'>
                           <div className='l12'>
-                            <img src={`${process.env.PUBLIC_URL}/images/brief_Info/level_${item.evolution}.png`}/>
-                            <img src={`${process.env.PUBLIC_URL}/images/brief_Info/mutation.png`}/>
                             <img src={`${process.env.PUBLIC_URL}/images/brief_Info/new_icon.png`}/>
+                            <img src={`${process.env.PUBLIC_URL}/images/brief_Info/level_${item.evolution}.png`}/>
                             <img src={`${process.env.PUBLIC_URL}/images/brief_Info/trophy.png`}/>
-                            state : {item.state}
+                            {item.choice_sword !== 'null' &&
+                              <img src={`${process.env.PUBLIC_URL}/images/item/sword/preview/sword_${item.choice_sword}_preview.png`}/>
+                            }
+                            {item.choice_shield !== 'null' &&
+                              <img src={`${process.env.PUBLIC_URL}/images/item/shield/preview/shield_${item.choice_shield}_preview.png`}/>
+                            }
+                            <br/>state : {item.state}
                           </div>
                         </div>
                         <div className="card-action">

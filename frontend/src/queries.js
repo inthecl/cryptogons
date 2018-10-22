@@ -120,7 +120,11 @@ query finduser($email: String!){
     enemycomb
     result
   }
-  activity
+  activity{
+    type
+    date
+    contents
+  }
  }
 }
 `
@@ -317,7 +321,11 @@ mutation itemPurchase($email: String!, $number: String!, $item: String!, $name: 
       trophy
     }
     myDragons
-    activity
+    activity{
+      type
+      date
+      contents
+    }
    }
   }
   `
@@ -687,7 +695,11 @@ const battleUpdate = gql`
       enemycomb
       result
     }
-    activity
+    activity{
+      type
+      date
+      contents
+    }
    }
   }
   `
@@ -738,7 +750,11 @@ const editChoiceIcon = gql`
       enemycomb
       result
     }
-    activity
+    activity{
+      type
+      date
+      contents
+    }
    }
   }
   `
@@ -797,7 +813,11 @@ query findprofile($username: String!){
     enemycomb
     result
   }
-  activity
+  activity{
+    type
+    date
+    contents
+  }
  }
 }
 `
