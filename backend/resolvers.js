@@ -569,7 +569,7 @@ const resolvers = {
 
       // 규칙 판매자 이름, 구매자 이름, 판매용 시리얼, 구매용 시리얼, 새로운용 시리얼, 가격
       const activity = Object.assign({
-        type: 'SiringPurchase',
+        type: 'siringPurchase',
         date: Date(),
         contents: [seller.username, buyer.username, xdragon.serial, ydragon.serial, bdragon.serial, args.diamond]
       })

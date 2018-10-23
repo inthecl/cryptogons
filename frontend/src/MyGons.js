@@ -75,7 +75,7 @@ class MyGons extends Component {
         }
       }
       this.state.dragonsComb.reverse() // 최신순으로 정렬
-      console.log('this.state.dragonsComb : ', this.state.dragonsComb)
+      console.log('dragonsComb.reverse : ', this.state.dragonsComb)
     }
     const { pagenum } = this.props.match.params
     console.log('this.props.match.params:', this.props.match.params)

@@ -65,7 +65,7 @@ class Itemshop extends Component {
   }
   render() {
     if (this.state.redirect) {
-      return <Redirect to='/Activity'/>
+      window.location.replace('/Activity')
     }
     if (!this.props.finduser.loading && !this.props.finditem.loading) {
       console.log('this.props', this.props)
@@ -159,7 +159,7 @@ class Itemshop extends Component {
                   <img src={`${process.env.PUBLIC_URL}/images/brief_info/trophy2.png`}/> {this.state.user_trophy}</h5>
               </div>
             </div>
-      
+
             <h5 className="">Sword</h5>
             <div class="col s12">
               <div className='center'>

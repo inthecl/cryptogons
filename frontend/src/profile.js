@@ -17,9 +17,13 @@ class profile extends Component {
       username: null,
       choice_icon: null
     }
+    this.handleBack = this.handleBack.bind(this)
+  }
+  handleBack() {
+    window.history.back()
   }
   render() {
-    if (!this.props.findprofile.loading && !this.props.data.loading) {
+    if (!this.props.findprofile.loading && !this.props.data.loading && this.props.match.params.username !== 'devman') {
       console.log('this.props: ', this.props)
       let dcx = 0
       this.state.email = this.props.findprofile.findprofile.email
@@ -95,140 +99,149 @@ class profile extends Component {
     if (endItem > lastItem) endItem = lastItem
     const pages = this.state.dragonsComb.slice(startItem, endItem)
     return (
-      <Layout>
-        <div class="row container">
+      <div>
+        {this.props.match.params.username !== 'devman' &&
+          <Layout>
+            <div class="row container">
 
-          <div class="col s12 margin-top-20">
-            <div class="left valign-wrapper">
-              <div class="col s6 m6 l12">
-                <img src={`${process.env.PUBLIC_URL}/images/icon/icon_${this.state.choice_icon}.png`} alt="" class="circle responsive-img"/>
+              <div class="col s12 margin-top-20">
+                <div class="left valign-wrapper">
+                  <div class="col s6 m6 l12">
+                    <img src={`${process.env.PUBLIC_URL}/images/icon/icon_${this.state.choice_icon}.png`} alt="" class="circle responsive-img"/>
+                  </div>
+                  <div class="col">
+                    <span class="black-text">
+                      <h5>{this.state.username}</h5>
+                      <p>{this.state.email}</p>
+                    </span>
+                  </div>
+                </div>
               </div>
-              <div class="col">
-                <span class="black-text">
-                  <h5>{this.state.username}</h5>
-                  <p>{this.state.email}</p>
-                </span>
+              <div class="col s12 margin-top-20">
+                <hr/>
               </div>
-            </div>
-          </div>
-          <div class="col s12 margin-top-20">
-            <hr/>
-          </div>
 
-          <div class="col s6">
-            <br/>
-            <form action="#">
-              <span className="margin-right-10">
-                <label>
-                  <input name="group1" type="radio" checked/>
-                  <span>all</span>
-                </label>
-              </span>
-              <span className="margin-right-10">
-                <label>
-                  <input name="group1" type="radio"/>
-                  <span>for sale</span>
-                </label>
-              </span>
-              <span>
-                <label>
-                  <input name="group1" type="radio"/>
-                  <span>siring</span>
-                </label>
-              </span>
-            </form>
-          </div>
-          <div class="col s6">
-            <br/>
-            <div class="input-field col l6 s12 right">
-              <select>
-                <option value="" disabled selected>Choose your option</option>
-                <option value="1">Option 1</option>
-                <option value="2">Option 2</option>
-                <option value="3">Option 3</option>
-              </select>
-              <label>Materialize Select</label>
-              <br/>
-            </div>
-          </div>
+              <div class="col s6">
+                <br/>
+                <form action="#">
+                  <span className="margin-right-10">
+                    <label>
+                      <input name="group1" type="radio" checked/>
+                      <span>all</span>
+                    </label>
+                  </span>
+                  <span className="margin-right-10">
+                    <label>
+                      <input name="group1" type="radio"/>
+                      <span>for sale</span>
+                    </label>
+                  </span>
+                  <span>
+                    <label>
+                      <input name="group1" type="radio"/>
+                      <span>siring</span>
+                    </label>
+                  </span>
+                </form>
+              </div>
+              <div class="col s6">
+                <br/>
+                <div class="input-field col l6 s12 right">
+                  <select>
+                    <option value="" disabled selected>Choose your option</option>
+                    <option value="1">Option 1</option>
+                    <option value="2">Option 2</option>
+                    <option value="3">Option 3</option>
+                  </select>
+                  <label>Materialize Select</label>
+                  <br/>
+                </div>
+              </div>
 
-          <div class="col s12">
-            <div className='center'>
-              <div className="row">
-                {pages.map(item =>
-                  <div key={item.id}>
-                    <div className="col s12 m6 l3">
-                      <div className="card">
-                        <div className="card-image">
-                          {item.choice_cbg === 'null' &&
-                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${item.property}.png`}/>
-                          }
-                          {item.choice_cbg !== 'null' &&
-                            <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${item.choice_cbg}.png`}/>
-                          }
-                          {item.state === 'Egg' &&
-                            <div class="absolute">
-                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg.png`}/>
+              <div class="col s12">
+                <div className='center'>
+                  <div className="row">
+                    {pages.map(item =>
+                      <div key={item.id}>
+                        <div className="col s12 m6 l3">
+                          <div className="card">
+                            <div className="card-image">
+                              {item.choice_cbg === 'null' &&
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${item.property}.png`}/>
+                              }
+                              {item.choice_cbg !== 'null' &&
+                                <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${item.choice_cbg}.png`}/>
+                              }
+                              {item.state === 'Egg' &&
+                                <div class="absolute">
+                                  <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg.png`}/>
+                                </div>
+                              }
+                              {item.state !== 'Egg' &&
+                                <div>
+                                  <div class="absolute">
+                                    <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${item.evolution}${item.wing}${item.wingColor}.png`}/>
+                                  </div>
+                                  <div class="absolute">
+                                    <img src={`${process.env.PUBLIC_URL}/images/gonImages/3_horn/horn_${item.evolution}${item.horn}${item.hornColor}.png`}/>
+                                  </div>
+                                  <div class="absolute">
+                                    <img src={`${process.env.PUBLIC_URL}/images/gonImages/4_tail/tail_${item.evolution}${item.tail}${item.bodyColor}.png`}/>
+                                  </div>
+                                  <div class="absolute">
+                                    <img src={`${process.env.PUBLIC_URL}/images/gonImages/5_body/body_${item.evolution}${item.body}${item.bodyColor}.png`}/>
+                                  </div>
+                                  <div class="absolute">
+                                    <img src={`${process.env.PUBLIC_URL}/images/gonImages/6_eye/eye_${item.evolution}${item.eye}${item.eyeColor}.png`}/>
+                                  </div>
+                                  <div class="absolute">
+                                    <img src={`${process.env.PUBLIC_URL}/images/gonImages/7_mouth/mouth_${item.evolution}${item.mouth}.png`}/>
+                                  </div>
+                                  <div class="absolute">
+                                    <img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${item.evolution}${item.nose}.png`}/>
+                                  </div>
+                                </div>
+                              }
                             </div>
-                          }
-                          {item.state !== 'Egg' &&
-                            <div>
-                              <div class="absolute">
-                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${item.evolution}${item.wing}${item.wingColor}.png`}/>
-                              </div>
-                              <div class="absolute">
-                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/3_horn/horn_${item.evolution}${item.horn}${item.hornColor}.png`}/>
-                              </div>
-                              <div class="absolute">
-                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/4_tail/tail_${item.evolution}${item.tail}${item.bodyColor}.png`}/>
-                              </div>
-                              <div class="absolute">
-                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/5_body/body_${item.evolution}${item.body}${item.bodyColor}.png`}/>
-                              </div>
-                              <div class="absolute">
-                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/6_eye/eye_${item.evolution}${item.eye}${item.eyeColor}.png`}/>
-                              </div>
-                              <div class="absolute">
-                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/7_mouth/mouth_${item.evolution}${item.mouth}.png`}/>
-                              </div>
-                              <div class="absolute">
-                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${item.evolution}${item.nose}.png`}/>
+                            <div className='item'>
+                              <div className='l12'>
+                                <img src={`${process.env.PUBLIC_URL}/images/brief_Info/new_icon.png`}/>
+                                <img src={`${process.env.PUBLIC_URL}/images/brief_Info/level_${item.evolution}.png`}/>
+                                <img src={`${process.env.PUBLIC_URL}/images/brief_Info/trophy.png`}/>
+                                {item.choice_sword !== 'null' &&
+                                  <img src={`${process.env.PUBLIC_URL}/images/item/sword/preview/sword_${item.choice_sword}_preview.png`}/>
+                                }
+                                {item.choice_shield !== 'null' &&
+                                  <img src={`${process.env.PUBLIC_URL}/images/item/shield/preview/shield_${item.choice_shield}_preview.png`}/>
+                                }
+                                <br/>state : {item.state}
                               </div>
                             </div>
-                          }
-                        </div>
-                        <div className='item'>
-                          <div className='l12'>
-                            <img src={`${process.env.PUBLIC_URL}/images/brief_Info/new_icon.png`}/>
-                            <img src={`${process.env.PUBLIC_URL}/images/brief_Info/level_${item.evolution}.png`}/>
-                            <img src={`${process.env.PUBLIC_URL}/images/brief_Info/trophy.png`}/>
-                            {item.choice_sword !== 'null' &&
-                              <img src={`${process.env.PUBLIC_URL}/images/item/sword/preview/sword_${item.choice_sword}_preview.png`}/>
-                            }
-                            {item.choice_shield !== 'null' &&
-                              <img src={`${process.env.PUBLIC_URL}/images/item/shield/preview/shield_${item.choice_shield}_preview.png`}/>
-                            }
-                            <br/>state : {item.state}
+                            <div className="card-action">
+                              {item.state !== 'Egg' &&
+                                <a href={`/gons/${item.serial}`}>{item.serial}</a>
+                              }
+                              {item.state === 'Egg' &&
+                                'egg'
+                              }
+                            </div>
                           </div>
                         </div>
-                        <div className="card-action">
-                          {item.state !== 'Egg' &&
-                            <a href={`/gons/${item.serial}`}>{item.serial}</a>
-                          }
-                          {item.state === 'Egg' &&
-                            'egg'
-                          }
-                        </div>
-                      </div>
-                    </div>
-                  </div>)}
+                      </div>)}
+                  </div>
+                  <MaterialPagination linkPath="MyGons" pageNum={pagenum} lastPage={lastPage} />
+                </div>
               </div>
-              <MaterialPagination linkPath="MyGons" pageNum={pagenum} lastPage={lastPage} />
-            </div>
-          </div>
 
-        </div>
-      </Layout>
+            </div>
+          </Layout>
+        }
+        {this.props.match.params.username === 'devman' &&
+          <div>
+            <img width='100%' src={`${process.env.PUBLIC_URL}/images/brief_Info/devman.png`} onClick={this.handleBack}/>
+          </div>
+        }
+      </div>
     )
   }
 }

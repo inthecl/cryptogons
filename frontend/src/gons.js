@@ -98,8 +98,14 @@ class gons extends Component {
     this.props.dragonSellCancel({ variables: { serial: this.props.match.params.serialnumber } })
       .then((res) => {
         console.log(res)
-        M.toast({ html: '판매취소' })
-        window.location.replace('/Mygons/1')
+        if (res.data.dragonSellCancel.email === localStorage.getItem('email')) {
+          M.toast({ html: '판매취소' })
+          window.location.replace('/Mygons/1')
+        }
+        if (res.data.dragonSellCancel.email !== localStorage.getItem('email')) {
+          M.toast({ html: '이미 판매가 되었습니다' })
+          window.location.replace('/Mygons/1')
+        }
       })
       .catch((errors) => {
         console.log('errors: ', errors)
@@ -112,8 +118,14 @@ class gons extends Component {
     this.props.dragonSiringCancel({ variables: { serial: this.props.match.params.serialnumber } })
       .then((res) => {
         console.log(res)
-        M.toast({ html: '판매취소' })
-        window.location.replace('/Mygons/1')
+        if (res.data.dragonSiringCancel.email === localStorage.getItem('email')) {
+          M.toast({ html: '판매취소' })
+          window.location.replace('/Mygons/1')
+        }
+        if (res.data.dragonSiringCancel.email !== localStorage.getItem('email')) {
+          M.toast({ html: '이미 판매가 되었습니다' })
+          window.location.replace('/Mygons/1')
+        }
       })
       .catch((errors) => {
         console.log('errors: ', errors)
@@ -219,7 +231,7 @@ class gons extends Component {
   }
   render() {
     if (this.state.redirect) {
-      return <Redirect to='/Activity'/>
+      window.location.replace('/Activity')
     }
     let x = 0
     let y = 0

@@ -98,7 +98,7 @@ class gift extends Component {
   }
   render() {
     if (this.state.redirect) {
-      return <Redirect to='/Activity'/>
+      window.location.replace('/Activity')
     }
     if (!this.props.data.loading) {
       console.log('this.props', this.props.data.dragons)
