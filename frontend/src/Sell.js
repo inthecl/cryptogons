@@ -198,27 +198,36 @@ class sell extends Component {
                     {this.state.choice_cbg !== 'null' &&
                       <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${this.state.choice_cbg}.png`}/>
                     }
-                    <div class="absolute">
-                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${this.state.evolution}${this.state.wing}${this.state.wingColor}.png`}/>
-                    </div>
-                    <div class="absolute">
-                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/3_horn/horn_${this.state.evolution}${this.state.horn}${this.state.hornColor}.png`}/>
-                    </div>
-                    <div class="absolute">
-                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/4_tail/tail_${this.state.evolution}${this.state.tail}${this.state.bodyColor}.png`}/>
-                    </div>
-                    <div class="absolute">
-                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/5_body/body_${this.state.evolution}${this.state.body}${this.state.bodyColor}.png`}/>
-                    </div>
-                    <div class="absolute">
-                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/6_eye/eye_${this.state.evolution}${this.state.eye}${this.state.eyeColor}.png`}/>
-                    </div>
-                    <div class="absolute">
-                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/7_mouth/mouth_${this.state.evolution}${this.state.mouth}.png`}/>
-                    </div>
-                    <div class="absolute">
-                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${this.state.evolution}${this.state.nose}.png`}/>
-                    </div>
+                    {this.state.evolution !== '03' &&
+                      <div>
+                        <div class="absolute">
+                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${this.state.evolution}${this.state.wing}${this.state.wingColor}.png`}/>
+                        </div>
+                        <div class="absolute">
+                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/3_horn/horn_${this.state.evolution}${this.state.horn}${this.state.hornColor}.png`}/>
+                        </div>
+                        <div class="absolute">
+                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/4_tail/tail_${this.state.evolution}${this.state.tail}${this.state.bodyColor}.png`}/>
+                        </div>
+                        <div class="absolute">
+                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/5_body/body_${this.state.evolution}${this.state.body}${this.state.bodyColor}.png`}/>
+                        </div>
+                        <div class="absolute">
+                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/6_eye/eye_${this.state.evolution}${this.state.eye}${this.state.eyeColor}.png`}/>
+                        </div>
+                        <div class="absolute">
+                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/7_mouth/mouth_${this.state.evolution}${this.state.mouth}.png`}/>
+                        </div>
+                        <div class="absolute">
+                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${this.state.evolution}${this.state.nose}.png`}/>
+                        </div>
+                      </div>
+                    }
+                    {this.state.evolution === '03' &&
+                        <div class="absolute">
+                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/step3/step3_03${this.state.comb.substring(4, 6)}${this.state.comb.substring(6, 8)}.png`}/>
+                        </div>
+                    }
                   </div>
                 </div>
               </div>
