@@ -66,6 +66,7 @@ class profile extends Component {
               choice_sword: this.props.data.dragons[dl].choice_sword,
               choice_shield: this.props.data.dragons[dl].choice_shield,
               choice_cbg: this.props.data.dragons[dl].choice_cbg,
+              comb: this.props.data.dragons[dl].combination,
               evolution: this.props.data.dragons[dl].combination.substring(0, 2),
               property: this.props.data.dragons[dl].combination.substring(2, 4),
               wing: this.props.data.dragons[dl].combination.substring(4, 6),
@@ -174,10 +175,18 @@ class profile extends Component {
                               }
                               {item.state === 'Egg' &&
                                 <div class="absolute">
-                                  <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg.png`}/>
+                                  {item.evolution === '01' &&
+                                    <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg.png`}/>
+                                  }
+                                  {item.evolution === '02' &&
+                                    <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg2.png`}/>
+                                  }
+                                  {item.evolution === '03' &&
+                                    <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg3.png`}/>
+                                  }
                                 </div>
                               }
-                              {item.state !== 'Egg' &&
+                              {item.state !== 'Egg' && item.evolution !== '03' &&
                                 <div>
                                   <div class="absolute">
                                     <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${item.evolution}${item.wing}${item.wingColor}.png`}/>
@@ -200,6 +209,11 @@ class profile extends Component {
                                   <div class="absolute">
                                     <img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${item.evolution}${item.nose}.png`}/>
                                   </div>
+                                </div>
+                              }
+                              {item.state !== 'Egg' && item.evolution === '03' &&
+                                <div class="absolute">
+                                  <img src={`${process.env.PUBLIC_URL}/images/gonImages/step3/step3_03${item.comb.substring(4, 6)}${item.comb.substring(6, 8)}.png`}/>
                                 </div>
                               }
                             </div>

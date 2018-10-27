@@ -401,6 +401,7 @@ class gons extends Component {
             this.state.childList[clx] = {
               serial: this.props.data.dragons[cl].serial,
               state: this.state.egg_state,
+              comb: this.props.data.dragons[cl].combination,
               evolution: this.props.data.dragons[cl].combination.substring(0, 2),
               property: this.props.data.dragons[cl].combination.substring(2, 4),
               wing: this.props.data.dragons[cl].combination.substring(4, 6),
@@ -638,27 +639,36 @@ class gons extends Component {
                             }
                           </div>
                         }
-                        <div class="absolute">
-                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${this.state.evolution}${this.state.wing}${this.state.wingColor}.png`}/>
-                        </div>
-                        <div class="absolute">
-                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/3_horn/horn_${this.state.evolution}${this.state.horn}${this.state.hornColor}.png`}/>
-                        </div>
-                        <div class="absolute">
-                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/4_tail/tail_${this.state.evolution}${this.state.tail}${this.state.bodyColor}.png`}/>
-                        </div>
-                        <div class="absolute">
-                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/5_body/body_${this.state.evolution}${this.state.body}${this.state.bodyColor}.png`}/>
-                        </div>
-                        <div class="absolute">
-                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/6_eye/eye_${this.state.evolution}${this.state.eye}${this.state.eyeColor}.png`}/>
-                        </div>
-                        <div class="absolute">
-                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/7_mouth/mouth_${this.state.evolution}${this.state.mouth}.png`}/>
-                        </div>
-                        <div class="absolute">
-                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${this.state.evolution}${this.state.nose}.png`}/>
-                        </div>
+                        {this.state.evolution !== '03' &&
+                          <div>
+                            <div class="absolute">
+                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${this.state.evolution}${this.state.wing}${this.state.wingColor}.png`}/>
+                            </div>
+                            <div class="absolute">
+                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/3_horn/horn_${this.state.evolution}${this.state.horn}${this.state.hornColor}.png`}/>
+                            </div>
+                            <div class="absolute">
+                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/4_tail/tail_${this.state.evolution}${this.state.tail}${this.state.bodyColor}.png`}/>
+                            </div>
+                            <div class="absolute">
+                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/5_body/body_${this.state.evolution}${this.state.body}${this.state.bodyColor}.png`}/>
+                            </div>
+                            <div class="absolute">
+                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/6_eye/eye_${this.state.evolution}${this.state.eye}${this.state.eyeColor}.png`}/>
+                            </div>
+                            <div class="absolute">
+                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/7_mouth/mouth_${this.state.evolution}${this.state.mouth}.png`}/>
+                            </div>
+                            <div class="absolute">
+                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${this.state.evolution}${this.state.nose}.png`}/>
+                            </div>
+                          </div>
+                        }
+                        {this.state.evolution === '03' &&
+                            <div class="absolute">
+                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/step3/step3_03${this.state.comb.substring(4, 6)}${this.state.comb.substring(6, 8)}.png`}/>
+                            </div>
+                        }
                       </div>
                     </div>
                   </div>
@@ -891,11 +901,19 @@ class gons extends Component {
                               <div>
                                 <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${item.property}.png`}/>
                                 <div class="absolute">
-                                  <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg.png`}/>
+                                  {item.evolution === '01' &&
+                                    <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg.png`}/>
+                                  }
+                                  {item.evolution === '02' &&
+                                    <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg2.png`}/>
+                                  }
+                                  {item.evolution === '03' &&
+                                    <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg3.png`}/>
+                                  }
                                 </div>
                               </div>
                             }
-                            {item.state !== 'Egg' &&
+                            {item.state !== 'Egg' && item.evolution !== '03' &&
                               <div>
                                 <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${item.property}.png`}/>
                                 <div class="absolute">
@@ -918,6 +936,14 @@ class gons extends Component {
                                 </div>
                                 <div class="absolute">
                                   <a href={`/gons/${item.serial}`}><img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${item.evolution}${item.nose}.png`}/></a>
+                                </div>
+                              </div>
+                            }
+                            {item.state !== 'Egg' && item.evolution === '03' &&
+                              <div>
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${item.property}.png`}/>
+                                <div class="absolute">
+                                  <a href={`/gons/${item.serial}`}><img src={`${process.env.PUBLIC_URL}/images/gonImages/step3/step3_03${item.comb.substring(4, 6)}${item.comb.substring(6, 8)}.png`}/></a>
                                 </div>
                               </div>
                             }

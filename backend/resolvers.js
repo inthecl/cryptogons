@@ -54,6 +54,21 @@ const resolvers = {
         ngen = xdragon.gen + 1
       }
 
+      const evolution = args.new_comb.substring(0, 2)
+      let baseDamage = null
+      let baseArmor = null
+      if (evolution === '01') {
+        baseDamage = Math.floor(Math.random() * 5) + 5 // 5 ~ 9
+        baseArmor = Math.floor(Math.random() * 5) + 5 // 5 ~ 9
+      }
+      if (evolution === '02') {
+        baseDamage = Math.floor(Math.random() * 5) + 7 // 7 ~ 11
+        baseArmor = Math.floor(Math.random() * 5) + 7 // 7 ~ 11
+      }
+      if (evolution === '03') {
+        baseDamage = Math.floor(Math.random() * 5) + 9 // 9 ~ 13
+        baseArmor = Math.floor(Math.random() * 5) + 9 // 9 ~ 13
+      }
       let test = Object.assign({
         email: args.email,
         serial: serial,
@@ -72,9 +87,9 @@ const resolvers = {
         choice_sword: 'null',
         choice_shield: 'null',
         cintamani: [],
-        base_damage: Math.floor(Math.random() * 8) + 20,
+        base_damage: baseDamage,
         add_damage: 0,
-        base_armor: Math.floor(Math.random() * 10) + 5,
+        base_armor: baseArmor,
         add_armor: 0,
         win: 0,
         lose: 0,
@@ -144,9 +159,9 @@ const resolvers = {
       dragon.choice_sword = 'null'
       dragon.choice_shield = 'null'
       dragon.cintamani = []
-      dragon.base_damage = Math.floor(Math.random() * 8) + 20
+      dragon.base_damage = Math.floor(Math.random() * 5) + 9
       dragon.add_damage = 0
-      dragon.base_armor = Math.floor(Math.random() * 10) + 5
+      dragon.base_armor = Math.floor(Math.random() * 5) + 9
       dragon.add_armor = 0
       dragon.win = 0
       dragon.lose = 0
@@ -537,6 +552,22 @@ const resolvers = {
           ngen = xdragon.gen + 1
         }
 
+        const evolution = args.new_comb.substring(0, 2)
+        let baseDamage = null
+        let baseArmor = null
+        if (evolution === '01') {
+          baseDamage = Math.floor(Math.random() * 5) + 5 // 5 ~ 9
+          baseArmor = Math.floor(Math.random() * 5) + 5 // 5 ~ 9
+        }
+        if (evolution === '02') {
+          baseDamage = Math.floor(Math.random() * 5) + 7 // 7 ~ 11
+          baseArmor = Math.floor(Math.random() * 5) + 7 // 7 ~ 11
+        }
+        if (evolution === '03') {
+          baseDamage = Math.floor(Math.random() * 5) + 9 // 9 ~ 13
+          baseArmor = Math.floor(Math.random() * 5) + 9 // 9 ~ 13
+        }
+
         let test = Object.assign({
           email: args.email,
           serial: serial,
@@ -555,9 +586,9 @@ const resolvers = {
           choice_sword: 'null',
           choice_shield: 'null',
           cintamani: [],
-          base_damage: Math.floor(Math.random() * 8) + 20,
+          base_damage: baseDamage,
           add_damage: 0,
-          base_armor: Math.floor(Math.random() * 10) + 5,
+          base_armor: baseArmor,
           add_armor: 0,
           win: 0,
           lose: 0,
