@@ -208,7 +208,7 @@ class breed extends Component {
       if (eSum === 4) {
         const lottery = Math.floor(Math.random() * 1000) + 1
         if (lottery > 10) {
-          this.state.new_evolution = '02'
+          this.state.new_evolution = '01'
           this.state.cross = 'two'
         }
         if (lottery >= 2 && lottery <= 10) {

@@ -255,6 +255,41 @@ const resolvers = {
 
         let userScout = (dragon.base_damage + dragon.add_damage) - (enemydragon.base_armor + enemydragon.add_armor) // 1p 공격력
         let enemyScout = (enemydragon.base_damage + enemydragon.add_damage) - (dragon.base_armor + dragon.add_armor) // 2p 공격력
+
+        // 속성에 따른 데미지 01(목), 02(화), 03(토), 04(금), 05(수)
+        const property1p = dragon.combination.substring(2, 4)
+        const property2p = enemydragon.combination.substring(2, 4)
+        if (property1p === '01' && property2p === '04') {
+          userScout -= 1
+        }
+        if (property1p === '01' && property2p === '03') {
+          userScout += 1
+        }
+        if (property1p === '03' && property2p === '01') {
+          userScout -= 1
+        }
+        if (property1p === '03' && property2p === '05') {
+          userScout += 1
+        }
+        if (property1p === '05' && property2p === '03') {
+          userScout -= 1
+        }
+        if (property1p === '05' && property2p === '02') {
+          userScout += 1
+        }
+        if (property1p === '02' && property2p === '05') {
+          userScout -= 1
+        }
+        if (property1p === '02' && property2p === '04') {
+          userScout += 1
+        }
+        if (property1p === '04' && property2p === '02') {
+          userScout -= 1
+        }
+        if (property1p === '04' && property2p === '01') {
+          userScout += 1
+        }
+
         if (userScout === enemyScout) {
           const luck = Math.floor(Math.random() * 2)
           if (luck === 0) {

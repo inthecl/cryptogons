@@ -41,9 +41,9 @@ class battles extends Component {
       if (this.props.data.dragons[dl].serial === e.target.id) {
         this.setState({
           choiceGon: true,
-          choice_comb: this.props.data.dragons[dl].combination,
           choice_serial: this.props.data.dragons[dl].serial,
           choice_cbg: this.props.data.dragons[dl].choice_cbg,
+          choice_comb: this.props.data.dragons[dl].combination,
           choice_evolution: this.props.data.dragons[dl].combination.substring(0, 2),
           choice_property: this.props.data.dragons[dl].combination.substring(2, 4),
           choice_wing: this.props.data.dragons[dl].combination.substring(4, 6),
@@ -135,6 +135,7 @@ class battles extends Component {
                 choice_sword: this.props.data.dragons[dl].choice_sword,
                 choice_shield: this.props.data.dragons[dl].choice_shield,
                 choice_cbg: this.props.data.dragons[dl].choice_cbg,
+                comb: this.props.data.dragons[dl].combination,
                 evolution: this.props.data.dragons[dl].combination.substring(0, 2),
                 property: this.props.data.dragons[dl].combination.substring(2, 4),
                 wing: this.props.data.dragons[dl].combination.substring(4, 6),
@@ -220,27 +221,36 @@ class battles extends Component {
                           {item.choice_cbg !== 'null' &&
                             <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${item.choice_cbg}.png`}/>
                           }
-                          <div class="absolute">
-                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${item.evolution}${item.wing}${item.wingColor}.png`}/>
-                          </div>
-                          <div class="absolute">
-                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/3_horn/horn_${item.evolution}${item.horn}${item.hornColor}.png`}/>
-                          </div>
-                          <div class="absolute">
-                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/4_tail/tail_${item.evolution}${item.tail}${item.bodyColor}.png`}/>
-                          </div>
-                          <div class="absolute">
-                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/5_body/body_${item.evolution}${item.body}${item.bodyColor}.png`}/>
-                          </div>
-                          <div class="absolute">
-                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/6_eye/eye_${item.evolution}${item.eye}${item.eyeColor}.png`}/>
-                          </div>
-                          <div class="absolute">
-                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/7_mouth/mouth_${item.evolution}${item.mouth}.png`}/>
-                          </div>
-                          <div class="absolute">
-                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${item.evolution}${item.nose}.png`}/>
-                          </div>
+                          {item.evolution !== '03' &&
+                            <div>
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${item.evolution}${item.wing}${item.wingColor}.png`}/>
+                              </div>
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/3_horn/horn_${item.evolution}${item.horn}${item.hornColor}.png`}/>
+                              </div>
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/4_tail/tail_${item.evolution}${item.tail}${item.bodyColor}.png`}/>
+                              </div>
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/5_body/body_${item.evolution}${item.body}${item.bodyColor}.png`}/>
+                              </div>
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/6_eye/eye_${item.evolution}${item.eye}${item.eyeColor}.png`}/>
+                              </div>
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/7_mouth/mouth_${item.evolution}${item.mouth}.png`}/>
+                              </div>
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${item.evolution}${item.nose}.png`}/>
+                              </div>
+                            </div>
+                          }
+                          {item.evolution === '03' &&
+                            <div class="absolute">
+                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/step3/step3_03${item.comb.substring(4, 6)}${item.comb.substring(6, 8)}.png`}/>
+                            </div>
+                          }
                         </div>
                         <div className='item'>
                           <div className='l12'>
@@ -281,27 +291,36 @@ class battles extends Component {
                     {this.state.choice_cbg !== 'null' &&
                       <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${this.state.choice_cbg}.png`}/>
                     }
-                    <div class="absolute">
-                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${this.state.choice_evolution}${this.state.choice_wing}${this.state.choice_wingColor}.png`}/>
-                    </div>
-                    <div class="absolute">
-                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/3_horn/horn_${this.state.choice_evolution}${this.state.choice_horn}${this.state.choice_hornColor}.png`}/>
-                    </div>
-                    <div class="absolute">
-                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/4_tail/tail_${this.state.choice_evolution}${this.state.choice_tail}${this.state.choice_bodyColor}.png`}/>
-                    </div>
-                    <div class="absolute">
-                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/5_body/body_${this.state.choice_evolution}${this.state.choice_body}${this.state.choice_bodyColor}.png`}/>
-                    </div>
-                    <div class="absolute">
-                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/6_eye/eye_${this.state.choice_evolution}${this.state.choice_eye}${this.state.choice_eyeColor}.png`}/>
-                    </div>
-                    <div class="absolute">
-                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/7_mouth/mouth_${this.state.choice_evolution}${this.state.choice_mouth}.png`}/>
-                    </div>
-                    <div class="absolute">
-                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${this.state.choice_evolution}${this.state.choice_nose}.png`}/>
-                    </div>
+                    {this.state.choice_evolution !== '03' &&
+                      <div>
+                        <div class="absolute">
+                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${this.state.choice_evolution}${this.state.choice_wing}${this.state.choice_wingColor}.png`}/>
+                        </div>
+                        <div class="absolute">
+                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/3_horn/horn_${this.state.choice_evolution}${this.state.choice_horn}${this.state.choice_hornColor}.png`}/>
+                        </div>
+                        <div class="absolute">
+                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/4_tail/tail_${this.state.choice_evolution}${this.state.choice_tail}${this.state.choice_bodyColor}.png`}/>
+                        </div>
+                        <div class="absolute">
+                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/5_body/body_${this.state.choice_evolution}${this.state.choice_body}${this.state.choice_bodyColor}.png`}/>
+                        </div>
+                        <div class="absolute">
+                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/6_eye/eye_${this.state.choice_evolution}${this.state.choice_eye}${this.state.choice_eyeColor}.png`}/>
+                        </div>
+                        <div class="absolute">
+                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/7_mouth/mouth_${this.state.choice_evolution}${this.state.choice_mouth}.png`}/>
+                        </div>
+                        <div class="absolute">
+                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${this.state.choice_evolution}${this.state.choice_nose}.png`}/>
+                        </div>
+                      </div>
+                    }
+                    {this.state.choice_evolution === '03' &&
+                      <div class="absolute">
+                        <img src={`${process.env.PUBLIC_URL}/images/gonImages/step3/step3_03${this.state.choice_comb.substring(4, 6)}${this.state.choice_comb.substring(6, 8)}.png`}/>
+                      </div>
+                    }
                   </div>
                 ) : (
                   <div className="card-image">
