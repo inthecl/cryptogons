@@ -204,7 +204,7 @@ class gift extends Component {
                     {this.state.choice_cbg !== 'null' &&
                       <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${this.state.choice_cbg}.png`}/>
                     }
-                    {this.state.evolution !== '03' &&
+                    {this.state.evolution !== '03' && this.state.evolution !== '04' &&
                       <div>
                         <div class="absolute">
                           <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${this.state.evolution}${this.state.wing}${this.state.wingColor}.png`}/>
@@ -232,6 +232,11 @@ class gift extends Component {
                     {this.state.evolution === '03' &&
                         <div class="absolute">
                           <img src={`${process.env.PUBLIC_URL}/images/gonImages/step3/step3_03${this.state.comb.substring(4, 6)}${this.state.comb.substring(6, 8)}.png`}/>
+                        </div>
+                    }
+                    {this.state.evolution === '04' &&
+                        <div class="absolute">
+                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/step4/step4_04${this.state.comb.substring(4, 6)}${this.state.comb.substring(6, 8)}.png`}/>
                         </div>
                     }
                   </div>

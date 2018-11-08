@@ -538,7 +538,17 @@ const resolvers = {
       dragon.state = 'Sell'
       dragon.price = args.diamond
       dragon.release_date = String(Date.now())
-      dragon.cooldown = ['Very fast', Date.now() + 120000] // 임시로 2분 쿨타임. args.period로 입력받아야함
+      let period = null
+      if (args.period === 1) {
+        period = 60000
+      }
+      if (args.period === 2) {
+        period = 120000
+      }
+      if (args.period === 3) {
+        period = 180000
+      }
+      dragon.cooldown = ['Very fast', Date.now() + period] // 임시로 쿨타임. args.period로 입력받아야함
       return dragon.save()
     },
     dragonSellCancel: async (obj, args, ctx) => {
@@ -649,7 +659,17 @@ const resolvers = {
       dragon.state = 'Siring'
       dragon.price = args.diamond
       dragon.release_date = String(Date.now())
-      dragon.cooldown = ['Very fast', Date.now() + 120000] // 임시로 2분 쿨타임. args.period로 입력받아야함
+      let period = null
+      if (args.period === 1) {
+        period = 60000
+      }
+      if (args.period === 2) {
+        period = 120000
+      }
+      if (args.period === 3) {
+        period = 180000
+      }
+      dragon.cooldown = ['Very fast', Date.now() + period] // 임시로 쿨타임. args.period로 입력받아야함
       return dragon.save()
     },
     dragonSiringCancel: async (obj, args, ctx) => {
@@ -687,6 +707,11 @@ const resolvers = {
       recipient.activity.push(activity)
 
       return presenter.save(), recipient.save(), dragon.save()
+    },
+    dragonNameChange: async (obj, args, ctx) => {
+      const dragon = await ctx.models.Dragon.findOne({ serial: args.serial })
+      dragon.name = args.name
+      return dragon.save()
     },
     addUserIcon: async (obj, args, ctx) => {
       const user = await ctx.models.User.findOne({ email: args.email })

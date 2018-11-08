@@ -76,7 +76,7 @@ class record extends Component {
                       <div className="card-image">
 
                         <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${item.mycomb.substring(2, 4)}.png`}/>
-                        {item.mycomb.substring(0, 2) !== '03' &&
+                        {item.mycomb.substring(0, 2) !== '03' && item.mycomb.substring(0, 2) !== '04' &&
                           <div>
                             <div class="absolute">
                               <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${item.mycomb.substring(0, 2)}${item.mycomb.substring(4, 6)}${item.mycomb.substring(6, 8)}.png`}/>
@@ -106,6 +106,11 @@ class record extends Component {
                             <img src={`${process.env.PUBLIC_URL}/images/gonImages/step3/step3_03${item.mycomb.substring(4, 6)}${item.mycomb.substring(6, 8)}.png`}/>
                           </div>
                         }
+                        {item.mycomb.substring(0, 2) === '04' &&
+                          <div class="absolute">
+                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/step4/step4_04${item.mycomb.substring(4, 6)}${item.mycomb.substring(6, 8)}.png`}/>
+                          </div>
+                        }
                       </div>
                     </div>
                   </div>
@@ -121,7 +126,7 @@ class record extends Component {
                       <div className="card-image">
 
                         <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${item.enemycomb.substring(2, 4)}.png`}/>
-                        {item.mycomb.substring(0, 2) !== '03' &&
+                        {item.mycomb.substring(0, 2) !== '03' && item.mycomb.substring(0, 2) !== '04' &&
                           <div>
                             <div class="absolute">
                               <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${item.enemycomb.substring(0, 2)}${item.enemycomb.substring(4, 6)}${item.enemycomb.substring(6, 8)}.png`}/>
@@ -149,6 +154,11 @@ class record extends Component {
                         {item.enemycomb.substring(0, 2) === '03' &&
                           <div class="absolute">
                             <img src={`${process.env.PUBLIC_URL}/images/gonImages/step3/step3_03${item.enemycomb.substring(4, 6)}${item.enemycomb.substring(6, 8)}.png`}/>
+                          </div>
+                        }
+                        {item.enemycomb.substring(0, 2) === '04' &&
+                          <div class="absolute">
+                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/step4/step4_04${item.enemycomb.substring(4, 6)}${item.enemycomb.substring(6, 8)}.png`}/>
                           </div>
                         }
 

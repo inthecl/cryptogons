@@ -147,6 +147,7 @@ const typeDefs = `
     addUserIcon(email: String!, number: String!, name: String!, description: String!) : User
     editChoiceIcon(email: String!, number: String!) : User
     findbadge(email: String!) : User
+    dragonNameChange(email: String!, serial: String! name: String!) : Dragon
   }
 `
 export default typeDefs

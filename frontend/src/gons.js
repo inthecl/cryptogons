@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo'
 import { Link, Redirect } from 'react-router-dom'
 import M from 'materialize-css'
-import { finduser, dragons, editChoicecbg, editChoicesword, editChoiceshield, editUserDragonState, dragonPurchase, dragonSellCancel, dragonSiringCancel, battleUpdate, findbadge } from './queries'
+import { finduser, dragons, editChoicecbg, editChoicesword, editChoiceshield, editUserDragonState, dragonPurchase, dragonSellCancel, dragonSiringCancel, battleUpdate, findbadge, dragonNameChange } from './queries'
 import './App.css'
 import Layout from './Layout'
 import MyGonHeader from './MyGonHeader'
@@ -65,7 +65,9 @@ class gons extends Component {
       possible_shield: [],
       owner_email: null,
       owner_username: null,
-      owner_icon: null
+      owner_icon: null,
+      change_name: null,
+      new_name: null
     }
     this.handleChoiceCbg = this.handleChoiceCbg.bind(this)
     this.handleReleaseCbg = this.handleReleaseCbg.bind(this)
@@ -81,6 +83,9 @@ class gons extends Component {
     this.handleSiring = this.handleSiring.bind(this)
     this.handleSiringCancel = this.handleSiringCancel.bind(this)
     this.handleBuybtn = this.handleBuybtn.bind(this)
+    this.handleName = this.handleName.bind(this)
+    this.handleDragonName = this.handleDragonName.bind(this)
+    this.handleMatching = this.handleMatching.bind(this)
   }
   handleResting() {
     M.toast({ html: 'Resting' })
@@ -93,6 +98,9 @@ class gons extends Component {
   }
   handleSell() {
     M.toast({ html: 'Sell' })
+  }
+  handleMatching() {
+    M.toast({ html: 'Matching' })
   }
   handleSellCancel() {
     this.props.dragonSellCancel({ variables: { serial: this.props.match.params.serialnumber } })
@@ -224,6 +232,20 @@ class gons extends Component {
     this.props.editChoiceshield({ variables: { email: localStorage.getItem('email'), serial: this.props.match.params.serialnumber, choice_shield: 'null', add_armor: 0 } })
       .then((res) => {
         console.log(res)
+      })
+      .catch((errors) => {
+        console.log('errors: ', errors)
+      })
+  }
+  handleName(event) {
+    this.setState({ change_name: event.target.value })
+  }
+  handleDragonName() {
+    M.toast({ html: '드래곤 이름이 변경되었습니다' })
+    this.props.dragonNameChange({ variables: { email: localStorage.getItem('email'), serial: this.props.match.params.serialnumber, name: this.state.change_name } })
+      .then((res) => {
+        console.log(res)
+        this.setState({ new_name: this.state.change_name })
       })
       .catch((errors) => {
         console.log('errors: ', errors)
@@ -557,6 +579,26 @@ class gons extends Component {
             <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
           </div>
         </div>
+
+        <div id="modal_name" class="modal">
+          <div class="modal-content">
+            <h4>Modal Header</h4>
+            <div class="row margin-top-50">
+              <form class="col s12">
+                <div class="row">
+                  <div class="input-field col s12">
+                    <textarea id="textarea1" class="materialize-textarea" onChange={this.handleName}></textarea>
+                    <label for="textarea1">dragon name</label>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat" onClick={this.handleDragonName}>Agree</a>
+          </div>
+        </div>
+
         <div id="modal_cbg" class="modal">
           <div class="modal-content">
             <h4>Modal Header</h4>
@@ -639,7 +681,7 @@ class gons extends Component {
                             }
                           </div>
                         }
-                        {this.state.evolution !== '03' &&
+                        {this.state.evolution !== '03' && this.state.evolution !== '04' &&
                           <div>
                             <div class="absolute">
                               <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${this.state.evolution}${this.state.wing}${this.state.wingColor}.png`}/>
@@ -669,6 +711,11 @@ class gons extends Component {
                               <img src={`${process.env.PUBLIC_URL}/images/gonImages/step3/step3_03${this.state.comb.substring(4, 6)}${this.state.comb.substring(6, 8)}.png`}/>
                             </div>
                         }
+                        {this.state.evolution === '04' &&
+                            <div class="absolute">
+                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/step4/step4_04${this.state.comb.substring(4, 6)}${this.state.comb.substring(6, 8)}.png`}/>
+                            </div>
+                        }
                       </div>
                     </div>
                   </div>
@@ -678,28 +725,25 @@ class gons extends Component {
 
             <div class="detail-Explanation" >
               <div class="row">
-                <div className="left">
 
-                  {this.state.email !== localStorage.getItem('email') &&
-                    <div className="right margin-top-15">
-                      <span>
-                        <div class="left valign-wrapper">
-                          <div class="col s6 m6 l12">
-                            <a href={`/profile/${this.state.owner_username}/1`}><img src={`${process.env.PUBLIC_URL}/images/icon/icon_${this.state.owner_icon}.png`} alt="" class="circle responsive-img"/></a>
-                          </div>
-                          <div class="col">
-                            <span class="black-text">
-                              <a href={`/profile/${this.state.owner_username}/1`}><h5>{this.state.owner_email}</h5></a>
-                              <a href={`/profile/${this.state.owner_username}/1`}><p>{this.state.owner_username}</p></a>
-                            </span>
-                          </div>
+                {this.state.email !== localStorage.getItem('email') &&
+                  <div className="right margin-top-15">
+                    <span>
+                      <div class="left valign-wrapper">
+                        <div class="col s6 m6 l12">
+                          <a href={`/profile/${this.state.owner_username}/1`}><img src={`${process.env.PUBLIC_URL}/images/icon/icon_${this.state.owner_icon}.png`} alt="" class="circle responsive-img"/></a>
                         </div>
-                      </span>
-                    </div>
-                  }
+                        <div class="col">
+                          <span class="black-text">
+                            <a href={`/profile/${this.state.owner_username}/1`}><h5>{this.state.owner_email}</h5></a>
+                            <a href={`/profile/${this.state.owner_username}/1`}><p>{this.state.owner_username}</p></a>
+                          </span>
+                        </div>
+                      </div>
+                    </span>
+                  </div>
+                }
 
-                  <font size="7">{this.state.name}</font>&nbsp;&nbsp;&nbsp;&nbsp;<font size="6">{this.state.serial}</font>
-                </div>
                 {this.state.email !== localStorage.getItem('email') && this.state.state === 'New' &&
                   <div className="right margin-top-15">
                     <span>
@@ -722,8 +766,8 @@ class gons extends Component {
                   </div>
                 }
                 {this.state.email === localStorage.getItem('email') &&
-                  <div className="right margin-top-15">
-                    {this.state.state !== 'Resting' && this.state.state !== 'brooding' && this.state.state !== 'during battle' && this.state.state !== 'Sell' && this.state.state !== 'Siring' &&
+                  <div className="right margin-top-30">
+                    {this.state.state !== 'Resting' && this.state.state !== 'brooding' && this.state.state !== 'during battle' && this.state.state !== 'Sell' && this.state.state !== 'Siring' && this.state.state !== 'Matching' &&
                       <span>
                         <a href={`/breed/${this.state.serial}`} class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Breed</a>
                         <a href={`/sell/${this.state.serial}`} class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Sell</a>
@@ -765,8 +809,23 @@ class gons extends Component {
                         <a class="waves-effect waves-light btn-large" onClick={this.handleSiring}><i class="material-icons left">cloud</i>Gift</a>
                       </span>
                     }
+                    {this.state.state === 'Matching' &&
+                      <span>
+                        <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleMatching}><i class="material-icons left">cloud</i>Breed</a>
+                        <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleMatching}><i class="material-icons left">cloud</i>SiringCancel</a>
+                        <a class="waves-effect waves-light btn-large" onClick={this.handleMatching}><i class="material-icons left">cloud</i>Gift</a>
+                      </span>
+                    }
                   </div>
                 }
+
+                {this.state.new_name === null &&
+                  <font size="7">{this.state.name}<a class="modal-trigger" href="#modal_name"><i class="Medium material-icons margin-left-10">edit</i></a></font>
+                }
+                {this.state.new_name !== null &&
+                  <font size="7">{this.state.new_name}<a class="modal-trigger" href="#modal_name"><i class="Medium material-icons margin-left-10">edit</i></a></font>
+                }
+                <p><font size="6">{this.state.serial}</font></p>
               </div>
 
               - win {this.state.win}&nbsp;&nbsp;&nbsp;- lose {this.state.lose}&nbsp;&nbsp;&nbsp;- rate {this.state.winning_rate}&nbsp;&nbsp;&nbsp;- gen {this.state.gen}&nbsp;&nbsp;&nbsp;- cooldown {this.state.cooldown[0]}
@@ -910,10 +969,13 @@ class gons extends Component {
                                   {item.evolution === '03' &&
                                     <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg3.png`}/>
                                   }
+                                  {item.evolution === '04' &&
+                                    <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg.png`}/>
+                                  }
                                 </div>
                               </div>
                             }
-                            {item.state !== 'Egg' && item.evolution !== '03' &&
+                            {item.state !== 'Egg' && item.evolution !== '03' && item.evolution !== '04' &&
                               <div>
                                 <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${item.property}.png`}/>
                                 <div class="absolute">
@@ -944,6 +1006,14 @@ class gons extends Component {
                                 <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${item.property}.png`}/>
                                 <div class="absolute">
                                   <a href={`/gons/${item.serial}`}><img src={`${process.env.PUBLIC_URL}/images/gonImages/step3/step3_03${item.comb.substring(4, 6)}${item.comb.substring(6, 8)}.png`}/></a>
+                                </div>
+                              </div>
+                            }
+                            {item.state !== 'Egg' && item.evolution === '04' &&
+                              <div>
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${item.property}.png`}/>
+                                <div class="absolute">
+                                  <a href={`/gons/${item.serial}`}><img src={`${process.env.PUBLIC_URL}/images/gonImages/step4/step4_04${item.comb.substring(4, 6)}${item.comb.substring(6, 8)}.png`}/></a>
                                 </div>
                               </div>
                             }
@@ -979,5 +1049,6 @@ export default compose(
   graphql(dragonSellCancel, { name: 'dragonSellCancel' }),
   graphql(dragonSiringCancel, { name: 'dragonSiringCancel' }),
   graphql(battleUpdate, { name: 'battleUpdate' }),
-  graphql(findbadge, { name: 'findbadge' })
+  graphql(findbadge, { name: 'findbadge' }),
+  graphql(dragonNameChange, { name: 'dragonNameChange' })
 )(gons)

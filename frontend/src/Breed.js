@@ -43,7 +43,7 @@ class breed extends Component {
       username: 'JaeDragon',
       generation: 'generation',
       cooldown: 'cooldown',
-      parents: 'parents,parents',
+      parents: null,
       children: 'children,children',
       choiceGon: false,
       choice_serial: null,
@@ -88,6 +88,8 @@ class breed extends Component {
       cNose: null,
       step3: null,
       step3_ver: null,
+      step4: null,
+      step4_ver: null,
       cross: null
     }
     this.btnPricePlus = this.btnPricePlus.bind(this)
@@ -146,16 +148,19 @@ class breed extends Component {
     }
   }
   btnSiring() {
-    console.log('btnSiring')
-    this.props.dragonSiring({ variables: { serial: this.props.match.params.serialnumber, diamond: this.state.siring_price, period: this.state.siring_period } })
-      .then((res) => {
-        console.log(res)
-        M.toast({ html: '종마등록 완료' })
-        this.setState({ redirect: true })
-      })
-      .catch((errors) => {
-        console.log('errors: ', errors)
-      })
+    if (this.state.evolution !== '03' && this.state.evolution !== '04') {
+      this.props.dragonSiring({ variables: { serial: this.props.match.params.serialnumber, diamond: this.state.siring_price, period: this.state.siring_period } })
+        .then((res) => {
+          console.log(res)
+          M.toast({ html: '종마등록 완료' })
+          this.setState({ redirect: true })
+        })
+        .catch((errors) => {
+          console.log('errors: ', errors)
+        })
+    } else {
+      M.toast({ html: '종마로 등록할 수 없습니다' })
+    }
   }
   btnSelectGon(e) {
     console.log('btnSelectGon', e.target.id)
@@ -183,7 +188,7 @@ class breed extends Component {
     }
   }
   btnBreed(event) {
-    if (this.state.choiceGon && this.state.evolution === this.state.choice_evolution && this.state.evolution !== '03' && this.state.choice_evolution !== '03') {
+    if (this.state.choiceGon && this.state.evolution === this.state.choice_evolution && this.state.evolution !== '03' && this.state.choice_evolution !== '03' && this.state.evolution !== '04' && this.state.choice_evolution !== '04') {
       const pad = (n, width) => {
         n = n + ''
         return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n
@@ -193,21 +198,26 @@ class breed extends Component {
       const eSum = Number(this.state.evolution) + Number(this.state.choice_evolution) // 부모단계의 합계 2,4
 
       // 같은 단계만 교배 가능, 3단계는 교배불가
-      // 1단계 + 1단계 = 1 or 2
+      // 1단계 + 1단계 = 1 or 2 or 4
       if (eSum === 2) {
-        const lottery = Math.floor(Math.random() * 100) + 1 // 0.01확률
-        if (lottery >= 1) {
+        const lottery = Math.floor(Math.random() * 1000) + 1 // 0.01확률
+        if (lottery >= 12) {
           this.state.new_evolution = '01'
           this.state.cross = 'one'
-        } else {
+        }
+        if (lottery >= 1 && lottery <= 10) {
           this.state.new_evolution = '02'
           this.state.cross = 'two'
         }
+        if (lottery === 11) {
+          this.state.new_evolution = '04'
+          this.state.cross = 'four'
+        }
       }
-      // 2단계 + 2단계 = 1 or 2 or 3
+      // 2단계 + 2단계 = 1 or 2 or 3 or 4
       if (eSum === 4) {
         const lottery = Math.floor(Math.random() * 1000) + 1
-        if (lottery > 10) {
+        if (lottery >= 12) {
           this.state.new_evolution = '01'
           this.state.cross = 'two'
         }
@@ -215,8 +225,11 @@ class breed extends Component {
           this.state.new_evolution = '02'
           this.state.cross = 'one'
         }
-        if (lottery < 2) {
+        if (lottery === 1) {
           this.state.new_evolution = '03'
+        }
+        if (lottery === 11) {
+          this.state.new_evolution = '04'
         }
       }
 
@@ -250,6 +263,10 @@ class breed extends Component {
       if (this.state.new_evolution === '03') {
         this.state.step3 = pad(Math.floor(Math.random() * 3) + 1, 2)
         this.state.step3_ver = pad(Math.floor(Math.random() * 3) + 1, 2)
+      }
+      if (this.state.new_evolution === '04') {
+        this.state.step4 = pad(Math.floor(Math.random() * 3) + 1, 2)
+        this.state.step4_ver = pad(Math.floor(Math.random() * 3) + 1, 2)
       }
 
       // property
@@ -390,6 +407,9 @@ class breed extends Component {
       if (this.state.new_evolution === '03') {
         this.state.new_comb = this.state.new_evolution + this.state.new_property + this.state.step3 + this.state.step3_ver
       }
+      if (this.state.new_evolution === '04') {
+        this.state.new_comb = this.state.new_evolution + this.state.new_property + this.state.step4 + this.state.step4_ver
+      }
 
       console.log('email', localStorage.getItem('email'))
       console.log('new_comb', this.state.new_comb)
@@ -472,6 +492,7 @@ class breed extends Component {
           this.state.state = this.state.change_state
           this.state.choice_cbg = this.props.data.dragons[dl].choice_cbg
           this.state.comb = this.props.data.dragons[dl].combination
+          this.state.parents = this.props.data.dragons[dl].parents
           this.state.evolution = this.state.comb.substring(0, 2)
           this.state.property = this.state.comb.substring(2, 4)
           this.state.wing = this.state.comb.substring(4, 6)
@@ -519,7 +540,7 @@ class breed extends Component {
             } else {
               this.state.change_state = this.props.data.dragons[dl].state
             }
-            if (Date.now() > this.props.data.dragons[dl].cooldown[1] && this.props.data.dragons[dl].serial !== this.props.match.params.serialnumber && this.props.data.dragons[dl].combination.substring(0, 2) !== '03') {
+            if (Date.now() > this.props.data.dragons[dl].cooldown[1] && this.props.data.dragons[dl].serial !== this.props.match.params.serialnumber && this.props.data.dragons[dl].combination.substring(0, 2) !== '03' && this.props.data.dragons[dl].combination.substring(0, 2) !== '04' && this.props.data.dragons[dl].parents[0] !== this.state.parents[0] && this.props.data.dragons[dl].parents[0] !== this.state.parents[1] && this.props.data.dragons[dl].parents[1] !== this.state.parents[0] && this.props.data.dragons[dl].parents[1] !== this.state.parents[1] && this.props.data.dragons[dl].serial !== this.state.parents[0] && this.props.data.dragons[dl].serial !== this.state.parents[1]) {
               this.state.mdragons[dcx] = {
                 name: this.props.data.dragons[dl].name,
                 serial: this.props.data.dragons[dl].serial,
@@ -549,6 +570,7 @@ class breed extends Component {
         M.toast({ html: '해당 용을 찾을 수 없습니다' })
         return <Redirect to='/'/>
       }
+      console.log('현재용부모 : ', this.state.parents)
     }
     return (
       <Layout>
@@ -577,7 +599,7 @@ class breed extends Component {
                         }
                       </div>
                     }
-                    {this.state.evolution !== '03' &&
+                    {this.state.evolution !== '03' && this.state.evolution !== '04' &&
                       <div>
                         <div class="absolute">
                           <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${this.state.evolution}${this.state.wing}${this.state.wingColor}.png`}/>
@@ -605,6 +627,11 @@ class breed extends Component {
                     {this.state.evolution === '03' &&
                         <div class="absolute">
                           <img src={`${process.env.PUBLIC_URL}/images/gonImages/step3/step3_03${this.state.comb.substring(4, 6)}${this.state.comb.substring(6, 8)}.png`}/>
+                        </div>
+                    }
+                    {this.state.evolution === '04' &&
+                        <div class="absolute">
+                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/step4/step4_04${this.state.comb.substring(4, 6)}${this.state.comb.substring(6, 8)}.png`}/>
                         </div>
                     }
                   </div>
@@ -769,7 +796,7 @@ class breed extends Component {
                   <div className="card z-depth-0">
                     <div className="card-image">
                       <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${this.state.property}.png`}/>
-                      {this.state.evolution !== '03' &&
+                      {this.state.evolution !== '03' && this.state.evolution !== '04' &&
                         <div>
                           <div class="absolute">
                             <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${this.state.evolution}${this.state.wing}${this.state.wingColor}.png`}/>
@@ -797,6 +824,11 @@ class breed extends Component {
                       {this.state.evolution === '03' &&
                           <div class="absolute">
                             <img src={`${process.env.PUBLIC_URL}/images/gonImages/step3/step3_03${this.state.comb.substring(4, 6)}${this.state.comb.substring(6, 8)}.png`}/>
+                          </div>
+                      }
+                      {this.state.evolution === '04' &&
+                          <div class="absolute">
+                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/step4/step4_04${this.state.comb.substring(4, 6)}${this.state.comb.substring(6, 8)}.png`}/>
                           </div>
                       }
                     </div>

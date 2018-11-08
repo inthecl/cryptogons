@@ -160,7 +160,7 @@ class ring extends Component {
                         {this.state.choice_cbg !== 'null' &&
                           <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${this.state.choice_cbg}.png`}/>
                         }
-                        {this.state.choice_evolution !== '03' &&
+                        {this.state.choice_evolution !== '03' && this.state.choice_evolution !== '04' &&
                           <div>
                             <div class="absolute">
                               <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${this.state.choice_evolution}${this.state.choice_wing}${this.state.choice_wingColor}.png`}/>
@@ -188,6 +188,11 @@ class ring extends Component {
                         {this.state.choice_evolution === '03' &&
                           <div class="absolute">
                             <img src={`${process.env.PUBLIC_URL}/images/gonImages/step3/step3_03${this.state.choice_comb.substring(4, 6)}${this.state.choice_comb.substring(6, 8)}.png`}/>
+                          </div>
+                        }
+                        {this.state.choice_evolution === '04' &&
+                          <div class="absolute">
+                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/step4/step4_04${this.state.choice_comb.substring(4, 6)}${this.state.choice_comb.substring(6, 8)}.png`}/>
                           </div>
                         }
                       </div>
@@ -230,7 +235,7 @@ class ring extends Component {
                           {this.state.enemy_cbg !== 'null' &&
                             <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${this.state.enemy_cbg}.png`}/>
                           }
-                          {this.state.enemy_evolution !== '03' &&
+                          {this.state.enemy_evolution !== '03' && this.state.enemy_evolution !== '04' &&
                             <div>
                               <div class="absolute">
                                 <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${this.state.enemy_evolution}${this.state.enemy_wing}${this.state.enemy_wingColor}.png`}/>
@@ -258,6 +263,11 @@ class ring extends Component {
                           {this.state.enemy_evolution === '03' &&
                             <div class="absolute">
                               <img src={`${process.env.PUBLIC_URL}/images/gonImages/step3/step3_03${this.state.enemy_comb.substring(4, 6)}${this.state.enemy_comb.substring(6, 8)}.png`}/>
+                            </div>
+                          }
+                          {this.state.enemy_evolution === '04' &&
+                            <div class="absolute">
+                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/step4/step4_04${this.state.enemy_comb.substring(4, 6)}${this.state.enemy_comb.substring(6, 8)}.png`}/>
                             </div>
                           }
                         </div>

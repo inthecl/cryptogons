@@ -821,5 +821,36 @@ query findprofile($username: String!){
  }
 }
 `
+const dragonNameChange = gql`
+mutation dragonNameChange($email: String!, $serial: String!, $name: String!) {
+  dragonNameChange(email:$email, serial:$serial, name:$name) {
+    email
+    serial
+    combination
+    name
+    birthday
+    state
+    price
+    period
+    release_date
+    gen
+    cooldown
+    parents
+    child
+    choice_cbg
+    choice_sword
+    choice_shield
+    cintamani
+    base_damage
+    add_damage
+    base_armor
+    add_armor
+    win
+    lose
+    winning_rate
+    ranking
+   }
+  }
+  `
 
-export { registerUser, login, CheckEmailquery, dragons, finddragon, finduser, addUserDragon, editChoicecbg, editChoicesword, editChoiceshield, finditem, itemPurchase, editUserDragonState, dragonPurchase, dragonSell, dragonSellCancel, dragonSiring, dragonSiringCancel, dragonSiringPurchase, dragonGift, battleStart, battleCancle, battleUpdate, editChoiceIcon, findbadge, findprofile }
+export { registerUser, login, CheckEmailquery, dragons, finddragon, finduser, addUserDragon, editChoicecbg, editChoicesword, editChoiceshield, finditem, itemPurchase, editUserDragonState, dragonPurchase, dragonSell, dragonSellCancel, dragonSiring, dragonSiringCancel, dragonSiringPurchase, dragonGift, battleStart, battleCancle, battleUpdate, editChoiceIcon, findbadge, findprofile, dragonNameChange }

@@ -150,7 +150,7 @@ class Market extends Component {
                     <div className="card">
                       <div className="card-image">
                         <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${item.property}.png`}/>
-                        {item.evolution !== '03' &&
+                        {item.evolution !== '03' && item.evolution !== '04' &&
                           <div>
                             <div class="absolute">
                               <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${item.evolution}${item.wing}${item.wingColor}.png`}/>
@@ -178,6 +178,11 @@ class Market extends Component {
                         {item.evolution === '03' &&
                           <div class="absolute">
                             <img src={`${process.env.PUBLIC_URL}/images/gonImages/step3/step3_03${item.comb.substring(4, 6)}${item.comb.substring(6, 8)}.png`}/>
+                          </div>
+                        }
+                        {item.evolution === '04' &&
+                          <div class="absolute">
+                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/step4/step4_04${item.comb.substring(4, 6)}${item.comb.substring(6, 8)}.png`}/>
                           </div>
                         }
                         <span className="card-title">Card Title</span>
