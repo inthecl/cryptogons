@@ -1,8 +1,9 @@
 cryptogons backend
 
-// dragons에 New추가
+// dragons에 New추가, 기본의 경우 가격(price)만 입력
+// 이벤트용 추가시 이벤트용 종류(eventnumber)와 이벤트용 아이콘번호(eventicon) 추가입력, dragonPurchase 뮤테이션에서 아이콘추가부분 수정
 mutation{
-  addDragon(price: 100) {
+  addDragon(price: 100, eventnumber: String, eventicon: String) {
     email
     serial
     combination

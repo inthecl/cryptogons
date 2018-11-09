@@ -148,7 +148,7 @@ class breed extends Component {
     }
   }
   btnSiring() {
-    if (this.state.evolution !== '03' && this.state.evolution !== '04') {
+    if (this.state.evolution !== '03' && this.state.evolution !== '04' && this.state.evolution !== '05') {
       this.props.dragonSiring({ variables: { serial: this.props.match.params.serialnumber, diamond: this.state.siring_price, period: this.state.siring_period } })
         .then((res) => {
           console.log(res)
@@ -188,7 +188,7 @@ class breed extends Component {
     }
   }
   btnBreed(event) {
-    if (this.state.choiceGon && this.state.evolution === this.state.choice_evolution && this.state.evolution !== '03' && this.state.choice_evolution !== '03' && this.state.evolution !== '04' && this.state.choice_evolution !== '04') {
+    if (this.state.choiceGon && this.state.evolution === this.state.choice_evolution && this.state.evolution !== '03' && this.state.choice_evolution !== '03' && this.state.evolution !== '04' && this.state.choice_evolution !== '04' && this.state.evolution !== '05' && this.state.choice_evolution !== '05') {
       const pad = (n, width) => {
         n = n + ''
         return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n
@@ -540,7 +540,7 @@ class breed extends Component {
             } else {
               this.state.change_state = this.props.data.dragons[dl].state
             }
-            if (Date.now() > this.props.data.dragons[dl].cooldown[1] && this.props.data.dragons[dl].serial !== this.props.match.params.serialnumber && this.props.data.dragons[dl].combination.substring(0, 2) !== '03' && this.props.data.dragons[dl].combination.substring(0, 2) !== '04' && this.props.data.dragons[dl].parents[0] !== this.state.parents[0] && this.props.data.dragons[dl].parents[0] !== this.state.parents[1] && this.props.data.dragons[dl].parents[1] !== this.state.parents[0] && this.props.data.dragons[dl].parents[1] !== this.state.parents[1] && this.props.data.dragons[dl].serial !== this.state.parents[0] && this.props.data.dragons[dl].serial !== this.state.parents[1]) {
+            if (Date.now() > this.props.data.dragons[dl].cooldown[1] && this.props.data.dragons[dl].serial !== this.props.match.params.serialnumber && this.props.data.dragons[dl].combination.substring(0, 2) !== '03' && this.props.data.dragons[dl].combination.substring(0, 2) !== '04' && this.props.data.dragons[dl].combination.substring(0, 2) !== '05' && this.props.data.dragons[dl].parents[0] !== this.state.parents[0] && this.props.data.dragons[dl].parents[0] !== this.state.parents[1] && this.props.data.dragons[dl].parents[1] !== this.state.parents[0] && this.props.data.dragons[dl].parents[1] !== this.state.parents[1] && this.props.data.dragons[dl].serial !== this.state.parents[0] && this.props.data.dragons[dl].serial !== this.state.parents[1]) {
               this.state.mdragons[dcx] = {
                 name: this.props.data.dragons[dl].name,
                 serial: this.props.data.dragons[dl].serial,
@@ -599,7 +599,7 @@ class breed extends Component {
                         }
                       </div>
                     }
-                    {this.state.evolution !== '03' && this.state.evolution !== '04' &&
+                    {this.state.evolution !== '03' && this.state.evolution !== '04' && this.state.evolution !== '05' &&
                       <div>
                         <div class="absolute">
                           <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${this.state.evolution}${this.state.wing}${this.state.wingColor}.png`}/>
@@ -632,6 +632,11 @@ class breed extends Component {
                     {this.state.evolution === '04' &&
                         <div class="absolute">
                           <img src={`${process.env.PUBLIC_URL}/images/gonImages/step4/step4_04${this.state.comb.substring(4, 6)}${this.state.comb.substring(6, 8)}.png`}/>
+                        </div>
+                    }
+                    {this.state.evolution === '05' &&
+                        <div class="absolute">
+                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/step5/step5_05${this.state.comb.substring(4, 6)}${this.state.comb.substring(6, 8)}.png`}/>
                         </div>
                     }
                   </div>
@@ -796,7 +801,7 @@ class breed extends Component {
                   <div className="card z-depth-0">
                     <div className="card-image">
                       <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${this.state.property}.png`}/>
-                      {this.state.evolution !== '03' && this.state.evolution !== '04' &&
+                      {this.state.evolution !== '03' && this.state.evolution !== '04' && this.state.evolution !== '05' &&
                         <div>
                           <div class="absolute">
                             <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${this.state.evolution}${this.state.wing}${this.state.wingColor}.png`}/>
@@ -829,6 +834,11 @@ class breed extends Component {
                       {this.state.evolution === '04' &&
                           <div class="absolute">
                             <img src={`${process.env.PUBLIC_URL}/images/gonImages/step4/step4_04${this.state.comb.substring(4, 6)}${this.state.comb.substring(6, 8)}.png`}/>
+                          </div>
+                      }
+                      {this.state.evolution === '05' &&
+                          <div class="absolute">
+                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/step5/step5_05${this.state.comb.substring(4, 6)}${this.state.comb.substring(6, 8)}.png`}/>
                           </div>
                       }
                     </div>

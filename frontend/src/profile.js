@@ -184,9 +184,15 @@ class profile extends Component {
                                   {item.evolution === '03' &&
                                     <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg3.png`}/>
                                   }
+                                  {item.evolution === '04' &&
+                                    <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg.png`}/>
+                                  }
+                                  {item.evolution === '05' &&
+                                    <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg.png`}/>
+                                  }
                                 </div>
                               }
-                              {item.state !== 'Egg' && item.evolution !== '03' &&
+                              {item.state !== 'Egg' && item.evolution !== '03' && item.evolution !== '04' && item.evolution !== '05' &&
                                 <div>
                                   <div class="absolute">
                                     <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${item.evolution}${item.wing}${item.wingColor}.png`}/>
@@ -214,6 +220,16 @@ class profile extends Component {
                               {item.state !== 'Egg' && item.evolution === '03' &&
                                 <div class="absolute">
                                   <img src={`${process.env.PUBLIC_URL}/images/gonImages/step3/step3_03${item.comb.substring(4, 6)}${item.comb.substring(6, 8)}.png`}/>
+                                </div>
+                              }
+                              {item.state !== 'Egg' && item.evolution === '04' &&
+                                <div class="absolute">
+                                  <img src={`${process.env.PUBLIC_URL}/images/gonImages/step4/step4_04${item.comb.substring(4, 6)}${item.comb.substring(6, 8)}.png`}/>
+                                </div>
+                              }
+                              {item.state !== 'Egg' && item.evolution === '05' &&
+                                <div class="absolute">
+                                  <img src={`${process.env.PUBLIC_URL}/images/gonImages/step5/step5_05${item.comb.substring(4, 6)}${item.comb.substring(6, 8)}.png`}/>
                                 </div>
                               }
                             </div>

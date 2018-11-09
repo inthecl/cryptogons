@@ -61,7 +61,7 @@ const resolvers = {
         baseDamage = Math.floor(Math.random() * 5) + 5 // 5 ~ 9
         baseArmor = Math.floor(Math.random() * 5) + 5 // 5 ~ 9
       }
-      if (evolution === '02') {
+      if (evolution === '02' || evolution === '04') {
         baseDamage = Math.floor(Math.random() * 5) + 7 // 7 ~ 11
         baseArmor = Math.floor(Math.random() * 5) + 7 // 7 ~ 11
       }
@@ -127,25 +127,32 @@ const resolvers = {
       const statistic = await ctx.models.Statistic.findOne()
       dragon.email = 'devman'
       dragon.name = `dragon${statistic.dragoncount}`
-      let tmp = '01'
-      const dragons = await ctx.models.Dragon.find()
-      console.log(dragons)
-      while (dragons.length !== 0) {
-        tmp += `0${String(Math.floor(Math.random() * 5) + 1)}`
-        for (let i = 0; i < 11; i += 1) {
-          tmp += `0${String(Math.floor(Math.random() * 3) + 1)}`
-        }
-        let i = 0
-        for (i = 0; i < dragons.length; i += 1) {
-          if (dragons[i].combination === tmp) {
+      if (!args.eventnumber) {
+        let tmp = '01'
+        const dragons = await ctx.models.Dragon.find()
+        console.log(dragons)
+        while (dragons.length !== 0) {
+          tmp += `0${String(Math.floor(Math.random() * 5) + 1)}`
+          for (let i = 0; i < 11; i += 1) {
+            tmp += `0${String(Math.floor(Math.random() * 3) + 1)}`
+          }
+          let i = 0
+          for (i = 0; i < dragons.length; i += 1) {
+            if (dragons[i].combination === tmp) {
+              break
+            }
+          }
+          if (i === dragons.length) {
             break
           }
         }
-        if (i === dragons.length) {
-          break
-        }
+        dragon.combination = tmp
       }
-      dragon.combination = tmp
+      // 이벤트용을 추가할 경우
+      if (args.eventnumber) {
+        const property = `0${String(Math.floor(Math.random() * 5) + 1)}` // 속성, 2자리 01~05까지 랜덤
+        dragon.combination = '05' + property + args.eventnumber + args.eventicon
+      }
       dragon.birthday = String(Date.now())
       dragon.state = 'New'
       dragon.price = args.price
@@ -159,9 +166,9 @@ const resolvers = {
       dragon.choice_sword = 'null'
       dragon.choice_shield = 'null'
       dragon.cintamani = []
-      dragon.base_damage = Math.floor(Math.random() * 5) + 9
+      dragon.base_damage = Math.floor(Math.random() * 5) + 5 // 출시 할 1단계용과 이벤트용의 기본데미지, 기본아머는 같다
       dragon.add_damage = 0
-      dragon.base_armor = Math.floor(Math.random() * 5) + 9
+      dragon.base_armor = Math.floor(Math.random() * 5) + 5
       dragon.add_armor = 0
       dragon.win = 0
       dragon.lose = 0
@@ -499,6 +506,24 @@ const resolvers = {
               contents: ['devman', buyer.username, dragon.serial, args.diamond] // 규칙 판매자 이름, 구매자 이름, 용 시리얼, 가격
             })
             buyer.activity.push(activity)
+
+            // 이벤트용을 구매할 경우 아이콘 추가입력
+            if (dragon.combination.substring(0, 2) === '05') {
+              const eventicon = dragon.combination.substring(6, 8)
+              let eventname = null
+              let eventdesc = null
+              // 이벤트 아이콘 추가에 따라 이부분 수정
+              if (eventicon === '05') {
+                eventname = 'World Cup'
+                eventdesc = '2002 Korea World Cup Commemorative'
+              }
+              const test = Object.assign({
+                number: eventicon,
+                name: eventname,
+                description: eventdesc
+              })
+              buyer.icon.push(test)
+            }
           } else {
             seller = await ctx.models.User.findOne({ email: dragon.email })
             seller.diamond += args.diamond
@@ -604,7 +629,7 @@ const resolvers = {
           baseDamage = Math.floor(Math.random() * 5) + 5 // 5 ~ 9
           baseArmor = Math.floor(Math.random() * 5) + 5 // 5 ~ 9
         }
-        if (evolution === '02') {
+        if (evolution === '02' || evolution === '04') {
           baseDamage = Math.floor(Math.random() * 5) + 7 // 7 ~ 11
           baseArmor = Math.floor(Math.random() * 5) + 7 // 7 ~ 11
         }

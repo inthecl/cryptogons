@@ -119,7 +119,7 @@ const typeDefs = `
   }
   type Mutation{
     resetCount(usercount: Int, dragoncount: Int): Statistic
-    addDragon(name:String, price: Int!): Dragon
+    addDragon(name:String, price: Int!, eventnumber: String, eventicon: String): Dragon
     addBook(title:String,author:String): Book
     registerUser(email:String!,username:String!,password:String!): User
     addUserDragon(email: String!, new_comb: String!, parents: [String]!): Dragon

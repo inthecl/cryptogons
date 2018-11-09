@@ -681,7 +681,7 @@ class gons extends Component {
                             }
                           </div>
                         }
-                        {this.state.evolution !== '03' && this.state.evolution !== '04' &&
+                        {this.state.evolution !== '03' && this.state.evolution !== '04' && this.state.evolution !== '05' &&
                           <div>
                             <div class="absolute">
                               <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${this.state.evolution}${this.state.wing}${this.state.wingColor}.png`}/>
@@ -714,6 +714,11 @@ class gons extends Component {
                         {this.state.evolution === '04' &&
                             <div class="absolute">
                               <img src={`${process.env.PUBLIC_URL}/images/gonImages/step4/step4_04${this.state.comb.substring(4, 6)}${this.state.comb.substring(6, 8)}.png`}/>
+                            </div>
+                        }
+                        {this.state.evolution === '05' &&
+                            <div class="absolute">
+                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/step5/step5_05${this.state.comb.substring(4, 6)}${this.state.comb.substring(6, 8)}.png`}/>
                             </div>
                         }
                       </div>
@@ -820,10 +825,13 @@ class gons extends Component {
                 }
 
                 {this.state.new_name === null &&
-                  <font size="7">{this.state.name}<a class="modal-trigger" href="#modal_name"><i class="Medium material-icons margin-left-10">edit</i></a></font>
+                  <font size="7">{this.state.name}</font>
                 }
                 {this.state.new_name !== null &&
-                  <font size="7">{this.state.new_name}<a class="modal-trigger" href="#modal_name"><i class="Medium material-icons margin-left-10">edit</i></a></font>
+                  <font size="7">{this.state.new_name}</font>
+                }
+                {this.state.email === localStorage.getItem('email') &&
+                  <a class="modal-trigger" href="#modal_name"><i class="Medium material-icons margin-left-10">edit</i></a>
                 }
                 <p><font size="6">{this.state.serial}</font></p>
               </div>
@@ -831,7 +839,6 @@ class gons extends Component {
               - win {this.state.win}&nbsp;&nbsp;&nbsp;- lose {this.state.lose}&nbsp;&nbsp;&nbsp;- rate {this.state.winning_rate}&nbsp;&nbsp;&nbsp;- gen {this.state.gen}&nbsp;&nbsp;&nbsp;- cooldown {this.state.cooldown[0]}
                   &nbsp;&nbsp;&nbsp;- price {this.state.price}&nbsp;&nbsp;&nbsp;- birthday {this.state.birthday}
               <br/><br/><br/>
-
 
               {this.state.email !== localStorage.getItem('email') &&
                 <div>
