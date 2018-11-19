@@ -1,9 +1,8 @@
 cryptogons backend
 
-// dragons에 New추가, 기본의 경우 가격(price)만 입력
-// 이벤트용 추가시 이벤트용 종류(eventnumber)와 이벤트용 아이콘번호(eventicon) 추가입력, dragonPurchase 뮤테이션에서 아이콘추가부분 수정
+// 마켓에 기본용 추가 : 가격(price)만 입력
 mutation{
-  addDragon(price: 100, eventnumber: String, eventicon: String) {
+  addDragon(price: 100) {
     email
     serial
     combination
@@ -28,6 +27,20 @@ mutation{
     lose
     winning_rate
     ranking
+  }
+}
+// 이벤트에 이벤트용 추가 : 이벤트아이콘이미지(증정) 추가 후 이벤트드래곤 생성 egold or ediamond or etrophy
+mutation{
+  addeDragon(ename: "test", edesc: "설명", enumber: "01", eicon: "05", ediamond: 100, eperio: 120000) {
+    ename
+    enumber
+    eicon
+    egold
+    ediamond
+    etrophy
+    eperiod
+    combination
+    release_date
   }
 }
 

@@ -94,6 +94,19 @@ const Dragon = mongoose.model('dragon', {
   winning_rate: Number,
   ranking: Number
 })
+const eDragon = mongoose.model('edragon', {
+  serial: String,
+  ename: String,
+  edesc: String,
+  enumber: String,
+  eicon: String,
+  egold: Number,
+  ediamond: Number,
+  etrophy: Number,
+  eperiod: String,
+  combination: String,
+  release_date: String
+})
 const Item = mongoose.model('item', {
   sword: [SwordSchema],
   shield: [ShieldSchema],
@@ -105,5 +118,5 @@ const Queue = mongoose.model('queue', {
 const Statistic = mongoose.model('statistic', { usercount: Number, dragoncount: Number })
 
 export default {
-  Book, User, Dragon, Statistic, Item, Icon, Sword, Shield, Cbg, Queue, BattleHistory, Activity
+  Book, User, Dragon, Statistic, Item, Icon, Sword, Shield, Cbg, Queue, BattleHistory, Activity, eDragon
 }

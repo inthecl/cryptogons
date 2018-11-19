@@ -163,3 +163,7 @@ p {
   overflow-x: hidden;
   height: 525px;
 }
+
+.card-small {
+  width: 400px;
+}

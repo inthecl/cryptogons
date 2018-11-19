@@ -540,25 +540,46 @@ class breed extends Component {
             } else {
               this.state.change_state = this.props.data.dragons[dl].state
             }
-            if (Date.now() > this.props.data.dragons[dl].cooldown[1] && this.props.data.dragons[dl].serial !== this.props.match.params.serialnumber && this.props.data.dragons[dl].combination.substring(0, 2) !== '03' && this.props.data.dragons[dl].combination.substring(0, 2) !== '04' && this.props.data.dragons[dl].combination.substring(0, 2) !== '05' && this.props.data.dragons[dl].parents[0] !== this.state.parents[0] && this.props.data.dragons[dl].parents[0] !== this.state.parents[1] && this.props.data.dragons[dl].parents[1] !== this.state.parents[0] && this.props.data.dragons[dl].parents[1] !== this.state.parents[1] && this.props.data.dragons[dl].serial !== this.state.parents[0] && this.props.data.dragons[dl].serial !== this.state.parents[1]) {
-              this.state.mdragons[dcx] = {
-                name: this.props.data.dragons[dl].name,
-                serial: this.props.data.dragons[dl].serial,
-                evolution: this.props.data.dragons[dl].combination.substring(0, 2),
-                property: this.props.data.dragons[dl].combination.substring(2, 4),
-                wing: this.props.data.dragons[dl].combination.substring(4, 6),
-                wingColor: this.props.data.dragons[dl].combination.substring(6, 8),
-                horn: this.props.data.dragons[dl].combination.substring(8, 10),
-                hornColor: this.props.data.dragons[dl].combination.substring(10, 12),
-                tail: this.props.data.dragons[dl].combination.substring(12, 14),
-                body: this.props.data.dragons[dl].combination.substring(14, 16),
-                bodyColor: this.props.data.dragons[dl].combination.substring(16, 18),
-                eye: this.props.data.dragons[dl].combination.substring(18, 20),
-                eyeColor: this.props.data.dragons[dl].combination.substring(20, 22),
-                mouth: this.props.data.dragons[dl].combination.substring(22, 24),
-                nose: this.props.data.dragons[dl].combination.substring(24, 26)
+            if (Date.now() > this.props.data.dragons[dl].cooldown[1] && this.props.data.dragons[dl].serial !== this.props.match.params.serialnumber && this.props.data.dragons[dl].combination.substring(0, 2) !== '03' && this.props.data.dragons[dl].combination.substring(0, 2) !== '04' && this.props.data.dragons[dl].combination.substring(0, 2) !== '05') {
+              if (this.props.data.dragons[dl].parents[0] === 'devman' && this.state.parents[0] === 'devman') {
+                this.state.mdragons[dcx] = {
+                  name: this.props.data.dragons[dl].name,
+                  serial: this.props.data.dragons[dl].serial,
+                  evolution: this.props.data.dragons[dl].combination.substring(0, 2),
+                  property: this.props.data.dragons[dl].combination.substring(2, 4),
+                  wing: this.props.data.dragons[dl].combination.substring(4, 6),
+                  wingColor: this.props.data.dragons[dl].combination.substring(6, 8),
+                  horn: this.props.data.dragons[dl].combination.substring(8, 10),
+                  hornColor: this.props.data.dragons[dl].combination.substring(10, 12),
+                  tail: this.props.data.dragons[dl].combination.substring(12, 14),
+                  body: this.props.data.dragons[dl].combination.substring(14, 16),
+                  bodyColor: this.props.data.dragons[dl].combination.substring(16, 18),
+                  eye: this.props.data.dragons[dl].combination.substring(18, 20),
+                  eyeColor: this.props.data.dragons[dl].combination.substring(20, 22),
+                  mouth: this.props.data.dragons[dl].combination.substring(22, 24),
+                  nose: this.props.data.dragons[dl].combination.substring(24, 26)
+                }
+                dcx += 1
+              } else if (this.props.data.dragons[dl].parents[0] !== this.state.parents[0] && this.props.data.dragons[dl].parents[0] !== this.state.parents[1] && this.props.data.dragons[dl].parents[1] !== this.state.parents[0] && this.props.data.dragons[dl].parents[1] !== this.state.parents[1] && this.props.data.dragons[dl].serial !== this.state.parents[0] && this.props.data.dragons[dl].serial !== this.state.parents[1]) {
+                this.state.mdragons[dcx] = {
+                  name: this.props.data.dragons[dl].name,
+                  serial: this.props.data.dragons[dl].serial,
+                  evolution: this.props.data.dragons[dl].combination.substring(0, 2),
+                  property: this.props.data.dragons[dl].combination.substring(2, 4),
+                  wing: this.props.data.dragons[dl].combination.substring(4, 6),
+                  wingColor: this.props.data.dragons[dl].combination.substring(6, 8),
+                  horn: this.props.data.dragons[dl].combination.substring(8, 10),
+                  hornColor: this.props.data.dragons[dl].combination.substring(10, 12),
+                  tail: this.props.data.dragons[dl].combination.substring(12, 14),
+                  body: this.props.data.dragons[dl].combination.substring(14, 16),
+                  bodyColor: this.props.data.dragons[dl].combination.substring(16, 18),
+                  eye: this.props.data.dragons[dl].combination.substring(18, 20),
+                  eyeColor: this.props.data.dragons[dl].combination.substring(20, 22),
+                  mouth: this.props.data.dragons[dl].combination.substring(22, 24),
+                  nose: this.props.data.dragons[dl].combination.substring(24, 26)
+                }
+                dcx += 1
               }
-              dcx += 1
             }
           }
         }

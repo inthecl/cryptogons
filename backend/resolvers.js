@@ -11,6 +11,7 @@ const resolvers = {
     users: async (obj, args, ctx) => ctx.models.User.find(),
     checkemail: async (obj, args, ctx) => ctx.models.User.findOne({ email: args.email }),
     dragons: async (obj, args, ctx) => ctx.models.Dragon.find(),
+    edragons: async (obj, args, ctx) => ctx.models.eDragon.find(),
     finddragon: async (obj, args, ctx) => ctx.models.Dragon.findOne({ serial: args.serial }),
     statistic: async (obj, args, ctx) => ctx.models.Statistic.findOne(),
     finduser: async (obj, args, ctx) => ctx.models.User.findOne({ email: args.email }),
@@ -126,40 +127,33 @@ const resolvers = {
       const dragon = Object.assign(args)
       const statistic = await ctx.models.Statistic.findOne()
       dragon.email = 'devman'
-      dragon.name = `dragon${statistic.dragoncount}`
-      if (!args.eventnumber) {
-        let tmp = '01'
-        const dragons = await ctx.models.Dragon.find()
-        console.log(dragons)
-        while (dragons.length !== 0) {
-          tmp += `0${String(Math.floor(Math.random() * 5) + 1)}`
-          for (let i = 0; i < 11; i += 1) {
-            tmp += `0${String(Math.floor(Math.random() * 3) + 1)}`
-          }
-          let i = 0
-          for (i = 0; i < dragons.length; i += 1) {
-            if (dragons[i].combination === tmp) {
-              break
-            }
-          }
-          if (i === dragons.length) {
+      let tmp = '01'
+      const dragons = await ctx.models.Dragon.find()
+      console.log(dragons)
+      while (dragons.length !== 0) {
+        tmp += `0${String(Math.floor(Math.random() * 5) + 1)}`
+        for (let i = 0; i < 11; i += 1) {
+          tmp += `0${String(Math.floor(Math.random() * 3) + 1)}`
+        }
+        let i = 0
+        for (i = 0; i < dragons.length; i += 1) {
+          if (dragons[i].combination === tmp) {
             break
           }
         }
-        dragon.combination = tmp
+        if (i === dragons.length) {
+          break
+        }
       }
-      // 이벤트용을 추가할 경우
-      if (args.eventnumber) {
-        const property = `0${String(Math.floor(Math.random() * 5) + 1)}` // 속성, 2자리 01~05까지 랜덤
-        dragon.combination = '05' + property + args.eventnumber + args.eventicon
-      }
-      dragon.birthday = String(Date.now())
+      dragon.name = `dragon${statistic.dragoncount}`
+      dragon.combination = tmp
       dragon.state = 'New'
+      dragon.cooldown = ['Very fast', null]
+      dragon.birthday = String(Date.now())
       dragon.price = args.price
       dragon.period = 0
       dragon.release_date = String(Date.now())
       dragon.gen = 0
-      dragon.cooldown = ['Very fast', null]
       dragon.parents = ['devman']
       dragon.child = []
       dragon.choice_cbg = 'null'
@@ -180,6 +174,23 @@ const resolvers = {
       statistic.dragoncount += 1
       statistic.save()
       return one.save()
+    },
+    addeDragon: async (obj, args, ctx) => {
+      const edragon = args
+      const property = `0${String(Math.floor(Math.random() * 5) + 1)}` // 속성, 2자리 01~05까지 랜덤
+      edragon.ename = args.ename
+      edragon.edesc = args.edesc
+      edragon.enumber = args.enumber
+      edragon.eicon = args.eicon
+      edragon.egold = args.egold
+      edragon.ediamond = args.ediamond
+      edragon.etrophy = args.etrophy
+      edragon.eperiod = Date.now() + Number(args.eperiod)
+      edragon.combination = '05' + property + args.enumber + args.eicon
+      edragon.release_date = String(Date.now())
+      const newevent = await new ctx.models.eDragon(edragon)
+      newevent.serial = newevent._id
+      return newevent.save()
     },
     // dragons 배경, 검, 방패 수정
     editChoicecbg: async (obj, args, ctx) => {
@@ -428,61 +439,75 @@ const resolvers = {
       const user = await ctx.models.User.findOne({ email: args.email })
       let money = null
       let price = null
+      let payment = false
+
       if (args.diamond !== 0) {
-        user.diamond -= args.diamond
-        money = 'diamond'
-        price = args.diamond
+        if (user.diamond >= args.diamond) {
+          user.diamond -= args.diamond
+          money = 'diamond'
+          price = args.diamond
+          payment = true
+        }
       }
       if (args.gold !== 0) {
-        user.gold -= args.gold
-        money = 'gold'
-        price = args.gold
+        if (user.gold >= args.gold) {
+          user.gold -= args.gold
+          money = 'gold'
+          price = args.gold
+          payment = true
+        }
       }
       if (args.trophy !== 0) {
-        user.trophy -= args.trophy
-        money = 'trophy'
-        price = args.trophy
-      }
-      if (args.item === 'sword') {
-        const sword = Object.assign({
-          name: args.name,
-          description: args.description,
-          number: args.number,
-          gold: args.gold,
-          diamond: args.diamond,
-          trophy: args.trophy
-        })
-        user.sword.push(sword)
-      }
-      if (args.item === 'shield') {
-        const shield = Object.assign({
-          name: args.name,
-          description: args.description,
-          number: args.number,
-          gold: args.gold,
-          diamond: args.diamond,
-          trophy: args.trophy
-        })
-        user.shield.push(shield)
-      }
-      if (args.item === 'custom_bg') {
-        const cbg = Object.assign({
-          name: args.name,
-          description: args.description,
-          number: args.number,
-          gold: args.gold,
-          diamond: args.diamond,
-          trophy: args.trophy
-        })
-        user.cbg.push(cbg)
+        if (user.trophy >= args.trophy) {
+          user.trophy -= args.trophy
+          money = 'trophy'
+          price = args.trophy
+          payment = true
+        }
       }
 
-      const activity = Object.assign({
-        type: 'item',
-        date: Date(),
-        contents: [args.item, args.name, money, price] // 규칙 아이템종류, 아이템이름, 지불방법, 가격
-      })
-      user.activity.push(activity)
+      if (payment === true) {
+        if (args.item === 'sword') {
+          const sword = Object.assign({
+            name: args.name,
+            description: args.description,
+            number: args.number,
+            gold: args.gold,
+            diamond: args.diamond,
+            trophy: args.trophy
+          })
+          user.sword.push(sword)
+        }
+        if (args.item === 'shield') {
+          const shield = Object.assign({
+            name: args.name,
+            description: args.description,
+            number: args.number,
+            gold: args.gold,
+            diamond: args.diamond,
+            trophy: args.trophy
+          })
+          user.shield.push(shield)
+        }
+        if (args.item === 'custom_bg') {
+          const cbg = Object.assign({
+            name: args.name,
+            description: args.description,
+            number: args.number,
+            gold: args.gold,
+            diamond: args.diamond,
+            trophy: args.trophy
+          })
+          user.cbg.push(cbg)
+        }
+
+        const activity = Object.assign({
+          type: 'item',
+          date: Date(),
+          contents: [args.item, args.name, money, price] // 규칙 아이템종류, 아이템이름, 지불방법, 가격
+        })
+        user.activity.push(activity)
+      }
 
       return user.save()
     },
@@ -491,62 +516,46 @@ const resolvers = {
       let seller = null // 판매자
       const buyer = await ctx.models.User.findOne({ email: args.email }) // 구매자
 
-      if (Date.now() <= dragon.cooldown[1] || dragon.cooldown[1] === null) {
-        if (dragon.state === 'New' || dragon.state === 'Sell') {
-          buyer.diamond -= args.diamond
-          buyer.myDragons.push(args.serial)
+      if (buyer.diamond >= args.diamond) {
+        if (Date.now() <= dragon.cooldown[1] || dragon.cooldown[1] === null) {
+          if (dragon.state === 'New' || dragon.state === 'Sell') {
+            buyer.diamond -= args.diamond
+            buyer.myDragons.push(args.serial)
 
-          if (dragon.email === 'devman') {
-            dragon.email = args.email
-            dragon.state = 'Normal'
+            if (dragon.email === 'devman') {
+              dragon.email = args.email
+              dragon.state = 'Normal'
 
-            const activity = Object.assign({
-              type: 'dragonPurchase',
-              date: Date(),
-              contents: ['devman', buyer.username, dragon.serial, args.diamond] // 규칙 판매자 이름, 구매자 이름, 용 시리얼, 가격
-            })
-            buyer.activity.push(activity)
-
-            // 이벤트용을 구매할 경우 아이콘 추가입력
-            if (dragon.combination.substring(0, 2) === '05') {
-              const eventicon = dragon.combination.substring(6, 8)
-              let eventname = null
-              let eventdesc = null
-              // 이벤트 아이콘 추가에 따라 이부분 수정
-              if (eventicon === '05') {
-                eventname = 'World Cup'
-                eventdesc = '2002 Korea World Cup Commemorative'
-              }
-              const test = Object.assign({
-                number: eventicon,
-                name: eventname,
-                description: eventdesc
+              const activity = Object.assign({
+                type: 'dragonPurchase',
+                date: Date(),
+                contents: ['devman', buyer.username, dragon.serial, args.diamond] // 규칙 판매자 이름, 구매자 이름, 용 시리얼, 가격
               })
-              buyer.icon.push(test)
+              buyer.activity.push(activity)
+            } else {
+              seller = await ctx.models.User.findOne({ email: dragon.email })
+              seller.diamond += args.diamond
+              seller.myDragons.pull(args.serial)
+
+              dragon.email = args.email
+              dragon.name = 'Purchased Dragons'
+              dragon.state = 'Normal'
+              dragon.choice_cbg = 'null'
+              dragon.choice_sword = 'null'
+              dragon.choice_shield = 'null'
+              dragon.win = 0
+              dragon.lose = 0
+              dragon.winning_rate = 0
+              dragon.ranking = 0
+
+              const activity = Object.assign({
+                type: 'dragonPurchase',
+                date: Date(),
+                contents: [seller.username, buyer.username, dragon.serial, args.diamond] // 규칙 판매자 이름, 구매자 이름, 용 시리얼, 가격
+              })
+              seller.activity.push(activity)
+              buyer.activity.push(activity)
             }
-          } else {
-            seller = await ctx.models.User.findOne({ email: dragon.email })
-            seller.diamond += args.diamond
-            seller.myDragons.pull(args.serial)
-
-            dragon.email = args.email
-            dragon.name = 'Purchased Dragons'
-            dragon.state = 'Normal'
-            dragon.choice_cbg = 'null'
-            dragon.choice_sword = 'null'
-            dragon.choice_shield = 'null'
-            dragon.win = 0
-            dragon.lose = 0
-            dragon.winning_rate = 0
-            dragon.ranking = 0
-
-            const activity = Object.assign({
-              type: 'dragonPurchase',
-              date: Date(),
-              contents: [seller.username, buyer.username, dragon.serial, args.diamond] // 규칙 판매자 이름, 구매자 이름, 용 시리얼, 가격
-            })
-            seller.activity.push(activity)
-            buyer.activity.push(activity)
           }
         }
       }
@@ -557,6 +566,96 @@ const resolvers = {
       if (seller !== null) {
         return seller.save(), buyer.save(), dragon.save()
       }
+    },
+    edragonPurchase: async (obj, args, ctx) => {
+      const edragon = await ctx.models.eDragon.findOne({ serial: args.serial }) // 판매용
+      const buyer = await ctx.models.User.findOne({ email: args.email }) // 구매자
+      let one = null // 새로운 용
+      let payment = false
+      let money = null
+      let price = null
+
+      if (Date.now() <= edragon.eperiod) { // 이벤트기간인지 확인
+        if (edragon.egold !== null) {
+          if (buyer.gold >= edragon.egold) {
+            buyer.gold -= edragon.egold
+            payment = true
+            money = 'gold'
+            price = edragon.egold
+          }
+        }
+        if (edragon.ediamond !== null) {
+          if (buyer.diamond >= edragon.ediamond) {
+            buyer.diamond -= edragon.ediamond
+            payment = true
+            money = 'dia'
+            price = edragon.ediamond
+          }
+        }
+        if (edragon.etrophy !== null) {
+          if (buyer.trophy >= edragon.etrophy) {
+            buyer.trophy -= edragon.etrophy
+            payment = true
+            money = 'trophy'
+            price = edragon.etrophy
+          }
+        }
+
+        if (payment === true) { // 지불 확인 후 이벤트용 생성
+          const property = `0${String(Math.floor(Math.random() * 5) + 1)}` // 속성, 2자리 01~05까지 랜덤
+          const dragon = Object.assign(args)
+          dragon.email = args.email
+          dragon.name = edragon.ename
+          dragon.combination = '05' + property + edragon.enumber + edragon.eicon
+          dragon.state = 'Normal'
+          dragon.cooldown = ['Very fast', null]
+          dragon.birthday = String(Date.now())
+          dragon.price = price
+          dragon.period = 0
+          dragon.release_date = edragon.release_date
+          dragon.gen = 0
+          dragon.parents = ['devman']
+          dragon.child = []
+          dragon.choice_cbg = 'null'
+          dragon.choice_sword = 'null'
+          dragon.choice_shield = 'null'
+          dragon.cintamani = []
+          dragon.base_damage = Math.floor(Math.random() * 5) + 7 // 2단계용과 이벤트용의 기본데미지, 기본아머는 같다
+          dragon.add_damage = 0
+          dragon.base_armor = Math.floor(Math.random() * 5) + 7
+          dragon.add_armor = 0
+          dragon.win = 0
+          dragon.lose = 0
+          dragon.winning_rate = 0
+          dragon.ranking = 0
+          one = await new ctx.models.Dragon(dragon)
+          one.serial = one._id
+          buyer.myDragons.push(one.serial)
+
+          let ownicon = false
+          for (let i = 0; i < buyer.icon.length; i += 1) {
+            if (buyer.icon[i].number === edragon.eicon) {
+              ownicon = true
+            }
+          }
+          if (ownicon === false) {
+            const test = Object.assign({
+              number: edragon.eicon,
+              name: edragon.ename,
+              description: edragon.edesc
+            })
+            buyer.icon.push(test)
+          }
+
+          const activity = Object.assign({
+            type: 'edragonPurchase',
+            date: Date(),
+            contents: [one.serial, money, price] // 규칙 이벤트용 시리얼, 지불방법, 가격
+          })
+          buyer.activity.push(activity)
+        }
+      }
+      return buyer.save(), one.save()
     },
     dragonSell: async (obj, args, ctx) => {
       const dragon = await ctx.models.Dragon.findOne({ serial: args.serial }) // 판매할 용

@@ -44,8 +44,9 @@ export default class Header extends Component {
               )}
               <li><a href='/Market/1'>Market</a></li>
               {this.state.login === true &&
-                <li><a href='/Itemshop/1'>Items</a></li>
+                <li><a href='/Itemshop'>Items</a></li>
               }
+              <li><a href='/event'>Event</a></li>
               {this.state.login === true &&
                 <li><a href='/battles'>battles</a></li>
               }
@@ -61,8 +62,9 @@ export default class Header extends Component {
               )}
               <li><a href='/Market/1'>Market</a></li>
               {this.state.login === true &&
-                <li><a href='/Itemshop/1'>Items</a></li>
+                <li><a href='/Itemshop'>Items</a></li>
               }
+              <li><a href='/event'>Event</a></li>
               {this.state.login === true &&
                 <li><a href='/battles'>battles</a></li>
               }

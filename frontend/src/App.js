@@ -14,6 +14,7 @@ import MarketSiring from './MarketSiring'
 import MarketSiringDetail from './MarketSiringDetail'
 import MarketNew from './MarketNew'
 import Itemshop from './Itemshop'
+import Event from './event'
 import battles from './battles'
 import ring from './ring'
 import record from './record'
@@ -46,7 +47,8 @@ class App extends Component {
             <Route path="/MarketSiring/:number" component={MarketSiring}/>
             <Route path="/MarketSiringDetail/:number" component={MarketSiringDetail}/>
             <Route path="/MarketNew/:number" component={MarketNew}/>
-            <Route exacy path="/Itemshop/:pagenum" component={Itemshop}/>
+            <Route path="/Itemshop" component={Itemshop}/>
+            <Route path="/event" component={Event}/>
             <Route path="/battles" component={battles}/>
             <Route path="/ring" component={ring}/>
             <Route path="/record" component={record}/>

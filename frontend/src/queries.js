@@ -63,6 +63,22 @@ query { dragons {
   } 
 }
 `
+const edragons = gql`
+query { edragons {
+  ename
+  edesc
+  enumber
+  eicon
+  egold
+  ediamond
+  etrophy
+  eperiod
+  combination
+  release_date
+  serial
+  } 
+}
+`
 const finddragon = gql`
 query finddragon($serial: String!){
   finddragon(serial:$serial) {
@@ -364,6 +380,37 @@ const editUserDragonState = gql`
 const dragonPurchase = gql`
   mutation dragonPurchase($email: String!, $serial: String!, $diamond: Int!) {
     dragonPurchase(email:$email, serial:$serial, diamond:$diamond) {
+      email
+      serial
+      combination
+      name
+      birthday
+      state
+      price
+      period
+      release_date
+      gen
+      cooldown
+      parents
+      child
+      choice_cbg
+      choice_sword
+      choice_shield
+      cintamani
+      base_damage
+      add_damage
+      base_armor
+      add_armor
+      win
+      lose
+      winning_rate
+      ranking
+   }
+  }
+  `
+const edragonPurchase = gql`
+  mutation edragonPurchase($email: String!, $serial: String!) {
+    edragonPurchase(email:$email, serial:$serial) {
       email
       serial
       combination
@@ -853,4 +900,4 @@ mutation dragonNameChange($email: String!, $serial: String!, $name: String!) {
   }
   `
 
-export { registerUser, login, CheckEmailquery, dragons, finddragon, finduser, addUserDragon, editChoicecbg, editChoicesword, editChoiceshield, finditem, itemPurchase, editUserDragonState, dragonPurchase, dragonSell, dragonSellCancel, dragonSiring, dragonSiringCancel, dragonSiringPurchase, dragonGift, battleStart, battleCancle, battleUpdate, editChoiceIcon, findbadge, findprofile, dragonNameChange }
+export { registerUser, login, CheckEmailquery, dragons, finddragon, finduser, addUserDragon, editChoicecbg, editChoicesword, editChoiceshield, finditem, itemPurchase, editUserDragonState, dragonPurchase, dragonSell, dragonSellCancel, dragonSiring, dragonSiringCancel, dragonSiringPurchase, dragonGift, battleStart, battleCancle, battleUpdate, editChoiceIcon, findbadge, findprofile, dragonNameChange, edragons, edragonPurchase }

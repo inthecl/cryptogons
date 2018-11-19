@@ -31,6 +31,19 @@ const typeDefs = `
     winning_rate: Int
     ranking: Int
   }
+  type eDragon {
+    serial: String
+    ename: String
+    edesc: String
+    enumber: String
+    eicon: String
+    egold: Int
+    ediamond: Int
+    etrophy: Int
+    eperiod: String
+    combination: String
+    release_date: String
+  }
   type BattleHistory {
     mydragon: String
     mycomb: String
@@ -116,10 +129,11 @@ const typeDefs = `
     finditem(email:String!): Item
     items: [Item]
     findprofile(username:String!): User
+    edragons: [eDragon]
   }
   type Mutation{
     resetCount(usercount: Int, dragoncount: Int): Statistic
-    addDragon(name:String, price: Int!, eventnumber: String, eventicon: String): Dragon
+    addDragon(name:String, price: Int!): Dragon
     addBook(title:String,author:String): Book
     registerUser(email:String!,username:String!,password:String!): User
     addUserDragon(email: String!, new_comb: String!, parents: [String]!): Dragon
@@ -148,6 +162,8 @@ const typeDefs = `
     editChoiceIcon(email: String!, number: String!) : User
     findbadge(email: String!) : User
     dragonNameChange(email: String!, serial: String! name: String!) : Dragon
+    addeDragon(ename: String!, edesc: String!, enumber: String!, eicon: String!, egold: Int, ediamond: Int, etrophy: Int, eperiod: Int!): eDragon
+    edragonPurchase(email: String! serial: String!): Dragon
   }
 `
 export default typeDefs

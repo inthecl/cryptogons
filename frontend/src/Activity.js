@@ -111,6 +111,17 @@ class Activity extends Component {
                       <hr/>
                     </li>
                   }
+                  {item.type === 'edragonPurchase' &&
+                    <li class="collection-item avatar">
+                      <i class="material-icons circle purple">stars</i>
+                      <span class="title">{item.date}</span>
+                      <p>{item.type} <br/>
+                        마켓에서 <a href={'/profile/devman/1'}>devman</a>이 올린 <a href={`/gons/${item.contents[0]}`}>{item.contents[0]}</a>을 <img src={`${process.env.PUBLIC_URL}/images/brief_info/${item.contents[1]}.png`}/>{item.contents[2]}에 구매하였습니다.
+                      </p>
+                      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+                      <hr/>
+                    </li>
+                  }
                   {item.type === 'siringPurchase' && this.state.username === item.contents[0] &&
                     <li class="collection-item avatar">
                       <i class="material-icons circle pink">favorite_border</i>

@@ -95,8 +95,8 @@ class profile extends Component {
     const lastPage = lastItem / 12
     const startItem = (pagenum - 1) * 12
     let endItem = pagenum * 12
-    if (pagenum < 1) return <Redirect to="/Mygon/1"/>
-    if (pagenum > lastPage + 1) return <Redirect to="/Mygon/1"/>
+    if (pagenum < 1) return <Redirect to="/profile/1"/>
+    if (pagenum > lastPage + 1) return <Redirect to="/profile/1"/>
     if (endItem > lastItem) endItem = lastItem
     const pages = this.state.dragonsComb.slice(startItem, endItem)
     return (
