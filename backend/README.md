@@ -2,7 +2,7 @@ cryptogons backend
 
 // 마켓에 기본용 추가 : 가격(price)만 입력
 mutation{
-  addDragon(price: 100) {
+  addDragon(price: ?) {
     email
     serial
     combination
@@ -29,9 +29,9 @@ mutation{
     ranking
   }
 }
-// 이벤트에 이벤트용 추가 : 이벤트아이콘이미지(증정) 추가 후 이벤트드래곤 생성 egold or ediamond or etrophy
+// 이벤트에 이벤트용 추가 : 이벤트아이콘이미지(증정) 추가 후 이벤트드래곤 생성 egold or ediamond or etrophy(지불방법 2가지,3가지도 가능)
 mutation{
-  addeDragon(ename: "test", edesc: "설명", enumber: "01", eicon: "05", ediamond: 100, eperio: 120000) {
+  addeDragon(ename: "", edesc: "", enumber: "", eicon: "", ediamond: ?, eperio: 120000) {
     ename
     enumber
     eicon
@@ -186,11 +186,18 @@ mutation{
 
 user.dragons 에서 serial 이 매칭되는 dragons에 대해 choice_cbg를 업데이트 하는 mutation
 
+// cbg 추가
+(type: "!", name:"!", description:"!", number:"!", gold: !, diamond: !, trophy: !)
+// sword / shield 추가, option에 공격력/방어력 추가입력
+(type: "!", name:"!", description:"!", option: "", number:"!", gold: !, diamond: !, trophy: !)
+// 이벤트아이템 추가, 아이콘이미지 추가 후 eicon, eperiod 추가입력
+(type: "!", name:"!", description:"!", option: "", number:"!", gold: !, diamond: !, trophy: !, eicon: "", eperiod: "")
 mutation{
-  addItemSword(name:"??", description:"??", number:"??", gold: ?, diamond: ?, trophy: ?) {
+  addItemshop(type: "!", name:"!", description:"!", option: "", number:"!", gold: !, diamond: !, trophy: !) {
     sword {
       name
       description
+      option
       number
       gold
       diamond
@@ -199,6 +206,7 @@ mutation{
     shield {
       name
       description
+      option
       number
       gold
       diamond
@@ -214,8 +222,6 @@ mutation{
     }
   }
 }
-
-아이템샵 Sword 추가 mutation, Shield,Cbg는 addItemSword에서 Sword만 변경
 
 // 유저 아이콘 추가
 mutation addUserIcon($email: String!, $number: String!, $name: String!, $description: String!) {

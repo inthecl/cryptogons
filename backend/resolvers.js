@@ -200,14 +200,24 @@ const resolvers = {
     },
     editChoicesword: async (obj, args, ctx) => {
       const dragon = await ctx.models.Dragon.findOne({ serial: args.serial })
+      const items = await ctx.models.Item.findOne()
       dragon.choice_sword = args.choice_sword
-      dragon.add_damage = args.add_damage
+      if (args.choice_sword !== 'null') {
+        dragon.add_damage = items.sword[args.choice_sword.substring(1) - 1].option
+      } else {
+        dragon.add_damage = 0
+      }
       return dragon.save()
     },
     editChoiceshield: async (obj, args, ctx) => {
       const dragon = await ctx.models.Dragon.findOne({ serial: args.serial })
+      const items = await ctx.models.Item.findOne()
       dragon.choice_shield = args.choice_shield
-      dragon.add_armor = args.add_armor
+      if (args.choice_shield !== 'null') {
+        dragon.add_armor = items.shield[args.choice_shield.substring(1) - 1].option
+      } else {
+        dragon.add_armor = 0
+      }
       return dragon.save()
     },
     editUserDragonState: async (obj, args, ctx) => {
@@ -396,116 +406,153 @@ const resolvers = {
 
       return input1p.save(), input2p.save(), user.save()
     },
-    addItemSword: async (obj, args, ctx) => {
+    addItemshop: async (obj, args, ctx) => {
       const test = Object.assign({
         name: args.name,
         description: args.description,
+        option: args.option,
         number: args.number,
         gold: args.gold,
         diamond: args.diamond,
-        trophy: args.trophy
+        trophy: args.trophy,
+        eicon: args.eicon,
+        eperiod: Date.now() + Number(args.eperiod)
       })
       const item = await ctx.models.Item.findOne()
-      item.sword.push(test)
-      return item.save()
-    },
-    addItemShield: async (obj, args, ctx) => {
-      const test = Object.assign({
-        name: args.name,
-        description: args.description,
-        number: args.number,
-        gold: args.gold,
-        diamond: args.diamond,
-        trophy: args.trophy
-      })
-      const item = await ctx.models.Item.findOne()
-      item.shield.push(test)
-      return item.save()
-    },
-    addItemCbg: async (obj, args, ctx) => {
-      const test = Object.assign({
-        name: args.name,
-        description: args.description,
-        number: args.number,
-        gold: args.gold,
-        diamond: args.diamond,
-        trophy: args.trophy
-      })
-      const item = await ctx.models.Item.findOne()
-      item.cbg.push(test)
+      if (args.type === 'sword') {
+        item.sword.push(test)
+      }
+      if (args.type === 'shield') {
+        item.shield.push(test)
+      }
+      if (args.type === 'cbg') {
+        item.cbg.push(test)
+      }
       return item.save()
     },
     itemPurchase: async (obj, args, ctx) => {
-      const user = await ctx.models.User.findOne({ email: args.email })
-      let money = null
+      const user = await ctx.models.User.findOne({ email: args.email }) // 구매자
+      const items = await ctx.models.Item.findOne() // 구매아이템
+      const itemType = args.item
+      const num = args.number
+      const curr = args.currency
       let price = null
+      let inputDia = null
+      let inputGold = null
+      let inputTrophy = null
       let payment = false
 
-      if (args.diamond !== 0) {
-        if (user.diamond >= args.diamond) {
-          user.diamond -= args.diamond
-          money = 'diamond'
-          price = args.diamond
+      let purchaseItem = null
+      if (itemType === 'sword') {
+        purchaseItem = items.sword[num.substring(1) - 1]
+      }
+      if (itemType === 'shield') {
+        purchaseItem = items.shield[num.substring(1) - 1]
+      }
+      if (itemType === 'custom_bg') {
+        purchaseItem = items.cbg[num.substring(1) - 1]
+      }
+
+      if (curr === 'diamond') {
+        if (user.diamond >= purchaseItem.diamond) {
+          user.diamond -= purchaseItem.diamond
+          price = purchaseItem.diamond
           payment = true
+          inputDia = purchaseItem.diamond
+          inputGold = 0
+          inputTrophy = 0
         }
       }
-      if (args.gold !== 0) {
-        if (user.gold >= args.gold) {
-          user.gold -= args.gold
-          money = 'gold'
-          price = args.gold
+      if (curr === 'gold') {
+        if (user.gold >= purchaseItem.gold) {
+          user.gold -= purchaseItem.gold
+          price = purchaseItem.gold
           payment = true
+          inputDia = 0
+          inputGold = purchaseItem.gold
+          inputTrophy = 0
         }
       }
-      if (args.trophy !== 0) {
-        if (user.trophy >= args.trophy) {
-          user.trophy -= args.trophy
-          money = 'trophy'
-          price = args.trophy
+      if (curr === 'trophy') {
+        if (user.trophy >= purchaseItem.trophy) {
+          user.trophy -= purchaseItem.trophy
+          price = purchaseItem.trophy
           payment = true
+          inputDia = 0
+          inputGold = 0
+          inputTrophy = purchaseItem.trophy
         }
       }
 
       if (payment === true) {
-        if (args.item === 'sword') {
+        if (itemType === 'sword') {
           const sword = Object.assign({
-            name: args.name,
-            description: args.description,
-            number: args.number,
-            gold: args.gold,
-            diamond: args.diamond,
-            trophy: args.trophy
+            name: purchaseItem.name,
+            description: purchaseItem.description,
+            option: purchaseItem.option,
+            number: purchaseItem.number,
+            diamond: inputDia,
+            gold: inputGold,
+            trophy: inputTrophy
           })
           user.sword.push(sword)
         }
         if (args.item === 'shield') {
           const shield = Object.assign({
-            name: args.name,
-            description: args.description,
-            number: args.number,
-            gold: args.gold,
-            diamond: args.diamond,
-            trophy: args.trophy
+            name: purchaseItem.name,
+            description: purchaseItem.description,
+            option: purchaseItem.option,
+            number: purchaseItem.number,
+            diamond: inputDia,
+            gold: inputGold,
+            trophy: inputTrophy
           })
           user.shield.push(shield)
         }
         if (args.item === 'custom_bg') {
           const cbg = Object.assign({
-            name: args.name,
-            description: args.description,
-            number: args.number,
-            gold: args.gold,
-            diamond: args.diamond,
-            trophy: args.trophy
+            name: purchaseItem.name,
+            description: purchaseItem.description,
+            option: purchaseItem.option,
+            number: purchaseItem.number,
+            diamond: inputDia,
+            gold: inputGold,
+            trophy: inputTrophy
           })
           user.cbg.push(cbg)
         }
 
-        const activity = Object.assign({
-          type: 'item',
-          date: Date(),
-          contents: [args.item, args.name, money, price] // 규칙 아이템종류, 아이템이름, 지불방법, 가격
-        })
+        let activity = null
+        // 일반아이템 activity 추가
+        if (purchaseItem.eicon === null) {
+          activity = Object.assign({
+            type: 'item',
+            date: Date(),
+            contents: [itemType, purchaseItem.name, curr, price] // 규칙 아이템종류, 아이템이름, 지불방법, 가격
+          })
+        } else {
+          // 이벤트아이콘 추가
+          let ownicon = false
+          for (let i = 0; i < user.icon.length; i += 1) {
+            if (user.icon[i].number === purchaseItem.eicon) {
+              ownicon = true
+            }
+          }
+          if (ownicon === false) {
+            const test = Object.assign({
+              number: purchaseItem.eicon,
+              name: purchaseItem.name,
+              description: purchaseItem.description
+            })
+            user.icon.push(test)
+          }
+          // 이벤트아이템 activity 추가
+          activity = Object.assign({
+            type: 'eitem',
+            date: Date(),
+            contents: [itemType, purchaseItem.name, curr, price]
+          })
+        }
         user.activity.push(activity)
       }
 
@@ -570,33 +617,30 @@ const resolvers = {
     edragonPurchase: async (obj, args, ctx) => {
       const edragon = await ctx.models.eDragon.findOne({ serial: args.serial }) // 판매용
       const buyer = await ctx.models.User.findOne({ email: args.email }) // 구매자
+      const curr = args.currency // 지불방법
       let one = null // 새로운 용
       let payment = false
-      let money = null
       let price = null
 
       if (Date.now() <= edragon.eperiod) { // 이벤트기간인지 확인
-        if (edragon.egold !== null) {
+        if (curr === 'gold') {
           if (buyer.gold >= edragon.egold) {
             buyer.gold -= edragon.egold
             payment = true
-            money = 'gold'
             price = edragon.egold
           }
         }
-        if (edragon.ediamond !== null) {
+        if (curr === 'dia') {
           if (buyer.diamond >= edragon.ediamond) {
             buyer.diamond -= edragon.ediamond
             payment = true
-            money = 'dia'
             price = edragon.ediamond
           }
         }
-        if (edragon.etrophy !== null) {
+        if (curr === 'trophy') {
           if (buyer.trophy >= edragon.etrophy) {
             buyer.trophy -= edragon.etrophy
             payment = true
-            money = 'trophy'
             price = edragon.etrophy
           }
         }
@@ -650,7 +694,7 @@ const resolvers = {
           const activity = Object.assign({
             type: 'edragonPurchase',
             date: Date(),
-            contents: [one.serial, money, price] // 규칙 이벤트용 시리얼, 지불방법, 가격
+            contents: [one.serial, curr, price] // 규칙 이벤트용 시리얼, 지불방법, 가격
           })
           buyer.activity.push(activity)
         }

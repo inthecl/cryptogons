@@ -207,8 +207,8 @@ mutation editChoicecbg($email: String!, $serial: String!, $choice_cbg: String!) 
   }
   `
 const editChoicesword = gql`
-mutation editChoicesword($email: String!, $serial: String!, $choice_sword: String!, $add_damage: Int!) {
-  editChoicesword(email:$email, serial:$serial, choice_sword:$choice_sword, add_damage:$add_damage) {
+mutation editChoicesword($email: String!, $serial: String!, $choice_sword: String!) {
+  editChoicesword(email:$email, serial:$serial, choice_sword:$choice_sword) {
     email
     serial
     combination
@@ -238,8 +238,8 @@ mutation editChoicesword($email: String!, $serial: String!, $choice_sword: Strin
   }
   `
 const editChoiceshield = gql`
-mutation editChoiceshield($email: String!, $serial: String!, $choice_shield: String!, $add_armor: Int!) {
-  editChoiceshield(email:$email, serial:$serial, choice_shield:$choice_shield, add_armor:$add_armor) {
+mutation editChoiceshield($email: String!, $serial: String!, $choice_shield: String!) {
+  editChoiceshield(email:$email, serial:$serial, choice_shield:$choice_shield) {
     email
     serial
     combination
@@ -275,32 +275,41 @@ query finditem($email: String!){
     number
     name
     description
+    option
     gold
     diamond
     trophy
+    eicon
+    eperiod
   }
   shield {
     number
     name
     description
+    option
     gold
     diamond
     trophy
+    eicon
+    eperiod
   }
   cbg {
     number
     name
     description
+    option
     gold
     diamond
     trophy
+    eicon
+    eperiod
   }
  }
 }
 `
 const itemPurchase = gql`
-mutation itemPurchase($email: String!, $number: String!, $item: String!, $name: String!, $description: String!, $diamond: Int!, $gold: Int!, $trophy: Int!) {
-  itemPurchase(email:$email, number:$number, item:$item, name:$name, description:$description, diamond:$diamond, gold:$gold, trophy:$trophy) {
+mutation itemPurchase($email: String!, $item: String!, $number: String!, $currency: String!) {
+  itemPurchase(email:$email, item:$item, number:$number,  currency:$currency) {
     email
     username
     diamond
@@ -409,8 +418,8 @@ const dragonPurchase = gql`
   }
   `
 const edragonPurchase = gql`
-  mutation edragonPurchase($email: String!, $serial: String!) {
-    edragonPurchase(email:$email, serial:$serial) {
+  mutation edragonPurchase($email: String!, $serial: String!, $currency: String!) {
+    edragonPurchase(email:$email, serial:$serial, currency:$currency) {
       email
       serial
       combination

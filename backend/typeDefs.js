@@ -87,26 +87,35 @@ const typeDefs = `
   type Sword {
     name: String
     description: String
+    option: String
     number: String
     gold: Int
     diamond: Int
     trophy: Int
+    eicon: String
+    eperiod: String
   }
   type Shield {
     name: String
     description: String
+    option: String
     number: String
     gold: Int
     diamond: Int
     trophy: Int
+    eicon: String
+    eperiod: String
   }
   type Cbg {
     name: String
     description: String
+    option: String
     number: String
     gold: Int
     diamond: Int
     trophy: Int
+    eicon: String
+    eperiod: String
   }
   type Item {
     sword: [Sword]
@@ -138,16 +147,14 @@ const typeDefs = `
     registerUser(email:String!,username:String!,password:String!): User
     addUserDragon(email: String!, new_comb: String!, parents: [String]!): Dragon
     registerItem(email:String!): Item
-    addItemSword(name: String!, description: String!, number: String!, gold: Int!, diamond: Int!, trophy: Int!): Item
-    addItemShield(name: String!, description: String!, number: String!, gold: Int!, diamond: Int!, trophy: Int!): Item
-    addItemCbg(name: String!, description: String!, number: String!, gold: Int!, diamond: Int!, trophy: Int!): Item
+    addItemshop(type: String!, name: String!, description: String!, option: String, number: String!, gold: Int!, diamond: Int!, trophy: Int!, eicon: String, eperiod: String): Item
+    itemPurchase(email: String!, item: String!, number: String!, currency: String!): User
     login(email:String!,password:String!): AuthPayload!
     removeUserDragon(email: String!, comb: String!): User
     editChoicecbg(email: String!, serial: String!, choice_cbg: String!): Dragon
-    editChoicesword(email: String!, serial: String!, choice_sword: String!, add_damage: Int!): Dragon
-    editChoiceshield(email: String!, serial: String!, choice_shield: String!, add_armor: Int!): Dragon
+    editChoicesword(email: String!, serial: String!, choice_sword: String!): Dragon
+    editChoiceshield(email: String!, serial: String!, choice_shield: String!): Dragon
     editUserDragonState(serial: String!, change_state: String!): Dragon
-    itemPurchase(email: String!, item: String!, number: String!,  name: String!, description: String!, diamond: Int!, gold: Int!, trophy: Int!): User
     dragonPurchase(email: String! serial: String!, diamond: Int!): Dragon
     dragonSell(serial: String!, diamond: Int!, period: Int!): Dragon
     dragonSellCancel(serial: String!): Dragon
@@ -162,8 +169,8 @@ const typeDefs = `
     editChoiceIcon(email: String!, number: String!) : User
     findbadge(email: String!) : User
     dragonNameChange(email: String!, serial: String! name: String!) : Dragon
-    addeDragon(ename: String!, edesc: String!, enumber: String!, eicon: String!, egold: Int, ediamond: Int, etrophy: Int, eperiod: Int!): eDragon
-    edragonPurchase(email: String! serial: String!): Dragon
+    addeDragon(ename: String!, edesc: String!, enumber: String!, eicon: String!, egold: Int, ediamond: Int, etrophy: Int, eperiod: String!): eDragon
+    edragonPurchase(email: String!, serial: String!, currency: String!): Dragon
   }
 `
 export default typeDefs

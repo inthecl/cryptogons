@@ -9,25 +9,34 @@ const SwordSchema = new mongoose.Schema({
   number: String,
   name: String,
   description: String,
+  option: String,
   gold: Number,
   diamond: Number,
-  trophy: Number
+  trophy: Number,
+  eicon: String,
+  eperiod: String
 })
 const ShieldSchema = new mongoose.Schema({
   number: String,
   name: String,
   description: String,
+  option: String,
   gold: Number,
   diamond: Number,
-  trophy: Number
+  trophy: Number,
+  eicon: String,
+  eperiod: String
 })
 const CbgSchema = new mongoose.Schema({
   number: String,
   name: String,
   description: String,
+  option: String,
   gold: Number,
   diamond: Number,
-  trophy: Number
+  trophy: Number,
+  eicon: String,
+  eperiod: String
 })
 const BattleHistorySchema = new mongoose.Schema({
   mydragon: String,

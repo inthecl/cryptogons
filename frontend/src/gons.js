@@ -191,10 +191,10 @@ class gons extends Component {
         console.log('errors: ', errors)
       })
   }
-  handleChoiceSword(event, event2) {
+  handleChoiceSword(event) {
     this.setState({ change_sword: event })
     // 서버에 현재용의 serial, choice_sword(event) 보냄
-    this.props.editChoicesword({ variables: { email: localStorage.getItem('email'), serial: this.props.match.params.serialnumber, choice_sword: event, add_damage: event2 } })
+    this.props.editChoicesword({ variables: { email: localStorage.getItem('email'), serial: this.props.match.params.serialnumber, choice_sword: event } })
       .then((res) => {
         console.log(res)
       })
@@ -206,7 +206,7 @@ class gons extends Component {
   handleReleaseSword() {
     this.setState({ change_sword: 'null' })
     // 서버에 현재용의 serial, choice_sword(null) 보냄
-    this.props.editChoicesword({ variables: { email: localStorage.getItem('email'), serial: this.props.match.params.serialnumber, choice_sword: 'null', add_damage: 0 } })
+    this.props.editChoicesword({ variables: { email: localStorage.getItem('email'), serial: this.props.match.params.serialnumber, choice_sword: 'null' } })
       .then((res) => {
         console.log(res)
       })
@@ -214,10 +214,10 @@ class gons extends Component {
         console.log('errors: ', errors)
       })
   }
-  handleChoiceShield(event, event2) {
+  handleChoiceShield(event) {
     this.setState({ change_shield: event })
     // 서버에 현재용의 serial, choice_shield(event) 보냄
-    this.props.editChoiceshield({ variables: { email: localStorage.getItem('email'), serial: this.props.match.params.serialnumber, choice_shield: event, add_armor: event2 } })
+    this.props.editChoiceshield({ variables: { email: localStorage.getItem('email'), serial: this.props.match.params.serialnumber, choice_shield: event } })
       .then((res) => {
         console.log(res)
       })
@@ -229,7 +229,7 @@ class gons extends Component {
   handleReleaseShield() {
     this.setState({ change_shield: 'null' })
     // 서버에 현재용의 serial, choice_shield(null) 보냄
-    this.props.editChoiceshield({ variables: { email: localStorage.getItem('email'), serial: this.props.match.params.serialnumber, choice_shield: 'null', add_armor: 0 } })
+    this.props.editChoiceshield({ variables: { email: localStorage.getItem('email'), serial: this.props.match.params.serialnumber, choice_shield: 'null' } })
       .then((res) => {
         console.log(res)
       })
@@ -448,42 +448,41 @@ class gons extends Component {
         this.state.possible_cbg.splice(this.state.possible_cbg.indexOf(this.state.except_cbg[a]), 1)
       }
 
+      console.log('all_sword', this.state.all_sword)
+      console.log('except_sword', this.state.except_sword)
       // all sword - expect sword = possible sword
       let psword = 0
-      if (this.state.all_sword.length !== this.state.except_sword.length) {
-        for (let sn = 0; sn < this.state.all_sword.length; sn += 1) {
-          if (this.state.except_sword.length !== 0) {
-            for (let en = 0; en < this.state.except_sword.length; en += 1) {
-              if (this.state.all_sword[sn].number !== this.state.except_sword[en]) {
-                this.state.possible_sword[psword] = this.state.all_sword[sn]
-                psword += 1
-              }
-            }
-          } else {
-            this.state.possible_sword[psword] = this.state.all_sword[sn]
-            psword += 1
+      let olsword = false
+      for (let sn = 0; sn < this.state.all_sword.length; sn += 1) {
+        for (let en = 0; en < this.state.except_sword.length; en += 1) {
+          if (this.state.all_sword[sn].number === this.state.except_sword[en]) {
+            olsword = true
           }
         }
-        console.log('possible_sword', this.state.possible_sword)
+        if (olsword === false) {
+          this.state.possible_sword[psword] = this.state.all_sword[sn]
+          psword += 1
+        } else {
+          olsword = false
+        }
       }
+      console.log('possible_sword', this.state.possible_sword)
 
       // all shield - expect shield = possible shield
-      if (this.state.all_shield.length !== this.state.except_shield.length) {
-        let pshield = 0
-        for (let sn = 0; sn < this.state.all_shield.length; sn += 1) {
-          if (this.state.except_shield.length !== 0) {
-            for (let en = 0; en < this.state.except_shield.length; en += 1) {
-              if (this.state.all_shield[sn].number !== this.state.except_shield[en]) {
-                this.state.possible_shield[pshield] = this.state.all_shield[sn]
-                pshield += 1
-              }
-            }
-          } else {
-            this.state.possible_shield[pshield] = this.state.all_shield[sn]
-            pshield += 1
+      let pshield = 0
+      let olshield = false
+      for (let sn = 0; sn < this.state.all_shield.length; sn += 1) {
+        for (let en = 0; en < this.state.except_shield.length; en += 1) {
+          if (this.state.all_shield[sn].number === this.state.except_shield[en]) {
+            olshield = true
           }
         }
-        console.log('possible_shield', this.state.possible_shield)
+        if (olshield === false) {
+          this.state.possible_shield[pshield] = this.state.all_shield[sn]
+          pshield += 1
+        } else {
+          olshield = false
+        }
       }
     }
     return (
@@ -503,7 +502,7 @@ class gons extends Component {
                         <div className="card">
                           <div className="card-image">
 
-                            <img src={`${process.env.PUBLIC_URL}/images/item/sword/sword_${item.number}.png`} onClick={ () => this.handleChoiceSword(item.number, item.description)}/>
+                            <img src={`${process.env.PUBLIC_URL}/images/item/sword/sword_${item.number}.png`} onClick={ () => this.handleChoiceSword(item.number)}/>
                             {this.state.choice_sword === item.number && this.state.change_sword === 'doNotClick' &&
                               <div class="absolute">
                                 <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_choice.png`} onClick={this.handleReleaseSword}/>
@@ -516,7 +515,7 @@ class gons extends Component {
                             }
                             {this.state.change_sword === 'null' &&
                               <div class="absolute">
-                                <img src={`${process.env.PUBLIC_URL}/images/item/sword/sword_${item.number}.png`} onClick={ () => this.handleChoiceSword(item.number, item.description)}/>
+                                <img src={`${process.env.PUBLIC_URL}/images/item/sword/sword_${item.number}.png`} onClick={ () => this.handleChoiceSword(item.number)}/>
                               </div>
                             }
 
@@ -547,7 +546,7 @@ class gons extends Component {
                         <div className="card">
                           <div className="card-image">
 
-                            <img src={`${process.env.PUBLIC_URL}/images/item/shield/shield_${item.number}.png`} onClick={ () => this.handleChoiceShield(item.number, item.description)}/>
+                            <img src={`${process.env.PUBLIC_URL}/images/item/shield/shield_${item.number}.png`} onClick={ () => this.handleChoiceShield(item.number)}/>
                             {this.state.choice_shield === item.number && this.state.change_shield === 'doNotClick' &&
                               <div class="absolute">
                                 <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_choice.png`} onClick={this.handleReleaseShield}/>
@@ -560,7 +559,7 @@ class gons extends Component {
                             }
                             {this.state.change_shield === 'null' &&
                               <div class="absolute">
-                                <img src={`${process.env.PUBLIC_URL}/images/item/shield/shield_${item.number}.png`} onClick={ () => this.handleChoiceShield(item.number, item.description)}/>
+                                <img src={`${process.env.PUBLIC_URL}/images/item/shield/shield_${item.number}.png`} onClick={ () => this.handleChoiceShield(item.number)}/>
                               </div>
                             }
 

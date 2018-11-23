@@ -32,25 +32,17 @@ class Itemshop extends Component {
   handlePurchase(e) {
     const modalItem = this.state.modal_item.split('/') // 구매할 아이템 종류 modalItem[0]
     const modalNumber = modalItem[1].split('_') // 구매할 아이템 번호 modalNumber[1]+
-    if (e === 'diaPayment') {
-      this.state.modal_gold = 0
-      this.state.modal_trophy = 0
-    } else if (e === 'goldPayment') {
-      this.state.modal_dia = 0
-      this.state.modal_trophy = 0
-    } else if (e === 'trophyPayment') {
-      this.state.modal_dia = 0
-      this.state.modal_gold = 0
-    }
-    this.props.itemPurchase({ variables: { email: localStorage.getItem('email'), number: modalNumber[1], item: modalItem[0], name: this.state.modal_name, description: this.state.modal_desc, diamond: this.state.modal_dia, gold: this.state.modal_gold, trophy: this.state.modal_trophy } })
+
+    this.props.itemPurchase({ variables: { email: localStorage.getItem('email'), item: modalItem[0], number: modalNumber[1], currency: e } })
       .then((res) => {
         this.setState({ redirect: true })
         console.log(res)
       })
       .catch((errors) => {
         console.log('errors: ', errors)
-        console.log('modalNumber: ', modalNumber)
-        console.log('this.state.modal_name: ', this.state.modal_name)
+        console.log('item: ', modalItem[0])
+        console.log('number: ', modalNumber[1])
+        console.log('currency: ', e)
       })
   }
   handleModal(choiceItem, choiceDiamond, choiceGold, choiceTrophy, choiceName, choiceDesc) {
@@ -81,14 +73,26 @@ class Itemshop extends Component {
       for (let z = 0; z < this.props.finduser.finduser.cbg.length; z += 1) {
         this.state.user_cbg[z] = this.props.finduser.finduser.cbg[z].number
       }
+      let asword = 0
       for (let sw = 0; sw < this.props.finditem.finditem.sword.length; sw += 1) {
-        this.state.all_sword[sw] = this.props.finditem.finditem.sword[sw]
+        if (this.props.finditem.finditem.sword[sw].eicon === null) {
+          this.state.all_sword[asword] = this.props.finditem.finditem.sword[sw]
+          asword += 1
+        }
       }
+      let ashield = 0
       for (let sh = 0; sh < this.props.finditem.finditem.shield.length; sh += 1) {
-        this.state.all_shield[sh] = this.props.finditem.finditem.shield[sh]
+        if (this.props.finditem.finditem.shield[sh].eicon === null) {
+          this.state.all_shield[ashield] = this.props.finditem.finditem.shield[sh]
+          ashield += 1
+        }
       }
+      let acbg = 0
       for (let cb = 0; cb < this.props.finditem.finditem.cbg.length; cb += 1) {
-        this.state.all_cbg[cb] = this.props.finditem.finditem.cbg[cb]
+        if (this.props.finditem.finditem.cbg[cb].eicon === null) {
+          this.state.all_cbg[acbg] = this.props.finditem.finditem.cbg[cb]
+          acbg += 1
+        }
       }
     }
     return (
@@ -105,7 +109,7 @@ class Itemshop extends Component {
                 <img src={`${process.env.PUBLIC_URL}/images/brief_info/dia.png`}/>
                 <font size="5">{this.state.modal_dia}</font><br/>
                 { this.state.modal_dia <= this.state.user_dia &&
-                  <a class="waves-effect waves-light btn-large" onClick={ () => this.handlePurchase('diaPayment')}>구매하기</a>
+                  <a class="waves-effect waves-light btn-large" onClick={ () => this.handlePurchase('diamond')}>구매하기</a>
                 }
                 { this.state.modal_dia > this.state.user_dia &&
                   <a class="waves-effect waves-light btn-large red accent-4">잔액부족</a>
@@ -118,7 +122,7 @@ class Itemshop extends Component {
                 <img src={`${process.env.PUBLIC_URL}/images/brief_info/gold.png`}/>
                 <font size="5">{this.state.modal_gold}</font><br/>
                 { this.state.modal_gold <= this.state.user_gold &&
-                  <a class="waves-effect waves-light btn-large" onClick={ () => this.handlePurchase('goldPayment')}>구매하기</a>
+                  <a class="waves-effect waves-light btn-large" onClick={ () => this.handlePurchase('gold')}>구매하기</a>
                 }
                 { this.state.modal_gold > this.state.user_gold &&
                   <a class="waves-effect waves-light btn-large red accent-4">잔액부족</a>
@@ -131,7 +135,7 @@ class Itemshop extends Component {
                 <img src={`${process.env.PUBLIC_URL}/images/brief_info/trophy2.png`}/>
                 <font size="5">{this.state.modal_trophy}</font><br/>
                 { this.state.modal_trophy <= this.state.user_trophy &&
-                  <a class="waves-effect waves-light btn-large" onClick={ () => this.handlePurchase('trophyPayment')}>구매하기</a>
+                  <a class="waves-effect waves-light btn-large" onClick={ () => this.handlePurchase('trophy')}>구매하기</a>
                 }
                 { this.state.modal_trophy > this.state.user_trophy &&
                   <a class="waves-effect waves-light btn-large red accent-4">잔액부족</a>
