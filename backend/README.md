@@ -29,9 +29,9 @@ mutation{
     ranking
   }
 }
-// 이벤트에 이벤트용 추가 : 이벤트아이콘이미지(증정) 추가 후 이벤트드래곤 생성 egold or ediamond or etrophy(지불방법 2가지,3가지도 가능)
+// 이벤트용 추가 : 용/아이콘이미지를 폴더에 추가 -> addIcons 실행 -> 이벤트드래곤생성 egold or ediamond or etrophy(지불방법 2가지,3가지도 가능)
 mutation{
-  addeDragon(ename: "", edesc: "", enumber: "", eicon: "", ediamond: ?, eperio: 120000) {
+  addeDragon(ename: "", edesc: "", enumber: "", eicon: "아이콘번호", ediamond: ?, eperio: 120000) {
     ename
     enumber
     eicon
@@ -188,9 +188,9 @@ user.dragons 에서 serial 이 매칭되는 dragons에 대해 choice_cbg를 업�
 
 // cbg 추가
 (type: "!", name:"!", description:"!", number:"!", gold: !, diamond: !, trophy: !)
-// sword / shield 추가, option에 공격력/방어력 추가입력
+// sword/shield 추가, option에 공격력/방어력 추가입력
 (type: "!", name:"!", description:"!", option: "", number:"!", gold: !, diamond: !, trophy: !)
-// 이벤트아이템 추가, 아이콘이미지 추가 후 eicon, eperiod 추가입력
+// 이벤트아이템 추가방법 : 아이템/아이콘이미지를 폴더에 추가 -> addIcons 실행 -> 이벤트아이템 생성, eicon(아이콘번호), eperiod 추가입력
 (type: "!", name:"!", description:"!", option: "", number:"!", gold: !, diamond: !, trophy: !, eicon: "", eperiod: "")
 mutation{
   addItemshop(type: "!", name:"!", description:"!", option: "", number:"!", gold: !, diamond: !, trophy: !) {
@@ -223,9 +223,20 @@ mutation{
   }
 }
 
-// 유저 아이콘 추가
-mutation addUserIcon($email: String!, $number: String!, $name: String!, $description: String!) {
-  addUserIcon(email:$email, number:$number, name: $name, description: $description) {
+// 아이콘 추가 : 아이콘이미지 폴더에 추가 -> 아이콘추가조건(이벤트 제외)을 activity.js, mygon.js, myinfo.js 업데이트
+mutation{
+  addIcons(number:"01", name:"Starter", description:"begin") {
+    name
+    number
+    description
+  }
+}
+
+// 유저 아이콘 추가 
+// 아이콘"01"은 registerUser 아이디생성시 추가
+// 이벤트용/아이템의 증정 아이콘은 edragonPurchase, itemPurchase 구매시 추가
+mutation addUserIcon($email: String!, $number: String!) {
+  addUserIcon(email:$email, number:$number) {
   email
   username
   diamond

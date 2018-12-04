@@ -121,11 +121,16 @@ const Item = mongoose.model('item', {
   shield: [ShieldSchema],
   cbg: [CbgSchema]
 })
+const Icons = mongoose.model('icons', {
+  number: String,
+  name: String,
+  description: String
+})
 const Queue = mongoose.model('queue', {
   queue: [String]
 })
 const Statistic = mongoose.model('statistic', { usercount: Number, dragoncount: Number })
 
 export default {
-  Book, User, Dragon, Statistic, Item, Icon, Sword, Shield, Cbg, Queue, BattleHistory, Activity, eDragon
+  Book, User, Dragon, Statistic, Item, Icon, Sword, Shield, Cbg, Queue, BattleHistory, Activity, eDragon, Icons
 }

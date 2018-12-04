@@ -442,6 +442,7 @@ class gons extends Component {
           }
         }
       }
+      console.log('this.state.childList', this.state.childList)
 
       this.state.possible_cbg = this.state.all_cbg
       for (let a = 0; a < this.state.except_cbg.length; a += 1) {
@@ -651,338 +652,301 @@ class gons extends Component {
                 <div className="row">
                   <div class="s12 m4 l8">
                     <div className="card z-depth-1">
-                      <div className="card-image">
-                        {this.state.email !== localStorage.getItem('email') && this.state.choice_cbg === 'null' &&
+                      {this.state.state !== 'Egg' &&
+                        <div className="card-image">
+                          {this.state.email !== localStorage.getItem('email') && this.state.choice_cbg === 'null' &&
+                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${this.state.property}.png`}/>
+                          }
+                          {this.state.email !== localStorage.getItem('email') && this.state.choice_cbg !== 'null' && this.state.state !== 'Sell' && this.state.state !== 'Siring' &&
+                            <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${this.state.choice_cbg}.png`}/>
+                          }
+                          {this.state.email !== localStorage.getItem('email') && this.state.choice_cbg !== 'null' && this.state.state === 'Sell' &&
+                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${this.state.property}.png`}/>
+                          }
+                          {this.state.email !== localStorage.getItem('email') && this.state.choice_cbg !== 'null' && this.state.state === 'Siring' &&
+                            <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${this.state.property}.png`}/>
+                          }
+                          {this.state.email === localStorage.getItem('email') &&
+                            <div>
+                              {this.state.choice_cbg === 'null' && this.state.change_cbg === 'doNotClick' &&
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${this.state.property}.png`}/>
+                              }
+                              {this.state.choice_cbg !== 'null' && this.state.change_cbg === 'doNotClick' &&
+                                <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${this.state.choice_cbg}.png`}/>
+                              }
+                              {this.state.change_cbg !== 'doNotClick' && this.state.change_cbg !== 'null' &&
+                                <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${this.state.change_cbg}.png`}/>
+                              }
+                              {this.state.change_cbg === 'null' &&
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${this.state.property}.png`}/>
+                              }
+                            </div>
+                          }
+                          {this.state.evolution !== '03' && this.state.evolution !== '04' && this.state.evolution !== '05' &&
+                            <div>
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${this.state.evolution}${this.state.wing}${this.state.wingColor}.png`}/>
+                              </div>
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/3_horn/horn_${this.state.evolution}${this.state.horn}${this.state.hornColor}.png`}/>
+                              </div>
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/4_tail/tail_${this.state.evolution}${this.state.tail}${this.state.bodyColor}.png`}/>
+                              </div>
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/5_body/body_${this.state.evolution}${this.state.body}${this.state.bodyColor}.png`}/>
+                              </div>
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/6_eye/eye_${this.state.evolution}${this.state.eye}${this.state.eyeColor}.png`}/>
+                              </div>
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/7_mouth/mouth_${this.state.evolution}${this.state.mouth}.png`}/>
+                              </div>
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${this.state.evolution}${this.state.nose}.png`}/>
+                              </div>
+                            </div>
+                          }
+                          {this.state.evolution === '03' &&
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/step3/step3_03${this.state.comb.substring(4, 6)}${this.state.comb.substring(6, 8)}.png`}/>
+                              </div>
+                          }
+                          {this.state.evolution === '04' &&
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/step4/step4_04${this.state.comb.substring(4, 6)}${this.state.comb.substring(6, 8)}.png`}/>
+                              </div>
+                          }
+                          {this.state.evolution === '05' &&
+                              <div class="absolute">
+                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/step5/step5_05${this.state.comb.substring(4, 6)}${this.state.comb.substring(6, 8)}.png`}/>
+                              </div>
+                          }
+                        </div>
+                      }
+                      {this.state.state === 'Egg' &&
+                        <div className='margin-bottom-30'>
                           <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${this.state.property}.png`}/>
-                        }
-                        {this.state.email !== localStorage.getItem('email') && this.state.choice_cbg !== 'null' && this.state.state !== 'Sell' && this.state.state !== 'Siring' &&
-                          <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${this.state.choice_cbg}.png`}/>
-                        }
-                        {this.state.email !== localStorage.getItem('email') && this.state.choice_cbg !== 'null' && this.state.state === 'Sell' &&
-                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${this.state.property}.png`}/>
-                        }
-                        {this.state.email !== localStorage.getItem('email') && this.state.choice_cbg !== 'null' && this.state.state === 'Siring' &&
-                          <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${this.state.property}.png`}/>
-                        }
-                        {this.state.email === localStorage.getItem('email') &&
-                          <div>
-                            {this.state.choice_cbg === 'null' && this.state.change_cbg === 'doNotClick' &&
-                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${this.state.property}.png`}/>
+                          <div class="absolute">
+                            {this.state.evolution === '01' &&
+                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg.png`}/>
                             }
-                            {this.state.choice_cbg !== 'null' && this.state.change_cbg === 'doNotClick' &&
-                              <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${this.state.choice_cbg}.png`}/>
+                            {this.state.evolution === '02' &&
+                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg2.png`}/>
                             }
-                            {this.state.change_cbg !== 'doNotClick' && this.state.change_cbg !== 'null' &&
-                              <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${this.state.change_cbg}.png`}/>
+                            {this.state.evolution === '03' &&
+                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg3.png`}/>
                             }
-                            {this.state.change_cbg === 'null' &&
-                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${this.state.property}.png`}/>
+                            {this.state.evolution === '04' &&
+                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg.png`}/>
                             }
                           </div>
-                        }
-                        {this.state.evolution !== '03' && this.state.evolution !== '04' && this.state.evolution !== '05' &&
-                          <div>
-                            <div class="absolute">
-                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${this.state.evolution}${this.state.wing}${this.state.wingColor}.png`}/>
-                            </div>
-                            <div class="absolute">
-                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/3_horn/horn_${this.state.evolution}${this.state.horn}${this.state.hornColor}.png`}/>
-                            </div>
-                            <div class="absolute">
-                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/4_tail/tail_${this.state.evolution}${this.state.tail}${this.state.bodyColor}.png`}/>
-                            </div>
-                            <div class="absolute">
-                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/5_body/body_${this.state.evolution}${this.state.body}${this.state.bodyColor}.png`}/>
-                            </div>
-                            <div class="absolute">
-                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/6_eye/eye_${this.state.evolution}${this.state.eye}${this.state.eyeColor}.png`}/>
-                            </div>
-                            <div class="absolute">
-                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/7_mouth/mouth_${this.state.evolution}${this.state.mouth}.png`}/>
-                            </div>
-                            <div class="absolute">
-                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${this.state.evolution}${this.state.nose}.png`}/>
-                            </div>
-                          </div>
-                        }
-                        {this.state.evolution === '03' &&
-                            <div class="absolute">
-                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/step3/step3_03${this.state.comb.substring(4, 6)}${this.state.comb.substring(6, 8)}.png`}/>
-                            </div>
-                        }
-                        {this.state.evolution === '04' &&
-                            <div class="absolute">
-                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/step4/step4_04${this.state.comb.substring(4, 6)}${this.state.comb.substring(6, 8)}.png`}/>
-                            </div>
-                        }
-                        {this.state.evolution === '05' &&
-                            <div class="absolute">
-                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/step5/step5_05${this.state.comb.substring(4, 6)}${this.state.comb.substring(6, 8)}.png`}/>
-                            </div>
-                        }
-                      </div>
+                        </div>
+                      }
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="detail-Explanation" >
-              <div class="row">
+            {this.state.state !== 'Egg' &&
+              <div class="detail-Explanation" >
+                <div class="row">
+
+                  {this.state.email !== localStorage.getItem('email') &&
+                    <div className="right margin-top-15">
+                      <span>
+                        <div class="left valign-wrapper">
+                          <div class="col s6 m6 l12">
+                            <a href={`/profile/${this.state.owner_username}/1`}><img src={`${process.env.PUBLIC_URL}/images/icon/icon_${this.state.owner_icon}.png`} alt="" class="circle responsive-img"/></a>
+                          </div>
+                          <div class="col">
+                            <span class="black-text">
+                              <a href={`/profile/${this.state.owner_username}/1`}><h5>{this.state.owner_email}</h5></a>
+                              <a href={`/profile/${this.state.owner_username}/1`}><p>{this.state.owner_username}</p></a>
+                            </span>
+                          </div>
+                        </div>
+                      </span>
+                    </div>
+                  }
+
+                  {this.state.email !== localStorage.getItem('email') && this.state.state === 'New' &&
+                    <div className="right margin-top-15">
+                      <span>
+                        <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleBuybtn}><i class="material-icons left">cloud</i>Buy</a>
+                      </span>
+                    </div>
+                  }
+                  {this.state.email !== localStorage.getItem('email') && this.state.state === 'Sell' &&
+                    <div className="right margin-top-15">
+                      <span>
+                        <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleBuybtn}><i class="material-icons left">cloud</i>Buy</a>
+                      </span>
+                    </div>
+                  }
+                  {this.state.email !== localStorage.getItem('email') && this.state.state === 'Siring' && localStorage.getItem('email') !== null &&
+                    <div className="right margin-top-15">
+                      <span>
+                        <a href={`/breed/${this.state.serial}`} class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Siring</a>
+                      </span>
+                    </div>
+                  }
+                  {this.state.email === localStorage.getItem('email') &&
+                    <div className="right margin-top-30">
+                      {this.state.state !== 'Resting' && this.state.state !== 'brooding' && this.state.state !== 'during battle' && this.state.state !== 'Sell' && this.state.state !== 'Siring' && this.state.state !== 'Matching' &&
+                        <span>
+                          <a href={`/breed/${this.state.serial}`} class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Breed</a>
+                          <a href={`/sell/${this.state.serial}`} class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Sell</a>
+                          <a href={`/gift/${this.state.serial}`} class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>Gift</a>
+                        </span>
+                      }
+                      {this.state.state === 'Resting' &&
+                        <span>
+                          <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleResting}><i class="material-icons left">cloud</i>Breed</a>
+                          <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleResting}><i class="material-icons left">cloud</i>Sell</a>
+                          <a class="waves-effect waves-light btn-large" onClick={this.handleResting}><i class="material-icons left">cloud</i>Gift</a>
+                        </span>
+                      }
+                      {this.state.state === 'brooding' &&
+                        <span>
+                          <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleBrooding}><i class="material-icons left">cloud</i>Breed</a>
+                          <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleBrooding}><i class="material-icons left">cloud</i>Sell</a>
+                          <a class="waves-effect waves-light btn-large" onClick={this.handleBrooding}><i class="material-icons left">cloud</i>Gift</a>
+                        </span>
+                      }
+                      {this.state.state === 'during battle' &&
+                        <span>
+                          <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleDuringBattle}><i class="material-icons left">cloud</i>Breed</a>
+                          <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleDuringBattle}><i class="material-icons left">cloud</i>Sell</a>
+                          <a class="waves-effect waves-light btn-large" onClick={this.handleDuringBattle}><i class="material-icons left">cloud</i>Gift</a>
+                        </span>
+                      }
+                      {this.state.state === 'Sell' &&
+                        <span>
+                          <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleSell}><i class="material-icons left">cloud</i>Breed</a>
+                          <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleSellCancel}><i class="material-icons left">cloud</i>SellCancel</a>
+                          <a class="waves-effect waves-light btn-large" onClick={this.handleSell}><i class="material-icons left">cloud</i>Gift</a>
+                        </span>
+                      }
+                      {this.state.state === 'Siring' &&
+                        <span>
+                          <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleSiring}><i class="material-icons left">cloud</i>Breed</a>
+                          <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleSiringCancel}><i class="material-icons left">cloud</i>SiringCancel</a>
+                          <a class="waves-effect waves-light btn-large" onClick={this.handleSiring}><i class="material-icons left">cloud</i>Gift</a>
+                        </span>
+                      }
+                      {this.state.state === 'Matching' &&
+                        <span>
+                          <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleMatching}><i class="material-icons left">cloud</i>Breed</a>
+                          <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleMatching}><i class="material-icons left">cloud</i>SiringCancel</a>
+                          <a class="waves-effect waves-light btn-large" onClick={this.handleMatching}><i class="material-icons left">cloud</i>Gift</a>
+                        </span>
+                      }
+                    </div>
+                  }
+
+                  {this.state.new_name === null &&
+                    <font size="7">{this.state.name}</font>
+                  }
+                  {this.state.new_name !== null &&
+                    <font size="7">{this.state.new_name}</font>
+                  }
+                  {this.state.email === localStorage.getItem('email') &&
+                    <a class="modal-trigger" href="#modal_name"><i class="Medium material-icons margin-left-10">edit</i></a>
+                  }
+                  <p><font size="6">{this.state.serial}</font></p>
+                </div>
+
+                - win {this.state.win}&nbsp;&nbsp;&nbsp;- lose {this.state.lose}&nbsp;&nbsp;&nbsp;- rate {this.state.winning_rate}&nbsp;&nbsp;&nbsp;- gen {this.state.gen}&nbsp;&nbsp;&nbsp;- cooldown {this.state.cooldown[0]}
+                    &nbsp;&nbsp;&nbsp;- price {this.state.price}&nbsp;&nbsp;&nbsp;- birthday {this.state.birthday}
+                <br/><br/><br/>
 
                 {this.state.email !== localStorage.getItem('email') &&
-                  <div className="right margin-top-15">
-                    <span>
-                      <div class="left valign-wrapper">
-                        <div class="col s6 m6 l12">
-                          <a href={`/profile/${this.state.owner_username}/1`}><img src={`${process.env.PUBLIC_URL}/images/icon/icon_${this.state.owner_icon}.png`} alt="" class="circle responsive-img"/></a>
-                        </div>
-                        <div class="col">
-                          <span class="black-text">
-                            <a href={`/profile/${this.state.owner_username}/1`}><h5>{this.state.owner_email}</h5></a>
-                            <a href={`/profile/${this.state.owner_username}/1`}><p>{this.state.owner_username}</p></a>
-                          </span>
-                        </div>
-                      </div>
-                    </span>
-                  </div>
-                }
-
-                {this.state.email !== localStorage.getItem('email') && this.state.state === 'New' &&
-                  <div className="right margin-top-15">
-                    <span>
-                      <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleBuybtn}><i class="material-icons left">cloud</i>Buy</a>
-                    </span>
-                  </div>
-                }
-                {this.state.email !== localStorage.getItem('email') && this.state.state === 'Sell' &&
-                  <div className="right margin-top-15">
-                    <span>
-                      <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleBuybtn}><i class="material-icons left">cloud</i>Buy</a>
-                    </span>
-                  </div>
-                }
-                {this.state.email !== localStorage.getItem('email') && this.state.state === 'Siring' && localStorage.getItem('email') !== null &&
-                  <div className="right margin-top-15">
-                    <span>
-                      <a href={`/breed/${this.state.serial}`} class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Siring</a>
-                    </span>
+                  <div>
+                    <h5>price</h5>
+                    {this.state.price}
+                    <h5>period</h5>
+                    {this.state.period}
                   </div>
                 }
                 {this.state.email === localStorage.getItem('email') &&
-                  <div className="right margin-top-30">
-                    {this.state.state !== 'Resting' && this.state.state !== 'brooding' && this.state.state !== 'during battle' && this.state.state !== 'Sell' && this.state.state !== 'Siring' && this.state.state !== 'Matching' &&
-                      <span>
-                        <a href={`/breed/${this.state.serial}`} class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Breed</a>
-                        <a href={`/sell/${this.state.serial}`} class="waves-effect waves-light btn-large margin-right-10"><i class="material-icons left">cloud</i>Sell</a>
-                        <a href={`/gift/${this.state.serial}`} class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>Gift</a>
-                      </span>
-                    }
-                    {this.state.state === 'Resting' &&
-                      <span>
-                        <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleResting}><i class="material-icons left">cloud</i>Breed</a>
-                        <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleResting}><i class="material-icons left">cloud</i>Sell</a>
-                        <a class="waves-effect waves-light btn-large" onClick={this.handleResting}><i class="material-icons left">cloud</i>Gift</a>
-                      </span>
-                    }
-                    {this.state.state === 'brooding' &&
-                      <span>
-                        <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleBrooding}><i class="material-icons left">cloud</i>Breed</a>
-                        <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleBrooding}><i class="material-icons left">cloud</i>Sell</a>
-                        <a class="waves-effect waves-light btn-large" onClick={this.handleBrooding}><i class="material-icons left">cloud</i>Gift</a>
-                      </span>
-                    }
-                    {this.state.state === 'during battle' &&
-                      <span>
-                        <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleDuringBattle}><i class="material-icons left">cloud</i>Breed</a>
-                        <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleDuringBattle}><i class="material-icons left">cloud</i>Sell</a>
-                        <a class="waves-effect waves-light btn-large" onClick={this.handleDuringBattle}><i class="material-icons left">cloud</i>Gift</a>
-                      </span>
-                    }
-                    {this.state.state === 'Sell' &&
-                      <span>
-                        <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleSell}><i class="material-icons left">cloud</i>Breed</a>
-                        <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleSellCancel}><i class="material-icons left">cloud</i>SellCancel</a>
-                        <a class="waves-effect waves-light btn-large" onClick={this.handleSell}><i class="material-icons left">cloud</i>Gift</a>
-                      </span>
-                    }
-                    {this.state.state === 'Siring' &&
-                      <span>
-                        <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleSiring}><i class="material-icons left">cloud</i>Breed</a>
-                        <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleSiringCancel}><i class="material-icons left">cloud</i>SiringCancel</a>
-                        <a class="waves-effect waves-light btn-large" onClick={this.handleSiring}><i class="material-icons left">cloud</i>Gift</a>
-                      </span>
-                    }
-                    {this.state.state === 'Matching' &&
-                      <span>
-                        <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleMatching}><i class="material-icons left">cloud</i>Breed</a>
-                        <a class="waves-effect waves-light btn-large margin-right-10" onClick={this.handleMatching}><i class="material-icons left">cloud</i>SiringCancel</a>
-                        <a class="waves-effect waves-light btn-large" onClick={this.handleMatching}><i class="material-icons left">cloud</i>Gift</a>
-                      </span>
-                    }
-                  </div>
-                }
-
-                {this.state.new_name === null &&
-                  <font size="7">{this.state.name}</font>
-                }
-                {this.state.new_name !== null &&
-                  <font size="7">{this.state.new_name}</font>
-                }
-                {this.state.email === localStorage.getItem('email') &&
-                  <a class="modal-trigger" href="#modal_name"><i class="Medium material-icons margin-left-10">edit</i></a>
-                }
-                <p><font size="6">{this.state.serial}</font></p>
-              </div>
-
-              - win {this.state.win}&nbsp;&nbsp;&nbsp;- lose {this.state.lose}&nbsp;&nbsp;&nbsp;- rate {this.state.winning_rate}&nbsp;&nbsp;&nbsp;- gen {this.state.gen}&nbsp;&nbsp;&nbsp;- cooldown {this.state.cooldown[0]}
-                  &nbsp;&nbsp;&nbsp;- price {this.state.price}&nbsp;&nbsp;&nbsp;- birthday {this.state.birthday}
-              <br/><br/><br/>
-
-              {this.state.email !== localStorage.getItem('email') &&
-                <div>
-                  <h5>price</h5>
-                  {this.state.price}
-                  <h5>period</h5>
-                  {this.state.period}
-                </div>
-              }
-              {this.state.email === localStorage.getItem('email') &&
-                <div class="section">
-                  <div class="row">
-                    <div class="col s12 m4">
-                      <div class="icon-block center">
-                        <h5 class="center margin-bottom-20">Sword</h5>
-                        {this.state.choice_sword === 'null' && this.state.change_sword === 'doNotClick' &&
-                          <a class="modal-trigger" href="#modal_sword"><img src={`${process.env.PUBLIC_URL}/images/btn_select_gon.png`} width="80%" height="80%"/></a>
-                        }
-                        {this.state.choice_sword !== 'null' && this.state.change_sword === 'doNotClick' &&
-                          <a class="modal-trigger" href="#modal_sword"><img src={`${process.env.PUBLIC_URL}/images/item/sword/sword_${this.state.choice_sword}.png`} width="80%" height="80%"/></a>
-                        }
-                        {this.state.change_sword !== 'doNotClick' && this.state.change_sword !== 'null' &&
-                          <a class="modal-trigger" href="#modal_sword"><img src={`${process.env.PUBLIC_URL}/images/item/sword/sword_${this.state.change_sword}.png`} width="80%" height="80%"/></a>
-                        }
-                        {this.state.change_sword === 'null' &&
-                          <a class="modal-trigger" href="#modal_sword"><img src={`${process.env.PUBLIC_URL}/images/btn_select_gon.png`} width="80%" height="80%"/></a>
-                        }
-                      </div>
-                    </div>
-
-                    <div class="col s12 m4">
-                      <div class="icon-block center">
-                        <h5 class="center margin-bottom-20">Shield</h5>
-                        {this.state.choice_shield === 'null' && this.state.change_shield === 'doNotClick' &&
-                          <a class="modal-trigger" href="#modal_shield"><img src={`${process.env.PUBLIC_URL}/images/btn_select_gon.png`} width="80%" height="80%"/></a>
-                        }
-                        {this.state.choice_shield !== 'null' && this.state.change_shield === 'doNotClick' &&
-                          <a class="modal-trigger" href="#modal_shield"><img src={`${process.env.PUBLIC_URL}/images/item/shield/shield_${this.state.choice_shield}.png`} width="80%" height="80%"/></a>
-                        }
-                        {this.state.change_shield !== 'doNotClick' && this.state.change_shield !== 'null' &&
-                          <a class="modal-trigger" href="#modal_shield"><img src={`${process.env.PUBLIC_URL}/images/item/shield/shield_${this.state.change_shield}.png`} width="80%" height="80%"/></a>
-                        }
-                        {this.state.change_shield === 'null' &&
-                          <a class="modal-trigger" href="#modal_shield"><img src={`${process.env.PUBLIC_URL}/images/btn_select_gon.png`} width="80%" height="80%"/></a>
-                        }
-                      </div>
-                    </div>
-
-                    <div class="col s12 m4">
-                      <div class="icon-block center">
-                        <h5 class="center margin-bottom-20">배경</h5>
-                        {this.state.choice_cbg === 'null' && this.state.change_cbg === 'doNotClick' &&
-                          <a class="modal-trigger" href="#modal_cbg"><img src={`${process.env.PUBLIC_URL}/images/btn_select_gon.png`} width="80%" height="80%"/></a>
-                        }
-                        {this.state.choice_cbg !== 'null' && this.state.change_cbg === 'doNotClick' &&
-                          <a class="modal-trigger" href="#modal_cbg"><img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${this.state.choice_cbg}.png`} width="80%" height="80%"/></a>
-                        }
-                        {this.state.change_cbg !== 'doNotClick' && this.state.change_cbg !== 'null' &&
-                          <a class="modal-trigger" href="#modal_cbg"><img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${this.state.change_cbg}.png`} width="80%" height="80%"/></a>
-                        }
-                        {this.state.change_cbg === 'null' &&
-                          <a class="modal-trigger" href="#modal_cbg"><img src={`${process.env.PUBLIC_URL}/images/btn_select_gon.png`} width="80%" height="80%"/></a>
-                        }
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              }
-
-              <h5>lineament</h5>
-              {this.state.comb}
-              <br/><br/><br/>
-              <h5>parents</h5>
-              <div className='center'>
-                <div className="row">
-                  {this.state.parentsList.map(item =>
-                    <div key={item.id}>
-                      <div className="col s12 m6 l3">
-                        <div className="card">
-                          { this.state.parentsList[0] === 'devman' &&
-                            <div className="card-image">
-                              <img src={`${process.env.PUBLIC_URL}/images/brief_Info/DragonBalls.png`}/>
-                            </div>
+                  <div class="section">
+                    <div class="row">
+                      <div class="col s12 m4">
+                        <div class="icon-block center">
+                          <h5 class="center margin-bottom-20">Sword</h5>
+                          {this.state.choice_sword === 'null' && this.state.change_sword === 'doNotClick' &&
+                            <a class="modal-trigger" href="#modal_sword"><img src={`${process.env.PUBLIC_URL}/images/btn_select_gon.png`} width="80%" height="80%"/></a>
                           }
-                          { this.state.parentsList[0] !== 'devman' &&
-                            <div className="card-image">
-                              <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${item.property}.png`}/>
-                              <div class="absolute">
-                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${item.evolution}${item.wing}${item.wingColor}.png`}/>
-                              </div>
-                              <div class="absolute">
-                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/3_horn/horn_${item.evolution}${item.horn}${item.hornColor}.png`}/>
-                              </div>
-                              <div class="absolute">
-                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/4_tail/tail_${item.evolution}${item.tail}${item.bodyColor}.png`}/>
-                              </div>
-                              <div class="absolute">
-                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/5_body/body_${item.evolution}${item.body}${item.bodyColor}.png`}/>
-                              </div>
-                              <div class="absolute">
-                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/6_eye/eye_${item.evolution}${item.eye}${item.eyeColor}.png`}/>
-                              </div>
-                              <div class="absolute">
-                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/7_mouth/mouth_${item.evolution}${item.mouth}.png`}/>
-                              </div>
-                              <div class="absolute">
-                                <a href={`/gons/${item.serial}`}><img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${item.evolution}${item.nose}.png`}/></a>
-                              </div>
-                            </div>
+                          {this.state.choice_sword !== 'null' && this.state.change_sword === 'doNotClick' &&
+                            <a class="modal-trigger" href="#modal_sword"><img src={`${process.env.PUBLIC_URL}/images/item/sword/sword_${this.state.choice_sword}.png`} width="80%" height="80%"/></a>
+                          }
+                          {this.state.change_sword !== 'doNotClick' && this.state.change_sword !== 'null' &&
+                            <a class="modal-trigger" href="#modal_sword"><img src={`${process.env.PUBLIC_URL}/images/item/sword/sword_${this.state.change_sword}.png`} width="80%" height="80%"/></a>
+                          }
+                          {this.state.change_sword === 'null' &&
+                            <a class="modal-trigger" href="#modal_sword"><img src={`${process.env.PUBLIC_URL}/images/btn_select_gon.png`} width="80%" height="80%"/></a>
                           }
                         </div>
                       </div>
-                    </div>)}
-                </div>
-              </div>
-              <br/><br/><br/>
-              <h5>children</h5>
-              <div className='center'>
-                <div className="row">
-                  {this.state.childList.map(item =>
-                    <div key={item.id}>
-                      <div className="col s12 m6 l3">
-                        <div className="card">
-                          <div className="card-image">
-                            {item.state === 'Egg' &&
-                              <div>
-                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${item.property}.png`}/>
-                                <div class="absolute">
-                                  {item.evolution === '01' &&
-                                    <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg.png`}/>
-                                  }
-                                  {item.evolution === '02' &&
-                                    <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg2.png`}/>
-                                  }
-                                  {item.evolution === '03' &&
-                                    <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg3.png`}/>
-                                  }
-                                  {item.evolution === '04' &&
-                                    <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg.png`}/>
-                                  }
-                                </div>
+
+                      <div class="col s12 m4">
+                        <div class="icon-block center">
+                          <h5 class="center margin-bottom-20">Shield</h5>
+                          {this.state.choice_shield === 'null' && this.state.change_shield === 'doNotClick' &&
+                            <a class="modal-trigger" href="#modal_shield"><img src={`${process.env.PUBLIC_URL}/images/btn_select_gon.png`} width="80%" height="80%"/></a>
+                          }
+                          {this.state.choice_shield !== 'null' && this.state.change_shield === 'doNotClick' &&
+                            <a class="modal-trigger" href="#modal_shield"><img src={`${process.env.PUBLIC_URL}/images/item/shield/shield_${this.state.choice_shield}.png`} width="80%" height="80%"/></a>
+                          }
+                          {this.state.change_shield !== 'doNotClick' && this.state.change_shield !== 'null' &&
+                            <a class="modal-trigger" href="#modal_shield"><img src={`${process.env.PUBLIC_URL}/images/item/shield/shield_${this.state.change_shield}.png`} width="80%" height="80%"/></a>
+                          }
+                          {this.state.change_shield === 'null' &&
+                            <a class="modal-trigger" href="#modal_shield"><img src={`${process.env.PUBLIC_URL}/images/btn_select_gon.png`} width="80%" height="80%"/></a>
+                          }
+                        </div>
+                      </div>
+
+                      <div class="col s12 m4">
+                        <div class="icon-block center">
+                          <h5 class="center margin-bottom-20">배경</h5>
+                          {this.state.choice_cbg === 'null' && this.state.change_cbg === 'doNotClick' &&
+                            <a class="modal-trigger" href="#modal_cbg"><img src={`${process.env.PUBLIC_URL}/images/btn_select_gon.png`} width="80%" height="80%"/></a>
+                          }
+                          {this.state.choice_cbg !== 'null' && this.state.change_cbg === 'doNotClick' &&
+                            <a class="modal-trigger" href="#modal_cbg"><img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${this.state.choice_cbg}.png`} width="80%" height="80%"/></a>
+                          }
+                          {this.state.change_cbg !== 'doNotClick' && this.state.change_cbg !== 'null' &&
+                            <a class="modal-trigger" href="#modal_cbg"><img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${this.state.change_cbg}.png`} width="80%" height="80%"/></a>
+                          }
+                          {this.state.change_cbg === 'null' &&
+                            <a class="modal-trigger" href="#modal_cbg"><img src={`${process.env.PUBLIC_URL}/images/btn_select_gon.png`} width="80%" height="80%"/></a>
+                          }
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                }
+
+                <h5>lineament</h5>
+                {this.state.comb}
+                <br/><br/><br/>
+                <h5>parents</h5>
+                <div className='center'>
+                  <div className="row">
+                    {this.state.parentsList.map(item =>
+                      <div key={item.id}>
+                        <div className="col s12 m6 l3">
+                          <div className="card">
+                            { this.state.parentsList[0] === 'devman' &&
+                              <div className="card-image">
+                                <img src={`${process.env.PUBLIC_URL}/images/brief_Info/DragonBalls.png`}/>
                               </div>
                             }
-                            {item.state !== 'Egg' && item.evolution !== '03' && item.evolution !== '04' &&
-                              <div>
+                            { this.state.parentsList[0] !== 'devman' &&
+                              <div className="card-image">
                                 <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${item.property}.png`}/>
                                 <div class="absolute">
                                   <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${item.evolution}${item.wing}${item.wingColor}.png`}/>
@@ -1007,29 +971,89 @@ class gons extends Component {
                                 </div>
                               </div>
                             }
-                            {item.state !== 'Egg' && item.evolution === '03' &&
-                              <div>
-                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${item.property}.png`}/>
-                                <div class="absolute">
-                                  <a href={`/gons/${item.serial}`}><img src={`${process.env.PUBLIC_URL}/images/gonImages/step3/step3_03${item.comb.substring(4, 6)}${item.comb.substring(6, 8)}.png`}/></a>
-                                </div>
-                              </div>
-                            }
-                            {item.state !== 'Egg' && item.evolution === '04' &&
-                              <div>
-                                <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${item.property}.png`}/>
-                                <div class="absolute">
-                                  <a href={`/gons/${item.serial}`}><img src={`${process.env.PUBLIC_URL}/images/gonImages/step4/step4_04${item.comb.substring(4, 6)}${item.comb.substring(6, 8)}.png`}/></a>
-                                </div>
-                              </div>
-                            }
                           </div>
                         </div>
-                      </div>
-                    </div>)}
+                      </div>)}
+                  </div>
+                </div>
+                <br/><br/><br/>
+                <h5>children</h5>
+                <div className='center'>
+                  <div className="row">
+                    {this.state.childList.map(item =>
+                      <div key={item.id}>
+                        <div className="col s12 m6 l3">
+                          <div className="card">
+                            <div className="card-image">
+                              {item.state === 'Egg' &&
+                                <div>
+                                  <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${item.property}.png`}/>
+                                  <div class="absolute">
+                                    {item.evolution === '01' &&
+                                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg.png`}/>
+                                    }
+                                    {item.evolution === '02' &&
+                                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg2.png`}/>
+                                    }
+                                    {item.evolution === '03' &&
+                                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg3.png`}/>
+                                    }
+                                    {item.evolution === '04' &&
+                                      <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg.png`}/>
+                                    }
+                                  </div>
+                                </div>
+                              }
+                              {item.state !== 'Egg' && item.evolution !== '03' && item.evolution !== '04' &&
+                                <div>
+                                  <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${item.property}.png`}/>
+                                  <div class="absolute">
+                                    <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${item.evolution}${item.wing}${item.wingColor}.png`}/>
+                                  </div>
+                                  <div class="absolute">
+                                    <img src={`${process.env.PUBLIC_URL}/images/gonImages/3_horn/horn_${item.evolution}${item.horn}${item.hornColor}.png`}/>
+                                  </div>
+                                  <div class="absolute">
+                                    <img src={`${process.env.PUBLIC_URL}/images/gonImages/4_tail/tail_${item.evolution}${item.tail}${item.bodyColor}.png`}/>
+                                  </div>
+                                  <div class="absolute">
+                                    <img src={`${process.env.PUBLIC_URL}/images/gonImages/5_body/body_${item.evolution}${item.body}${item.bodyColor}.png`}/>
+                                  </div>
+                                  <div class="absolute">
+                                    <img src={`${process.env.PUBLIC_URL}/images/gonImages/6_eye/eye_${item.evolution}${item.eye}${item.eyeColor}.png`}/>
+                                  </div>
+                                  <div class="absolute">
+                                    <img src={`${process.env.PUBLIC_URL}/images/gonImages/7_mouth/mouth_${item.evolution}${item.mouth}.png`}/>
+                                  </div>
+                                  <div class="absolute">
+                                    <a href={`/gons/${item.serial}`}><img src={`${process.env.PUBLIC_URL}/images/gonImages/8_nose/nose_${item.evolution}${item.nose}.png`}/></a>
+                                  </div>
+                                </div>
+                              }
+                              {item.state !== 'Egg' && item.evolution === '03' &&
+                                <div>
+                                  <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${item.property}.png`}/>
+                                  <div class="absolute">
+                                    <a href={`/gons/${item.serial}`}><img src={`${process.env.PUBLIC_URL}/images/gonImages/step3/step3_03${item.comb.substring(4, 6)}${item.comb.substring(6, 8)}.png`}/></a>
+                                  </div>
+                                </div>
+                              }
+                              {item.state !== 'Egg' && item.evolution === '04' &&
+                                <div>
+                                  <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${item.property}.png`}/>
+                                  <div class="absolute">
+                                    <a href={`/gons/${item.serial}`}><img src={`${process.env.PUBLIC_URL}/images/gonImages/step4/step4_04${item.comb.substring(4, 6)}${item.comb.substring(6, 8)}.png`}/></a>
+                                  </div>
+                                </div>
+                              }
+                            </div>
+                          </div>
+                        </div>
+                      </div>)}
+                  </div>
                 </div>
               </div>
-            </div>
+            }
           </div>
         )}
       </Layout>

@@ -286,7 +286,7 @@ class sell extends Component {
 
               <br/>
               <div class="center-align">
-                <a class="waves-effect waves-light btn-large col s12" onClick={this.btnSellbtn}>Sell</a>
+                <a class="waves-effect waves-light btn-large col s12" onClick={this.btnSellbtn}>Sell ​​to Market</a>
               </div>
               <br/><br/><br/><br/>
               <div class="card-panel">

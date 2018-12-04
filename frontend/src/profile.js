@@ -248,12 +248,7 @@ class profile extends Component {
                               </div>
                             </div>
                             <div className="card-action">
-                              {item.state !== 'Egg' &&
-                                <a href={`/gons/${item.serial}`}>{item.serial}</a>
-                              }
-                              {item.state === 'Egg' &&
-                                'egg'
-                              }
+                              <a href={`/gons/${item.serial}`}>{item.serial}</a>
                             </div>
                           </div>
                         </div>

@@ -122,6 +122,11 @@ const typeDefs = `
     shield: [Shield]
     cbg: [Cbg]
   }
+  type Icons {
+    number: String
+    name: String
+    description: String
+  }
   type Queue {
     queue: [String]
   }
@@ -165,12 +170,13 @@ const typeDefs = `
     battleStart(email: String!, serial: String!) : Dragon
     battleCancle(email: String!, serial: String!) : Dragon
     battleUpdate(email: String!) : User
-    addUserIcon(email: String!, number: String!, name: String!, description: String!) : User
-    editChoiceIcon(email: String!, number: String!) : User
     findbadge(email: String!) : User
     dragonNameChange(email: String!, serial: String! name: String!) : Dragon
     addeDragon(ename: String!, edesc: String!, enumber: String!, eicon: String!, egold: Int, ediamond: Int, etrophy: Int, eperiod: String!): eDragon
     edragonPurchase(email: String!, serial: String!, currency: String!): Dragon
+    addIcons(name: String!, number: String!, description: String!): Icons
+    addUserIcon(email: String!, number: String!) : User
+    editChoiceIcon(email: String!, number: String!) : User
   }
 `
 export default typeDefs
