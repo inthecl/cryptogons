@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo'
 import { Link, Redirect } from 'react-router-dom'
-import { finduser, dragons, editUserDragonState, battleUpdate } from './queries'
+import { finduser, dragons, editUserDragonState, battleUpdate, addUserIcon } from './queries'
 import './App.css'
 import Layout from './Layout'
 import MyGonHeader from './MyGonHeader'
@@ -14,6 +14,16 @@ class MyGons extends Component {
       dragonsComb: [],
       change_state: null
     }
+    this.handleAddIcon = this.handleAddIcon.bind(this)
+  }
+  handleAddIcon(e) {
+    this.props.addUserIcon({ variables: { email: localStorage.getItem('email'), number: e } })
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((errors) => {
+        console.log('errors: ', errors)
+      })
   }
   render() {
     if (!this.props.finduser.loading && !this.props.data.loading) {
@@ -77,6 +87,99 @@ class MyGons extends Component {
       }
       this.state.dragonsComb.reverse() // 최신순으로 정렬
       console.log('dragonsComb.reverse : ', this.state.dragonsComb)
+
+      // 나의 아이콘 유무 확인
+      let level1 = false // 최초 1단계용 획득
+      let level2 = false // 최초 2단계용 획득
+      let level3 = false // 최초 3단계용 획득
+      let gons10 = false // 10개용 획득
+      let gons50 = false // 50개용 획득
+      let gons100 = false // 100개용 획득
+      let gons300 = false // 300개용 획득
+      let gons500 = false // 500개용 획득
+      let gons1000 = false // 1000개용 획득
+      let mutant = false // 돌연변이용 획득
+      for (let il = 0; il < this.props.finduser.finduser.icon.length; il += 1) {
+        if (this.props.finduser.finduser.icon[il].number === '02') {
+          level1 = true
+        }
+        if (this.props.finduser.finduser.icon[il].number === '03') {
+          level2 = true
+        }
+        if (this.props.finduser.finduser.icon[il].number === '04') {
+          level3 = true
+        }
+        if (this.props.finduser.finduser.icon[il].number === '05') {
+          gons10 = true
+        }
+        if (this.props.finduser.finduser.icon[il].number === '06') {
+          gons50 = true
+        }
+        if (this.props.finduser.finduser.icon[il].number === '07') {
+          gons100 = true
+        }
+        if (this.props.finduser.finduser.icon[il].number === '08') {
+          gons300 = true
+        }
+        if (this.props.finduser.finduser.icon[il].number === '09') {
+          gons500 = true
+        }
+        if (this.props.finduser.finduser.icon[il].number === '10') {
+          gons1000 = true
+        }
+        if (this.props.finduser.finduser.icon[il].number === '11') {
+          mutant = true
+        }
+      }
+      // 최초 1,2,3단계, 돌연변이 획득시 아이콘추가
+      for (let mdl = 0; mdl < this.props.finduser.finduser.myDragons.length; mdl += 1) {
+        for (let dl = 0; dl < this.props.data.dragons.length; dl += 1) {
+          if (this.props.finduser.finduser.myDragons[mdl] === this.props.data.dragons[dl].serial) {
+            if (level1 === false && this.props.data.dragons[dl].combination.substring(0, 2) === '01') {
+              this.handleAddIcon('02')
+              level1 = true
+            }
+            if (level2 === false && this.props.data.dragons[dl].combination.substring(0, 2) === '02') {
+              this.handleAddIcon('03')
+              level2 = true
+            }
+            if (level3 === false && this.props.data.dragons[dl].combination.substring(0, 2) === '03') {
+              this.handleAddIcon('04')
+              level3 = true
+            }
+            if (mutant === false && this.props.data.dragons[dl].combination.substring(0, 2) === '04') {
+              this.handleAddIcon('11')
+              mutant = true
+            }
+          }
+        }
+      }
+      // 용개수 충족시 아이콘추가
+      const gl = this.props.finduser.finduser.myDragons.length
+      if (gons10 === false && gl >= 10 && gl < 50) {
+        this.handleAddIcon('05')
+        gons10 = true
+      }
+      if (gons50 === false && gl >= 50 && gl < 100) {
+        this.handleAddIcon('06')
+        gons50 = true
+      }
+      if (gons100 === false && gl >= 100 && gl < 300) {
+        this.handleAddIcon('07')
+        gons100 = true
+      }
+      if (gons300 === false && gl >= 300 && gl < 500) {
+        this.handleAddIcon('08')
+        gons300 = true
+      }
+      if (gons500 === false && gl >= 500 && gl < 1000) {
+        this.handleAddIcon('09')
+        gons500 = true
+      }
+      if (gons1000 === false && gl >= 1000) {
+        this.handleAddIcon('10')
+        gons1000 = true
+      }
     }
     const { pagenum } = this.props.match.params
     console.log('this.props.match.params:', this.props.match.params)
@@ -224,16 +327,9 @@ class MyGons extends Component {
                             </div>
                           }
                         </div>
-                        {item.state !== 'Egg' &&
-                          <div className="card-action">
-                            <a href={`/gons/${item.serial}`}>{item.serial}</a>
-                          </div>
-                        }
-                        {item.state === 'Egg' &&
-                          <div className="card-action">
-                            {item.serial}
-                          </div>
-                        }
+                        <div className="card-action">
+                          <a href={`/gons/${item.serial}`}>{item.serial}</a>
+                        </div>
                       </div>
                     </div>
                   </div>)}
@@ -259,5 +355,6 @@ export default compose(
   }),
   graphql(dragons),
   graphql(editUserDragonState, { name: 'editUserDragonState' }),
-  graphql(battleUpdate, { name: 'battleUpdate' })
+  graphql(battleUpdate, { name: 'battleUpdate' }),
+  graphql(addUserIcon, { name: 'addUserIcon' })
 )(MyGons)

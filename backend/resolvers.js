@@ -538,11 +538,12 @@ const resolvers = {
               ownicon = true
             }
           }
+          const icon = await ctx.models.Icons.findOne({ number: purchaseItem.eicon })
           if (ownicon === false) {
             const test = Object.assign({
-              number: purchaseItem.eicon,
-              name: purchaseItem.name,
-              description: purchaseItem.description
+              number: icon.number,
+              name: icon.name,
+              description: icon.description
             })
             user.icon.push(test)
           }
@@ -676,6 +677,7 @@ const resolvers = {
           one.serial = one._id
           buyer.myDragons.push(one.serial)
 
+          const icons = await ctx.models.Icons.findOne({ number: edragon.eicon }) // 판매할 용
           let ownicon = false
           for (let i = 0; i < buyer.icon.length; i += 1) {
             if (buyer.icon[i].number === edragon.eicon) {
@@ -684,9 +686,9 @@ const resolvers = {
           }
           if (ownicon === false) {
             const test = Object.assign({
-              number: edragon.eicon,
-              name: edragon.ename,
-              description: edragon.edesc
+              number: icons.number,
+              name: icons.name,
+              description: icons.description
             })
             buyer.icon.push(test)
           }
@@ -881,12 +883,21 @@ const resolvers = {
       dragon.name = args.name
       return dragon.save()
     },
+    addIcons: async (obj, args, ctx) => {
+      const icons = args
+      icons.name = args.name
+      icons.number = args.number
+      icons.description = args.description
+      const newicon = await new ctx.models.Icons(icons)
+      return newicon.save()
+    },
     addUserIcon: async (obj, args, ctx) => {
       const user = await ctx.models.User.findOne({ email: args.email })
+      const icon = await ctx.models.Icon.findOne({ number: args.number })
       const test = Object.assign({
-        number: args.number,
-        name: args.name,
-        description: args.description
+        number: icon.number,
+        name: icon.name,
+        description: icon.description
       })
       user.icon.push(test)
       return user.save()

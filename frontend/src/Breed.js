@@ -44,7 +44,7 @@ class breed extends Component {
       generation: 'generation',
       cooldown: 'cooldown',
       parents: null,
-      children: 'children,children',
+      child: null,
       choiceGon: false,
       choice_serial: null,
       choice_comb: null,
@@ -233,7 +233,7 @@ class breed extends Component {
         }
       }
 
-      // 단계에 따른 부위갯수
+      // 단계에 따른 부위갯수(추가될때마다 수정필요!)
       if (this.state.new_evolution === '01') {
         this.state.cWing = 3
         this.state.cWingColor = 3
@@ -493,6 +493,7 @@ class breed extends Component {
           this.state.choice_cbg = this.props.data.dragons[dl].choice_cbg
           this.state.comb = this.props.data.dragons[dl].combination
           this.state.parents = this.props.data.dragons[dl].parents
+          this.state.child = this.props.data.dragons[dl].child
           this.state.evolution = this.state.comb.substring(0, 2)
           this.state.property = this.state.comb.substring(2, 4)
           this.state.wing = this.state.comb.substring(4, 6)
@@ -581,6 +582,14 @@ class breed extends Component {
                 dcx += 1
               }
             }
+          }
+        }
+      }
+      // 리스트에서 자식용 제거
+      for (let mdr = 0; mdr < this.state.mdragons.length; mdr += 1) {
+        for (let cd = 0; cd < this.state.child.length; cd += 1) {
+          if (this.state.mdragons[mdr].serial === this.state.child[cd]) {
+            this.state.mdragons.splice(mdr, 1)
           }
         }
       }
