@@ -198,7 +198,11 @@ class sell extends Component {
                     {this.state.choice_cbg !== 'null' &&
                       <img src={`${process.env.PUBLIC_URL}/images/item/custom_bg/cbg_${this.state.choice_cbg}.png`}/>
                     }
+<<<<<<< HEAD
                     {this.state.evolution !== '03' && this.state.evolution !== '04' && this.state.evolution !== '05' &&
+=======
+                    {this.state.evolution !== '03' &&
+>>>>>>> 7676133e769071734de79e4a5a6b51cb8bd7ec41
                       <div>
                         <div class="absolute">
                           <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${this.state.evolution}${this.state.wing}${this.state.wingColor}.png`}/>
@@ -228,6 +232,7 @@ class sell extends Component {
                           <img src={`${process.env.PUBLIC_URL}/images/gonImages/step3/step3_03${this.state.comb.substring(4, 6)}${this.state.comb.substring(6, 8)}.png`}/>
                         </div>
                     }
+<<<<<<< HEAD
                     {this.state.evolution === '04' &&
                         <div class="absolute">
                           <img src={`${process.env.PUBLIC_URL}/images/gonImages/step4/step4_04${this.state.comb.substring(4, 6)}${this.state.comb.substring(6, 8)}.png`}/>
@@ -238,6 +243,8 @@ class sell extends Component {
                           <img src={`${process.env.PUBLIC_URL}/images/gonImages/step5/step5_05${this.state.comb.substring(4, 6)}${this.state.comb.substring(6, 8)}.png`}/>
                         </div>
                     }
+=======
+>>>>>>> 7676133e769071734de79e4a5a6b51cb8bd7ec41
                   </div>
                 </div>
               </div>
