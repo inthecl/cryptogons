@@ -909,4 +909,59 @@ mutation dragonNameChange($email: String!, $serial: String!, $name: String!) {
   }
   `
 
-export { registerUser, login, CheckEmailquery, dragons, finddragon, finduser, addUserDragon, editChoicecbg, editChoicesword, editChoiceshield, finditem, itemPurchase, editUserDragonState, dragonPurchase, dragonSell, dragonSellCancel, dragonSiring, dragonSiringCancel, dragonSiringPurchase, dragonGift, battleStart, battleCancle, battleUpdate, editChoiceIcon, findbadge, findprofile, dragonNameChange, edragons, edragonPurchase }
+const addUserIcon = gql`
+mutation addUserIcon($email: String!, $number: String!) {
+  addUserIcon(email:$email, number:$number) {
+    email
+    username
+    diamond
+    gold
+    trophy
+    icon {
+      name
+      description
+      number
+    }
+    choice_icon
+    cbg {
+      name
+      description
+      number
+      gold
+      diamond
+      trophy
+    }
+    sword {
+      name
+      description
+      number
+      gold
+      diamond
+      trophy
+    }
+    shield {
+      name
+      description
+      number
+      gold
+      diamond
+      trophy
+    }
+    myDragons
+    battle_history {
+      mydragon
+      mycomb
+      enemydragon
+      enemycomb
+      result
+    }
+    activity{
+      type
+      date
+      contents
+    }
+  }
+}
+`
+
+export { registerUser, login, CheckEmailquery, dragons, finddragon, finduser, addUserDragon, editChoicecbg, editChoicesword, editChoiceshield, finditem, itemPurchase, editUserDragonState, dragonPurchase, dragonSell, dragonSellCancel, dragonSiring, dragonSiringCancel, dragonSiringPurchase, dragonGift, battleStart, battleCancle, battleUpdate, editChoiceIcon, findbadge, findprofile, dragonNameChange, edragons, edragonPurchase, addUserIcon }

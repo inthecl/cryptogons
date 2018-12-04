@@ -46,13 +46,16 @@ export default class Header extends Component {
               {this.state.login === true &&
                 <li><a href='/Itemshop'>Items</a></li>
               }
-              <li><a href='/event'>Event</a></li>
+              {this.state.login === true &&
+                <li><a href='/event'>Event</a></li>
+              }
               {this.state.login === true &&
                 <li><a href='/battles'>battles</a></li>
               }
               {this.state.login === true &&
                 <li><a href='/Activity'>Activity</a></li>
               }
+              <li><a href='/faq'>FAQ</a></li>
             </ul>
             <ul id="nav-mobile" class="sidenav">
               {this.state.login ? (
@@ -64,13 +67,16 @@ export default class Header extends Component {
               {this.state.login === true &&
                 <li><a href='/Itemshop'>Items</a></li>
               }
-              <li><a href='/event'>Event</a></li>
+              {this.state.login === true &&
+                <li><a href='/event'>Event</a></li>
+              }
               {this.state.login === true &&
                 <li><a href='/battles'>battles</a></li>
               }
               {this.state.login === true &&
                 <li><a href='/Activity'>Activity</a></li>
               }
+              <li><a href='/faq'>FAQ</a></li>
             </ul>
             <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
           </div>

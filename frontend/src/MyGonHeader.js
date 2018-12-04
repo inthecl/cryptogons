@@ -42,7 +42,7 @@ class MyGonHeader extends Component {
                   </div>
                 </div>
                 <div class="col">
-                  <Link to={'/Myinfo'}><a class="waves-effect waves-light btn-small"><i class="material-icons left">account_circle</i>내정보관리</a></Link>
+                  <a href={'/Myinfo'}><a class="waves-effect waves-light btn-small"><i class="material-icons left">account_circle</i>내정보관리</a></a>
                 </div>
               </div>
             </div>

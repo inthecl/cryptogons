@@ -79,21 +79,6 @@ p {
   }
 }
 
-.small-132-img{ 
-  width : 85%; 
-  margin : 0 auto ; 
-}
-@media only screen and (min-width: 601px) {
-  .small-132-img {
-    width: 65%;
-  }
-}
-@media only screen and (min-width: 993px) {
-  .small-132-img {
-    width: 132px;
-  }
-}
-
 .detail-Explanation{ 
   width : 85% ; 
   margin-top: 0%;
@@ -112,6 +97,27 @@ p {
   }
 }
 
+.faq-size{ 
+  width : 85% ; 
+  margin-top: 0%;
+  margin-bottom: 4%;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media only screen and (min-width: 601px) {
+  .faq-size {
+    width: 75%;
+  }
+}
+@media only screen and (min-width: 993px) {
+  .faq-size {
+    width: 650px;
+  }
+}
+
+.margin-top-100 { 
+  margin-top: 100px;
+}
 .margin-top-50 { 
   margin-top: 50px;
 }
@@ -128,6 +134,9 @@ p {
   margin-top: 5px;
 }
 
+.margin-bottom-100 { 
+  margin-bottom: 100px;
+}
 .margin-bottom-50 { 
   margin-bottom: 50px;
 }

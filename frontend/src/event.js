@@ -89,7 +89,7 @@ class event extends Component {
     if (this.state.redirect) {
       window.location.replace('/Activity')
     }
-    if (!this.props.data.loading && !this.props.finduser.loading) {
+    if (!this.props.data.loading && !this.props.finduser.loading && !this.props.finditem.loading) {
       console.log('this.props', this.props)
       this.state.user_dia = this.props.finduser.finduser.diamond
       this.state.user_gold = this.props.finduser.finduser.gold
