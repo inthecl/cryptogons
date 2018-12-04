@@ -88,11 +88,8 @@ class breed extends Component {
       cNose: null,
       step3: null,
       step3_ver: null,
-<<<<<<< HEAD
       step4: null,
       step4_ver: null,
-=======
->>>>>>> 7676133e769071734de79e4a5a6b51cb8bd7ec41
       cross: null
     }
     this.btnPricePlus = this.btnPricePlus.bind(this)
@@ -191,11 +188,7 @@ class breed extends Component {
     }
   }
   btnBreed(event) {
-<<<<<<< HEAD
     if (this.state.choiceGon && this.state.evolution === this.state.choice_evolution && this.state.evolution !== '03' && this.state.choice_evolution !== '03' && this.state.evolution !== '04' && this.state.choice_evolution !== '04' && this.state.evolution !== '05' && this.state.choice_evolution !== '05') {
-=======
-    if (this.state.choiceGon && this.state.evolution === this.state.choice_evolution && this.state.evolution !== '03' && this.state.choice_evolution !== '03') {
->>>>>>> 7676133e769071734de79e4a5a6b51cb8bd7ec41
       const pad = (n, width) => {
         n = n + ''
         return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n
@@ -205,7 +198,6 @@ class breed extends Component {
       const eSum = Number(this.state.evolution) + Number(this.state.choice_evolution) // 부모단계의 합계 2,4
 
       // 같은 단계만 교배 가능, 3단계는 교배불가
-<<<<<<< HEAD
       // 1단계 + 1단계 = 1 or 2 or 4
       if (eSum === 2) {
         const lottery = Math.floor(Math.random() * 1000) + 1 // 0.01확률
@@ -417,204 +409,6 @@ class breed extends Component {
       }
       if (this.state.new_evolution === '04') {
         this.state.new_comb = this.state.new_evolution + this.state.new_property + this.state.step4 + this.state.step4_ver
-=======
-      // 1단계 + 1단계 = 1 or 2
-      if (eSum === 2) {
-        const lottery = Math.floor(Math.random() * 100) + 1 // 0.01확률
-        if (lottery >= 1) {
-          this.state.new_evolution = '01'
-          this.state.cross = 'one'
-        } else {
-          this.state.new_evolution = '02'
-          this.state.cross = 'two'
-        }
-      }
-      // 2단계 + 2단계 = 1 or 2 or 3
-      if (eSum === 4) {
-        const lottery = Math.floor(Math.random() * 1000) + 1
-        if (lottery > 10) {
-          this.state.new_evolution = '02'
-          this.state.cross = 'two'
-        }
-        if (lottery >= 2 && lottery <= 10) {
-          this.state.new_evolution = '02'
-          this.state.cross = 'one'
-        }
-        if (lottery < 2) {
-          this.state.new_evolution = '03'
-        }
-      }
-
-      // 단계에 따른 부위갯수
-      if (this.state.new_evolution === '01') {
-        this.state.cWing = 3
-        this.state.cWingColor = 3
-        this.state.cHorn = 3
-        this.state.cHornColor = 3
-        this.state.cTail = 3
-        this.state.cBody = 3
-        this.state.cBodyColor = 3
-        this.state.cEye = 3
-        this.state.cEyeColor = 3
-        this.state.cMouth = 3
-        this.state.cNose = 3
-      }
-      if (this.state.new_evolution === '02') {
-        this.state.cWing = 3
-        this.state.cWingColor = 3
-        this.state.cHorn = 3
-        this.state.cHornColor = 3
-        this.state.cTail = 3
-        this.state.cBody = 3
-        this.state.cBodyColor = 3
-        this.state.cEye = 3
-        this.state.cEyeColor = 3
-        this.state.cMouth = 3
-        this.state.cNose = 3
-      }
-      if (this.state.new_evolution === '03') {
-        this.state.step3 = pad(Math.floor(Math.random() * 3) + 1, 2)
-        this.state.step3_ver = pad(Math.floor(Math.random() * 3) + 1, 2)
-      }
-
-      // property
-      this.state.new_property = pad(Math.floor(Math.random() * 5) + 1, 2) // 속성, 2자리 01~05까지 랜덤
-
-      if (this.state.cross === 'one') {
-        // randomBreedArr 0~2 father, 3~5 mather
-        let x
-        let y
-        const randomBreedArr = []
-        for (x = 0; x <= 5; x += 1) {
-          randomBreedArr[x] = Math.floor(Math.random() * 11)
-          for (y = 0; y < x; y += 1) {
-            if (randomBreedArr[x] === randomBreedArr[y]) x -= 1
-          }
-        }
-        console.log('randomBreedArr: ', randomBreedArr)
-
-        // wing
-        if (randomBreedArr[0] === 0 || randomBreedArr[1] === 0 || randomBreedArr[2] === 0) {
-          this.state.new_wing = this.state.wing
-        } else if (randomBreedArr[3] === 0 || randomBreedArr[4] === 0 || randomBreedArr[5] === 0) {
-          this.state.new_wing = this.state.choice_wing
-        } else {
-          this.state.new_wing = pad(Math.floor(Math.random() * this.state.cWing) + 1, 2)
-        }
-        console.log('this.state.new_wing:', this.state.new_wing)
-        // wingColor
-        if (randomBreedArr[0] === 1 || randomBreedArr[1] === 1 || randomBreedArr[2] === 1) {
-          this.state.new_wingColor = this.state.wingColor
-        } else if (randomBreedArr[3] === 1 || randomBreedArr[4] === 1 || randomBreedArr[5] === 1) {
-          this.state.new_wingColor = this.state.choice_wingColor
-        } else {
-          this.state.new_wingColor = pad(Math.floor(Math.random() * this.state.cWingColor) + 1, 2)
-        }
-        console.log('this.state.new_wingColor:', this.state.new_wingColor)
-        // horn
-        if (randomBreedArr[0] === 2 || randomBreedArr[1] === 2 || randomBreedArr[2] === 2) {
-          this.state.new_horn = this.state.horn
-        } else if (randomBreedArr[3] === 2 || randomBreedArr[4] === 2 || randomBreedArr[5] === 2) {
-          this.state.new_horn = this.state.choice_horn
-        } else {
-          this.state.new_horn = pad(Math.floor(Math.random() * this.state.cHorn) + 1, 2)
-        }
-        console.log('this.state.new_horn:', this.state.new_horn)
-        // hornColor
-        if (randomBreedArr[0] === 3 || randomBreedArr[1] === 3 || randomBreedArr[2] === 3) {
-          this.state.new_hornColor = this.state.hornColor
-        } else if (randomBreedArr[3] === 3 || randomBreedArr[4] === 3 || randomBreedArr[5] === 3) {
-          this.state.new_hornColor = this.state.choice_hornColor
-        } else {
-          this.state.new_hornColor = pad(Math.floor(Math.random() * this.state.cHornColor) + 1, 2)
-        }
-        console.log('this.state.new_hornColor:', this.state.new_hornColor)
-        // tail
-        if (randomBreedArr[0] === 4 || randomBreedArr[1] === 4 || randomBreedArr[2] === 4) {
-          this.state.new_tail = this.state.tail
-        } else if (randomBreedArr[3] === 4 || randomBreedArr[4] === 4 || randomBreedArr[5] === 4) {
-          this.state.new_tail = this.state.choice_tail
-        } else {
-          this.state.new_tail = pad(Math.floor(Math.random() * this.state.cTail) + 1, 2)
-        }
-        console.log('this.state.new_tail:', this.state.new_tail)
-        // body
-        if (randomBreedArr[0] === 5 || randomBreedArr[1] === 5 || randomBreedArr[2] === 5) {
-          this.state.new_body = this.state.body
-        } else if (randomBreedArr[3] === 5 || randomBreedArr[4] === 5 || randomBreedArr[5] === 5) {
-          this.state.new_body = this.state.choice_body
-        } else {
-          this.state.new_body = pad(Math.floor(Math.random() * this.state.cBody) + 1, 2)
-        }
-        console.log('this.state.new_body:', this.state.new_body)
-        // bodyColor
-        if (randomBreedArr[0] === 6 || randomBreedArr[1] === 6 || randomBreedArr[2] === 6) {
-          this.state.new_bodyColor = this.state.bodyColor
-        } else if (randomBreedArr[3] === 6 || randomBreedArr[4] === 6 || randomBreedArr[5] === 6) {
-          this.state.new_bodyColor = this.state.choice_bodyColor
-        } else {
-          this.state.new_bodyColor = pad(Math.floor(Math.random() * this.state.cBodyColor) + 1, 2)
-        }
-        console.log('this.state.new_bodyColor:', this.state.new_bodyColor)
-        // eye
-        if (randomBreedArr[0] === 7 || randomBreedArr[1] === 7 || randomBreedArr[2] === 7) {
-          this.state.new_eye = this.state.eye
-        } else if (randomBreedArr[3] === 7 || randomBreedArr[4] === 7 || randomBreedArr[5] === 7) {
-          this.state.new_eye = this.state.choice_eye
-        } else {
-          this.state.new_eye = pad(Math.floor(Math.random() * this.state.cEye) + 1, 2)
-        }
-        console.log('this.state.new_eye:', this.state.new_eye)
-        // eyeColor
-        if (randomBreedArr[0] === 8 || randomBreedArr[1] === 8 || randomBreedArr[2] === 8) {
-          this.state.new_eyeColor = this.state.eyeColor
-        } else if (randomBreedArr[3] === 8 || randomBreedArr[4] === 8 || randomBreedArr[5] === 8) {
-          this.state.new_eyeColor = this.state.choice_eyeColor
-        } else {
-          this.state.new_eyeColor = pad(Math.floor(Math.random() * this.state.cEyeColor) + 1, 2)
-        }
-        console.log('this.state.new_eyeColor:', this.state.new_eyeColor)
-        // mouth
-        if (randomBreedArr[0] === 9 || randomBreedArr[1] === 9 || randomBreedArr[2] === 9) {
-          this.state.new_mouth = this.state.mouth
-        } else if (randomBreedArr[3] === 9 || randomBreedArr[4] === 9 || randomBreedArr[5] === 9) {
-          this.state.new_mouth = this.state.choice_mouth
-        } else {
-          this.state.new_mouth = pad(Math.floor(Math.random() * this.state.cMouth) + 1, 2)
-        }
-        console.log('this.state.new_mouth:', this.state.new_mouth)
-        // nose
-        if (randomBreedArr[0] === 10 || randomBreedArr[1] === 10 || randomBreedArr[2] === 10) {
-          this.state.new_nose = this.state.nose
-        } else if (randomBreedArr[3] === 10 || randomBreedArr[4] === 10 || randomBreedArr[5] === 10) {
-          this.state.new_nose = this.state.choice_nose
-        } else {
-          this.state.new_nose = pad(Math.floor(Math.random() * this.state.cNose) + 1, 2)
-        }
-        console.log('this.state.new_nose:', this.state.new_nose)
-      }
-
-      if (this.state.cross === 'two') {
-        this.state.new_wing = pad(Math.floor(Math.random() * this.state.cWing) + 1, 2)
-        this.state.new_wingColor = pad(Math.floor(Math.random() * this.state.cWingColor) + 1, 2)
-        this.state.new_horn = pad(Math.floor(Math.random() * this.state.cHorn) + 1, 2)
-        this.state.new_hornColor = pad(Math.floor(Math.random() * this.state.cHornColor) + 1, 2)
-        this.state.new_tail = pad(Math.floor(Math.random() * this.state.cTail) + 1, 2)
-        this.state.new_body = pad(Math.floor(Math.random() * this.state.cBody) + 1, 2)
-        this.state.new_bodyColor = pad(Math.floor(Math.random() * this.state.cBodyColor) + 1, 2)
-        this.state.new_eye = pad(Math.floor(Math.random() * this.state.cEye) + 1, 2)
-        this.state.new_eyeColor = pad(Math.floor(Math.random() * this.state.cEyeColor) + 1, 2)
-        this.state.new_mouth = pad(Math.floor(Math.random() * this.state.cMouth) + 1, 2)
-        this.state.new_nose = pad(Math.floor(Math.random() * this.state.cNose) + 1, 2)
-      }
-
-      if (this.state.new_evolution === '01' || this.state.new_evolution === '02') {
-        this.state.new_comb = this.state.new_evolution + this.state.new_property + this.state.new_wing + this.state.new_wingColor + this.state.new_horn + this.state.new_hornColor +
-        this.state.new_tail + this.state.new_body + this.state.new_bodyColor + this.state.new_eye + this.state.new_eyeColor + this.state.new_mouth + this.state.new_nose
-      }
-      if (this.state.new_evolution === '03') {
-        this.state.new_comb = this.state.new_evolution + this.state.new_property + this.state.step3 + this.state.step3_ver
->>>>>>> 7676133e769071734de79e4a5a6b51cb8bd7ec41
       }
 
       console.log('email', localStorage.getItem('email'))
@@ -747,7 +541,6 @@ class breed extends Component {
             } else {
               this.state.change_state = this.props.data.dragons[dl].state
             }
-<<<<<<< HEAD
             if (Date.now() > this.props.data.dragons[dl].cooldown[1] && this.props.data.dragons[dl].serial !== this.props.match.params.serialnumber && this.props.data.dragons[dl].combination.substring(0, 2) !== '03' && this.props.data.dragons[dl].combination.substring(0, 2) !== '04' && this.props.data.dragons[dl].combination.substring(0, 2) !== '05') {
               if (this.props.data.dragons[dl].parents[0] === 'devman' && this.state.parents[0] === 'devman') {
                 this.state.mdragons[dcx] = {
@@ -787,25 +580,6 @@ class breed extends Component {
                   nose: this.props.data.dragons[dl].combination.substring(24, 26)
                 }
                 dcx += 1
-=======
-            if (Date.now() > this.props.data.dragons[dl].cooldown[1] && this.props.data.dragons[dl].serial !== this.props.match.params.serialnumber && this.props.data.dragons[dl].combination.substring(0, 2) !== '03') {
-              this.state.mdragons[dcx] = {
-                name: this.props.data.dragons[dl].name,
-                serial: this.props.data.dragons[dl].serial,
-                evolution: this.props.data.dragons[dl].combination.substring(0, 2),
-                property: this.props.data.dragons[dl].combination.substring(2, 4),
-                wing: this.props.data.dragons[dl].combination.substring(4, 6),
-                wingColor: this.props.data.dragons[dl].combination.substring(6, 8),
-                horn: this.props.data.dragons[dl].combination.substring(8, 10),
-                hornColor: this.props.data.dragons[dl].combination.substring(10, 12),
-                tail: this.props.data.dragons[dl].combination.substring(12, 14),
-                body: this.props.data.dragons[dl].combination.substring(14, 16),
-                bodyColor: this.props.data.dragons[dl].combination.substring(16, 18),
-                eye: this.props.data.dragons[dl].combination.substring(18, 20),
-                eyeColor: this.props.data.dragons[dl].combination.substring(20, 22),
-                mouth: this.props.data.dragons[dl].combination.substring(22, 24),
-                nose: this.props.data.dragons[dl].combination.substring(24, 26)
->>>>>>> 7676133e769071734de79e4a5a6b51cb8bd7ec41
               }
             }
           }
@@ -855,11 +629,7 @@ class breed extends Component {
                         }
                       </div>
                     }
-<<<<<<< HEAD
                     {this.state.evolution !== '03' && this.state.evolution !== '04' && this.state.evolution !== '05' &&
-=======
-                    {this.state.evolution !== '03' &&
->>>>>>> 7676133e769071734de79e4a5a6b51cb8bd7ec41
                       <div>
                         <div class="absolute">
                           <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${this.state.evolution}${this.state.wing}${this.state.wingColor}.png`}/>
@@ -889,7 +659,6 @@ class breed extends Component {
                           <img src={`${process.env.PUBLIC_URL}/images/gonImages/step3/step3_03${this.state.comb.substring(4, 6)}${this.state.comb.substring(6, 8)}.png`}/>
                         </div>
                     }
-<<<<<<< HEAD
                     {this.state.evolution === '04' &&
                         <div class="absolute">
                           <img src={`${process.env.PUBLIC_URL}/images/gonImages/step4/step4_04${this.state.comb.substring(4, 6)}${this.state.comb.substring(6, 8)}.png`}/>
@@ -900,8 +669,6 @@ class breed extends Component {
                           <img src={`${process.env.PUBLIC_URL}/images/gonImages/step5/step5_05${this.state.comb.substring(4, 6)}${this.state.comb.substring(6, 8)}.png`}/>
                         </div>
                     }
-=======
->>>>>>> 7676133e769071734de79e4a5a6b51cb8bd7ec41
                   </div>
                 </div>
               </div>
@@ -1064,11 +831,7 @@ class breed extends Component {
                   <div className="card z-depth-0">
                     <div className="card-image">
                       <img src={`${process.env.PUBLIC_URL}/images/gonImages/1_property/property_${this.state.property}.png`}/>
-<<<<<<< HEAD
                       {this.state.evolution !== '03' && this.state.evolution !== '04' && this.state.evolution !== '05' &&
-=======
-                      {this.state.evolution !== '03' &&
->>>>>>> 7676133e769071734de79e4a5a6b51cb8bd7ec41
                         <div>
                           <div class="absolute">
                             <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${this.state.evolution}${this.state.wing}${this.state.wingColor}.png`}/>
@@ -1098,7 +861,6 @@ class breed extends Component {
                             <img src={`${process.env.PUBLIC_URL}/images/gonImages/step3/step3_03${this.state.comb.substring(4, 6)}${this.state.comb.substring(6, 8)}.png`}/>
                           </div>
                       }
-<<<<<<< HEAD
                       {this.state.evolution === '04' &&
                           <div class="absolute">
                             <img src={`${process.env.PUBLIC_URL}/images/gonImages/step4/step4_04${this.state.comb.substring(4, 6)}${this.state.comb.substring(6, 8)}.png`}/>
@@ -1109,8 +871,6 @@ class breed extends Component {
                             <img src={`${process.env.PUBLIC_URL}/images/gonImages/step5/step5_05${this.state.comb.substring(4, 6)}${this.state.comb.substring(6, 8)}.png`}/>
                           </div>
                       }
-=======
->>>>>>> 7676133e769071734de79e4a5a6b51cb8bd7ec41
                     </div>
                   </div>
                 </div>

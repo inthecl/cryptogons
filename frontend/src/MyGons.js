@@ -260,18 +260,12 @@ class MyGons extends Component {
                               {item.evolution === '03' &&
                                 <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg3.png`}/>
                               }
-<<<<<<< HEAD
                               {item.evolution === '04' &&
                                 <img src={`${process.env.PUBLIC_URL}/images/gonImages/egg/egg.png`}/>
                               }
                             </div>
                           }
                           {item.state !== 'Egg' && item.evolution !== '03' && item.evolution !== '04' && item.evolution !== '05' &&
-=======
-                            </div>
-                          }
-                          {item.state !== 'Egg' && item.evolution !== '03' &&
->>>>>>> 7676133e769071734de79e4a5a6b51cb8bd7ec41
                             <div>
                               <div class="absolute">
                                 <img src={`${process.env.PUBLIC_URL}/images/gonImages/2_wing/wing_${item.evolution}${item.wing}${item.wingColor}.png`}/>
@@ -301,7 +295,6 @@ class MyGons extends Component {
                               <img src={`${process.env.PUBLIC_URL}/images/gonImages/step3/step3_03${item.comb.substring(4, 6)}${item.comb.substring(6, 8)}.png`}/>
                             </div>
                           }
-<<<<<<< HEAD
                           {item.state !== 'Egg' && item.evolution === '04' &&
                             <div class="absolute">
                               <img src={`${process.env.PUBLIC_URL}/images/gonImages/step4/step4_04${item.comb.substring(4, 6)}${item.comb.substring(6, 8)}.png`}/>
@@ -312,8 +305,6 @@ class MyGons extends Component {
                               <img src={`${process.env.PUBLIC_URL}/images/gonImages/step5/step5_05${item.comb.substring(4, 6)}${item.comb.substring(6, 8)}.png`}/>
                             </div>
                           }
-=======
->>>>>>> 7676133e769071734de79e4a5a6b51cb8bd7ec41
                         </div>
                         <div className='item'>
                           {item.state !== 'Egg' &&
