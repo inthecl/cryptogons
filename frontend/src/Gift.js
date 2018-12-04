@@ -189,7 +189,6 @@ class gift extends Component {
     return (
       <Layout>
         <MyGonHeader/>
-        test
         <div className="container margin-top-50">
           <div className="col s12 right">
             <i class="Small material-icons">share</i>
