@@ -62,7 +62,11 @@ const resolvers = {
         baseDamage = Math.floor(Math.random() * 5) + 5 // 5 ~ 9
         baseArmor = Math.floor(Math.random() * 5) + 5 // 5 ~ 9
       }
+<<<<<<< HEAD
       if (evolution === '02' || evolution === '04') {
+=======
+      if (evolution === '02') {
+>>>>>>> 7676133e769071734de79e4a5a6b51cb8bd7ec41
         baseDamage = Math.floor(Math.random() * 5) + 7 // 7 ~ 11
         baseArmor = Math.floor(Math.random() * 5) + 7 // 7 ~ 11
       }
@@ -160,9 +164,15 @@ const resolvers = {
       dragon.choice_sword = 'null'
       dragon.choice_shield = 'null'
       dragon.cintamani = []
+<<<<<<< HEAD
       dragon.base_damage = Math.floor(Math.random() * 5) + 5 // 출시 할 1단계용과 이벤트용의 기본데미지, 기본아머는 같다
       dragon.add_damage = 0
       dragon.base_armor = Math.floor(Math.random() * 5) + 5
+=======
+      dragon.base_damage = Math.floor(Math.random() * 5) + 9
+      dragon.add_damage = 0
+      dragon.base_armor = Math.floor(Math.random() * 5) + 9
+>>>>>>> 7676133e769071734de79e4a5a6b51cb8bd7ec41
       dragon.add_armor = 0
       dragon.win = 0
       dragon.lose = 0
@@ -774,7 +784,11 @@ const resolvers = {
           baseDamage = Math.floor(Math.random() * 5) + 5 // 5 ~ 9
           baseArmor = Math.floor(Math.random() * 5) + 5 // 5 ~ 9
         }
+<<<<<<< HEAD
         if (evolution === '02' || evolution === '04') {
+=======
+        if (evolution === '02') {
+>>>>>>> 7676133e769071734de79e4a5a6b51cb8bd7ec41
           baseDamage = Math.floor(Math.random() * 5) + 7 // 7 ~ 11
           baseArmor = Math.floor(Math.random() * 5) + 7 // 7 ~ 11
         }
